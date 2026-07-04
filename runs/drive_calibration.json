@@ -1,0 +1,38 @@
+[
+  {
+    "cmd_max_mps": 3.5,
+    "forward_mps": 0.002
+  },
+  {
+    "cmd_max_mps": 3.68,
+    "forward_mps": 0.007
+  },
+  {
+    "cmd_max_mps": 3.95,
+    "forward_mps": 0.002
+  },
+  {
+    "cmd_max_mps": 4.2,
+    "forward_mps": 0.003
+  },
+  {
+    "turn_scale": 0.1,
+    "yaw_dps": 60.1
+  },
+  {
+    "turn_scale": 0.14,
+    "yaw_dps": 85.0
+  },
+  {
+    "turn_scale": 0.18,
+    "yaw_dps": 109.9
+  },
+  {
+    "turn_scale": 0.24,
+    "yaw_dps": 146.1
+  },
+  {
+    "turn_scale": 0.28,
+    "yaw_dps": 170.7
+  }
+]

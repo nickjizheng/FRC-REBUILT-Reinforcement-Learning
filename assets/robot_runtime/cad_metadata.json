@@ -1,0 +1,32 @@
+{
+  "source": "reference_model\\Reference Robot.SLDASM (eDrawings STL export, hidden components un-hidden)",
+  "source_stl": "reference_robot_full.stl",
+  "source_stl_bytes": 154216584,
+  "source_stl_sha256": "f0299d200c010562dd587d79529240afe7c00920f6ba09457122734da3de25f3",
+  "provenance": "eDrawings 2025 COM (AxHost EModelViewControl) exported binary STL from the native SolidWorks assembly; converted to robot-frame mesh.",
+  "units": "meters (eDrawings STL already in meters)",
+  "axis_mapping": {
+    "robot_x": "-STL_Y",
+    "robot_y": "+STL_X",
+    "robot_z": "+STL_Z"
+  },
+  "origin": {
+    "cad_center_x_m": 0.14102080464363098,
+    "cad_center_y_m": -0.0027344077825546265,
+    "cad_ground_z_m": 0.025993309915065765
+  },
+  "raw_stl_triangles": 2987462,
+  "merged_vertices": 1529072,
+  "merged_triangles": 3084330,
+  "optimized_vertices": 588676,
+  "optimized_triangles": 1200000,
+  "target_faces": 1200000,
+  "bounds_robot_m": [
+    -0.5016207695007324,
+    -0.36768442392349243,
+    0.0,
+    0.5016337037086487,
+    0.36768442392349243,
+    0.7408336400985718
+  ]
+}

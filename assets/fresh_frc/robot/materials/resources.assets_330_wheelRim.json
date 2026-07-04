@@ -1,0 +1,827 @@
+{
+  "source": {
+    "key": "resources.assets:330",
+    "asset_file": "resources.assets",
+    "path_id": 330,
+    "type": "Material"
+  },
+  "name": "wheelRim",
+  "shader": {
+    "key": "sharedassets0.assets:77",
+    "asset_file": "sharedassets0.assets",
+    "path_id": 77,
+    "type": "Shader",
+    "name": ""
+  },
+  "render_queue": 3000,
+  "string_tags": [
+    [
+      "RenderType",
+      "Transparent"
+    ]
+  ],
+  "disabled_shader_passes": [
+    "DepthOnly",
+    "SHADOWCASTER",
+    "MOTIONVECTORS"
+  ],
+  "colors": [
+    [
+      "_BaseColor",
+      {
+        "r": 0.4867923855781555,
+        "g": 0.4867923855781555,
+        "b": 0.4867923855781555,
+        "a": 1.0
+      }
+    ],
+    [
+      "_Color",
+      {
+        "r": 0.4867923855781555,
+        "g": 0.4867923855781555,
+        "b": 0.4867923855781555,
+        "a": 1.0
+      }
+    ],
+    [
+      "_EmissionColor",
+      {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 1.0
+      }
+    ],
+    [
+      "_SpecColor",
+      {
+        "r": 0.20000000298023224,
+        "g": 0.20000000298023224,
+        "b": 0.20000000298023224,
+        "a": 1.0
+      }
+    ]
+  ],
+  "floats": [
+    [
+      "_AddPrecomputedVelocity",
+      0.0
+    ],
+    [
+      "_AlphaClip",
+      0.0
+    ],
+    [
+      "_AlphaToMask",
+      0.0
+    ],
+    [
+      "_Blend",
+      0.0
+    ],
+    [
+      "_BlendModePreserveSpecular",
+      0.0
+    ],
+    [
+      "_BumpScale",
+      1.0
+    ],
+    [
+      "_ClearCoatMask",
+      0.0
+    ],
+    [
+      "_ClearCoatSmoothness",
+      0.0
+    ],
+    [
+      "_Cull",
+      2.0
+    ],
+    [
+      "_Cutoff",
+      0.640999972820282
+    ],
+    [
+      "_DetailAlbedoMapScale",
+      1.0
+    ],
+    [
+      "_DetailNormalMapScale",
+      1.0
+    ],
+    [
+      "_DstBlend",
+      10.0
+    ],
+    [
+      "_DstBlendAlpha",
+      10.0
+    ],
+    [
+      "_EnvironmentReflections",
+      1.0
+    ],
+    [
+      "_GlossMapScale",
+      0.0
+    ],
+    [
+      "_Glossiness",
+      0.0
+    ],
+    [
+      "_GlossyReflections",
+      0.0
+    ],
+    [
+      "_Metallic",
+      0.9480000138282776
+    ],
+    [
+      "_OcclusionStrength",
+      1.0
+    ],
+    [
+      "_Parallax",
+      0.06880000233650208
+    ],
+    [
+      "_QueueOffset",
+      0.0
+    ],
+    [
+      "_ReceiveShadows",
+      1.0
+    ],
+    [
+      "_Smoothness",
+      0.9629999995231628
+    ],
+    [
+      "_SmoothnessTextureChannel",
+      0.0
+    ],
+    [
+      "_SpecularHighlights",
+      1.0
+    ],
+    [
+      "_SrcBlend",
+      5.0
+    ],
+    [
+      "_SrcBlendAlpha",
+      1.0
+    ],
+    [
+      "_Surface",
+      1.0
+    ],
+    [
+      "_WorkflowMode",
+      1.0
+    ],
+    [
+      "_XRMotionVectorsPass",
+      1.0
+    ],
+    [
+      "_ZWrite",
+      0.0
+    ]
+  ],
+  "ints": [],
+  "textures": [
+    {
+      "slot": "_BaseMap",
+      "texture": {
+        "key": "resources.assets:600",
+        "asset_file": "resources.assets",
+        "path_id": 600,
+        "type": "Texture2D"
+      },
+      "scale": {
+        "x": 0.9800000190734863,
+        "y": 0.9800000190734863
+      },
+      "offset": {
+        "x": 0.009999999776482582,
+        "y": 0.009999999776482582
+      }
+    },
+    {
+      "slot": "_BumpMap",
+      "texture": {
+        "key": "resources.assets:592",
+        "asset_file": "resources.assets",
+        "path_id": 592,
+        "type": "Texture2D"
+      },
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "slot": "_DetailAlbedoMap",
+      "texture": null,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "slot": "_DetailMask",
+      "texture": null,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "slot": "_DetailNormalMap",
+      "texture": null,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "slot": "_EmissionMap",
+      "texture": null,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "slot": "_MainTex",
+      "texture": {
+        "key": "resources.assets:600",
+        "asset_file": "resources.assets",
+        "path_id": 600,
+        "type": "Texture2D"
+      },
+      "scale": {
+        "x": 0.9800000190734863,
+        "y": 0.9800000190734863
+      },
+      "offset": {
+        "x": 0.009999999776482582,
+        "y": 0.009999999776482582
+      }
+    },
+    {
+      "slot": "_MetallicGlossMap",
+      "texture": null,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "slot": "_OcclusionMap",
+      "texture": null,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "slot": "_ParallaxMap",
+      "texture": {
+        "key": "resources.assets:580",
+        "asset_file": "resources.assets",
+        "path_id": 580,
+        "type": "Texture2D"
+      },
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "slot": "_SpecGlossMap",
+      "texture": null,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "slot": "unity_Lightmaps",
+      "texture": null,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "slot": "unity_LightmapsInd",
+      "texture": null,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "slot": "unity_ShadowMasks",
+      "texture": null,
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    }
+  ],
+  "serialized": {
+    "m_Name": "wheelRim",
+    "m_Shader": {
+      "m_FileID": 2,
+      "m_PathID": 77
+    },
+    "m_ValidKeywords": [
+      "_NORMALMAP",
+      "_PARALLAXMAP",
+      "_SURFACE_TYPE_TRANSPARENT"
+    ],
+    "m_InvalidKeywords": [],
+    "m_LightmapFlags": 4,
+    "m_EnableInstancingVariants": false,
+    "m_DoubleSidedGI": false,
+    "m_CustomRenderQueue": 3000,
+    "stringTagMap": [
+      [
+        "RenderType",
+        "Transparent"
+      ]
+    ],
+    "disabledShaderPasses": [
+      "DepthOnly",
+      "SHADOWCASTER",
+      "MOTIONVECTORS"
+    ],
+    "m_SavedProperties": {
+      "m_TexEnvs": [
+        [
+          "_BaseMap",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 600
+            },
+            "m_Scale": {
+              "x": 0.9800000190734863,
+              "y": 0.9800000190734863
+            },
+            "m_Offset": {
+              "x": 0.009999999776482582,
+              "y": 0.009999999776482582
+            }
+          }
+        ],
+        [
+          "_BumpMap",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 592
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ],
+        [
+          "_DetailAlbedoMap",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ],
+        [
+          "_DetailMask",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ],
+        [
+          "_DetailNormalMap",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ],
+        [
+          "_EmissionMap",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ],
+        [
+          "_MainTex",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 600
+            },
+            "m_Scale": {
+              "x": 0.9800000190734863,
+              "y": 0.9800000190734863
+            },
+            "m_Offset": {
+              "x": 0.009999999776482582,
+              "y": 0.009999999776482582
+            }
+          }
+        ],
+        [
+          "_MetallicGlossMap",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ],
+        [
+          "_OcclusionMap",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ],
+        [
+          "_ParallaxMap",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 580
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ],
+        [
+          "_SpecGlossMap",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ],
+        [
+          "unity_Lightmaps",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ],
+        [
+          "unity_LightmapsInd",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ],
+        [
+          "unity_ShadowMasks",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ]
+      ],
+      "m_Ints": [],
+      "m_Floats": [
+        [
+          "_AddPrecomputedVelocity",
+          0.0
+        ],
+        [
+          "_AlphaClip",
+          0.0
+        ],
+        [
+          "_AlphaToMask",
+          0.0
+        ],
+        [
+          "_Blend",
+          0.0
+        ],
+        [
+          "_BlendModePreserveSpecular",
+          0.0
+        ],
+        [
+          "_BumpScale",
+          1.0
+        ],
+        [
+          "_ClearCoatMask",
+          0.0
+        ],
+        [
+          "_ClearCoatSmoothness",
+          0.0
+        ],
+        [
+          "_Cull",
+          2.0
+        ],
+        [
+          "_Cutoff",
+          0.640999972820282
+        ],
+        [
+          "_DetailAlbedoMapScale",
+          1.0
+        ],
+        [
+          "_DetailNormalMapScale",
+          1.0
+        ],
+        [
+          "_DstBlend",
+          10.0
+        ],
+        [
+          "_DstBlendAlpha",
+          10.0
+        ],
+        [
+          "_EnvironmentReflections",
+          1.0
+        ],
+        [
+          "_GlossMapScale",
+          0.0
+        ],
+        [
+          "_Glossiness",
+          0.0
+        ],
+        [
+          "_GlossyReflections",
+          0.0
+        ],
+        [
+          "_Metallic",
+          0.9480000138282776
+        ],
+        [
+          "_OcclusionStrength",
+          1.0
+        ],
+        [
+          "_Parallax",
+          0.06880000233650208
+        ],
+        [
+          "_QueueOffset",
+          0.0
+        ],
+        [
+          "_ReceiveShadows",
+          1.0
+        ],
+        [
+          "_Smoothness",
+          0.9629999995231628
+        ],
+        [
+          "_SmoothnessTextureChannel",
+          0.0
+        ],
+        [
+          "_SpecularHighlights",
+          1.0
+        ],
+        [
+          "_SrcBlend",
+          5.0
+        ],
+        [
+          "_SrcBlendAlpha",
+          1.0
+        ],
+        [
+          "_Surface",
+          1.0
+        ],
+        [
+          "_WorkflowMode",
+          1.0
+        ],
+        [
+          "_XRMotionVectorsPass",
+          1.0
+        ],
+        [
+          "_ZWrite",
+          0.0
+        ]
+      ],
+      "m_Colors": [
+        [
+          "_BaseColor",
+          {
+            "r": 0.4867923855781555,
+            "g": 0.4867923855781555,
+            "b": 0.4867923855781555,
+            "a": 1.0
+          }
+        ],
+        [
+          "_Color",
+          {
+            "r": 0.4867923855781555,
+            "g": 0.4867923855781555,
+            "b": 0.4867923855781555,
+            "a": 1.0
+          }
+        ],
+        [
+          "_EmissionColor",
+          {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          }
+        ],
+        [
+          "_SpecColor",
+          {
+            "r": 0.20000000298023224,
+            "g": 0.20000000298023224,
+            "b": 0.20000000298023224,
+            "a": 1.0
+          }
+        ]
+      ]
+    },
+    "m_BuildTextureStacks": []
+  }
+}

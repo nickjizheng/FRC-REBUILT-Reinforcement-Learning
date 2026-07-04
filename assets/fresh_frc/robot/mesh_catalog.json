@@ -1,0 +1,262 @@
+[
+  {
+    "source": {
+      "key": "resources.assets:1086",
+      "asset_file": "resources.assets",
+      "path_id": 1086,
+      "type": "Mesh"
+    },
+    "name": "Body1.031",
+    "file": "meshes/resources.assets_1086_Body1.031.json",
+    "vertex_count": 1938,
+    "triangle_count": 1706,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:1173",
+      "asset_file": "resources.assets",
+      "path_id": 1173,
+      "type": "Mesh"
+    },
+    "name": "KB-26008: Hood.001",
+    "file": "meshes/resources.assets_1173_KB-26008_Hood.001.json",
+    "vertex_count": 268,
+    "triangle_count": 224,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:1179",
+      "asset_file": "resources.assets",
+      "path_id": 1179,
+      "type": "Mesh"
+    },
+    "name": "Flap003",
+    "file": "meshes/resources.assets_1179_Flap003.json",
+    "vertex_count": 228,
+    "triangle_count": 224,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:1390",
+      "asset_file": "resources.assets",
+      "path_id": 1390,
+      "type": "Mesh"
+    },
+    "name": "Body1.043",
+    "file": "meshes/resources.assets_1390_Body1.043.json",
+    "vertex_count": 491,
+    "triangle_count": 390,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:1456",
+      "asset_file": "resources.assets",
+      "path_id": 1456,
+      "type": "Mesh"
+    },
+    "name": "REV-21-2051",
+    "file": "meshes/resources.assets_1456_REV-21-2051.json",
+    "vertex_count": 672,
+    "triangle_count": 696,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:1514",
+      "asset_file": "resources.assets",
+      "path_id": 1514,
+      "type": "Mesh"
+    },
+    "name": "1143-0001-0048",
+    "file": "meshes/resources.assets_1514_1143-0001-0048.json",
+    "vertex_count": 454,
+    "triangle_count": 304,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:1515",
+      "asset_file": "resources.assets",
+      "path_id": 1515,
+      "type": "Mesh"
+    },
+    "name": "1143-0001-0048",
+    "file": "meshes/resources.assets_1515_1143-0001-0048.json",
+    "vertex_count": 1144,
+    "triangle_count": 762,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:1617",
+      "asset_file": "resources.assets",
+      "path_id": 1617,
+      "type": "Mesh"
+    },
+    "name": "Part__Feature086",
+    "file": "meshes/resources.assets_1617_Part__Feature086.json",
+    "vertex_count": 16093,
+    "triangle_count": 8167,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:1709",
+      "asset_file": "resources.assets",
+      "path_id": 1709,
+      "type": "Mesh"
+    },
+    "name": "Body1",
+    "file": "meshes/resources.assets_1709_Body1.json",
+    "vertex_count": 170,
+    "triangle_count": 144,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:1842",
+      "asset_file": "resources.assets",
+      "path_id": 1842,
+      "type": "Mesh"
+    },
+    "name": "Body1",
+    "file": "meshes/resources.assets_1842_Body1.json",
+    "vertex_count": 44,
+    "triangle_count": 36,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:1864",
+      "asset_file": "resources.assets",
+      "path_id": 1864,
+      "type": "Mesh"
+    },
+    "name": "Body1.033",
+    "file": "meshes/resources.assets_1864_Body1.033.json",
+    "vertex_count": 1938,
+    "triangle_count": 1706,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:2541",
+      "asset_file": "resources.assets",
+      "path_id": 2541,
+      "type": "Mesh"
+    },
+    "name": "Body1",
+    "file": "meshes/resources.assets_2541_Body1.json",
+    "vertex_count": 356,
+    "triangle_count": 396,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:2839",
+      "asset_file": "resources.assets",
+      "path_id": 2839,
+      "type": "Mesh"
+    },
+    "name": "Body1.032",
+    "file": "meshes/resources.assets_2839_Body1.032.json",
+    "vertex_count": 170,
+    "triangle_count": 164,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:2968",
+      "asset_file": "resources.assets",
+      "path_id": 2968,
+      "type": "Mesh"
+    },
+    "name": "Body2",
+    "file": "meshes/resources.assets_2968_Body2.json",
+    "vertex_count": 44,
+    "triangle_count": 36,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "resources.assets:3088",
+      "asset_file": "resources.assets",
+      "path_id": 3088,
+      "type": "Mesh"
+    },
+    "name": "KB-26010: Launcher GearPulley",
+    "file": "meshes/resources.assets_3088_KB-26010_Launcher_GearPulley.json",
+    "vertex_count": 920,
+    "triangle_count": 916,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "unity default resources:10202",
+      "asset_file": "unity default resources",
+      "path_id": 10202,
+      "type": "Mesh"
+    },
+    "name": "Cube",
+    "file": "meshes/unity_default_resources_10202_Cube.json",
+    "vertex_count": 24,
+    "triangle_count": 12,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "unity default resources:10206",
+      "asset_file": "unity default resources",
+      "path_id": 10206,
+      "type": "Mesh"
+    },
+    "name": "Cylinder",
+    "file": "meshes/unity_default_resources_10206_Cylinder.json",
+    "vertex_count": 88,
+    "triangle_count": 80,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "unity default resources:10207",
+      "asset_file": "unity default resources",
+      "path_id": 10207,
+      "type": "Mesh"
+    },
+    "name": "Sphere",
+    "file": "meshes/unity_default_resources_10207_Sphere.json",
+    "vertex_count": 515,
+    "triangle_count": 768,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "unity default resources:10208",
+      "asset_file": "unity default resources",
+      "path_id": 10208,
+      "type": "Mesh"
+    },
+    "name": "Capsule",
+    "file": "meshes/unity_default_resources_10208_Capsule.json",
+    "vertex_count": 550,
+    "triangle_count": 832,
+    "submesh_count": 1
+  },
+  {
+    "source": {
+      "key": "unity default resources:10209",
+      "asset_file": "unity default resources",
+      "path_id": 10209,
+      "type": "Mesh"
+    },
+    "name": "Plane",
+    "file": "meshes/unity_default_resources_10209_Plane.json",
+    "vertex_count": 121,
+    "triangle_count": 200,
+    "submesh_count": 1
+  }
+]

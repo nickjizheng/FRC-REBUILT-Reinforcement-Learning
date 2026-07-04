@@ -1,0 +1,88 @@
+[
+  {
+    "level": "level74",
+    "path": "Wharehouse Blue/Lever",
+    "component_id": 5747,
+    "type": "HingeJoint",
+    "values": {
+      "m_Anchor": "Vector3f(0.0, 0.0, 0.0)",
+      "m_Axis": "Vector3f(0.0, 0.0, 1.0)",
+      "m_BreakForce": Infinity,
+      "m_BreakTorque": Infinity,
+      "m_ConnectedBody": {
+        "file_id": 0,
+        "path_id": 0
+      },
+      "m_GameObject": {
+        "file_id": 0,
+        "path_id": 744
+      },
+      "m_Limits": "JointLimits(max=0.0, min=-90.0, bounceMinVelocity=0.20000000298023224, bounciness=0.0, contactDistance=0.0, maxBounce=None, minBounce=None)",
+      "m_Motor": "JointMotor(force=0.0, freeSpin=0, targetVelocity=0.0)",
+      "m_Spring": "JointSpring(damper=1.0, spring=100.0, targetPosition=0.0)",
+      "m_UseLimits": true,
+      "m_UseMotor": false,
+      "m_UseSpring": true,
+      "m_AutoConfigureConnectedAnchor": true,
+      "m_ConnectedAnchor": "Vector3f(0.0, 0.0, 0.0)",
+      "m_ConnectedArticulationBody": {
+        "file_id": 0,
+        "path_id": 0
+      },
+      "m_ConnectedMassScale": 1.0,
+      "m_EnableCollision": false,
+      "m_EnablePreprocessing": true,
+      "m_Enabled": null,
+      "m_ExtendedLimits": false,
+      "m_MassScale": 1.0,
+      "m_UseAcceleration": false,
+      "object_reader": {
+        "file_id": 0,
+        "path_id": 5747
+      }
+    }
+  },
+  {
+    "level": "level74",
+    "path": "Wharehouse Red/Lever",
+    "component_id": 5748,
+    "type": "HingeJoint",
+    "values": {
+      "m_Anchor": "Vector3f(0.0, 0.0, 0.0)",
+      "m_Axis": "Vector3f(0.0, 0.0, 1.0)",
+      "m_BreakForce": Infinity,
+      "m_BreakTorque": Infinity,
+      "m_ConnectedBody": {
+        "file_id": 0,
+        "path_id": 0
+      },
+      "m_GameObject": {
+        "file_id": 0,
+        "path_id": 1016
+      },
+      "m_Limits": "JointLimits(max=0.0, min=-90.0, bounceMinVelocity=0.20000000298023224, bounciness=0.0, contactDistance=0.0, maxBounce=None, minBounce=None)",
+      "m_Motor": "JointMotor(force=0.0, freeSpin=0, targetVelocity=0.0)",
+      "m_Spring": "JointSpring(damper=1.0, spring=100.0, targetPosition=0.0)",
+      "m_UseLimits": true,
+      "m_UseMotor": false,
+      "m_UseSpring": true,
+      "m_AutoConfigureConnectedAnchor": true,
+      "m_ConnectedAnchor": "Vector3f(0.0, 0.0, 0.0)",
+      "m_ConnectedArticulationBody": {
+        "file_id": 0,
+        "path_id": 0
+      },
+      "m_ConnectedMassScale": 1.0,
+      "m_EnableCollision": false,
+      "m_EnablePreprocessing": true,
+      "m_Enabled": null,
+      "m_ExtendedLimits": false,
+      "m_MassScale": 1.0,
+      "m_UseAcceleration": false,
+      "object_reader": {
+        "file_id": 0,
+        "path_id": 5748
+      }
+    }
+  }
+]

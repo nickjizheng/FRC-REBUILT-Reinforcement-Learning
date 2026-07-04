@@ -1,0 +1,126 @@
+{
+  "robot_pos": [
+    0.0,
+    -1.2,
+    0.035
+  ],
+  "robot_yaw_deg": 90.0,
+  "resolution": [
+    512,
+    512
+  ],
+  "cameras": [
+    {
+      "name": "onboard_intake",
+      "prim": "/World/Robot/LegacyRobot/Cameras/onboard_intake",
+      "frame": "robot",
+      "eye_local": [
+        0.35,
+        0.0,
+        0.35
+      ],
+      "eye_world": [
+        2.143131898507868e-17,
+        -0.85,
+        0.385
+      ],
+      "target_world": [
+        1.4389599889981402e-16,
+        1.1500000000000001,
+        -0.039999999999999994
+      ],
+      "focal_mm": 12.0,
+      "aperture_mm": 20.955,
+      "hfov_deg": 82.3,
+      "note": "sees intake mouth + fuel on floor ahead"
+    },
+    {
+      "name": "onboard_shooter",
+      "prim": "/World/Robot/LegacyRobot/Cameras/onboard_shooter",
+      "frame": "robot",
+      "eye_local": [
+        -0.35,
+        0.0,
+        0.65
+      ],
+      "eye_world": [
+        -2.143131898507868e-17,
+        -1.5499999999999998,
+        0.685
+      ],
+      "target_world": [
+        2.2349804084439197e-16,
+        2.45,
+        1.035
+      ],
+      "focal_mm": 14.0,
+      "aperture_mm": 20.955,
+      "hfov_deg": 73.6,
+      "note": "sees hub opening when robot is aimed"
+    },
+    {
+      "name": "chase",
+      "prim": "/World/Robot/LegacyRobot/Cameras/chase",
+      "frame": "robot",
+      "eye_local": [
+        -1.6,
+        0.0,
+        1.0
+      ],
+      "eye_world": [
+        -9.797174393178826e-17,
+        -2.8,
+        1.035
+      ],
+      "target_world": [
+        1.3863001766348037e-16,
+        1.0639999999999998,
+        0.0
+      ],
+      "focal_mm": 16.0,
+      "aperture_mm": 20.955,
+      "hfov_deg": 66.4,
+      "note": "third-person: robot + local context"
+    },
+    {
+      "name": "overhead_field",
+      "prim": "/World/Cameras/overhead_field",
+      "frame": "world",
+      "eye_local": null,
+      "eye_world": [
+        0.0,
+        0.0,
+        14.0
+      ],
+      "target_world": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "focal_mm": 14.0,
+      "aperture_mm": 20.955,
+      "hfov_deg": 73.6,
+      "note": "god view, full field"
+    },
+    {
+      "name": "hub_pov",
+      "prim": "/World/Cameras/hub_pov",
+      "frame": "world",
+      "eye_local": null,
+      "eye_world": [
+        0.0,
+        3.05,
+        1.35
+      ],
+      "target_world": [
+        0.0,
+        -1.2,
+        0.3
+      ],
+      "focal_mm": 14.0,
+      "aperture_mm": 20.955,
+      "hfov_deg": 73.6,
+      "note": "what the red hub 'sees' of an aiming robot"
+    }
+  ]
+}

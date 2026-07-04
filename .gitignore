@@ -1,0 +1,35 @@
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# Generated USD scenes (only written when run_sim.py --save is requested)
+assets/rebuilt_*.usda
+*.usdc
+
+# Logs, screenshots, and other rebuildable run artifacts
+*.log
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+artifacts/
+
+# Compiled launcher (rebuilt from tools/LaunchSimulator.cs)
+*.exe
+
+# RL checkpoints / training outputs
+*.ckpt
+*.pth
+*.pt
+checkpoints/
+runs/**/checkpoints/
+logs/
+wandb/
+
+# OS / editor
+Thumbs.db
+.DS_Store
+.vscode/

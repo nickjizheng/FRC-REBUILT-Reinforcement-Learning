@@ -1,0 +1,142 @@
+{
+  "hub": "blue",
+  "starts": [
+    {
+      "start": [
+        0.0,
+        0.0
+      ],
+      "reason": "drive_to_shoot",
+      "valid": true,
+      "arrived": false,
+      "scored": false,
+      "drive_ticks": 1200,
+      "path_len": 4,
+      "firing_pose": [
+        2.15,
+        -5.03,
+        2.51
+      ],
+      "final_pos": [
+        -0.5,
+        0.29
+      ],
+      "final_dist_to_goal": 5.952
+    },
+    {
+      "start": [
+        2.2,
+        -1.0
+      ],
+      "reason": "drive_to_shoot",
+      "valid": true,
+      "arrived": false,
+      "scored": false,
+      "drive_ticks": 1200,
+      "path_len": 4,
+      "firing_pose": [
+        2.15,
+        -5.03,
+        2.51
+      ],
+      "final_pos": [
+        1.95,
+        -2.67
+      ],
+      "final_dist_to_goal": 2.395
+    },
+    {
+      "start": [
+        -2.2,
+        1.0
+      ],
+      "reason": "drive_to_shoot",
+      "valid": true,
+      "arrived": false,
+      "scored": false,
+      "drive_ticks": 1200,
+      "path_len": 4,
+      "firing_pose": [
+        -2.19,
+        -5.03,
+        0.48
+      ],
+      "final_pos": [
+        -1.99,
+        1.47
+      ],
+      "final_dist_to_goal": 6.53
+    },
+    {
+      "start": [
+        1.5,
+        2.5
+      ],
+      "reason": "drive_to_shoot",
+      "valid": true,
+      "arrived": false,
+      "scored": false,
+      "drive_ticks": 1200,
+      "path_len": 3,
+      "firing_pose": [
+        2.15,
+        -5.03,
+        2.51
+      ],
+      "final_pos": [
+        1.1,
+        1.99
+      ],
+      "final_dist_to_goal": 7.121
+    },
+    {
+      "start": [
+        -1.5,
+        -2.5
+      ],
+      "reason": "drive_to_shoot",
+      "valid": true,
+      "arrived": false,
+      "scored": false,
+      "drive_ticks": 1200,
+      "path_len": 3,
+      "firing_pose": [
+        -2.19,
+        -5.03,
+        0.48
+      ],
+      "final_pos": [
+        -0.97,
+        -2.66
+      ],
+      "final_dist_to_goal": 2.698
+    },
+    {
+      "start": [
+        3.0,
+        0.5
+      ],
+      "reason": "drive_to_shoot",
+      "valid": true,
+      "arrived": false,
+      "scored": false,
+      "drive_ticks": 1200,
+      "path_len": 4,
+      "firing_pose": [
+        2.15,
+        -5.03,
+        2.51
+      ],
+      "final_pos": [
+        3.35,
+        -1.1
+      ],
+      "final_dist_to_goal": 4.143
+    }
+  ],
+  "summary": {
+    "total": 6,
+    "scored": 0,
+    "success_rate": 0.0
+  }
+}

@@ -1,0 +1,10 @@
+﻿{
+    "note":  "Session-2 measured baseline: all scenarios A-G pass in Isaac 5.1 after Phase A-F code changes.",
+    "A_top_speed":  3.277,
+    "B_yaw":  95.5,
+    "C_intake":  "3/3",
+    "D_shooter":  "20/20",
+    "E_continuous":  "8/8 min 0.08s",
+    "G_fsm_continuous":  "24/24",
+    "all_pass":  true
+}

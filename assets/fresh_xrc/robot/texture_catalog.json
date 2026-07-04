@@ -1,0 +1,390 @@
+[
+  {
+    "source": {
+      "key": "resources.assets:580",
+      "asset_file": "resources.assets",
+      "path_id": 580,
+      "type": "Texture2D"
+    },
+    "name": "wheelRimHeight",
+    "raw_sha256": "8c424dc59ac27c2111b70f934f5645ad768557ec5b4f5cfd7eb05e0b8cf041b5",
+    "raw_byte_count": 152,
+    "file": "textures/resources.assets_580_wheelRimHeight.png",
+    "width": 1024,
+    "height": 1024,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:587",
+      "asset_file": "resources.assets",
+      "path_id": 587,
+      "type": "Texture2D"
+    },
+    "name": "WhealTreadPic",
+    "raw_sha256": "c9c6e22efe329bef2c9407e538228c7088a3ebe7c544e76badb9b532057b2a70",
+    "raw_byte_count": 152,
+    "file": "textures/resources.assets_587_WhealTreadPic.png",
+    "width": 256,
+    "height": 512,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:588",
+      "asset_file": "resources.assets",
+      "path_id": 588,
+      "type": "Texture2D"
+    },
+    "name": "yellowFoam2Normal",
+    "raw_sha256": "12171800833cadd880f6b0fbeaf0d3462a558487371209abff45b18efe84b667",
+    "raw_byte_count": 156,
+    "file": "textures/resources.assets_588_yellowFoam2Normal.png",
+    "width": 512,
+    "height": 512,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:592",
+      "asset_file": "resources.assets",
+      "path_id": 592,
+      "type": "Texture2D"
+    },
+    "name": "wheelRimNorm",
+    "raw_sha256": "2276e36a10091d1253423a5d03ec22efd9e3fcedb83f0c2aeaf6a1d68b211056",
+    "raw_byte_count": 148,
+    "file": "textures/resources.assets_592_wheelRimNorm.png",
+    "width": 1024,
+    "height": 1024,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:600",
+      "asset_file": "resources.assets",
+      "path_id": 600,
+      "type": "Texture2D"
+    },
+    "name": "wheelRim",
+    "raw_sha256": "429cb9a62b84faabf34471cfd72f90e1d9d988db55f455eaf2fd47246f9b4e9e",
+    "raw_byte_count": 144,
+    "file": "textures/resources.assets_600_wheelRim.png",
+    "width": 1024,
+    "height": 1024,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:612",
+      "asset_file": "resources.assets",
+      "path_id": 612,
+      "type": "Texture2D"
+    },
+    "name": "yellowFoam2",
+    "raw_sha256": "7c6a07683cda7792f25747718e2b4b6e32216bd8678dadeff9a42f75e87af600",
+    "raw_byte_count": 148,
+    "file": "textures/resources.assets_612_yellowFoam2.png",
+    "width": 512,
+    "height": 512,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:621",
+      "asset_file": "resources.assets",
+      "path_id": 621,
+      "type": "Texture2D"
+    },
+    "name": "holepattern2",
+    "raw_sha256": "bece4f122cf8c05b5e00c200dacd888bf9c39d015e60522e67ec4bb760d2efe6",
+    "raw_byte_count": 148,
+    "file": "textures/resources.assets_621_holepattern2.png",
+    "width": 64,
+    "height": 256,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:623",
+      "asset_file": "resources.assets",
+      "path_id": 623,
+      "type": "Texture2D"
+    },
+    "name": "WhealTreadHeight",
+    "raw_sha256": "ff498da7dc244c5bbaa966758ffd8eb3a8f25b60967cd6c7af64d2156c816eb1",
+    "raw_byte_count": 152,
+    "file": "textures/resources.assets_623_WhealTreadHeight.png",
+    "width": 256,
+    "height": 512,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:626",
+      "asset_file": "resources.assets",
+      "path_id": 626,
+      "type": "Texture2D"
+    },
+    "name": "hexend",
+    "raw_sha256": "78bcd4a1a308b8fdfc9de5e0420e279df4c2cbf561c9bc892dad670de978d648",
+    "raw_byte_count": 144,
+    "file": "textures/resources.assets_626_hexend.png",
+    "width": 256,
+    "height": 128,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:632",
+      "asset_file": "resources.assets",
+      "path_id": 632,
+      "type": "Texture2D"
+    },
+    "name": "texture_alumin",
+    "raw_sha256": "653494cf67a5f5a9a3907f63f74735f9b9e572be38fcf061110c716f70b4a682",
+    "raw_byte_count": 152,
+    "file": "textures/resources.assets_632_texture_alumin.png",
+    "width": 1024,
+    "height": 1024,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:639",
+      "asset_file": "resources.assets",
+      "path_id": 639,
+      "type": "Texture2D"
+    },
+    "name": "TexturesCom_Metal_AluminumBrushed_1K_normal",
+    "raw_sha256": "cce88013d842e9692ca936d67a899dd784a9e435ce8ec283d99ff584dd59b29f",
+    "raw_byte_count": 180,
+    "file": "textures/resources.assets_639_TexturesCom_Metal_AluminumBrushed_1K_normal.png",
+    "width": 1024,
+    "height": 1024,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:658",
+      "asset_file": "resources.assets",
+      "path_id": 658,
+      "type": "Texture2D"
+    },
+    "name": "greenwheel",
+    "raw_sha256": "d92b5ffbecb8855d4dcaa3107fa0292726accaaf2ad10f901af3d93332753fdd",
+    "raw_byte_count": 148,
+    "file": "textures/resources.assets_658_greenwheel.png",
+    "width": 512,
+    "height": 512,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:665",
+      "asset_file": "resources.assets",
+      "path_id": 665,
+      "type": "Texture2D"
+    },
+    "name": "netgrid",
+    "raw_sha256": "71e1437112cc14eb5f900187ecec19e22e2e0a9e0bd4cbed8906be99a801c26f",
+    "raw_byte_count": 144,
+    "file": "textures/resources.assets_665_netgrid.png",
+    "width": 256,
+    "height": 256,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:671",
+      "asset_file": "resources.assets",
+      "path_id": 671,
+      "type": "Texture2D"
+    },
+    "name": "SwatchYellowAlbedo",
+    "raw_sha256": "dc9d81a50f4831c04adf09ef96033d5757b72dd6a0765303ed38f1b9d592e537",
+    "raw_byte_count": 156,
+    "file": "textures/resources.assets_671_SwatchYellowAlbedo.png",
+    "width": 32,
+    "height": 32,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:675",
+      "asset_file": "resources.assets",
+      "path_id": 675,
+      "type": "Texture2D"
+    },
+    "name": "holepattern1",
+    "raw_sha256": "d9df0d5b45b1a86045097620d085be116350a8d9acc049651a0da53ab2ceed93",
+    "raw_byte_count": 148,
+    "file": "textures/resources.assets_675_holepattern1.png",
+    "width": 64,
+    "height": 256,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:678",
+      "asset_file": "resources.assets",
+      "path_id": 678,
+      "type": "Texture2D"
+    },
+    "name": "WheelTreadNorm",
+    "raw_sha256": "c634a4a1554a53dcaed961d645051dc5ba2be88e99fbfe170b9262ad3f798525",
+    "raw_byte_count": 152,
+    "file": "textures/resources.assets_678_WheelTreadNorm.png",
+    "width": 256,
+    "height": 512,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:697",
+      "asset_file": "resources.assets",
+      "path_id": 697,
+      "type": "Texture2D"
+    },
+    "name": "SwatchYellowAlbedo",
+    "raw_sha256": "99cbba223ec3fe691824e1520439b4d05bae09e3e32cbae3652773ab8ef9916f",
+    "raw_byte_count": 156,
+    "file": "textures/resources.assets_697_SwatchYellowAlbedo.png",
+    "width": 32,
+    "height": 32,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:706",
+      "asset_file": "resources.assets",
+      "path_id": 706,
+      "type": "Texture2D"
+    },
+    "name": "CircleHole",
+    "raw_sha256": "02d8aacbd2824ab46f7d1d069ff3607f6959321690e25ebc2b1d011e70b9174d",
+    "raw_byte_count": 148,
+    "file": "textures/resources.assets_706_CircleHole.png",
+    "width": 256,
+    "height": 256,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:710",
+      "asset_file": "resources.assets",
+      "path_id": 710,
+      "type": "Texture2D"
+    },
+    "name": "Plastic",
+    "raw_sha256": "35727482ef2d037722b6dd98e7ff0272a6d4b1b62a596cc25f598340f2692a43",
+    "raw_byte_count": 144,
+    "file": "textures/resources.assets_710_Plastic.png",
+    "width": 1024,
+    "height": 1024,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:713",
+      "asset_file": "resources.assets",
+      "path_id": 713,
+      "type": "Texture2D"
+    },
+    "name": "firstLogoForBall",
+    "raw_sha256": "d3a4e1f7769bd8fb25cf7abf8f37621df8d26cdc358bd2e6c5fa27a87f435f5e",
+    "raw_byte_count": 152,
+    "file": "textures/resources.assets_713_firstLogoForBall.png",
+    "width": 1199,
+    "height": 420,
+    "mode": "RGB"
+  },
+  {
+    "source": {
+      "key": "resources.assets:731",
+      "asset_file": "resources.assets",
+      "path_id": 731,
+      "type": "Texture2D"
+    },
+    "name": "TexturesCom_Metal_AluminumBrushed_1K_albedo",
+    "raw_sha256": "c5cefdbc2adf1105fd7dc91f50b31338fcc11b90ad35edb2f9cb6cedc3fa3b3e",
+    "raw_byte_count": 180,
+    "file": "textures/resources.assets_731_TexturesCom_Metal_AluminumBrushed_1K_albedo.png",
+    "width": 1024,
+    "height": 1024,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:734",
+      "asset_file": "resources.assets",
+      "path_id": 734,
+      "type": "Texture2D"
+    },
+    "name": "TexturesCom_Metal_SteelRusted_512_albedo",
+    "raw_sha256": "fb1f3e839639e46e20c27c68ff5d2e108ca91890c61d24c072d0a1913da89818",
+    "raw_byte_count": 176,
+    "file": "textures/resources.assets_734_TexturesCom_Metal_SteelRusted_512_albedo.png",
+    "width": 512,
+    "height": 512,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:738",
+      "asset_file": "resources.assets",
+      "path_id": 738,
+      "type": "Texture2D"
+    },
+    "name": "Brushed Metal 3",
+    "raw_sha256": "50ac260562dafb3dc4a6ec5e891892fde77952c6f59524b78af360fbeebd8d20",
+    "raw_byte_count": 152,
+    "file": "textures/resources.assets_738_Brushed_Metal_3.png",
+    "width": 512,
+    "height": 256,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "resources.assets:741",
+      "asset_file": "resources.assets",
+      "path_id": 741,
+      "type": "Texture2D"
+    },
+    "name": "ruler",
+    "raw_sha256": "3227b5d4bc9123258ed0ac8f84a83062ab1ab23c11c42148212bca0e19b536f3",
+    "raw_byte_count": 144,
+    "file": "textures/resources.assets_741_ruler.png",
+    "width": 1022,
+    "height": 146,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "sharedassets0.assets:72",
+      "asset_file": "sharedassets0.assets",
+      "path_id": 72,
+      "type": "Texture2D"
+    },
+    "name": "DS-DIGI SDF Atlas",
+    "raw_sha256": "ce32ed7778a7224d9cec9ffa88e3c34a219024613303b13c13ecc8c40160d2c2",
+    "raw_byte_count": 262276,
+    "file": "textures/sharedassets0.assets_72_DS-DIGI_SDF_Atlas.png",
+    "width": 512,
+    "height": 512,
+    "mode": "RGBA"
+  },
+  {
+    "source": {
+      "key": "unity default resources:10103",
+      "asset_file": "unity default resources",
+      "path_id": 10103,
+      "type": "Texture2D"
+    },
+    "name": "Font Texture",
+    "raw_sha256": "bc355d8d9cc50b26bfa96ca02ee5386ac26c067f4fadc72783c32ae31933bc4c",
+    "raw_byte_count": 124,
+    "raw_file": "textures/unity_default_resources_10103_Font_Texture.serialized.bin",
+    "error": "PermissionError: [Errno 13] Permission denied: 'C:/Users/nickj/Desktop/xrc-vision-driver/vendor/xrc/app/xRC Simulator_Data'"
+  }
+]

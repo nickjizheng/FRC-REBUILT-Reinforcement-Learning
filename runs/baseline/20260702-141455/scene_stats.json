@@ -1,0 +1,12 @@
+{
+  "visual_groups": 16,
+  "visible_triangles": 108283,
+  "static_collision_triangles": 2556,
+  "fuel_bodies": 456,
+  "robot_chassis_colliders": 51,
+  "robot_visual_triangles": 110173,
+  "robot_wheels": 6,
+  "robot_mass_kg": 32.91,
+  "robot_articulated": true,
+  "usd": "C:\\Users\\nickj\\Desktop\\xrc-rebuilt-robot-rl\\assets\\rebuilt_legacy.usda"
+}

@@ -1,0 +1,68 @@
+{
+  "frames": 11417,
+  "sim_seconds": 190.2833432573825,
+  "fuel_count": 456,
+  "fuel_mean_displacement_m": 3.5660181045532227,
+  "fuel_moved_over_5cm": 360,
+  "fuel_height_range_m": [
+    0.07797756046056747,
+    0.9626703262329102
+  ],
+  "fuel_max_speed_mps": 0.19482553005218506,
+  "robot_displacement_m": 2.786936044692993,
+  "robot_max_height_m": 0.7546876072883606,
+  "robot_start": [
+    [
+      3.3582000732421875,
+      -3.884999990463257,
+      0.009999945759773254
+    ]
+  ],
+  "robot_end": [
+    [
+      1.1548527479171753,
+      -2.2831833362579346,
+      0.5986065864562988
+    ]
+  ],
+  "hub_detected": 0,
+  "hub_released": 0,
+  "hub_re_released": 0,
+  "hub_crowd_rescued": 0,
+  "hub_scored_red": 0,
+  "hub_scored_blue": 0,
+  "hub_pending": 0,
+  "hub_mean_route_delay_s": null,
+  "hub_max_route_delay_s": null,
+  "hub_mean_release_interval_s": null,
+  "robot": "Competition Robot",
+  "alliance_lock": "blue",
+  "magazine": 7,
+  "intake_transit": 0,
+  "feeder_staged": 7,
+  "retention_corrections": 0,
+  "storage_position": 0.99,
+  "storage_target": 0.99,
+  "storage_top_m": 0.74,
+  "storage_mode": "rectangle/deployed",
+  "intake_deployed": true,
+  "mechanism_transitions": 5,
+  "balls_collected": 132,
+  "shots_fired": 133,
+  "volleys_fired": 62,
+  "shooter_state": "IDLE",
+  "auto_aim": {
+    "alliance": "blue",
+    "distance_m": 1.6507987413369707,
+    "speed_mps": 6.608184931998282,
+    "pitch_deg": 77.02581218733403,
+    "motor_target_rps": 48.69424031322276,
+    "desired_yaw_rad": 0.8778350044518872,
+    "shot_yaw_rad": -2.2637576491379066,
+    "flight_time_s": 1.1103982893733497,
+    "yaw_error_deg": -43.70724370138136,
+    "aligned": false,
+    "valid": true,
+    "blocked_reason": ""
+  }
+}

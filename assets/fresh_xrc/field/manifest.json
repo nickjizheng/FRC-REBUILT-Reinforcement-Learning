@@ -1,0 +1,42 @@
+{
+  "source": "C:\\Users\\nickj\\Desktop\\xrc-vision-driver\\vendor\\xrc\\app\\xRC Simulator_Data",
+  "source_sha256": {
+    "level74": "48be3206000d3dbfbd4c66a54d00907910f38eaf66f52199716f2047cbed7502",
+    "level75": "06b076efcec330e480995608cce0845dcc8a4809dabfe017dd145a47e1e2c341",
+    "level76": "a5f8bc6f6620c128339366b1a515edec0e7a62e059f90c06446840e1aabf0346"
+  },
+  "unity_version": "6000.4.11f1",
+  "render_triangles": 120703,
+  "visual_instances": 1275,
+  "visual_categories": {
+    "floor": 57,
+    "wall": 158,
+    "field": 96,
+    "return": 2,
+    "hub": 378,
+    "source": 86,
+    "trench": 366,
+    "apriltag": 20,
+    "hub_net": 14,
+    "tower": 82,
+    "bump": 16
+  },
+  "colliders": 701,
+  "collider_types": {
+    "BoxCollider": 203,
+    "CapsuleCollider": 16,
+    "SphereCollider": 466,
+    "MeshCollider": 16
+  },
+  "triggers": 62,
+  "rigidbodies": 496,
+  "joints": 2,
+  "gameplay_scripts": {
+    "WallBallReturn": 2,
+    "OutpostReloader": 2,
+    "ballshooting_v2": 8,
+    "FlagGameElement": 2,
+    "ReleaseBallDetector": 2,
+    "GE_Counter": 2
+  }
+}

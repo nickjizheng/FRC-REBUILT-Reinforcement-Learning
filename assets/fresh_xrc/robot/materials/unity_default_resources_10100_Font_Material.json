@@ -1,0 +1,101 @@
+{
+  "source": {
+    "key": "unity default resources:10100",
+    "asset_file": "unity default resources",
+    "path_id": 10100,
+    "type": "Material"
+  },
+  "name": "Font Material",
+  "shader": {
+    "key": "unity default resources:10101",
+    "asset_file": "unity default resources",
+    "path_id": 10101,
+    "type": "Shader",
+    "name": ""
+  },
+  "render_queue": -1,
+  "string_tags": [],
+  "disabled_shader_passes": [],
+  "colors": [
+    [
+      "_Color",
+      {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      }
+    ]
+  ],
+  "floats": [],
+  "ints": [],
+  "textures": [
+    {
+      "slot": "_MainTex",
+      "texture": {
+        "key": "unity default resources:10103",
+        "asset_file": "unity default resources",
+        "path_id": 10103,
+        "type": "Texture2D"
+      },
+      "scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "offset": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    }
+  ],
+  "serialized": {
+    "m_Name": "Font Material",
+    "m_Shader": {
+      "m_FileID": 0,
+      "m_PathID": 10101
+    },
+    "m_ValidKeywords": [],
+    "m_InvalidKeywords": [],
+    "m_LightmapFlags": 4,
+    "m_EnableInstancingVariants": false,
+    "m_DoubleSidedGI": false,
+    "m_CustomRenderQueue": -1,
+    "stringTagMap": [],
+    "disabledShaderPasses": [],
+    "m_SavedProperties": {
+      "m_TexEnvs": [
+        [
+          "_MainTex",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 10103
+            },
+            "m_Scale": {
+              "x": 1.0,
+              "y": 1.0
+            },
+            "m_Offset": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          }
+        ]
+      ],
+      "m_Ints": [],
+      "m_Floats": [],
+      "m_Colors": [
+        [
+          "_Color",
+          {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+          }
+        ]
+      ]
+    },
+    "m_BuildTextureStacks": []
+  }
+}

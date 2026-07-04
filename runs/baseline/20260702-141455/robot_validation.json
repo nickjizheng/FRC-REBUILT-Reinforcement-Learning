@@ -1,0 +1,199 @@
+{
+  "A_top_speed": {
+    "mean_mps": 3.277,
+    "target_mps": 3.5,
+    "pass": true
+  },
+  "B_yaw_rate": {
+    "deg_per_s": 95.5,
+    "xrc_target_deg_per_s": 100.0,
+    "pass": true
+  },
+  "C_intake": {
+    "staged": 3,
+    "captured": 3,
+    "pass": true
+  },
+  "D_shooter": {
+    "attempts": 20,
+    "scoring_count": 20,
+    "accuracy": 1.0,
+    "shots": [
+      {
+        "attempt": 1,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.020466208328376513,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 2,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.012623708143441117,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 3,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.02673362274767659,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 4,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.005344003488672685,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 5,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.0781999826730019,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 6,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.031398674875413916,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 7,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.022658969084605282,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 8,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": -0.01807423641934815,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 9,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.010441877905977824,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 10,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": -0.04067186747891525,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 11,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": -0.005490177548285468,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 12,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.0029582754019313695,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 13,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.011267281808336875,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 14,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.009196091325837371,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 15,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.0012103704309859866,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 16,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.022513690773462106,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 17,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.031265287104485597,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 18,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.02368741096992556,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 19,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.007518045585167122,
+        "vertical_error_m": 0.002526716411308527
+      },
+      {
+        "attempt": 20,
+        "fired": true,
+        "scored": true,
+        "aim": 0.11800000000000001,
+        "yaw_error_deg": 0.013008878063959933,
+        "vertical_error_m": 0.002526716411308527
+      }
+    ],
+    "pass": true
+  },
+  "E_continuous_fire": {
+    "loaded": 8,
+    "fired": 8,
+    "scored": 8,
+    "minimum_interval_s": 0.08,
+    "pass": true
+  },
+  "F_visible_magazine": {
+    "magazine": 3,
+    "world_min_z": 0.288,
+    "max_slot_error_m": 0.00157,
+    "pass": true
+  },
+  "all_pass": true
+}

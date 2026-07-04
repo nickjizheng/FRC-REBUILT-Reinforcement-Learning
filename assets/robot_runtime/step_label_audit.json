@@ -1,0 +1,21 @@
+{
+  "source": "C:\\Users\\nickj\\Desktop\\Reference Robotapril2519.STEP",
+  "source_sha256": "bf1aa90f2fe6bcfa7771fa96d7e5d0d0d0c69e4b1accab9c2886c4a94c9654e6",
+  "reader": "OpenCascade STEPCAFControl_Reader",
+  "xcaf_label_count": 1563,
+  "named_label_count": 1563,
+  "relevant_assembly_names": [
+    "Full Hopper _1_april2519",
+    "Hopper _1_",
+    "Hopper Vertical Extension _1_",
+    "Hopper Horizontal Extension _1_",
+    "Full Shooter _1_april2519",
+    "Shooter _1_april2",
+    "Full Intake _1_april2519",
+    "Intake _1_",
+    "Intake Power _1_"
+  ],
+  "bumper_name_patterns": ["bumper", "pool noodle", "fabric"],
+  "bumper_label_matches": [],
+  "conclusion": "No bumper assembly or bumper-named component exists in the supplied STEP; add the competition bumper as a separate simulator assembly."
+}

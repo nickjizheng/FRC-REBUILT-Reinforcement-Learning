@@ -1,0 +1,12 @@
+{
+  "target": 60,
+  "captured": 60,
+  "physical_inside": 60,
+  "feeder_staged": 8,
+  "failed_indices": [],
+  "failed_state": {},
+  "leaked_below": [],
+  "outside_local_xyz": {},
+  "first_escape": {},
+  "passed": true
+}

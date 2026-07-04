@@ -1,0 +1,684 @@
+{
+ "source": "assets/fresh_xrc/robot (extract_robot_spec.py)",
+ "frame": {
+  "convention": "Isaac RH/Z-up chassis frame; origin = visual xz-mid / y-min",
+  "origin_prefab_unity": [
+   -1.706596721095484,
+   1.7988842241127587,
+   1.983869617738781
+  ]
+ },
+ "wheels": [
+  {
+   "name": "wheelBL",
+   "center_isaac": [
+    -0.297528,
+    -0.30513,
+    0.076876
+   ],
+   "radius_m": 0.08084,
+   "side": "left"
+  },
+  {
+   "name": "wheelBR",
+   "center_isaac": [
+    -0.295526,
+    0.30587,
+    0.076876
+   ],
+   "radius_m": 0.08084,
+   "side": "right"
+  },
+  {
+   "name": "wheelML",
+   "center_isaac": [
+    -0.072528,
+    -0.30513,
+    0.075866
+   ],
+   "radius_m": 0.08084,
+   "side": "left"
+  },
+  {
+   "name": "wheelMR",
+   "center_isaac": [
+    -0.072526,
+    0.30587,
+    0.075866
+   ],
+   "radius_m": 0.08084,
+   "side": "right"
+  },
+  {
+   "name": "wheelTL",
+   "center_isaac": [
+    0.147472,
+    -0.30513,
+    0.076876
+   ],
+   "radius_m": 0.08084,
+   "side": "left"
+  },
+  {
+   "name": "wheelTR",
+   "center_isaac": [
+    0.149473,
+    0.30587,
+    0.076876
+   ],
+   "radius_m": 0.08084,
+   "side": "right"
+  }
+ ],
+ "rigidbodies": [
+  {
+   "path": "Legacy Robot/Body[0]",
+   "mass_kg": 25.0
+  },
+  {
+   "path": "Legacy Robot/Body[0]/Physics[7]/keepClear[2]",
+   "mass_kg": 0.009999999776482582
+  },
+  {
+   "path": "Legacy Robot/Body[0]/Physics[7]/keepClear (1)[4]",
+   "mass_kg": 0.009999999776482582
+  },
+  {
+   "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (10)[1]",
+   "mass_kg": 0.009999999776482582
+  },
+  {
+   "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (1)[2]",
+   "mass_kg": 0.009999999776482582
+  },
+  {
+   "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (2)[9]",
+   "mass_kg": 0.009999999776482582
+  },
+  {
+   "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (3)[10]",
+   "mass_kg": 0.009999999776482582
+  },
+  {
+   "path": "Legacy Robot/Body[0]/Physics[7]/Other[7]/BS Outtake (1)[0]",
+   "mass_kg": 0.009999999776482582
+  },
+  {
+   "path": "Legacy Robot/Body[0]/Physics[7]/Other[7]/BS Outtake (2)[1]",
+   "mass_kg": 0.009999999776482582
+  },
+  {
+   "path": "Legacy Robot/Body[0]/Physics[7]/Other[7]/indexer[2]",
+   "mass_kg": 0.009999999776482582
+  },
+  {
+   "path": "Legacy Robot/Body[0]/Physics[7]/Shooter[9]/BS Outtake (3)[1]",
+   "mass_kg": 0.009999999776482582
+  },
+  {
+   "path": "Legacy Robot/Body[0]/Physics[7]/Shooter[9]/markball[2]",
+   "mass_kg": 0.009999999776482582
+  },
+  {
+   "path": "Legacy Robot/Hang[1]",
+   "mass_kg": 1.0
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/wheelBR[0]",
+   "mass_kg": 1.0
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/wheelBL[1]",
+   "mass_kg": 1.0
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/wheelTL[2]",
+   "mass_kg": 1.0
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/wheelTR[3]",
+   "mass_kg": 1.0
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/wheelMR[4]",
+   "mass_kg": 1.0
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/wheelML[5]",
+   "mass_kg": 1.0
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/TRWheelSpring[6]",
+   "mass_kg": 0.20000000298023224
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/TLWheelSpring[7]",
+   "mass_kg": 0.20000000298023224
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/BLWheelSpring[8]",
+   "mass_kg": 0.20000000298023224
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/BRWheelSpring[9]",
+   "mass_kg": 0.20000000298023224
+  }
+ ],
+ "total_mass_kg": 32.91,
+ "wheel_springs": [
+  {
+   "path": "Legacy Robot/NotUpdated[2]/TRWheelSpring[6]",
+   "linear_limit_m": 0.0,
+   "spring": 10.0,
+   "damper": 1.0,
+   "y_drive": {
+    "positionSpring": 0.0,
+    "positionDamper": 0.0,
+    "maximumForce": 3.4028232635611926e+38,
+    "useAcceleration": 0
+   }
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/TLWheelSpring[7]",
+   "linear_limit_m": 0.0,
+   "spring": 10.0,
+   "damper": 1.0,
+   "y_drive": {
+    "positionSpring": 0.0,
+    "positionDamper": 0.0,
+    "maximumForce": 3.4028232635611926e+38,
+    "useAcceleration": 0
+   }
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/BLWheelSpring[8]",
+   "linear_limit_m": 0.0,
+   "spring": 10.0,
+   "damper": 1.0,
+   "y_drive": {
+    "positionSpring": 0.0,
+    "positionDamper": 0.0,
+    "maximumForce": 3.4028232635611926e+38,
+    "useAcceleration": 0
+   }
+  },
+  {
+   "path": "Legacy Robot/NotUpdated[2]/BRWheelSpring[9]",
+   "linear_limit_m": 0.0,
+   "spring": 10.0,
+   "damper": 1.0,
+   "y_drive": {
+    "positionSpring": 0.0,
+    "positionDamper": 0.0,
+    "maximumForce": 3.4028232635611926e+38,
+    "useAcceleration": 0
+   }
+  }
+ ],
+ "zones": [
+  {
+   "kind": "keep_clear",
+   "path": "Legacy Robot/Body[0]/Physics[7]/keepClear[2]/keepClear (1)[0]",
+   "enabled": true,
+   "center_isaac": [
+    -0.279632,
+    0.116323,
+    0.326744
+   ],
+   "axes_isaac_columns": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "half_extents_m": [
+    0.091258,
+    0.168804,
+    0.041746
+   ],
+   "bs_speed_mps": null
+  },
+  {
+   "kind": "keep_clear",
+   "path": "Legacy Robot/Body[0]/Physics[7]/keepClear (1)[4]/keepClear (1)[0]",
+   "enabled": true,
+   "center_isaac": [
+    -0.279632,
+    -0.126877,
+    0.335888
+   ],
+   "axes_isaac_columns": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "half_extents_m": [
+    0.091258,
+    0.177947,
+    0.041746
+   ],
+   "bs_speed_mps": null
+  },
+  {
+   "kind": "intake",
+   "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (10)[1]",
+   "enabled": true,
+   "center_isaac": [
+    0.510583,
+    -0.010315,
+    0.115356
+   ],
+   "axes_isaac_columns": [
+    [
+     1.0,
+     3e-06,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     -3e-06,
+     1.0,
+     0.0
+    ]
+   ],
+   "half_extents_m": [
+    0.025916,
+    0.010105,
+    0.264904
+   ],
+   "bs_speed_mps": 4.0,
+   "bs_use_force": true,
+   "bs_force_divider": 4.0,
+   "bs_hard_stop": false,
+   "bs_disabled_by_default": false
+  },
+  {
+   "kind": "intake",
+   "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (1)[2]",
+   "enabled": true,
+   "center_isaac": [
+    0.353513,
+    -0.006009,
+    0.115356
+   ],
+   "axes_isaac_columns": [
+    [
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     -1.0,
+     0.0,
+     0.0
+    ]
+   ],
+   "half_extents_m": [
+    0.044551,
+    0.01,
+    0.207494
+   ],
+   "bs_speed_mps": 4.0,
+   "bs_use_force": true,
+   "bs_force_divider": 4.0,
+   "bs_hard_stop": false,
+   "bs_disabled_by_default": false
+  },
+  {
+   "kind": "intake",
+   "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (2)[9]",
+   "enabled": true,
+   "center_isaac": [
+    0.370483,
+    -0.019105,
+    0.225379
+   ],
+   "axes_isaac_columns": [
+    [
+     0.578741,
+     0.809746,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     -0.815512,
+     0.58678,
+     0.0
+    ]
+   ],
+   "half_extents_m": [
+    0.039536,
+    0.032305,
+    0.183072
+   ],
+   "bs_speed_mps": 4.0,
+   "bs_use_force": true,
+   "bs_force_divider": 3.0,
+   "bs_hard_stop": false,
+   "bs_disabled_by_default": false
+  },
+  {
+   "kind": "intake",
+   "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (3)[10]",
+   "enabled": true,
+   "center_isaac": [
+    0.364573,
+    -0.007268,
+    0.387251
+   ],
+   "axes_isaac_columns": [
+    [
+     0.99098,
+     -0.131284,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     0.134007,
+     0.991345,
+     0.0
+    ]
+   ],
+   "half_extents_m": [
+    0.064227,
+    0.033351,
+    0.276668
+   ],
+   "bs_speed_mps": 4.0,
+   "bs_use_force": true,
+   "bs_force_divider": 3.0,
+   "bs_hard_stop": false,
+   "bs_disabled_by_default": false
+  },
+  {
+   "kind": "transfer",
+   "path": "Legacy Robot/Body[0]/Physics[7]/Other[7]/BS Outtake (1)[0]",
+   "enabled": true,
+   "center_isaac": [
+    -0.225887,
+    -0.00813,
+    0.202481
+   ],
+   "axes_isaac_columns": [
+    [
+     0.999963,
+     0.008412,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     -0.00859,
+     0.999965,
+     0.0
+    ]
+   ],
+   "half_extents_m": [
+    0.048063,
+    0.009073,
+    0.228206
+   ],
+   "bs_speed_mps": 4.0,
+   "bs_use_force": true,
+   "bs_force_divider": 3.0,
+   "bs_hard_stop": true,
+   "bs_disabled_by_default": false
+  },
+  {
+   "kind": "transfer",
+   "path": "Legacy Robot/Body[0]/Physics[7]/Other[7]/BS Outtake (2)[1]",
+   "enabled": true,
+   "center_isaac": [
+    -0.329467,
+    -0.00813,
+    0.33992
+   ],
+   "axes_isaac_columns": [
+    [
+     0.303539,
+     0.950952,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     -0.952819,
+     0.30934,
+     0.0
+    ]
+   ],
+   "half_extents_m": [
+    0.05313,
+    0.010571,
+    0.228206
+   ],
+   "bs_speed_mps": 4.0,
+   "bs_use_force": true,
+   "bs_force_divider": 3.0,
+   "bs_hard_stop": true,
+   "bs_disabled_by_default": false
+  },
+  {
+   "kind": "indexer",
+   "path": "Legacy Robot/Body[0]/Physics[7]/Other[7]/indexer[2]",
+   "enabled": true,
+   "center_isaac": [
+    -0.071587,
+    0.01122,
+    0.208443
+   ],
+   "axes_isaac_columns": [
+    [
+     0.99614,
+     -0.085979,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     0.08778,
+     0.996297,
+     0.0
+    ]
+   ],
+   "half_extents_m": [
+    0.044736,
+    0.053348,
+    0.298413
+   ],
+   "bs_speed_mps": null
+  },
+  {
+   "kind": "shooter_feed",
+   "path": "Legacy Robot/Body[0]/Physics[7]/Shooter[9]/BS Outtake (3)[1]",
+   "enabled": true,
+   "center_isaac": [
+    -0.341687,
+    0.00304,
+    0.533723
+   ],
+   "axes_isaac_columns": [
+    [
+     -0.33509,
+     0.93903,
+     0.041239
+    ],
+    [
+     -0.027136,
+     0.033928,
+     -0.999045
+    ],
+    [
+     -0.941795,
+     -0.342157,
+     0.014411
+    ]
+   ],
+   "half_extents_m": [
+    0.039482,
+    0.007898,
+    0.210051
+   ],
+   "bs_speed_mps": 4.0,
+   "bs_use_force": true,
+   "bs_force_divider": 6.0,
+   "bs_hard_stop": true,
+   "bs_disabled_by_default": false
+  },
+  {
+   "kind": "muzzle",
+   "path": "Legacy Robot/Body[0]/Physics[7]/Shooter[9]/markball[2]",
+   "enabled": true,
+   "center_isaac": [
+    -0.303587,
+    -0.004941,
+    0.576265
+   ],
+   "axes_isaac_columns": [
+    [
+     -0.29366,
+     -0.954156,
+     -0.0
+    ],
+    [
+     -0.0,
+     -0.0,
+     1.0
+    ],
+    [
+     -0.95591,
+     0.299309,
+     -0.0
+    ]
+   ],
+   "half_extents_m": [
+    0.008672,
+    0.028246,
+    0.185191
+   ],
+   "bs_speed_mps": 4.0,
+   "bs_use_force": false,
+   "bs_force_divider": 1000.0,
+   "bs_hard_stop": false,
+   "bs_disabled_by_default": true
+  }
+ ],
+ "preloads_isaac": [
+  [
+   -0.038387,
+   0.17107,
+   0.283018
+  ],
+  [
+   -0.038387,
+   0.01437,
+   0.283018
+  ],
+  [
+   -0.038387,
+   -0.14063,
+   0.283018
+  ],
+  [
+   0.030213,
+   0.09437,
+   0.40256
+  ],
+  [
+   0.030213,
+   -0.07433,
+   0.40256
+  ],
+  [
+   0.156213,
+   0.17107,
+   0.340415
+  ],
+  [
+   0.156213,
+   0.01437,
+   0.340415
+  ],
+  [
+   0.156213,
+   -0.14063,
+   0.340415
+  ]
+ ],
+ "drive_params": {
+  "use_new_algorithm": 1,
+  "friction_static": 0.3499999940395355,
+  "friction_speed": 0.03999999910593033,
+  "orth_torque_scaler": 1.0,
+  "orth_friction_static": 0.3499999940395355,
+  "orth_friction_speed": 0.03999999910593033,
+  "min_ang_velocity": 2.0,
+  "apply_friction_clamp": 1,
+  "friction_clamp_safety": 0.8999999761581421,
+  "TankMotorScaler": 1.25,
+  "SixWheelMotorScaler": 1.25,
+  "turn_priority": 1.0,
+  "rot_inertia_scaler": 0.4000000059604645,
+  "is_FRC": 1,
+  "center_of_mass_unity_local": [
+   0.10000000149011612,
+   0.05000000074505806,
+   0.0
+  ]
+ },
+ "shooter": {
+  "power_law": "exit_speed_mps = 6 + 5*aim  (aim in [0,1])",
+  "angle_law": "BS Outtake (3) pitch_deg = 70.355276 - 20*aim",
+  "notes": "Decoded from the live legacy Robot_RapidUS prefab. Rotate the muzzle and BS Outtake (3) -local-X axis about the shooter pivot; world exit velocity adds chassis velocity."
+ },
+ "indexer_cooldown_s": 0.07000000029802322
+}

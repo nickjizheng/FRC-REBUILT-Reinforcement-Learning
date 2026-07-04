@@ -1,0 +1,326 @@
+[
+  {
+    "level": "level74",
+    "path": "ballReturn1",
+    "component_id": 6038,
+    "script": "WallBallReturn",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 231
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 798
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "ballReturn1 (1)",
+    "component_id": 6052,
+    "script": "WallBallReturn",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 273
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 798
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "Wharehouse Red/Reload",
+    "component_id": 6071,
+    "script": "OutpostReloader",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 329
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 1753
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "CenterGoal Blue/Physics/bs_out (4)",
+    "component_id": 6097,
+    "script": "ballshooting_v2",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 333
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 878
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "CenterGoal Blue/Physics/bs_out (2)",
+    "component_id": 6085,
+    "script": "ballshooting_v2",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 369
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 878
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "CenterGoal Blue/Physics/MarkBall",
+    "component_id": 6108,
+    "script": "FlagGameElement",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 512
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 813
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "Wharehouse Red/Detector",
+    "component_id": 6072,
+    "script": "ReleaseBallDetector",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 581
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 164
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "CenterGoal Red/Physics/bs_out (4)",
+    "component_id": 6086,
+    "script": "ballshooting_v2",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 669
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 878
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "CenterGoal Red/Physics/bs_out (2)",
+    "component_id": 6101,
+    "script": "ballshooting_v2",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 709
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 878
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "CenterGoal Red/Physics/MarkBall",
+    "component_id": 6090,
+    "script": "FlagGameElement",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 868
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 813
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "CenterGoal Blue/Physics/bs_out (3)",
+    "component_id": 6082,
+    "script": "ballshooting_v2",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 1002
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 878
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "CenterGoal Red/Physics/bs_out (1)",
+    "component_id": 6075,
+    "script": "ballshooting_v2",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 1013
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 878
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "CenterGoal Red/Physics/bs_out (3)",
+    "component_id": 6107,
+    "script": "ballshooting_v2",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 1324
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 878
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "Wharehouse Blue/Detector",
+    "component_id": 6095,
+    "script": "ReleaseBallDetector",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 1339
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 164
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "CenterGoal Blue/Physics/bs_out (1)",
+    "component_id": 6063,
+    "script": "ballshooting_v2",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 1380
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 878
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level74",
+    "path": "Wharehouse Blue/Reload",
+    "component_id": 6093,
+    "script": "OutpostReloader",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 1611
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 1753
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level76",
+    "path": "Scorekeeper/RedGoal/Physics/redscorer",
+    "component_id": 902,
+    "script": "GE_Counter",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 47
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 363
+      },
+      "m_Name": ""
+    }
+  },
+  {
+    "level": "level76",
+    "path": "Scorekeeper/BlueGoal/Physics/bluescorer",
+    "component_id": 959,
+    "script": "GE_Counter",
+    "values": {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 123
+      },
+      "m_Enabled": 1,
+      "m_Script": {
+        "m_FileID": 1,
+        "m_PathID": 363
+      },
+      "m_Name": ""
+    }
+  }
+]

@@ -1,0 +1,675 @@
+{
+  "source_sequence": "CloseStorage(0.02) -> PassTrench -> StartStorage(0.99)",
+  "compact_position": 0.02,
+  "compact_top_m": 0.51,
+  "trench_clear_height_m": 0.5651499999999999,
+  "intake_stowed": true,
+  "compact_joint_positions": {
+    "intake_fold": -1.2559245824813843,
+    "horizontal_retract": -0.14499586820602417,
+    "vertical_lower": -0.20800000429153442,
+    "shooter_lower": -0.14000000059604645
+  },
+  "compact_preload_local_xyz": [
+    [
+      -0.19910000264644623,
+      -0.23250000178813934,
+      0.22259999811649323
+    ],
+    [
+      -0.19910000264644623,
+      -0.07750000059604645,
+      0.22259999811649323
+    ],
+    [
+      -0.19910000264644623,
+      0.07750000059604645,
+      0.22259999811649323
+    ],
+    [
+      -0.19910000264644623,
+      0.23250000178813934,
+      0.22259999811649323
+    ],
+    [
+      -0.29789999127388,
+      -0.23250000178813934,
+      0.3711000084877014
+    ],
+    [
+      -0.29789999127388,
+      -0.07750000059604645,
+      0.3711000084877014
+    ],
+    [
+      -0.29789999127388,
+      0.07750000059604645,
+      0.3711000084877014
+    ],
+    [
+      -0.2980000078678131,
+      0.23250000178813934,
+      0.3711000084877014
+    ]
+  ],
+  "entered_trench": true,
+  "end_position": [
+    -3.365410089492798,
+    -2.940314292907715,
+    0.0021427422761917114
+  ],
+  "max_robot_origin_z_m": 0.0033150315284729004,
+  "max_tilt_deg": 0.24532560438160667,
+  "retained_preloads": 8,
+  "feeder_staged": 8,
+  "scene_compact_height_m": 0.51,
+  "compact_collision_envelope_top_m": 0.533,
+  "xrc_roof_bottom_m": 0.591,
+  "minimum_envelope_clearance_m": 0.05468496847152704,
+  "stable_under_roof": true,
+  "dynamic_drive_completed": true,
+  "nearest_collision_pairs": [
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/CADMechanisms/HopperBase/Colliders/Wall_1",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.5427,
+        -3.2931,
+        0.362
+      ],
+      "robot_max": [
+        -3.4678,
+        -2.5722,
+        0.5022
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/CADMechanisms/HopperBase/Colliders/Wall_2",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.4972,
+        -2.6343,
+        0.147
+      ],
+      "robot_max": [
+        -2.8362,
+        -2.5626,
+        0.5021
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/CADMechanisms/HopperBase/Colliders/Wall_3",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.5353,
+        -3.3373,
+        0.1472
+      ],
+      "robot_max": [
+        -2.8742,
+        -3.2656,
+        0.5023
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/CADMechanisms/HopperBase/Colliders/Roller_00",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.6577,
+        -3.1976,
+        0.123
+      ],
+      "robot_max": [
+        -3.5962,
+        -2.6506,
+        0.1552
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/CADMechanisms/HopperBase/Colliders/Roller_01",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.6028,
+        -3.2006,
+        0.115
+      ],
+      "robot_max": [
+        -3.5413,
+        -2.6536,
+        0.1472
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/CADMechanisms/HopperBase/Colliders/Roller_02",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.3651,
+        -3.2134,
+        0.1981
+      ],
+      "robot_max": [
+        -3.3036,
+        -2.6665,
+        0.2302
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/CADMechanisms/HopperBase/Colliders/Roller_03",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.2992,
+        -3.217,
+        0.2091
+      ],
+      "robot_max": [
+        -3.2377,
+        -2.67,
+        0.2412
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/CADMechanisms/HopperBase/Colliders/Roller_04",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.2323,
+        -3.2206,
+        0.2191
+      ],
+      "robot_max": [
+        -3.1708,
+        -2.6737,
+        0.2512
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/CADMechanisms/HopperBase/Colliders/FeederTunnelFloor",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.7183,
+        -3.2725,
+        0.123
+      ],
+      "robot_max": [
+        -3.4818,
+        -2.5827,
+        0.1352
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C00",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1955,
+        -3.3014,
+        0.4927
+      ],
+      "robot_max": [
+        -3.1616,
+        -3.1834,
+        0.5363
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C01",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1892,
+        -3.1849,
+        0.4849
+      ],
+      "robot_max": [
+        -3.1553,
+        -3.0669,
+        0.5268
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C02",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1829,
+        -3.0684,
+        0.4814
+      ],
+      "robot_max": [
+        -3.149,
+        -2.9504,
+        0.5198
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C03",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1765,
+        -2.9519,
+        0.4814
+      ],
+      "robot_max": [
+        -3.1426,
+        -2.8339,
+        0.5198
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C04",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1702,
+        -2.8354,
+        0.4848
+      ],
+      "robot_max": [
+        -3.1363,
+        -2.7174,
+        0.5267
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C05",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1639,
+        -2.7189,
+        0.4926
+      ],
+      "robot_max": [
+        -3.13,
+        -2.6009,
+        0.5361
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C06",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1679,
+        -3.3029,
+        0.4864
+      ],
+      "robot_max": [
+        -3.134,
+        -3.1849,
+        0.5283
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C07",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1616,
+        -3.1864,
+        0.475
+      ],
+      "robot_max": [
+        -3.1277,
+        -3.0684,
+        0.5228
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C08",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1553,
+        -3.0699,
+        0.47
+      ],
+      "robot_max": [
+        -3.1214,
+        -2.9519,
+        0.5149
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C09",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.149,
+        -2.9534,
+        0.4699
+      ],
+      "robot_max": [
+        -3.115,
+        -2.8354,
+        0.5148
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C10",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1426,
+        -2.8369,
+        0.475
+      ],
+      "robot_max": [
+        -3.1087,
+        -2.7189,
+        0.5227
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C11",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1363,
+        -2.7204,
+        0.4862
+      ],
+      "robot_max": [
+        -3.1024,
+        -2.6024,
+        0.5282
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C12",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1403,
+        -3.3044,
+        0.4845
+      ],
+      "robot_max": [
+        -3.1064,
+        -3.1864,
+        0.5229
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C13",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.134,
+        -3.1879,
+        0.4715
+      ],
+      "robot_max": [
+        -3.1001,
+        -3.0699,
+        0.5164
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    },
+    {
+      "distance_m": 0.0,
+      "robot": "/World/Robot/CompetitionRobot/chassis/NetCollisionCompact/C14",
+      "field": "/World/FieldCollision",
+      "robot_min": [
+        -3.1277,
+        -3.0714,
+        0.4657
+      ],
+      "robot_max": [
+        -3.0938,
+        -2.9534,
+        0.5051
+      ],
+      "field_min": [
+        -4.2134,
+        -9.2611,
+        -0.998
+      ],
+      "field_max": [
+        4.1309,
+        9.2611,
+        3.0617
+      ]
+    }
+  ],
+  "roof_overlaps": [],
+  "passed": true
+}

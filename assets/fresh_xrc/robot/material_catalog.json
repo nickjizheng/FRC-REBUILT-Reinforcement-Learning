@@ -1,0 +1,452 @@
+[
+  {
+    "source": {
+      "key": "resources.assets:101",
+      "asset_file": "resources.assets",
+      "path_id": 101,
+      "type": "Material"
+    },
+    "name": "MetallicBlack",
+    "file": "materials/resources.assets_101_MetallicBlack.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:112",
+      "asset_file": "resources.assets",
+      "path_id": 112,
+      "type": "Material"
+    },
+    "name": "YellowSmooth",
+    "file": "materials/resources.assets_112_YellowSmooth.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:121",
+      "asset_file": "resources.assets",
+      "path_id": 121,
+      "type": "Material"
+    },
+    "name": "YellowSmooth",
+    "file": "materials/resources.assets_121_YellowSmooth.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:125",
+      "asset_file": "resources.assets",
+      "path_id": 125,
+      "type": "Material"
+    },
+    "name": "Aluminum 1",
+    "file": "materials/resources.assets_125_Aluminum_1.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:138",
+      "asset_file": "resources.assets",
+      "path_id": 138,
+      "type": "Material"
+    },
+    "name": "AluminumReal",
+    "file": "materials/resources.assets_138_AluminumReal.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:139",
+      "asset_file": "resources.assets",
+      "path_id": 139,
+      "type": "Material"
+    },
+    "name": "Aluminum_textured",
+    "file": "materials/resources.assets_139_Aluminum_textured.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:142",
+      "asset_file": "resources.assets",
+      "path_id": 142,
+      "type": "Material"
+    },
+    "name": "Belt",
+    "file": "materials/resources.assets_142_Belt.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:153",
+      "asset_file": "resources.assets",
+      "path_id": 153,
+      "type": "Material"
+    },
+    "name": "MechanumRollers",
+    "file": "materials/resources.assets_153_MechanumRollers.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:180",
+      "asset_file": "resources.assets",
+      "path_id": 180,
+      "type": "Material"
+    },
+    "name": "green",
+    "file": "materials/resources.assets_180_green.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:188",
+      "asset_file": "resources.assets",
+      "path_id": 188,
+      "type": "Material"
+    },
+    "name": "gobuilda_aluminum",
+    "file": "materials/resources.assets_188_gobuilda_aluminum.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:189",
+      "asset_file": "resources.assets",
+      "path_id": 189,
+      "type": "Material"
+    },
+    "name": "hex_end",
+    "file": "materials/resources.assets_189_hex_end.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:191",
+      "asset_file": "resources.assets",
+      "path_id": 191,
+      "type": "Material"
+    },
+    "name": "Al1Hole_53",
+    "file": "materials/resources.assets_191_Al1Hole_53.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:193",
+      "asset_file": "resources.assets",
+      "path_id": 193,
+      "type": "Material"
+    },
+    "name": "Al2Hole_53",
+    "file": "materials/resources.assets_193_Al2Hole_53.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:194",
+      "asset_file": "resources.assets",
+      "path_id": 194,
+      "type": "Material"
+    },
+    "name": "AluminumOther1",
+    "file": "materials/resources.assets_194_AluminumOther1.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:213",
+      "asset_file": "resources.assets",
+      "path_id": 213,
+      "type": "Material"
+    },
+    "name": "BumperRed",
+    "file": "materials/resources.assets_213_BumperRed.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:24",
+      "asset_file": "resources.assets",
+      "path_id": 24,
+      "type": "Material"
+    },
+    "name": "Aluminum",
+    "file": "materials/resources.assets_24_Aluminum.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:294",
+      "asset_file": "resources.assets",
+      "path_id": 294,
+      "type": "Material"
+    },
+    "name": "greenPlasticMatte",
+    "file": "materials/resources.assets_294_greenPlasticMatte.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:297",
+      "asset_file": "resources.assets",
+      "path_id": 297,
+      "type": "Material"
+    },
+    "name": "yellowPlasticMatte",
+    "file": "materials/resources.assets_297_yellowPlasticMatte.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:299",
+      "asset_file": "resources.assets",
+      "path_id": 299,
+      "type": "Material"
+    },
+    "name": "LineGrey",
+    "file": "materials/resources.assets_299_LineGrey.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:304",
+      "asset_file": "resources.assets",
+      "path_id": 304,
+      "type": "Material"
+    },
+    "name": "Aluminum_CU",
+    "file": "materials/resources.assets_304_Aluminum_CU.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:313",
+      "asset_file": "resources.assets",
+      "path_id": 313,
+      "type": "Material"
+    },
+    "name": "bluesemicleardark",
+    "file": "materials/resources.assets_313_bluesemicleardark.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:329",
+      "asset_file": "resources.assets",
+      "path_id": 329,
+      "type": "Material"
+    },
+    "name": "CircleHole",
+    "file": "materials/resources.assets_329_CircleHole.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:330",
+      "asset_file": "resources.assets",
+      "path_id": 330,
+      "type": "Material"
+    },
+    "name": "wheelRim",
+    "file": "materials/resources.assets_330_wheelRim.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:334",
+      "asset_file": "resources.assets",
+      "path_id": 334,
+      "type": "Material"
+    },
+    "name": "wheelTread1",
+    "file": "materials/resources.assets_334_wheelTread1.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:335",
+      "asset_file": "resources.assets",
+      "path_id": 335,
+      "type": "Material"
+    },
+    "name": "BlackPlasticTextured2",
+    "file": "materials/resources.assets_335_BlackPlasticTextured2.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:373",
+      "asset_file": "resources.assets",
+      "path_id": 373,
+      "type": "Material"
+    },
+    "name": "BlackPlastic",
+    "file": "materials/resources.assets_373_BlackPlastic.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:379",
+      "asset_file": "resources.assets",
+      "path_id": 379,
+      "type": "Material"
+    },
+    "name": "LightGreyNoRefl",
+    "file": "materials/resources.assets_379_LightGreyNoRefl.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:382",
+      "asset_file": "resources.assets",
+      "path_id": 382,
+      "type": "Material"
+    },
+    "name": "Semi Clear Gloss Green",
+    "file": "materials/resources.assets_382_Semi_Clear_Gloss_Green.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:383",
+      "asset_file": "resources.assets",
+      "path_id": 383,
+      "type": "Material"
+    },
+    "name": "ballMaterial",
+    "file": "materials/resources.assets_383_ballMaterial.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:384",
+      "asset_file": "resources.assets",
+      "path_id": 384,
+      "type": "Material"
+    },
+    "name": "semiclearblack2",
+    "file": "materials/resources.assets_384_semiclearblack2.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:395",
+      "asset_file": "resources.assets",
+      "path_id": 395,
+      "type": "Material"
+    },
+    "name": "netgrid",
+    "file": "materials/resources.assets_395_netgrid.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:396",
+      "asset_file": "resources.assets",
+      "path_id": 396,
+      "type": "Material"
+    },
+    "name": "PurplePlastic",
+    "file": "materials/resources.assets_396_PurplePlastic.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:398",
+      "asset_file": "resources.assets",
+      "path_id": 398,
+      "type": "Material"
+    },
+    "name": "greenwheel",
+    "file": "materials/resources.assets_398_greenwheel.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:400",
+      "asset_file": "resources.assets",
+      "path_id": 400,
+      "type": "Material"
+    },
+    "name": "ruler_material",
+    "file": "materials/resources.assets_400_ruler_material.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:402",
+      "asset_file": "resources.assets",
+      "path_id": 402,
+      "type": "Material"
+    },
+    "name": "Brushed Metal 3",
+    "file": "materials/resources.assets_402_Brushed_Metal_3.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:425",
+      "asset_file": "resources.assets",
+      "path_id": 425,
+      "type": "Material"
+    },
+    "name": "Gloss_Green_Trans",
+    "file": "materials/resources.assets_425_Gloss_Green_Trans.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:452",
+      "asset_file": "resources.assets",
+      "path_id": 452,
+      "type": "Material"
+    },
+    "name": "Metal",
+    "file": "materials/resources.assets_452_Metal.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:509",
+      "asset_file": "resources.assets",
+      "path_id": 509,
+      "type": "Material"
+    },
+    "name": "Plastic - Glossy (White)",
+    "file": "materials/resources.assets_509_Plastic_-_Glossy_White.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:565",
+      "asset_file": "resources.assets",
+      "path_id": 565,
+      "type": "Material"
+    },
+    "name": "Gloss_Green",
+    "file": "materials/resources.assets_565_Gloss_Green.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:63",
+      "asset_file": "resources.assets",
+      "path_id": 63,
+      "type": "Material"
+    },
+    "name": "Plastic - Matte (Black)",
+    "file": "materials/resources.assets_63_Plastic_-_Matte_Black.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:83",
+      "asset_file": "resources.assets",
+      "path_id": 83,
+      "type": "Material"
+    },
+    "name": "BlackPlastic",
+    "file": "materials/resources.assets_83_BlackPlastic.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:84",
+      "asset_file": "resources.assets",
+      "path_id": 84,
+      "type": "Material"
+    },
+    "name": "TexturesCom_Metal_SteelRusted_512_albedo",
+    "file": "materials/resources.assets_84_TexturesCom_Metal_SteelRusted_512_albedo.json"
+  },
+  {
+    "source": {
+      "key": "resources.assets:93",
+      "asset_file": "resources.assets",
+      "path_id": 93,
+      "type": "Material"
+    },
+    "name": "Gloss Green",
+    "file": "materials/resources.assets_93_Gloss_Green.json"
+  },
+  {
+    "source": {
+      "key": "sharedassets0.assets:3",
+      "asset_file": "sharedassets0.assets",
+      "path_id": 3,
+      "type": "Material"
+    },
+    "name": "DS-DIGI SDF Material",
+    "file": "materials/sharedassets0.assets_3_DS-DIGI_SDF_Material.json"
+  },
+  {
+    "source": {
+      "key": "unity default resources:10100",
+      "asset_file": "unity default resources",
+      "path_id": 10100,
+      "type": "Material"
+    },
+    "name": "Font Material",
+    "file": "materials/unity_default_resources_10100_Font_Material.json"
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "hub_light_bars": 8,
+  "hub_light_source_triangles": 192,
+  "visual_groups": 16,
+  "visible_triangles": 108091,
+  "static_collision_triangles": 2556,
+  "fuel_bodies": 456,
+  "fuel_preload_pool": 48,
+  "fuel_total_xrc": 456,
+  "fuel_robot_preloaded": 8,
+  "fuel_field_at_start": 448,
+  "robot_name": "Competition Robot (Reference Robot CAD)",
+  "robot_visual_triangles": 1292887,
+  "robot_split_cad_mechanisms": true,
+  "robot_visual_vertices": 588676,
+  "robot_chassis_colliders": 112,
+  "robot_bumper_assemblies": 2,
+  "robot_bumper_collision_pads": 6,
+  "robot_bumper_zone_m": [
+    0.065,
+    0.14604999999999999
+  ],
+  "robot_bumper_continuous": true,
+  "robot_bumper_alliance": "blue",
+  "robot_bumper_profile": "front and rear C-shaped external soft assemblies",
+  "robot_storage_net": "folding triangular white side net + sloped black top net",
+  "robot_storage_motion": "reference-style four-bar compact -> raised horizontal carriage; intake below",
+  "robot_storage_height_m": [
+    0.51,
+    0.74
+  ],
+  "robot_trench_clearance_m": 0.5651499999999999,
+  "robot_wheels": 4,
+  "robot_mass_kg": 52.0,
+  "robot_articulated": true,
+  "robot_drive": "competition four-module swerve",
+  "robot_control": "calibrated shooter + moving-aim vector compensation",
+  "usd": null
+}

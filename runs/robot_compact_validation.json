@@ -1,0 +1,51 @@
+{
+  "compact_phase": "COMPACT",
+  "compact_joint_positions": {
+    "intake_fold": -1.232032786901982e-06,
+    "horizontal_retract": -6.6458746914577205e-06,
+    "vertical_lower": -0.002547831041738391,
+    "shooter_lower": -0.002562061185017228
+  },
+  "deployed_joint_positions": {
+    "intake_fold": -4.041635475005023e-05,
+    "horizontal_retract": -1.0428067980683409e-05,
+    "vertical_lower": -0.0025577854830771685,
+    "shooter_lower": -0.0025809272192418575
+  },
+  "retained_compact": 8,
+  "expected": {
+    "intake_fold": -1.2566370614359172,
+    "horizontal_retract": -0.145,
+    "vertical_lower": -0.208,
+    "shooter_lower": -0.14
+  },
+  "dof_names": [
+    "intake_fold",
+    "horizontal_retract",
+    "vertical_lower",
+    "shooter_lower",
+    "steer_front_left",
+    "steer_front_right",
+    "steer_back_left",
+    "steer_back_right",
+    "drive_front_left",
+    "drive_front_right",
+    "drive_back_left",
+    "drive_back_right"
+  ],
+  "applied_targets": [
+    -0.0,
+    -0.0,
+    -0.0,
+    -0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "passed": false
+}

@@ -1,0 +1,27 @@
+{
+    "captured_utc":  "2026-07-02T06:15:13.3319648Z",
+    "note":  "Accepted baseline snapshot preserved before Phase B implementation. Live Isaac validate_robot.py re-run deferred until GPU free (GUI PID 36464 running).",
+    "gpu":  "NVIDIA GeForce RTX 5080 Laptop GPU",
+    "gpu_driver":  "573.22",
+    "gpu_memory_mib":  16303,
+    "isaac_version":  "5.1.0.0",
+    "python_test_venv":  "py -3.12 (3.12.0)",
+    "isaac_venv":  "C:\\il\\venv",
+    "hashes":  {
+                   "src/xrc_rebuilt/robot_model.py":  "8BFDAFA2F3D51DCE",
+                   "src/xrc_rebuilt/isaac_scene.py":  "B9CE8057ACDC1916",
+                   "src/xrc_rebuilt/rules.py":  "8B0EA6BF8665AF97",
+                   "assets/rebuilt_legacy.usda":  "64795B851B73B1AD",
+                   "assets/fresh_xrc/robot/robot_spec.json":  "91EEF308A434D1A1",
+                   "assets/fresh_xrc/robot/hierarchy.json":  "C521A8B7E4BC732D",
+                   "assets/fresh_xrc/robot/components.json":  "BC2C4FC6A4F7A5BE"
+               },
+    "baseline_metrics":  {
+                             "top_speed_mps":  3.277,
+                             "yaw_rate_dps":  95.5,
+                             "intake":  "3/3",
+                             "blue_hub_shots":  "20/20",
+                             "magazine_slot_error_mm":  1.57,
+                             "pytest":  "28/28"
+                         }
+}

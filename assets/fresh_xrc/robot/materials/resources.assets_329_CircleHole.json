@@ -1,0 +1,389 @@
+{
+  "source": {
+    "key": "resources.assets:329",
+    "asset_file": "resources.assets",
+    "path_id": 329,
+    "type": "Material"
+  },
+  "name": "CircleHole",
+  "shader": {
+    "key": "resources.assets:3212",
+    "asset_file": "resources.assets",
+    "path_id": 3212,
+    "type": "Shader",
+    "name": ""
+  },
+  "render_queue": -1,
+  "string_tags": [],
+  "disabled_shader_passes": [
+    "DepthOnly",
+    "SHADOWCASTER"
+  ],
+  "colors": [
+    [
+      "_BaseColor",
+      {
+        "r": 0.3433961868286133,
+        "g": 0.3433961868286133,
+        "b": 0.3433961868286133,
+        "a": 1.0
+      }
+    ],
+    [
+      "_Color",
+      {
+        "r": 0.3433961868286133,
+        "g": 0.3433961868286133,
+        "b": 0.3433961868286133,
+        "a": 1.0
+      }
+    ],
+    [
+      "_EmissionColor",
+      {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 1.0
+      }
+    ],
+    [
+      "_SpecColor",
+      {
+        "r": 0.20000000298023224,
+        "g": 0.20000000298023224,
+        "b": 0.20000000298023224,
+        "a": 1.0
+      }
+    ]
+  ],
+  "floats": [
+    [
+      "_AlphaClip",
+      0.0
+    ],
+    [
+      "_Blend",
+      0.0
+    ],
+    [
+      "_BlendOp",
+      0.0
+    ],
+    [
+      "_BumpScale",
+      1.0
+    ],
+    [
+      "_ClearCoat",
+      0.0
+    ],
+    [
+      "_ClearCoatMask",
+      0.0
+    ],
+    [
+      "_ClearCoatSmoothness",
+      0.0
+    ],
+    [
+      "_Cull",
+      2.0
+    ],
+    [
+      "_Cutoff",
+      0.5
+    ],
+    [
+      "_DetailAlbedoMapScale",
+      1.0
+    ],
+    [
+      "_DetailNormalMapScale",
+      1.0
+    ],
+    [
+      "_DstBlend",
+      10.0
+    ],
+    [
+      "_EnvironmentReflections",
+      1.0
+    ],
+    [
+      "_GlossMapScale",
+      0.0
+    ],
+    [
+      "_Glossiness",
+      0.0
+    ],
+    [
+      "_GlossyReflections",
+      0.0
+    ],
+    [
+      "_Metallic",
+      0.0
+    ],
+    [
+      "_OcclusionStrength",
+      1.0
+    ],
+    [
+      "_Parallax",
+      0.004999999888241291
+    ],
+    [
+      "_QueueOffset",
+      0.0
+    ],
+    [
+      "_ReceiveShadows",
+      1.0
+    ],
+    [
+      "_Smoothness",
+      0.5
+    ],
+    [
+      "_SmoothnessTextureChannel",
+      0.0
+    ],
+    [
+      "_SpecularHighlights",
+      1.0
+    ],
+    [
+      "_SrcBlend",
+      5.0
+    ],
+    [
+      "_Surface",
+      1.0
+    ],
+    [
+      "_WorkflowMode",
+      1.0
+    ],
+    [
+      "_ZWrite",
+      0.0
+    ]
+  ],
+  "ints": [],
+  "textures": [
+    {
+      "slot": "_MainTex",
+      "texture": {
+        "key": "resources.assets:706",
+        "asset_file": "resources.assets",
+        "path_id": 706,
+        "type": "Texture2D"
+      },
+      "scale": {
+        "x": 5.699999809265137,
+        "y": 5.699999809265137
+      },
+      "offset": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  ],
+  "serialized": {
+    "m_Name": "CircleHole",
+    "m_Shader": {
+      "m_FileID": 0,
+      "m_PathID": 3212
+    },
+    "m_ValidKeywords": [],
+    "m_InvalidKeywords": [
+      "_SURFACE_TYPE_TRANSPARENT"
+    ],
+    "m_LightmapFlags": 4,
+    "m_EnableInstancingVariants": false,
+    "m_DoubleSidedGI": false,
+    "m_CustomRenderQueue": -1,
+    "stringTagMap": [],
+    "disabledShaderPasses": [
+      "DepthOnly",
+      "SHADOWCASTER"
+    ],
+    "m_SavedProperties": {
+      "m_TexEnvs": [
+        [
+          "_MainTex",
+          {
+            "m_Texture": {
+              "m_FileID": 0,
+              "m_PathID": 706
+            },
+            "m_Scale": {
+              "x": 5.699999809265137,
+              "y": 5.699999809265137
+            },
+            "m_Offset": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        ]
+      ],
+      "m_Ints": [],
+      "m_Floats": [
+        [
+          "_AlphaClip",
+          0.0
+        ],
+        [
+          "_Blend",
+          0.0
+        ],
+        [
+          "_BlendOp",
+          0.0
+        ],
+        [
+          "_BumpScale",
+          1.0
+        ],
+        [
+          "_ClearCoat",
+          0.0
+        ],
+        [
+          "_ClearCoatMask",
+          0.0
+        ],
+        [
+          "_ClearCoatSmoothness",
+          0.0
+        ],
+        [
+          "_Cull",
+          2.0
+        ],
+        [
+          "_Cutoff",
+          0.5
+        ],
+        [
+          "_DetailAlbedoMapScale",
+          1.0
+        ],
+        [
+          "_DetailNormalMapScale",
+          1.0
+        ],
+        [
+          "_DstBlend",
+          10.0
+        ],
+        [
+          "_EnvironmentReflections",
+          1.0
+        ],
+        [
+          "_GlossMapScale",
+          0.0
+        ],
+        [
+          "_Glossiness",
+          0.0
+        ],
+        [
+          "_GlossyReflections",
+          0.0
+        ],
+        [
+          "_Metallic",
+          0.0
+        ],
+        [
+          "_OcclusionStrength",
+          1.0
+        ],
+        [
+          "_Parallax",
+          0.004999999888241291
+        ],
+        [
+          "_QueueOffset",
+          0.0
+        ],
+        [
+          "_ReceiveShadows",
+          1.0
+        ],
+        [
+          "_Smoothness",
+          0.5
+        ],
+        [
+          "_SmoothnessTextureChannel",
+          0.0
+        ],
+        [
+          "_SpecularHighlights",
+          1.0
+        ],
+        [
+          "_SrcBlend",
+          5.0
+        ],
+        [
+          "_Surface",
+          1.0
+        ],
+        [
+          "_WorkflowMode",
+          1.0
+        ],
+        [
+          "_ZWrite",
+          0.0
+        ]
+      ],
+      "m_Colors": [
+        [
+          "_BaseColor",
+          {
+            "r": 0.3433961868286133,
+            "g": 0.3433961868286133,
+            "b": 0.3433961868286133,
+            "a": 1.0
+          }
+        ],
+        [
+          "_Color",
+          {
+            "r": 0.3433961868286133,
+            "g": 0.3433961868286133,
+            "b": 0.3433961868286133,
+            "a": 1.0
+          }
+        ],
+        [
+          "_EmissionColor",
+          {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+          }
+        ],
+        [
+          "_SpecColor",
+          {
+            "r": 0.20000000298023224,
+            "g": 0.20000000298023224,
+            "b": 0.20000000298023224,
+            "a": 1.0
+          }
+        ]
+      ]
+    },
+    "m_BuildTextureStacks": []
+  }
+}

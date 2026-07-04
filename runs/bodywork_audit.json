@@ -1,0 +1,8062 @@
+{
+  "summary": {
+    "roots": [
+      "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+      "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]",
+      "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]",
+      "Legacy Robot/Body[0]/Visuals[6]/Basket[7]",
+      "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]",
+      "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+    ],
+    "objects_audited": 254,
+    "active_enabled_meshrenderers_total": 234,
+    "of_which_visual_exported": 234,
+    "of_which_excluded_physics_or_preload": 0,
+    "containment_solid_colliders": {
+      "IntakeHopper[5]": 9,
+      "Body[6]": 11
+    }
+  },
+  "containment_solid_colliders": {
+    "IntakeHopper[5]": [
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/Cube (10)[0]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -1.20885,
+          1.95572,
+          1.63443
+        ],
+        "world_aabb_max_unity": [
+          -1.14854,
+          2.03581,
+          2.34054
+        ],
+        "world_size_m": [
+          0.06031,
+          0.08009,
+          0.7061
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/Cube (8)[3]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -1.34407,
+          1.94171,
+          1.61053
+        ],
+        "world_aabb_max_unity": [
+          -1.1703,
+          2.0604,
+          1.64258
+        ],
+        "world_size_m": [
+          0.17377,
+          0.11869,
+          0.03205
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/Cube (9)[4]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -1.32957,
+          1.94133,
+          2.33378
+        ],
+        "world_aabb_max_unity": [
+          -1.17084,
+          2.0501,
+          2.36368
+        ],
+        "world_size_m": [
+          0.15873,
+          0.10876,
+          0.0299
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/intake (12)[5]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -1.8435,
+          2.27913,
+          1.64139
+        ],
+        "world_aabb_max_unity": [
+          -1.23227,
+          2.34567,
+          2.32504
+        ],
+        "world_size_m": [
+          0.61122,
+          0.06654,
+          0.68366
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/intake (13)[6]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -1.85258,
+          2.00315,
+          2.31859
+        ],
+        "world_aabb_max_unity": [
+          -1.22807,
+          2.30154,
+          2.33762
+        ],
+        "world_size_m": [
+          0.62451,
+          0.29839,
+          0.01903
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/intake (14)[7]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -1.85258,
+          2.00315,
+          1.63861
+        ],
+        "world_aabb_max_unity": [
+          -1.22807,
+          2.30154,
+          1.65764
+        ],
+        "world_size_m": [
+          0.62451,
+          0.29839,
+          0.01903
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/Cube (12)[8]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -1.24884,
+          2.08963,
+          1.6533
+        ],
+        "world_aabb_max_unity": [
+          -1.22553,
+          2.33873,
+          2.31623
+        ],
+        "world_size_m": [
+          0.0233,
+          0.2491,
+          0.66294
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/intake (2)[11]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -1.84862,
+          1.89924,
+          1.65025
+        ],
+        "world_aabb_max_unity": [
+          -1.43557,
+          2.00542,
+          2.3112
+        ],
+        "world_size_m": [
+          0.41305,
+          0.10618,
+          0.66096
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/intake (1)[12]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -1.48856,
+          1.92956,
+          1.64664
+        ],
+        "world_aabb_max_unity": [
+          -1.41301,
+          2.00589,
+          2.32478
+        ],
+        "world_size_m": [
+          0.07554,
+          0.07634,
+          0.67814
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      }
+    ],
+    "Body[6]": [
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/intake (6)[0]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -2.0094,
+          1.84635,
+          1.72058
+        ],
+        "world_aabb_max_unity": [
+          -1.51276,
+          1.86779,
+          2.24734
+        ],
+        "world_size_m": [
+          0.49664,
+          0.02144,
+          0.52676
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (2)[1]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -2.16606,
+          1.97786,
+          1.97236
+        ],
+        "world_aabb_max_unity": [
+          -2.11584,
+          2.31217,
+          2.00524
+        ],
+        "world_size_m": [
+          0.05022,
+          0.33431,
+          0.03288
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube[2]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -2.20085,
+          1.847,
+          2.25602
+        ],
+        "world_aabb_max_unity": [
+          -1.39392,
+          1.97,
+          2.38918
+        ],
+        "world_size_m": [
+          0.80694,
+          0.12299,
+          0.13317
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (3)[3]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -2.20086,
+          1.847,
+          2.13239
+        ],
+        "world_aabb_max_unity": [
+          -2.1129,
+          1.97,
+          2.38919
+        ],
+        "world_size_m": [
+          0.08796,
+          0.12299,
+          0.25679
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (1)[4]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -2.20105,
+          1.847,
+          1.57842
+        ],
+        "world_aabb_max_unity": [
+          -1.39412,
+          1.97,
+          1.71158
+        ],
+        "world_size_m": [
+          0.80694,
+          0.12299,
+          0.13317
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (4)[5]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -2.20104,
+          1.847,
+          1.57842
+        ],
+        "world_aabb_max_unity": [
+          -2.11373,
+          1.97,
+          1.8146
+        ],
+        "world_size_m": [
+          0.08731,
+          0.12299,
+          0.23618
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (7)[6]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -2.15818,
+          1.847,
+          1.61059
+        ],
+        "world_aabb_max_unity": [
+          -2.06145,
+          1.97,
+          2.36707
+        ],
+        "world_size_m": [
+          0.09672,
+          0.12299,
+          0.75648
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (5)[7]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -2.135,
+          1.9395,
+          1.77744
+        ],
+        "world_aabb_max_unity": [
+          -2.09381,
+          2.33419,
+          1.82084
+        ],
+        "world_size_m": [
+          0.04119,
+          0.3947,
+          0.04339
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (6)[8]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -2.135,
+          1.9395,
+          2.1503
+        ],
+        "world_aabb_max_unity": [
+          -2.09381,
+          2.33419,
+          2.1937
+        ],
+        "world_size_m": [
+          0.04119,
+          0.3947,
+          0.04339
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (21)[9]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -2.12143,
+          1.95227,
+          1.7494
+        ],
+        "world_aabb_max_unity": [
+          -1.84734,
+          2.29359,
+          1.7666
+        ],
+        "world_size_m": [
+          0.2741,
+          0.34131,
+          0.0172
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      {
+        "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (22)[10]",
+        "renderer_enabled": false,
+        "type": "BoxCollider",
+        "is_trigger": false,
+        "enabled": true,
+        "center_local": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "world_aabb_min_unity": [
+          -2.12143,
+          1.95227,
+          2.211
+        ],
+        "world_aabb_max_unity": [
+          -1.84734,
+          2.29359,
+          2.2282
+        ],
+        "world_size_m": [
+          0.2741,
+          0.34131,
+          0.0172
+        ],
+        "size": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      }
+    ]
+  },
+  "objects": [
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.71712,
+        1.7737,
+        1.98774
+      ],
+      "world_pos_isaac": [
+        -1.71712,
+        -1.98774,
+        1.7737
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Belt[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Belt"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.01872,
+        2.03976,
+        1.74654
+      ],
+      "world_pos_isaac": [
+        -2.01872,
+        -1.74654,
+        2.03976
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Belt (5)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Belt"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.97413,
+        1.97672,
+        2.23314
+      ],
+      "world_pos_isaac": [
+        -1.97413,
+        -2.23314,
+        1.97672
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.71712,
+        1.7737,
+        1.98774
+      ],
+      "world_pos_isaac": [
+        -1.71712,
+        -1.98774,
+        1.7737
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate (1)[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.84012,
+        1.90678,
+        2.39614
+      ],
+      "world_pos_isaac": [
+        -1.84012,
+        -2.39614,
+        1.90678
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate (1)[0]/plate_roundEdge[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al1Hole_53",
+        "Al1Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.09913,
+        1.94003,
+        2.33828
+      ],
+      "world_pos_isaac": [
+        -2.09913,
+        -2.33828,
+        1.94003
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate (1)[0]/plate_roundEdge (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.09913,
+        1.90158,
+        2.31766
+      ],
+      "world_pos_isaac": [
+        -2.09913,
+        -2.31766,
+        1.90158
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate (1)[0]/plate_roundEdge (3)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al1Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.09842,
+        1.86414,
+        2.60769
+      ],
+      "world_pos_isaac": [
+        -2.09842,
+        -2.60769,
+        1.86414
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.72232,
+        1.90678,
+        1.57774
+      ],
+      "world_pos_isaac": [
+        -1.72232,
+        -1.57774,
+        1.90678
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate[1]/plate_roundEdge[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al1Hole_53",
+        "Al1Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.46268,
+        1.94003,
+        1.6356
+      ],
+      "world_pos_isaac": [
+        -1.46268,
+        -1.6356,
+        1.94003
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate[1]/plate_roundEdge (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.46267,
+        1.90158,
+        1.65622
+      ],
+      "world_pos_isaac": [
+        -1.46267,
+        -1.65622,
+        1.90158
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate[1]/plate_roundEdge (3)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al1Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.46339,
+        1.86414,
+        1.36619
+      ],
+      "world_pos_isaac": [
+        -1.46339,
+        -1.36619,
+        1.86414
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate2[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.72212,
+        1.90678,
+        1.63124
+      ],
+      "world_pos_isaac": [
+        -1.72212,
+        -1.63124,
+        1.90678
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate2[2]/plate_roundEdge[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al1Hole_53",
+        "Al1Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.46071,
+        1.94003,
+        1.70357
+      ],
+      "world_pos_isaac": [
+        -1.46071,
+        -1.70357,
+        1.94003
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate2[2]/plate_roundEdge (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.46071,
+        1.90158,
+        1.72934
+      ],
+      "world_pos_isaac": [
+        -1.46071,
+        -1.72934,
+        1.90158
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate2[2]/plate_roundEdge (3)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al1Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.46143,
+        1.86414,
+        1.38644
+      ],
+      "world_pos_isaac": [
+        -1.46143,
+        -1.38644,
+        1.86414
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate2 (1)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.84022,
+        1.90678,
+        2.34204
+      ],
+      "world_pos_isaac": [
+        -1.84022,
+        -2.34204,
+        1.90678
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate2 (1)[3]/plate_roundEdge[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al1Hole_53",
+        "Al1Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.10063,
+        1.94003,
+        2.26971
+      ],
+      "world_pos_isaac": [
+        -2.10063,
+        -2.26971,
+        1.94003
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate2 (1)[3]/plate_roundEdge (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.10063,
+        1.90158,
+        2.24394
+      ],
+      "world_pos_isaac": [
+        -2.10063,
+        -2.24394,
+        1.90158
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_SidePlate2 (1)[3]/plate_roundEdge (3)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al1Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.0999,
+        1.86414,
+        2.58684
+      ],
+      "world_pos_isaac": [
+        -2.0999,
+        -2.58684,
+        1.86414
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_EndPlate (1)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.47102,
+        1.91052,
+        1.99414
+      ],
+      "world_pos_isaac": [
+        -1.47102,
+        -1.99414,
+        1.91052
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_EndPlate (1)[4]/plate_roundEdge[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al2Hole_53",
+        "Al2Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.47352,
+        1.94377,
+        1.65117
+      ],
+      "world_pos_isaac": [
+        -1.47352,
+        -1.65117,
+        1.94377
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_EndPlate (1)[4]/plate_roundEdge (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.44762,
+        1.90224,
+        1.65117
+      ],
+      "world_pos_isaac": [
+        -1.44762,
+        -1.65117,
+        1.90224
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_EndPlate (1)[4]/plate_roundEdge (3)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al1Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.81012,
+        1.86146,
+        1.6521
+      ],
+      "world_pos_isaac": [
+        -1.81012,
+        -1.6521,
+        1.86146
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_EndPlate (2)[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.13292,
+        1.91052,
+        1.9773
+      ],
+      "world_pos_isaac": [
+        -2.13292,
+        -1.9773,
+        1.91052
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_EndPlate (2)[5]/plate_roundEdge[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al2Hole_53",
+        "Al2Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.13042,
+        1.94377,
+        2.32027
+      ],
+      "world_pos_isaac": [
+        -2.13042,
+        -2.32027,
+        1.94377
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_EndPlate (2)[5]/plate_roundEdge (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.15632,
+        1.90224,
+        2.32027
+      ],
+      "world_pos_isaac": [
+        -2.15632,
+        -2.32027,
+        1.90224
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/am_EndPlate (2)[5]/plate_roundEdge (3)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumOther1",
+        "Al1Hole_53"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.79382,
+        1.86146,
+        2.31934
+      ],
+      "world_pos_isaac": [
+        -1.79382,
+        -2.31934,
+        1.86146
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.71712,
+        1.7737,
+        1.98774
+      ],
+      "world_pos_isaac": [
+        -1.71712,
+        -1.98774,
+        1.7737
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (2)[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.69012,
+        1.8805,
+        1.68336
+      ],
+      "world_pos_isaac": [
+        -1.69012,
+        -1.68336,
+        1.8805
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (2)[0]/Physics[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.69012,
+        1.8805,
+        1.68336
+      ],
+      "world_pos_isaac": [
+        -1.69012,
+        -1.68336,
+        1.8805
+      ],
+      "colliders": [
+        {
+          "type": "CapsuleCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -8.940696716308594e-08
+          },
+          "world_aabb_min_unity": [
+            -1.69727,
+            1.87327,
+            1.63934
+          ],
+          "world_aabb_max_unity": [
+            -1.68297,
+            1.88773,
+            1.72738
+          ],
+          "world_size_m": [
+            0.0143,
+            0.01445,
+            0.08804
+          ],
+          "radius": 0.5000001192092896,
+          "height": 2.0,
+          "direction": 1
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (2)[0]/Visuals[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum_CU"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.69012,
+        1.8805,
+        1.82011
+      ],
+      "world_pos_isaac": [
+        -1.69012,
+        -1.82011,
+        1.8805
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (3)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.68982,
+        1.93224,
+        1.68622
+      ],
+      "world_pos_isaac": [
+        -1.68982,
+        -1.68622,
+        1.93224
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (3)[1]/Physics[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.68982,
+        1.93224,
+        1.68622
+      ],
+      "world_pos_isaac": [
+        -1.68982,
+        -1.68622,
+        1.93224
+      ],
+      "colliders": [
+        {
+          "type": "CapsuleCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -8.940696716308594e-08
+          },
+          "world_aabb_min_unity": [
+            -1.69697,
+            1.92501,
+            1.6422
+          ],
+          "world_aabb_max_unity": [
+            -1.68267,
+            1.93946,
+            1.73024
+          ],
+          "world_size_m": [
+            0.0143,
+            0.01445,
+            0.08804
+          ],
+          "radius": 0.5000001192092896,
+          "height": 2.0,
+          "direction": 1
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (3)[1]/Visuals[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum_CU"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.68982,
+        1.93224,
+        1.82297
+      ],
+      "world_pos_isaac": [
+        -1.68982,
+        -1.82297,
+        1.93224
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (4)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.90662,
+        1.91921,
+        1.68036
+      ],
+      "world_pos_isaac": [
+        -1.90662,
+        -1.68036,
+        1.91921
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (4)[2]/Physics[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.90662,
+        1.91921,
+        1.68036
+      ],
+      "world_pos_isaac": [
+        -1.90662,
+        -1.68036,
+        1.91921
+      ],
+      "colliders": [
+        {
+          "type": "CapsuleCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -8.940696716308594e-08
+          },
+          "world_aabb_min_unity": [
+            -1.91377,
+            1.91199,
+            1.63199
+          ],
+          "world_aabb_max_unity": [
+            -1.89947,
+            1.92644,
+            1.72873
+          ],
+          "world_size_m": [
+            0.0143,
+            0.01445,
+            0.09674
+          ],
+          "radius": 0.5000001192092896,
+          "height": 2.0,
+          "direction": 1
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (4)[2]/Visuals[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum_CU"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.90662,
+        1.91921,
+        1.83064
+      ],
+      "world_pos_isaac": [
+        -1.90662,
+        -1.83064,
+        1.91921
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (5)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.90552,
+        1.86747,
+        1.67969
+      ],
+      "world_pos_isaac": [
+        -1.90552,
+        -1.67969,
+        1.86747
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (5)[3]/Physics[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.90552,
+        1.86747,
+        1.67969
+      ],
+      "world_pos_isaac": [
+        -1.90552,
+        -1.67969,
+        1.86747
+      ],
+      "colliders": [
+        {
+          "type": "CapsuleCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -8.940696716308594e-08
+          },
+          "world_aabb_min_unity": [
+            -1.91267,
+            1.86025,
+            1.63132
+          ],
+          "world_aabb_max_unity": [
+            -1.89837,
+            1.8747,
+            1.72806
+          ],
+          "world_size_m": [
+            0.0143,
+            0.01445,
+            0.09674
+          ],
+          "radius": 0.5000001192092896,
+          "height": 2.0,
+          "direction": 1
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (5)[3]/Visuals[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum_CU"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.90552,
+        1.86747,
+        1.82997
+      ],
+      "world_pos_isaac": [
+        -1.90552,
+        -1.82997,
+        1.86747
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (6)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.68992,
+        1.91921,
+        2.28794
+      ],
+      "world_pos_isaac": [
+        -1.68992,
+        -2.28794,
+        1.91921
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (6)[4]/Physics[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.68992,
+        1.91921,
+        2.28794
+      ],
+      "world_pos_isaac": [
+        -1.68992,
+        -2.28794,
+        1.91921
+      ],
+      "colliders": [
+        {
+          "type": "CapsuleCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -8.940696716308594e-08
+          },
+          "world_aabb_min_unity": [
+            -1.69707,
+            1.91199,
+            2.24392
+          ],
+          "world_aabb_max_unity": [
+            -1.68277,
+            1.92644,
+            2.33196
+          ],
+          "world_size_m": [
+            0.0143,
+            0.01445,
+            0.08804
+          ],
+          "radius": 0.5000001192092896,
+          "height": 2.0,
+          "direction": 1
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (6)[4]/Visuals[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum_CU"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.68992,
+        1.91921,
+        2.42469
+      ],
+      "world_pos_isaac": [
+        -1.68992,
+        -2.42469,
+        1.91921
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (7)[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.90522,
+        1.86747,
+        2.29719
+      ],
+      "world_pos_isaac": [
+        -1.90522,
+        -2.29719,
+        1.86747
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (7)[5]/Physics[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.90522,
+        1.86747,
+        2.29719
+      ],
+      "world_pos_isaac": [
+        -1.90522,
+        -2.29719,
+        1.86747
+      ],
+      "colliders": [
+        {
+          "type": "CapsuleCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -8.940696716308594e-08
+          },
+          "world_aabb_min_unity": [
+            -1.91237,
+            1.86025,
+            2.24882
+          ],
+          "world_aabb_max_unity": [
+            -1.89807,
+            1.8747,
+            2.34556
+          ],
+          "world_size_m": [
+            0.0143,
+            0.01445,
+            0.09674
+          ],
+          "radius": 0.5000001192092896,
+          "height": 2.0,
+          "direction": 1
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (7)[5]/Visuals[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum_CU"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.90522,
+        1.86747,
+        2.44747
+      ],
+      "world_pos_isaac": [
+        -1.90522,
+        -2.44747,
+        1.86747
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (8)[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.68992,
+        1.86747,
+        2.28652
+      ],
+      "world_pos_isaac": [
+        -1.68992,
+        -2.28652,
+        1.86747
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (8)[6]/Physics[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.68992,
+        1.86747,
+        2.28652
+      ],
+      "world_pos_isaac": [
+        -1.68992,
+        -2.28652,
+        1.86747
+      ],
+      "colliders": [
+        {
+          "type": "CapsuleCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -8.940696716308594e-08
+          },
+          "world_aabb_min_unity": [
+            -1.69707,
+            1.86025,
+            2.2425
+          ],
+          "world_aabb_max_unity": [
+            -1.68277,
+            1.8747,
+            2.33054
+          ],
+          "world_size_m": [
+            0.0143,
+            0.01445,
+            0.08804
+          ],
+          "radius": 0.5000001192092896,
+          "height": 2.0,
+          "direction": 1
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (8)[6]/Visuals[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum_CU"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.68992,
+        1.86747,
+        2.42327
+      ],
+      "world_pos_isaac": [
+        -1.68992,
+        -2.42327,
+        1.86747
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (9)[7]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.90482,
+        1.91921,
+        2.29831
+      ],
+      "world_pos_isaac": [
+        -1.90482,
+        -2.29831,
+        1.91921
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (9)[7]/Physics[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.90482,
+        1.91921,
+        2.29831
+      ],
+      "world_pos_isaac": [
+        -1.90482,
+        -2.29831,
+        1.91921
+      ],
+      "colliders": [
+        {
+          "type": "CapsuleCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -8.940696716308594e-08
+          },
+          "world_aabb_min_unity": [
+            -1.91197,
+            1.91199,
+            2.24994
+          ],
+          "world_aabb_max_unity": [
+            -1.89767,
+            1.92644,
+            2.34668
+          ],
+          "world_size_m": [
+            0.0143,
+            0.01445,
+            0.09674
+          ],
+          "radius": 0.5000001192092896,
+          "height": 2.0,
+          "direction": 1
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Churros[6]/Churro (9)[7]/Visuals[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum_CU"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.90482,
+        1.91921,
+        2.44859
+      ],
+      "world_pos_isaac": [
+        -1.90482,
+        -2.44859,
+        1.91921
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (1)[7]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -2.01722,
+        1.87697,
+        1.71124
+      ],
+      "world_pos_isaac": [
+        -2.01722,
+        -1.71124,
+        1.87697
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (2)[8]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.78212,
+        1.87344,
+        1.70964
+      ],
+      "world_pos_isaac": [
+        -1.78212,
+        -1.70964,
+        1.87344
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (3)[9]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.57612,
+        1.87697,
+        1.70984
+      ],
+      "world_pos_isaac": [
+        -1.57612,
+        -1.70984,
+        1.87697
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (4)[10]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -2.01722,
+        1.87728,
+        2.26094
+      ],
+      "world_pos_isaac": [
+        -2.01722,
+        -2.26094,
+        1.87728
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (5)[11]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.78212,
+        1.87374,
+        2.26174
+      ],
+      "world_pos_isaac": [
+        -1.78212,
+        -2.26174,
+        1.87374
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (6)[12]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.57612,
+        1.87728,
+        2.26174
+      ],
+      "world_pos_isaac": [
+        -1.57612,
+        -2.26174,
+        1.87728
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cube[13]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.77412,
+        1.8798,
+        1.78334
+      ],
+      "world_pos_isaac": [
+        -1.77412,
+        -1.78334,
+        1.8798
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Motor (1)[14]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.74522,
+        1.90183,
+        1.85294
+      ],
+      "world_pos_isaac": [
+        -1.74522,
+        -1.85294,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder[15]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.74522,
+        1.90183,
+        1.85294
+      ],
+      "world_pos_isaac": [
+        -1.74522,
+        -1.85294,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder (1)[16]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.74502,
+        1.90193,
+        1.90978
+      ],
+      "world_pos_isaac": [
+        -1.74502,
+        -1.90978,
+        1.90193
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder (2)[17]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.74522,
+        1.90183,
+        1.8531
+      ],
+      "world_pos_isaac": [
+        -1.74522,
+        -1.8531,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Motor (2)[18]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.82282,
+        1.90183,
+        1.85294
+      ],
+      "world_pos_isaac": [
+        -1.82282,
+        -1.85294,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder[19]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.82282,
+        1.90183,
+        1.85294
+      ],
+      "world_pos_isaac": [
+        -1.82282,
+        -1.85294,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder (1)[20]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.82262,
+        1.90193,
+        1.90978
+      ],
+      "world_pos_isaac": [
+        -1.82262,
+        -1.90978,
+        1.90193
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder (2)[21]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.82282,
+        1.90183,
+        1.8531
+      ],
+      "world_pos_isaac": [
+        -1.82282,
+        -1.8531,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cube (1)[22]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.79392,
+        1.8798,
+        2.19284
+      ],
+      "world_pos_isaac": [
+        -1.79392,
+        -2.19284,
+        1.8798
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Belt (1)[23]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Belt"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.55692,
+        1.87788,
+        2.26024
+      ],
+      "world_pos_isaac": [
+        -1.55692,
+        -2.26024,
+        1.87788
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (7)[24]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "TexturesCom_Metal_SteelRusted_512_albedo"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.55852,
+        1.87778,
+        2.28951
+      ],
+      "world_pos_isaac": [
+        -1.55852,
+        -2.28951,
+        1.87778
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (8)[25]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "TexturesCom_Metal_SteelRusted_512_albedo"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.78242,
+        1.87778,
+        2.28951
+      ],
+      "world_pos_isaac": [
+        -1.78242,
+        -2.28951,
+        1.87778
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (9)[26]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "TexturesCom_Metal_SteelRusted_512_albedo"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.78302,
+        1.87778,
+        2.23384
+      ],
+      "world_pos_isaac": [
+        -1.78302,
+        -2.23384,
+        1.87778
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Belt (2)[27]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Belt"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.78301,
+        1.87788,
+        2.23387
+      ],
+      "world_pos_isaac": [
+        -1.78301,
+        -2.23387,
+        1.87788
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (10)[28]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "TexturesCom_Metal_SteelRusted_512_albedo"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -2.02042,
+        1.87778,
+        2.23384
+      ],
+      "world_pos_isaac": [
+        -2.02042,
+        -2.23384,
+        1.87778
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Belt (3)[29]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Belt"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.55692,
+        1.87738,
+        1.70844
+      ],
+      "world_pos_isaac": [
+        -1.55692,
+        -1.70844,
+        1.87738
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (11)[30]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "TexturesCom_Metal_SteelRusted_512_albedo"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.55852,
+        1.87748,
+        1.68814
+      ],
+      "world_pos_isaac": [
+        -1.55852,
+        -1.68814,
+        1.87748
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (12)[31]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "TexturesCom_Metal_SteelRusted_512_albedo"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.78242,
+        1.87748,
+        1.68814
+      ],
+      "world_pos_isaac": [
+        -1.78242,
+        -1.68814,
+        1.87748
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Belt (4)[32]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Belt"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.78301,
+        1.87738,
+        1.74378
+      ],
+      "world_pos_isaac": [
+        -1.78301,
+        -1.74378,
+        1.87738
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (13)[33]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "TexturesCom_Metal_SteelRusted_512_albedo"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.78302,
+        1.87748,
+        1.74381
+      ],
+      "world_pos_isaac": [
+        -1.78302,
+        -1.74381,
+        1.87748
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/axel (14)[34]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "TexturesCom_Metal_SteelRusted_512_albedo"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -2.02042,
+        1.87748,
+        1.74381
+      ],
+      "world_pos_isaac": [
+        -2.02042,
+        -1.74381,
+        1.87748
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Motor (3)[35]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.74522,
+        1.90183,
+        2.12324
+      ],
+      "world_pos_isaac": [
+        -1.74522,
+        -2.12324,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder[36]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.74522,
+        1.90183,
+        2.12324
+      ],
+      "world_pos_isaac": [
+        -1.74522,
+        -2.12324,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder (1)[37]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.74542,
+        1.90193,
+        2.0664
+      ],
+      "world_pos_isaac": [
+        -1.74542,
+        -2.0664,
+        1.90193
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder (2)[38]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.74522,
+        1.90183,
+        2.12308
+      ],
+      "world_pos_isaac": [
+        -1.74522,
+        -2.12308,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Motor (4)[39]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.82282,
+        1.90183,
+        2.12324
+      ],
+      "world_pos_isaac": [
+        -1.82282,
+        -2.12324,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder[40]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.82282,
+        1.90183,
+        2.12324
+      ],
+      "world_pos_isaac": [
+        -1.82282,
+        -2.12324,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder (1)[41]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.82302,
+        1.90193,
+        2.0664
+      ],
+      "world_pos_isaac": [
+        -1.82302,
+        -2.0664,
+        1.90193
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Chasis[2]/Cylinder (2)[42]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.82282,
+        1.90183,
+        2.12308
+      ],
+      "world_pos_isaac": [
+        -1.82282,
+        -2.12308,
+        1.90183
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hang[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.74102,
+        1.7737,
+        1.98774
+      ],
+      "world_pos_isaac": [
+        -1.74102,
+        -1.98774,
+        1.7737
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.66212,
+        1.7546,
+        1.99031
+      ],
+      "world_pos_isaac": [
+        -1.66212,
+        -1.99031,
+        1.7546
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/IntakeShaft1[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.20419,
+        1.95361,
+        1.97998
+      ],
+      "world_pos_isaac": [
+        -1.20419,
+        -1.97998,
+        1.95361
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/IntakeShaft1[0]/Cylinder[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlasticTextured2"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.20419,
+        1.95368,
+        1.9863
+      ],
+      "world_pos_isaac": [
+        -1.20419,
+        -1.9863,
+        1.95368
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/IntakeShaft1[0]/hex_shaft (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "gobuilda_aluminum"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.20419,
+        1.95361,
+        1.9844
+      ],
+      "world_pos_isaac": [
+        -1.20419,
+        -1.9844,
+        1.95361
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.45206,
+        2.04976,
+        2.3444
+      ],
+      "world_pos_isaac": [
+        -1.45206,
+        -2.3444,
+        2.04976
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel[1]/cut (3)[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.51726,
+        2.07335,
+        2.3507
+      ],
+      "world_pos_isaac": [
+        -1.51726,
+        -2.3507,
+        2.07335
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel[1]/cut (4)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.48412,
+        2.06236,
+        2.3507
+      ],
+      "world_pos_isaac": [
+        -1.48412,
+        -2.3507,
+        2.06236
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel[1]/cut (1)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.45065,
+        2.05127,
+        2.3507
+      ],
+      "world_pos_isaac": [
+        -1.45065,
+        -2.3507,
+        2.05127
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel[1]/cut (2)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.41751,
+        2.04028,
+        2.3507
+      ],
+      "world_pos_isaac": [
+        -1.41751,
+        -2.3507,
+        2.04028
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel[1]/cut (3)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.38436,
+        2.02928,
+        2.3507
+      ],
+      "world_pos_isaac": [
+        -1.38436,
+        -2.3507,
+        2.02928
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel[1]/cut (1)[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.35116,
+        2.01827,
+        2.3507
+      ],
+      "world_pos_isaac": [
+        -1.35116,
+        -2.3507,
+        2.01827
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel[1]/cut (2)[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.31802,
+        2.00727,
+        2.3507
+      ],
+      "world_pos_isaac": [
+        -1.31802,
+        -2.3507,
+        2.00727
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel[1]/cut (3)[7]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.28487,
+        1.99627,
+        2.3507
+      ],
+      "world_pos_isaac": [
+        -1.28487,
+        -2.3507,
+        1.99627
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel[1]/cut (4)[8]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.25172,
+        1.98528,
+        2.3507
+      ],
+      "world_pos_isaac": [
+        -1.25172,
+        -2.3507,
+        1.98528
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel[1]/endcap (1)[9]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1514",
+      "world_pos_unity": [
+        -1.20035,
+        1.96824,
+        2.3507
+      ],
+      "world_pos_isaac": [
+        -1.20035,
+        -2.3507,
+        1.96824
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (6)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.45089,
+        2.05328,
+        1.62966
+      ],
+      "world_pos_isaac": [
+        -1.45089,
+        -1.62966,
+        2.05328
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (6)[2]/cut (3)[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.51724,
+        2.07334,
+        1.62337
+      ],
+      "world_pos_isaac": [
+        -1.51724,
+        -1.62337,
+        2.07334
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (6)[2]/cut (4)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.4841,
+        2.06234,
+        1.62337
+      ],
+      "world_pos_isaac": [
+        -1.4841,
+        -1.62337,
+        2.06234
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (6)[2]/cut (1)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.45064,
+        2.05123,
+        1.62337
+      ],
+      "world_pos_isaac": [
+        -1.45064,
+        -1.62337,
+        2.05123
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (6)[2]/cut (2)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.41749,
+        2.04023,
+        1.62337
+      ],
+      "world_pos_isaac": [
+        -1.41749,
+        -1.62337,
+        2.04023
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (6)[2]/cut (3)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.38435,
+        2.02923,
+        1.62337
+      ],
+      "world_pos_isaac": [
+        -1.38435,
+        -1.62337,
+        2.02923
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (6)[2]/cut (1)[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.35115,
+        2.01823,
+        1.62337
+      ],
+      "world_pos_isaac": [
+        -1.35115,
+        -1.62337,
+        2.01823
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (6)[2]/cut (2)[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.318,
+        2.00723,
+        1.62337
+      ],
+      "world_pos_isaac": [
+        -1.318,
+        -1.62337,
+        2.00723
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (6)[2]/cut (3)[7]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.28486,
+        1.99623,
+        1.62337
+      ],
+      "world_pos_isaac": [
+        -1.28486,
+        -1.62337,
+        1.99623
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (6)[2]/cut (4)[8]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.25171,
+        1.98524,
+        1.62337
+      ],
+      "world_pos_isaac": [
+        -1.25171,
+        -1.62337,
+        1.98524
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (6)[2]/endcap (1)[9]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1514",
+      "world_pos_unity": [
+        -1.20034,
+        1.9682,
+        1.62337
+      ],
+      "world_pos_isaac": [
+        -1.20034,
+        -1.62337,
+        1.9682
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (3)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.47911,
+        2.07245,
+        1.64969
+      ],
+      "world_pos_isaac": [
+        -1.47911,
+        -1.64969,
+        2.07245
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (3)[3]/cut (1)[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.47727,
+        1.93198,
+        1.64339
+      ],
+      "world_pos_isaac": [
+        -1.47727,
+        -1.64339,
+        1.93198
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (3)[3]/cut (2)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.47727,
+        1.96724,
+        1.64339
+      ],
+      "world_pos_isaac": [
+        -1.47727,
+        -1.64339,
+        1.96724
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (3)[3]/cut (3)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.47727,
+        2.00249,
+        1.64339
+      ],
+      "world_pos_isaac": [
+        -1.47727,
+        -1.64339,
+        2.00249
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (3)[3]/cut (4)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.47727,
+        2.03774,
+        1.64339
+      ],
+      "world_pos_isaac": [
+        -1.47727,
+        -1.64339,
+        2.03774
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (4)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.46966,
+        2.07197,
+        2.32173
+      ],
+      "world_pos_isaac": [
+        -1.46966,
+        -2.32173,
+        2.07197
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (4)[4]/cut (1)[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.4715,
+        1.9315,
+        2.32803
+      ],
+      "world_pos_isaac": [
+        -1.4715,
+        -2.32803,
+        1.9315
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (4)[4]/cut (2)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.4715,
+        1.96676,
+        2.32803
+      ],
+      "world_pos_isaac": [
+        -1.4715,
+        -2.32803,
+        1.96676
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (4)[4]/cut (3)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.4715,
+        2.00202,
+        2.32803
+      ],
+      "world_pos_isaac": [
+        -1.4715,
+        -2.32803,
+        2.00202
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/channel (4)[4]/cut (4)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1515",
+      "world_pos_unity": [
+        -1.4715,
+        2.03726,
+        2.32803
+      ],
+      "world_pos_isaac": [
+        -1.4715,
+        -2.32803,
+        2.03726
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/Cylinder (5)[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Brushed Metal 3"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.47798,
+        2.05987,
+        1.63533
+      ],
+      "world_pos_isaac": [
+        -1.47798,
+        -1.63533,
+        2.05987
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]/Cylinder (6)[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Intake[4]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Brushed Metal 3"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.47587,
+        2.06133,
+        2.33823
+      ],
+      "world_pos_isaac": [
+        -1.47587,
+        -2.33823,
+        2.06133
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.71712,
+        1.7737,
+        1.99031
+      ],
+      "world_pos_isaac": [
+        -1.71712,
+        -1.99031,
+        1.7737
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "semiclearblack2"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.74618,
+        2.13546,
+        2.3259
+      ],
+      "world_pos_isaac": [
+        -1.74618,
+        -2.3259,
+        2.13546
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]/Cube (2)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "netgrid"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.74312,
+        2.31533,
+        2.10817
+      ],
+      "world_pos_isaac": [
+        -1.74312,
+        -2.10817,
+        2.31533
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]/Cube (1)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "semiclearblack2"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.74618,
+        2.13546,
+        1.643
+      ],
+      "world_pos_isaac": [
+        -1.74618,
+        -1.643,
+        2.13546
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]/Cube (3)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "semiclearblack2"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.84112,
+        2.13546,
+        1.64301
+      ],
+      "world_pos_isaac": [
+        -1.84112,
+        -1.64301,
+        2.13546
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]/Cube (4)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "semiclearblack2"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.84112,
+        2.13546,
+        2.32803
+      ],
+      "world_pos_isaac": [
+        -1.84112,
+        -2.32803,
+        2.13546
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]/Cube[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "semiclearblack2"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.42469,
+        1.98652,
+        1.98848
+      ],
+      "world_pos_isaac": [
+        -1.42469,
+        -1.98848,
+        1.98652
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]/Cube (1)[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "semiclearblack2"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.57965,
+        1.94144,
+        1.98854
+      ],
+      "world_pos_isaac": [
+        -1.57965,
+        -1.98854,
+        1.94144
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]/Cube (13)[7]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]",
+        "Legacy Robot/Body[0]/Visuals[6]/MainBody[3]/Hopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "semiclearblack2"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.22832,
+        2.19405,
+        1.97595
+      ],
+      "world_pos_isaac": [
+        -1.22832,
+        -1.97595,
+        2.19405
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.71712,
+        1.7737,
+        1.98774
+      ],
+      "world_pos_isaac": [
+        -1.71712,
+        -1.98774,
+        1.7737
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/kitbot frame part1[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1173",
+      "world_pos_unity": [
+        -2.08432,
+        2.19579,
+        2.01615
+      ],
+      "world_pos_isaac": [
+        -2.08432,
+        -2.01615,
+        2.19579
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/kitbot frame part1 (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": "resources.assets:1173",
+      "world_pos_unity": [
+        -2.08432,
+        2.19579,
+        1.95934
+      ],
+      "world_pos_isaac": [
+        -2.08432,
+        -1.95934,
+        2.19579
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Cube[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumReal"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.85887,
+        1.94959,
+        1.95695
+      ],
+      "world_pos_isaac": [
+        -1.85887,
+        -1.95695,
+        1.94959
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Cube (6)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumReal"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.03105,
+        1.91549,
+        2.01864
+      ],
+      "world_pos_isaac": [
+        -2.03105,
+        -2.01864,
+        1.91549
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Cube (4)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.09902,
+        2.1495,
+        1.76164
+      ],
+      "world_pos_isaac": [
+        -2.09902,
+        -1.76164,
+        2.1495
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Cube (5)[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.09902,
+        2.1495,
+        2.21624
+      ],
+      "world_pos_isaac": [
+        -2.09902,
+        -2.21624,
+        2.1495
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (5)[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.88822,
+        2.17204,
+        1.81894
+      ],
+      "world_pos_isaac": [
+        -1.88822,
+        -1.81894,
+        2.17204
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (5)[6]/Cylinder[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.88822,
+        2.17204,
+        1.8168
+      ],
+      "world_pos_isaac": [
+        -1.88822,
+        -1.8168,
+        2.17204
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (5)[6]/Cylinder (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.88802,
+        2.17214,
+        1.8715
+      ],
+      "world_pos_isaac": [
+        -1.88802,
+        -1.8715,
+        2.17214
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (5)[6]/Cylinder (3)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.88802,
+        2.17214,
+        1.75083
+      ],
+      "world_pos_isaac": [
+        -1.88802,
+        -1.75083,
+        2.17214
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (5)[6]/Cylinder (2)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.88822,
+        2.17204,
+        1.81695
+      ],
+      "world_pos_isaac": [
+        -1.88822,
+        -1.81695,
+        2.17204
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (5)[6]/Cylinder (4)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.88802,
+        2.17214,
+        1.73554
+      ],
+      "world_pos_isaac": [
+        -1.88802,
+        -1.73554,
+        2.17214
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (5)[6]/gear 25[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumReal"
+      ],
+      "mesh_key": "resources.assets:3088",
+      "world_pos_unity": [
+        -1.88821,
+        2.17206,
+        1.71934
+      ],
+      "world_pos_isaac": [
+        -1.88821,
+        -1.71934,
+        2.17206
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (6)[7]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.88822,
+        2.17204,
+        2.15544
+      ],
+      "world_pos_isaac": [
+        -1.88822,
+        -2.15544,
+        2.17204
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (6)[7]/Cylinder[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.88822,
+        2.17204,
+        2.15758
+      ],
+      "world_pos_isaac": [
+        -1.88822,
+        -2.15758,
+        2.17204
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (6)[7]/Cylinder (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.88842,
+        2.17214,
+        2.10288
+      ],
+      "world_pos_isaac": [
+        -1.88842,
+        -2.10288,
+        2.17214
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (6)[7]/Cylinder (3)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.88842,
+        2.17214,
+        2.22611
+      ],
+      "world_pos_isaac": [
+        -1.88842,
+        -2.22611,
+        2.17214
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (6)[7]/Cylinder (4)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum 1"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.88842,
+        2.17214,
+        2.23731
+      ],
+      "world_pos_isaac": [
+        -1.88842,
+        -2.23731,
+        2.17214
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Motor (6)[7]/Cylinder (2)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.88822,
+        2.17204,
+        2.15743
+      ],
+      "world_pos_isaac": [
+        -1.88822,
+        -2.15743,
+        2.17204
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Churro[8]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.07662,
+        2.14273,
+        1.99984
+      ],
+      "world_pos_isaac": [
+        -2.07662,
+        -1.99984,
+        2.14273
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Churro[8]/Visuals[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.07662,
+        2.14273,
+        2.69876
+      ],
+      "world_pos_isaac": [
+        -2.07662,
+        -2.69876,
+        2.14273
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Churro[8]/Cylinder[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "yellowPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -2.07662,
+        2.14273,
+        1.98834
+      ],
+      "world_pos_isaac": [
+        -2.07662,
+        -1.98834,
+        2.14273
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Churro (1)[9]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.09802,
+        2.20862,
+        1.99724
+      ],
+      "world_pos_isaac": [
+        -2.09802,
+        -1.99724,
+        2.20862
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Churro (1)[9]/Visuals[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.09802,
+        2.20862,
+        2.69616
+      ],
+      "world_pos_isaac": [
+        -2.09802,
+        -2.69616,
+        2.20862
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Churro (1)[9]/Cylinder[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "yellowPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -2.09802,
+        2.20862,
+        1.98574
+      ],
+      "world_pos_isaac": [
+        -2.09802,
+        -1.98574,
+        2.20862
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Churro (2)[10]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.09072,
+        2.27855,
+        1.99724
+      ],
+      "world_pos_isaac": [
+        -2.09072,
+        -1.99724,
+        2.27855
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Churro (2)[10]/Visuals[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "MetallicBlack"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.09072,
+        2.27855,
+        2.69616
+      ],
+      "world_pos_isaac": [
+        -2.09072,
+        -2.69616,
+        2.27855
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Churro (2)[10]/Cylinder[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "yellowPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -2.09072,
+        2.27855,
+        1.98574
+      ],
+      "world_pos_isaac": [
+        -2.09072,
+        -1.98574,
+        2.27855
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Churro (3)[11]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.85912,
+        2.20589,
+        1.99724
+      ],
+      "world_pos_isaac": [
+        -1.85912,
+        -1.99724,
+        2.20589
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/Churro (3)[11]/Visuals[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Aluminum_CU"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.85912,
+        2.20589,
+        2.69616
+      ],
+      "world_pos_isaac": [
+        -1.85912,
+        -2.69616,
+        2.20589
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.95962,
+        1.96438,
+        1.98914
+      ],
+      "world_pos_isaac": [
+        -1.95962,
+        -1.98914,
+        1.96438
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/DUO Compliant wheel[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -1.95962,
+        1.96438,
+        2.12194
+      ],
+      "world_pos_isaac": [
+        -1.95962,
+        -2.12194,
+        1.96438
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/DUO Compliant wheel[0]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.95387,
+        1.98619,
+        2.12136
+      ],
+      "world_pos_isaac": [
+        -1.95387,
+        -2.12136,
+        1.98619
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/DUO Compliant wheel (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -1.95962,
+        1.96438,
+        2.03304
+      ],
+      "world_pos_isaac": [
+        -1.95962,
+        -2.03304,
+        1.96438
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/DUO Compliant wheel (1)[1]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.96543,
+        1.98618,
+        2.03246
+      ],
+      "world_pos_isaac": [
+        -1.96543,
+        -2.03246,
+        1.98618
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/DUO Compliant wheel (2)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -1.95962,
+        1.96438,
+        1.94424
+      ],
+      "world_pos_isaac": [
+        -1.95962,
+        -1.94424,
+        1.96438
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/DUO Compliant wheel (2)[2]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.97544,
+        1.98032,
+        1.94366
+      ],
+      "world_pos_isaac": [
+        -1.97544,
+        -1.94366,
+        1.98032
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/DUO Compliant wheel (3)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -1.95962,
+        1.96438,
+        1.85544
+      ],
+      "world_pos_isaac": [
+        -1.95962,
+        -1.85544,
+        1.96438
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/DUO Compliant wheel (3)[3]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.98121,
+        1.9702,
+        1.85486
+      ],
+      "world_pos_isaac": [
+        -1.98121,
+        -1.85486,
+        1.9702
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/hex_shaft[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "gobuilda_aluminum"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.95962,
+        1.96438,
+        1.98914
+      ],
+      "world_pos_isaac": [
+        -1.95962,
+        -1.98914,
+        1.96438
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/hex_shaft[4]/Plane[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "hex_end"
+      ],
+      "mesh_key": "unity default resources:10209",
+      "world_pos_unity": [
+        -1.95962,
+        1.96438,
+        2.26737
+      ],
+      "world_pos_isaac": [
+        -1.95962,
+        -2.26737,
+        1.96438
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/hex_shaft[4]/Plane (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "hex_end"
+      ],
+      "mesh_key": "unity default resources:10209",
+      "world_pos_unity": [
+        -1.95962,
+        1.96438,
+        1.71086
+      ],
+      "world_pos_isaac": [
+        -1.95962,
+        -1.71086,
+        1.96438
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/UQ_wheel (2)[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "gobuilda_aluminum"
+      ],
+      "mesh_key": "resources.assets:1617",
+      "world_pos_unity": [
+        -1.95962,
+        1.96438,
+        2.23275
+      ],
+      "world_pos_isaac": [
+        -1.95962,
+        -2.23275,
+        1.96438
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/UQ_wheel (2)[5]/Cylinder[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "gobuilda_aluminum"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.95962,
+        1.96438,
+        2.23391
+      ],
+      "world_pos_isaac": [
+        -1.95962,
+        -2.23391,
+        1.96438
+      ],
+      "colliders": [
+        {
+          "type": "CapsuleCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -8.940696716308594e-08
+          },
+          "world_aabb_min_unity": [
+            -1.96798,
+            1.95594,
+            2.22403
+          ],
+          "world_aabb_max_unity": [
+            -1.95127,
+            1.97282,
+            2.24378
+          ],
+          "world_size_m": [
+            0.01671,
+            0.01689,
+            0.01976
+          ],
+          "radius": 0.5000001192092896,
+          "height": 2.0,
+          "direction": 1
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft1[12]/Cylinder[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "yellowPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.95962,
+        1.96438,
+        1.98863
+      ],
+      "world_pos_isaac": [
+        -1.95962,
+        -1.98863,
+        1.96438
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        1.98913
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -1.98913,
+        2.02713
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/hex_shaft (1)[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "gobuilda_aluminum"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        1.98913
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -1.98913,
+        2.02713
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/hex_shaft (1)[0]/Plane[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "hex_end"
+      ],
+      "mesh_key": "unity default resources:10209",
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        2.26736
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -2.26736,
+        2.02713
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/hex_shaft (1)[0]/Plane (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "hex_end"
+      ],
+      "mesh_key": "unity default resources:10209",
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        1.71085
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -1.71085,
+        2.02713
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Compliant wheel[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -2.03132,
+        2.02694,
+        2.12193
+      ],
+      "world_pos_isaac": [
+        -2.03132,
+        -2.12193,
+        2.02694
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Compliant wheel[1]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -2.02556,
+        2.04875,
+        2.12135
+      ],
+      "world_pos_isaac": [
+        -2.02556,
+        -2.12135,
+        2.04875
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Compliant wheel (1)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        2.03303
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -2.03303,
+        2.02713
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Compliant wheel (1)[2]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -2.03703,
+        2.04893,
+        2.03245
+      ],
+      "world_pos_isaac": [
+        -2.03703,
+        -2.03245,
+        2.04893
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Compliant wheel (2)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        1.94423
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -1.94423,
+        2.02713
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Compliant wheel (2)[3]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -2.04704,
+        2.04307,
+        1.94365
+      ],
+      "world_pos_isaac": [
+        -2.04704,
+        -1.94365,
+        2.04307
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Compliant wheel (3)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        1.85543
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -1.85543,
+        2.02713
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Compliant wheel (3)[4]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -2.05281,
+        2.03295,
+        1.85485
+      ],
+      "world_pos_isaac": [
+        -2.05281,
+        -1.85485,
+        2.03295
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/UQ_wheel (1)[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "gobuilda_aluminum"
+      ],
+      "mesh_key": "resources.assets:1617",
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        2.23274
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -2.23274,
+        2.02713
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/UQ_wheel (1)[5]/Cylinder[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "gobuilda_aluminum"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        2.23389
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -2.23389,
+        2.02713
+      ],
+      "colliders": [
+        {
+          "type": "CapsuleCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -8.940696716308594e-08
+          },
+          "world_aabb_min_unity": [
+            -2.03958,
+            2.01869,
+            2.22402
+          ],
+          "world_aabb_max_unity": [
+            -2.02287,
+            2.03558,
+            2.24377
+          ],
+          "world_size_m": [
+            0.01671,
+            0.01689,
+            0.01976
+          ],
+          "radius": 0.5000001192092896,
+          "height": 2.0,
+          "direction": 1
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/UQ_wheel[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "gobuilda_aluminum"
+      ],
+      "mesh_key": "resources.assets:1617",
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        1.74584
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -1.74584,
+        2.02713
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/UQ_wheel[6]/Cylinder[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "gobuilda_aluminum"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        1.74739
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -1.74739,
+        2.02713
+      ],
+      "colliders": [
+        {
+          "type": "CapsuleCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -8.940696716308594e-08
+          },
+          "world_aabb_min_unity": [
+            -2.04243,
+            2.01581,
+            1.73414
+          ],
+          "world_aabb_max_unity": [
+            -2.02001,
+            2.03846,
+            1.76064
+          ],
+          "world_size_m": [
+            0.02242,
+            0.02265,
+            0.0265
+          ],
+          "radius": 0.5000001192092896,
+          "height": 2.0,
+          "direction": 1
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/Cylinder[7]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "yellowPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -2.03122,
+        2.02713,
+        1.98862
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -1.98862,
+        2.02713
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Flap[8]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LightGreyNoRefl"
+      ],
+      "mesh_key": "resources.assets:1179",
+      "world_pos_unity": [
+        -2.03122,
+        2.02716,
+        2.01514
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -2.01514,
+        2.02716
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Flap (1)[9]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LightGreyNoRefl"
+      ],
+      "mesh_key": "resources.assets:1179",
+      "world_pos_unity": [
+        -2.03122,
+        2.02716,
+        1.92183
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -1.92183,
+        2.02716
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Flap (2)[10]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LightGreyNoRefl"
+      ],
+      "mesh_key": "resources.assets:1179",
+      "world_pos_unity": [
+        -2.03122,
+        2.02716,
+        2.11053
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -2.11053,
+        2.02716
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Flap (3)[11]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LightGreyNoRefl"
+      ],
+      "mesh_key": "resources.assets:1179",
+      "world_pos_unity": [
+        -2.03122,
+        2.02716,
+        1.83853
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -1.83853,
+        2.02716
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/IntakeShaft2[13]/DUO Flap (4)[12]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LightGreyNoRefl"
+      ],
+      "mesh_key": "resources.assets:1179",
+      "world_pos_unity": [
+        -2.03122,
+        2.02716,
+        2.20143
+      ],
+      "world_pos_isaac": [
+        -2.03122,
+        -2.20143,
+        2.02716
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.87842,
+        2.11111,
+        1.98913
+      ],
+      "world_pos_isaac": [
+        -1.87842,
+        -1.98913,
+        2.11111
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/DUO Flap[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LightGreyNoRefl"
+      ],
+      "mesh_key": "resources.assets:1179",
+      "world_pos_unity": [
+        -1.87843,
+        2.11113,
+        2.01514
+      ],
+      "world_pos_isaac": [
+        -1.87843,
+        -2.01514,
+        2.11113
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/DUO Flap (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LightGreyNoRefl"
+      ],
+      "mesh_key": "resources.assets:1179",
+      "world_pos_unity": [
+        -1.87842,
+        2.11113,
+        1.92633
+      ],
+      "world_pos_isaac": [
+        -1.87842,
+        -1.92633,
+        2.11113
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/DUO Flap (2)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LightGreyNoRefl"
+      ],
+      "mesh_key": "resources.assets:1179",
+      "world_pos_unity": [
+        -1.87842,
+        2.11113,
+        2.10083
+      ],
+      "world_pos_isaac": [
+        -1.87842,
+        -2.10083,
+        2.11113
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/hex_shaft (3)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "gobuilda_aluminum"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.87842,
+        2.11111,
+        1.97839
+      ],
+      "world_pos_isaac": [
+        -1.87842,
+        -1.97839,
+        2.11111
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/hex_shaft (3)[3]/Plane[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "hex_end"
+      ],
+      "mesh_key": "unity default resources:10209",
+      "world_pos_unity": [
+        -1.87842,
+        2.11111,
+        2.24588
+      ],
+      "world_pos_isaac": [
+        -1.87842,
+        -2.24588,
+        2.11111
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/hex_shaft (3)[3]/Plane (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "hex_end"
+      ],
+      "mesh_key": "unity default resources:10209",
+      "world_pos_unity": [
+        -1.87842,
+        2.11111,
+        1.71085
+      ],
+      "world_pos_isaac": [
+        -1.87842,
+        -1.71085,
+        2.11111
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/DUO Compliant wheel[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -1.87842,
+        2.11111,
+        2.12193
+      ],
+      "world_pos_isaac": [
+        -1.87842,
+        -2.12193,
+        2.11111
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/DUO Compliant wheel[4]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.87267,
+        2.13291,
+        2.12135
+      ],
+      "world_pos_isaac": [
+        -1.87267,
+        -2.12135,
+        2.13291
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/DUO Compliant wheel (1)[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -1.87842,
+        2.11111,
+        2.03303
+      ],
+      "world_pos_isaac": [
+        -1.87842,
+        -2.03303,
+        2.11111
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/DUO Compliant wheel (1)[5]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.88423,
+        2.1329,
+        2.03245
+      ],
+      "world_pos_isaac": [
+        -1.88423,
+        -2.03245,
+        2.1329
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/DUO Compliant wheel (2)[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -1.87842,
+        2.11111,
+        1.94423
+      ],
+      "world_pos_isaac": [
+        -1.87842,
+        -1.94423,
+        2.11111
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/DUO Compliant wheel (2)[6]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.89424,
+        2.12705,
+        1.94365
+      ],
+      "world_pos_isaac": [
+        -1.89424,
+        -1.94365,
+        2.12705
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/DUO Compliant wheel (3)[7]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "LineGrey"
+      ],
+      "mesh_key": "resources.assets:1456",
+      "world_pos_unity": [
+        -1.87842,
+        2.11111,
+        1.85543
+      ],
+      "world_pos_isaac": [
+        -1.87842,
+        -1.85543,
+        2.11111
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/DUO Compliant wheel (3)[7]/Cube[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.90001,
+        2.11692,
+        1.85485
+      ],
+      "world_pos_isaac": [
+        -1.90001,
+        -1.85485,
+        2.11692
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/InOutShaft3[14]/Cylinder[8]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "yellowPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.87842,
+        2.11111,
+        1.98862
+      ],
+      "world_pos_isaac": [
+        -1.87842,
+        -1.98862,
+        2.11111
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/OuttakeWheel[15]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.91532,
+        2.22964,
+        1.98913
+      ],
+      "world_pos_isaac": [
+        -1.91532,
+        -1.98913,
+        2.22964
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/OuttakeWheel[15]/hex_shaft (2)[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "gobuilda_aluminum"
+      ],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.91532,
+        2.22964,
+        1.97299
+      ],
+      "world_pos_isaac": [
+        -1.91532,
+        -1.97299,
+        2.22964
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/OuttakeWheel[15]/hex_shaft (2)[0]/Plane[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "hex_end"
+      ],
+      "mesh_key": "unity default resources:10209",
+      "world_pos_unity": [
+        -1.91532,
+        2.22964,
+        2.23508
+      ],
+      "world_pos_isaac": [
+        -1.91532,
+        -2.23508,
+        2.22964
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/OuttakeWheel[15]/hex_shaft (2)[0]/Plane (1)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": false,
+      "active_effective": false,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "hex_end"
+      ],
+      "mesh_key": "unity default resources:10209",
+      "world_pos_unity": [
+        -1.91532,
+        2.22964,
+        1.71086
+      ],
+      "world_pos_isaac": [
+        -1.91532,
+        -1.71086,
+        2.22964
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/OuttakeWheel[15]/wheel[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "Plastic - Matte (Black)"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.91532,
+        2.22964,
+        1.98746
+      ],
+      "world_pos_isaac": [
+        -1.91532,
+        -1.98746,
+        2.22964
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/OuttakeWheel[15]/wheel (1)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "BlackPlastic"
+      ],
+      "mesh_key": "unity default resources:10206",
+      "world_pos_unity": [
+        -1.91532,
+        2.22964,
+        1.98746
+      ],
+      "world_pos_isaac": [
+        -1.91532,
+        -1.98746,
+        2.22964
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Visuals[6]/Basket[7]/OuttakeWheel[15]/gear 25[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Visuals[6]/Basket[7]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": true,
+      "materials": [
+        "AluminumReal"
+      ],
+      "mesh_key": "resources.assets:3088",
+      "world_pos_unity": [
+        -1.91532,
+        2.22964,
+        1.71943
+      ],
+      "world_pos_isaac": [
+        -1.91532,
+        -1.71943,
+        2.22964
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.84418,
+        1.7737,
+        1.98937
+      ],
+      "world_pos_isaac": [
+        -1.84418,
+        -1.98937,
+        1.7737
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/Cube (10)[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.17869,
+        1.99577,
+        1.98749
+      ],
+      "world_pos_isaac": [
+        -1.17869,
+        -1.98749,
+        1.99577
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -1.20885,
+            1.95572,
+            1.63443
+          ],
+          "world_aabb_max_unity": [
+            -1.14854,
+            2.03581,
+            2.34054
+          ],
+          "world_size_m": [
+            0.06031,
+            0.08009,
+            0.7061
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (10)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Semi Clear Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.19601,
+        1.91424,
+        1.99418
+      ],
+      "world_pos_isaac": [
+        -1.19601,
+        -1.99418,
+        1.91424
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": true,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -4.76837158203125e-07
+          },
+          "world_aabb_min_unity": [
+            -1.22193,
+            1.90414,
+            1.72928
+          ],
+          "world_aabb_max_unity": [
+            -1.1701,
+            1.92435,
+            2.25909
+          ],
+          "world_size_m": [
+            0.05183,
+            0.02021,
+            0.52981
+          ],
+          "size": {
+            "x": 1.0000004768371582,
+            "y": 1.0,
+            "z": 1.0000004768371582
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (1)[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Semi Clear Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.35308,
+        1.91424,
+        1.98988
+      ],
+      "world_pos_isaac": [
+        -1.35308,
+        -1.98988,
+        1.91424
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": true,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -4.76837158203125e-07
+          },
+          "world_aabb_min_unity": [
+            -1.36308,
+            1.86969,
+            1.78238
+          ],
+          "world_aabb_max_unity": [
+            -1.34308,
+            1.95879,
+            2.19737
+          ],
+          "world_size_m": [
+            0.02,
+            0.0891,
+            0.41499
+          ],
+          "size": {
+            "x": 1.0000004768371582,
+            "y": 1.0,
+            "z": 1.0000004768371582
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/Cube (8)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.25718,
+        2.00105,
+        1.62655
+      ],
+      "world_pos_isaac": [
+        -1.25718,
+        -1.62655,
+        2.00105
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -1.34407,
+            1.94171,
+            1.61053
+          ],
+          "world_aabb_max_unity": [
+            -1.1703,
+            2.0604,
+            1.64258
+          ],
+          "world_size_m": [
+            0.17377,
+            0.11869,
+            0.03205
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/Cube (9)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.2502,
+        1.99572,
+        2.34873
+      ],
+      "world_pos_isaac": [
+        -1.2502,
+        -2.34873,
+        1.99572
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -1.32957,
+            1.94133,
+            2.33378
+          ],
+          "world_aabb_max_unity": [
+            -1.17084,
+            2.0501,
+            2.36368
+          ],
+          "world_size_m": [
+            0.15873,
+            0.10876,
+            0.0299
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/intake (12)[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "greenPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.53788,
+        2.3124,
+        1.98322
+      ],
+      "world_pos_isaac": [
+        -1.53788,
+        -1.98322,
+        2.3124
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -1.8435,
+            2.27913,
+            1.64139
+          ],
+          "world_aabb_max_unity": [
+            -1.23227,
+            2.34567,
+            2.32504
+          ],
+          "world_size_m": [
+            0.61122,
+            0.06654,
+            0.68366
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/intake (13)[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "greenPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.54032,
+        2.15234,
+        2.32811
+      ],
+      "world_pos_isaac": [
+        -1.54032,
+        -2.32811,
+        2.15234
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -1.85258,
+            2.00315,
+            2.31859
+          ],
+          "world_aabb_max_unity": [
+            -1.22807,
+            2.30154,
+            2.33762
+          ],
+          "world_size_m": [
+            0.62451,
+            0.29839,
+            0.01903
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/intake (14)[7]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "greenPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.54032,
+        2.15234,
+        1.64813
+      ],
+      "world_pos_isaac": [
+        -1.54032,
+        -1.64813,
+        2.15234
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -1.85258,
+            2.00315,
+            1.63861
+          ],
+          "world_aabb_max_unity": [
+            -1.22807,
+            2.30154,
+            1.65764
+          ],
+          "world_size_m": [
+            0.62451,
+            0.29839,
+            0.01903
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/Cube (12)[8]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.23718,
+        2.21418,
+        1.98477
+      ],
+      "world_pos_isaac": [
+        -1.23718,
+        -1.98477,
+        2.21418
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -1.24884,
+            2.08963,
+            1.6533
+          ],
+          "world_aabb_max_unity": [
+            -1.22553,
+            2.33873,
+            2.31623
+          ],
+          "world_size_m": [
+            0.0233,
+            0.2491,
+            0.66294
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (2)[9]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Semi Clear Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.33611,
+        2.02426,
+        2.00297
+      ],
+      "world_pos_isaac": [
+        -1.33611,
+        -2.00297,
+        2.02426
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": true,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -4.76837158203125e-07
+          },
+          "world_aabb_min_unity": [
+            -1.38515,
+            1.97307,
+            1.8199
+          ],
+          "world_aabb_max_unity": [
+            -1.28707,
+            2.07546,
+            2.18605
+          ],
+          "world_size_m": [
+            0.09808,
+            0.1024,
+            0.36614
+          ],
+          "size": {
+            "x": 1.0000004768371582,
+            "y": 1.0,
+            "z": 1.0000004768371582
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/BS intake (3)[10]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Semi Clear Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.34202,
+        2.18614,
+        1.99114
+      ],
+      "world_pos_isaac": [
+        -1.34202,
+        -1.99114,
+        2.18614
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": true,
+          "enabled": true,
+          "center_local": {
+            "x": 5.960464477539063e-08,
+            "y": 0.0,
+            "z": -4.76837158203125e-07
+          },
+          "world_aabb_min_unity": [
+            -1.41005,
+            2.14447,
+            1.71447
+          ],
+          "world_aabb_max_unity": [
+            -1.274,
+            2.2278,
+            2.26781
+          ],
+          "world_size_m": [
+            0.13605,
+            0.08334,
+            0.55334
+          ],
+          "size": {
+            "x": 1.0000004768371582,
+            "y": 1.0,
+            "z": 1.0000004768371582
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/intake (2)[11]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "greenPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.64209,
+        1.95233,
+        1.98072
+      ],
+      "world_pos_isaac": [
+        -1.64209,
+        -1.98072,
+        1.95233
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -1.84862,
+            1.89924,
+            1.65025
+          ],
+          "world_aabb_max_unity": [
+            -1.43557,
+            2.00542,
+            2.3112
+          ],
+          "world_size_m": [
+            0.41305,
+            0.10618,
+            0.66096
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]/intake (1)[12]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/IntakeHopper[5]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss_Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.45078,
+        1.96773,
+        1.98571
+      ],
+      "world_pos_isaac": [
+        -1.45078,
+        -1.98571,
+        1.96773
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -1.48856,
+            1.92956,
+            1.64664
+          ],
+          "world_aabb_max_unity": [
+            -1.41301,
+            2.00589,
+            2.32478
+          ],
+          "world_size_m": [
+            0.07554,
+            0.07634,
+            0.67814
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": false,
+      "renderer_enabled": false,
+      "materials": [],
+      "mesh_key": null,
+      "world_pos_unity": [
+        -1.84418,
+        1.7737,
+        1.987
+      ],
+      "world_pos_isaac": [
+        -1.84418,
+        -1.987,
+        1.7737
+      ],
+      "colliders": []
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/intake (6)[0]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "greenPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.76108,
+        1.85707,
+        1.98396
+      ],
+      "world_pos_isaac": [
+        -1.76108,
+        -1.98396,
+        1.85707
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -2.0094,
+            1.84635,
+            1.72058
+          ],
+          "world_aabb_max_unity": [
+            -1.51276,
+            1.86779,
+            2.24734
+          ],
+          "world_size_m": [
+            0.49664,
+            0.02144,
+            0.52676
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (2)[1]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "greenPlasticMatte"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -2.14095,
+        2.14502,
+        1.9888
+      ],
+      "world_pos_isaac": [
+        -2.14095,
+        -1.9888,
+        2.14502
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -2.16606,
+            1.97786,
+            1.97236
+          ],
+          "world_aabb_max_unity": [
+            -2.11584,
+            2.31217,
+            2.00524
+          ],
+          "world_size_m": [
+            0.05022,
+            0.33431,
+            0.03288
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube[2]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.79738,
+        1.9085,
+        2.3226
+      ],
+      "world_pos_isaac": [
+        -1.79738,
+        -2.3226,
+        1.9085
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -2.20085,
+            1.847,
+            2.25602
+          ],
+          "world_aabb_max_unity": [
+            -1.39392,
+            1.97,
+            2.38918
+          ],
+          "world_size_m": [
+            0.80694,
+            0.12299,
+            0.13317
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (3)[3]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -2.15688,
+        1.9085,
+        2.26079
+      ],
+      "world_pos_isaac": [
+        -2.15688,
+        -2.26079,
+        1.9085
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -2.20086,
+            1.847,
+            2.13239
+          ],
+          "world_aabb_max_unity": [
+            -2.1129,
+            1.97,
+            2.38919
+          ],
+          "world_size_m": [
+            0.08796,
+            0.12299,
+            0.25679
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (1)[4]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.79758,
+        1.9085,
+        1.645
+      ],
+      "world_pos_isaac": [
+        -1.79758,
+        -1.645,
+        1.9085
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -2.20105,
+            1.847,
+            1.57842
+          ],
+          "world_aabb_max_unity": [
+            -1.39412,
+            1.97,
+            1.71158
+          ],
+          "world_size_m": [
+            0.80694,
+            0.12299,
+            0.13317
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (4)[5]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -2.15738,
+        1.9085,
+        1.69651
+      ],
+      "world_pos_isaac": [
+        -2.15738,
+        -1.69651,
+        1.9085
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -2.20104,
+            1.847,
+            1.57842
+          ],
+          "world_aabb_max_unity": [
+            -2.11373,
+            1.97,
+            1.8146
+          ],
+          "world_size_m": [
+            0.08731,
+            0.12299,
+            0.23618
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (7)[6]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -2.10981,
+        1.9085,
+        1.98883
+      ],
+      "world_pos_isaac": [
+        -2.10981,
+        -1.98883,
+        1.9085
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -2.15818,
+            1.847,
+            1.61059
+          ],
+          "world_aabb_max_unity": [
+            -2.06145,
+            1.97,
+            2.36707
+          ],
+          "world_size_m": [
+            0.09672,
+            0.12299,
+            0.75648
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (5)[7]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -2.1144,
+        2.13684,
+        1.79914
+      ],
+      "world_pos_isaac": [
+        -2.1144,
+        -1.79914,
+        2.13684
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -2.135,
+            1.9395,
+            1.77744
+          ],
+          "world_aabb_max_unity": [
+            -2.09381,
+            2.33419,
+            1.82084
+          ],
+          "world_size_m": [
+            0.04119,
+            0.3947,
+            0.04339
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (6)[8]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -2.1144,
+        2.13684,
+        2.172
+      ],
+      "world_pos_isaac": [
+        -2.1144,
+        -2.172,
+        2.13684
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -2.135,
+            1.9395,
+            2.1503
+          ],
+          "world_aabb_max_unity": [
+            -2.09381,
+            2.33419,
+            2.1937
+          ],
+          "world_size_m": [
+            0.04119,
+            0.3947,
+            0.04339
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (21)[9]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Semi Clear Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.98438,
+        2.12293,
+        1.758
+      ],
+      "world_pos_isaac": [
+        -1.98438,
+        -1.758,
+        2.12293
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -2.12143,
+            1.95227,
+            1.7494
+          ],
+          "world_aabb_max_unity": [
+            -1.84734,
+            2.29359,
+            1.7666
+          ],
+          "world_size_m": [
+            0.2741,
+            0.34131,
+            0.0172
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Legacy Robot/Body[0]/Physics[7]/Body[6]/Cube (22)[10]",
+      "roots": [
+        "Legacy Robot/Body[0]/Physics[7]/Body[6]"
+      ],
+      "active_self": true,
+      "active_effective": true,
+      "has_renderer": true,
+      "renderer_enabled": false,
+      "materials": [
+        "Semi Clear Gloss Green"
+      ],
+      "mesh_key": "unity default resources:10202",
+      "world_pos_unity": [
+        -1.98438,
+        2.12293,
+        2.2196
+      ],
+      "world_pos_isaac": [
+        -1.98438,
+        -2.2196,
+        2.12293
+      ],
+      "colliders": [
+        {
+          "type": "BoxCollider",
+          "is_trigger": false,
+          "enabled": true,
+          "center_local": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "world_aabb_min_unity": [
+            -2.12143,
+            1.95227,
+            2.211
+          ],
+          "world_aabb_max_unity": [
+            -1.84734,
+            2.29359,
+            2.2282
+          ],
+          "world_size_m": [
+            0.2741,
+            0.34131,
+            0.0172
+          ],
+          "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "source_files": {
+    "full": {
+      "path": "reference_robot_full.stl",
+      "sha256": "f0299d200c010562dd587d79529240afe7c00920f6ba09457122734da3de25f3"
+    },
+    "full_hopper": {
+      "path": "Full_Hopper.stl",
+      "sha256": "c194f99469e177f05fe5b13c38bb53ce55dedf52aa004a725239174044ca5e5d"
+    },
+    "intake": {
+      "path": "Intake.stl",
+      "sha256": "d7e3e95a2501dd3f5fb128647ef85d2788f34d61c7f3cb65c61b76a5a4f3eab1"
+    },
+    "intake_power": {
+      "path": "Intake_Power.stl",
+      "sha256": "d52d8c80f21aec52d812465f2d46920c5017b523f67f1663069eff51a3eb405f"
+    },
+    "hopper_base": {
+      "path": "Hopper_Base_group.stl",
+      "sha256": "0533bf0b298013a5ce1700e6534d27ba5f7b1877bda7ee93bd4d369910452269"
+    },
+    "hopper_horizontal": {
+      "path": "Hopper_Horizontal_group.stl",
+      "sha256": "657dcc3cb56527a59c7811b8e99588f123a0fb507c0f783b841c98c4e8cbb61f"
+    },
+    "hopper_vertical": {
+      "path": "Hopper_Vertical_group.stl",
+      "sha256": "96a04066cfc75f098bb5f33d3b6287cb66473706433158dde2adb5380262e0bf"
+    }
+  },
+  "static_raw_faces": 1701555,
+  "removed_raw_faces": 1382775,
+  "groups": [
+    {
+      "name": "static_chassis",
+      "source_faces": 778550,
+      "runtime_faces": 778550,
+      "runtime_vertices": 387703,
+      "bounds_min": [
+        -0.5016207695007324,
+        -0.36768442392349243,
+        -0.00022087413526605815
+      ],
+      "bounds_max": [
+        0.3074907660484314,
+        0.36768442392349243,
+        0.5277330875396729
+      ]
+    },
+    {
+      "name": "hopper_base",
+      "source_faces": 227382,
+      "runtime_faces": 180000,
+      "runtime_vertices": 88749,
+      "bounds_min": [
+        -0.2813175916671753,
+        -0.3535250425338745,
+        0.03313073515892029
+      ],
+      "bounds_max": [
+        0.20433130860328674,
+        0.35899385809898376,
+        0.5010567307472229
+      ]
+    },
+    {
+      "name": "hopper_vertical",
+      "source_faces": 148232,
+      "runtime_faces": 99999,
+      "runtime_vertices": 48632,
+      "bounds_min": [
+        -0.2178543508052826,
+        -0.33784788846969604,
+        0.3169066905975342
+      ],
+      "bounds_max": [
+        0.1891791820526123,
+        0.3433167040348053,
+        0.7408327460289001
+      ]
+    },
+    {
+      "name": "intake",
+      "source_faces": 122762,
+      "runtime_faces": 122762,
+      "runtime_vertices": 63096,
+      "bounds_min": [
+        0.017729192972183228,
+        -0.36768442392349243,
+        0.03655937686562538
+      ],
+      "bounds_max": [
+        0.49816182255744934,
+        0.36171555519104004,
+        0.23551635444164276
+      ]
+    },
+    {
+      "name": "hopper_horizontal",
+      "source_faces": 39954,
+      "runtime_faces": 39954,
+      "runtime_vertices": 20424,
+      "bounds_min": [
+        -0.08155450969934464,
+        -0.3462197184562683,
+        0.1326969563961029
+      ],
+      "bounds_max": [
+        0.5016207695007324,
+        0.36171555519104004,
+        0.5328066945075989
+      ]
+    },
+    {
+      "name": "shooter_retract",
+      "source_faces": 71622,
+      "runtime_faces": 71622,
+      "runtime_vertices": 35719,
+      "bounds_min": [
+        -0.45208218693733215,
+        -0.34397560358047485,
+        0.38600224256515503
+      ],
+      "bounds_max": [
+        -0.21469056606292725,
+        0.33356940746307373,
+        0.6428549289703369
+      ]
+    }
+  ],
+  "transform": {
+    "robot_xyz": "(-source_y-OX, source_x-OY, source_z-GROUND_Z)"
+  }
+}

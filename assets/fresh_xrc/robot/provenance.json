@@ -1,0 +1,83 @@
+{
+  "extractor": "tools/export_legacy.py",
+  "root_name": "Legacy Robot",
+  "root": {
+    "key": "resources.assets:27216",
+    "asset_file": "resources.assets",
+    "path_id": 27216,
+    "type": "GameObject"
+  },
+  "unitypy_version": "1.25.0",
+  "unity_version": "6000.4.11f1",
+  "source_files": [
+    {
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-vision-driver\\vendor\\xrc\\app\\xRC Simulator_Data\\resources.assets",
+      "bytes": 57806876,
+      "sha256": "d046919fa319742d3ae6af6740850cdc4eda6baf9f41e0982f6b27f26b2feb16"
+    },
+    {
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-vision-driver\\vendor\\xrc\\app\\xRC Simulator_Data\\resources.assets.resS",
+      "bytes": 145920896,
+      "sha256": "a30f0539cec76d5515b8157641211d0312051559258ec06e7e4ad275336ea525"
+    },
+    {
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-vision-driver\\vendor\\xrc\\app\\xRC Simulator_Data\\globalgamemanagers.assets",
+      "bytes": 2147388,
+      "sha256": "bcae8cd61e43ffb93243eaeb7e2fbd3d9b682a06ce7d9a03bc5275bd1c8fc07f"
+    },
+    {
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-vision-driver\\vendor\\xrc\\app\\xRC Simulator_Data\\sharedassets0.assets",
+      "bytes": 58095744,
+      "sha256": "b627ae04deac9893cd3d03ccf1f11b489b20e933f66c48f5eed3f92acebc0312"
+    },
+    {
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-vision-driver\\vendor\\xrc\\app\\xRC Simulator_Data\\sharedassets0.assets.resS",
+      "bytes": 90486752,
+      "sha256": "7d1abd36756cbf6e054f24777adef111e15b11fffa88cfdb091ba27f2f6c9108"
+    },
+    {
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-vision-driver\\vendor\\xrc\\app\\xRC Simulator_Data\\Managed\\Assembly-CSharp.dll",
+      "bytes": 1374208,
+      "sha256": "a81d9c3b7d97dcdc1ab19b165e0750f6fb254d03aeeee07380e4127af92b3a96"
+    },
+    {
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-vision-driver\\vendor\\xrc\\app\\xRC Simulator_Data\\Managed\\Unity.ProBuilder.dll",
+      "bytes": 405504,
+      "sha256": "41603d2ca57568074115680c48f54ca3f04c78c38445661ba78f966c97641e74"
+    },
+    {
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-vision-driver\\vendor\\xrc\\app\\xRC Simulator_Data\\Managed\\Unity.TextMeshPro.dll",
+      "bytes": 446464,
+      "sha256": "864a3a20baf7f45ef02e79b71b72a9cdb03ca6b09695746b74dc40050c01c7b1"
+    }
+  ],
+  "counts": {
+    "descendant_game_objects_including_root": 490,
+    "components": 1548,
+    "components_by_type": {
+      "BoxCollider": 46,
+      "CapsuleCollider": 18,
+      "ConfigurableJoint": 11,
+      "MeshFilter": 402,
+      "MeshRenderer": 397,
+      "MonoBehaviour": 154,
+      "RectTransform": 2,
+      "Rigidbody": 23,
+      "SphereCollider": 6,
+      "TextMesh": 1,
+      "Transform": 488
+    },
+    "unique_meshes": 20,
+    "mesh_vertices": 26228,
+    "mesh_triangles": 17763,
+    "unique_materials": 45,
+    "unique_textures": 26,
+    "monobehaviours_complete": 93,
+    "monobehaviours_safe_prefix_plus_raw_remainder": 61
+  },
+  "coordinate_convention": {
+    "source": "Unity left-handed coordinates, +Y up, quaternion [x,y,z,w]",
+    "matrices": "row-major 4x4 matrices multiplying column vectors",
+    "world_scope": "Prefab asset space; root local transform is included."
+  }
+}

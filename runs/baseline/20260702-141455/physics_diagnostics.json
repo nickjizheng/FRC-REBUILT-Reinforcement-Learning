@@ -1,0 +1,52 @@
+{
+  "frames": 5709,
+  "sim_seconds": 22.836001084651798,
+  "fuel_count": 456,
+  "fuel_mean_displacement_m": 0.19676144421100616,
+  "fuel_moved_over_5cm": 44,
+  "fuel_height_range_m": [
+    0.07775890827178955,
+    0.9629049301147461
+  ],
+  "fuel_max_speed_mps": 0.4068600833415985,
+  "robot_displacement_m": 0.08884947746992111,
+  "robot_max_height_m": 0.009843021631240845,
+  "robot_start": [
+    [
+      1.5199998617172241,
+      -5.550000190734863,
+      0.009843021631240845
+    ]
+  ],
+  "robot_end": [
+    [
+      1.5998784303665161,
+      -5.511226177215576,
+      0.006646245718002319
+    ]
+  ],
+  "hub_detected": 10,
+  "hub_released": 10,
+  "hub_re_released": 0,
+  "hub_pending": 0,
+  "hub_mean_route_delay_s": 0.9528547310603454,
+  "hub_max_route_delay_s": 1.4208367763889478,
+  "magazine": 0,
+  "balls_collected": 0,
+  "shots_fired": 8,
+  "auto_aim": {
+    "alliance": "blue",
+    "aim": 0.1215,
+    "speed_mps": 6.6075,
+    "pitch_deg": 67.93237423693004,
+    "desired_yaw_rad": 2.216070044555822,
+    "range_m": 2.740093231201172,
+    "flight_time_s": 1.103788961001592,
+    "vertical_error_m": -0.0021953213432563956,
+    "valid": true,
+    "open_side": true,
+    "in_calibrated_range": true,
+    "yaw_error_deg": 0.20902637777438032,
+    "aligned": true
+  }
+}

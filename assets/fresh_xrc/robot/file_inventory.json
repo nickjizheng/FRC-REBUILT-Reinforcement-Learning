@@ -1,0 +1,487 @@
+[
+  {
+    "file": "components.json",
+    "bytes": 8435568,
+    "sha256": "bc2c4fc6a4f7a5be59e47fca92d9cc814b5ed976d4475d94f9f320c621052e14"
+  },
+  {
+    "file": "hierarchy.json",
+    "bytes": 1659768,
+    "sha256": "c521a8b7e4bc732d4d6c5f4bb5165bce9c42780b12d595047597af7de5500bf9"
+  },
+  {
+    "file": "material_catalog.json",
+    "bytes": 11266,
+    "sha256": "a3e617f1651139c4b1608eb85ec03c12e30b9afeff2fddfa8e9409c4cedc6b32"
+  },
+  {
+    "file": "materials/resources.assets_101_MetallicBlack.json",
+    "bytes": 14115,
+    "sha256": "99624f5e37421b10850c7896259eb0907b217857d89a84bccd1774bdd1f5b471"
+  },
+  {
+    "file": "materials/resources.assets_112_YellowSmooth.json",
+    "bytes": 15398,
+    "sha256": "df39d3af032c8880b02a615473e0e54f28f6c38c5e3748f3ea22f149bcbd2062"
+  },
+  {
+    "file": "materials/resources.assets_121_YellowSmooth.json",
+    "bytes": 15450,
+    "sha256": "b5b0b780f84e1866ed575e0ca15dd142280158d00b0e2278adc7967fcfba5080"
+  },
+  {
+    "file": "materials/resources.assets_125_Aluminum_1.json",
+    "bytes": 14295,
+    "sha256": "043a43336dd9b487f744533ddf5232bcd6b96b0d51b97e7b06a557747ef0aed9"
+  },
+  {
+    "file": "materials/resources.assets_138_AluminumReal.json",
+    "bytes": 13855,
+    "sha256": "a75a3fc3e9f672835b3c28ebf80f20fdfb84893c518507cf68d65edcfd23ecec"
+  },
+  {
+    "file": "materials/resources.assets_139_Aluminum_textured.json",
+    "bytes": 14311,
+    "sha256": "71fe38c6049fead079a162107705535582e044501c5120e4c1cecc5b81e2a291"
+  },
+  {
+    "file": "materials/resources.assets_142_Belt.json",
+    "bytes": 13764,
+    "sha256": "bb3c28d0474e92adf745c619a619a6ad77b43a43a527fe861ce6778ed39155db"
+  },
+  {
+    "file": "materials/resources.assets_153_MechanumRollers.json",
+    "bytes": 13649,
+    "sha256": "05affedfeb9da99363aa9d24b13fa8bbde7fd9d06f32564e9e15e7c84c19d731"
+  },
+  {
+    "file": "materials/resources.assets_180_green.json",
+    "bytes": 2819,
+    "sha256": "4e8ab5fe7080d361b5097495ab376c759dee29ef36f24149ce8d90c3e4edea39"
+  },
+  {
+    "file": "materials/resources.assets_188_gobuilda_aluminum.json",
+    "bytes": 13849,
+    "sha256": "e683d49de21d30cd11f01f2be339f13198a3e6b7f73dc831040e8d3eb1a45971"
+  },
+  {
+    "file": "materials/resources.assets_189_hex_end.json",
+    "bytes": 14236,
+    "sha256": "53a029097c66506ef56e375ed95a6798bd3fe0507843c642c7e6f3508084144c"
+  },
+  {
+    "file": "materials/resources.assets_191_Al1Hole_53.json",
+    "bytes": 14621,
+    "sha256": "e6b2155d5b5ce75efec939f9b494c19ca9672e5f93653494e16614ad38e65ed7"
+  },
+  {
+    "file": "materials/resources.assets_193_Al2Hole_53.json",
+    "bytes": 14653,
+    "sha256": "74d2f9bd9ed3d90773e9adc3909a9b2c7011609133c91d72fad56bc348f24c0f"
+  },
+  {
+    "file": "materials/resources.assets_194_AluminumOther1.json",
+    "bytes": 14035,
+    "sha256": "fe60955610f5e98d658bf67fbbe2f7255cd45dcdbf8280ccd192eca586ef494c"
+  },
+  {
+    "file": "materials/resources.assets_213_BumperRed.json",
+    "bytes": 13760,
+    "sha256": "6fd648cb96ac1bcc7e051a5660a88d69202840f23d9ba8f9697619c28d9163fe"
+  },
+  {
+    "file": "materials/resources.assets_24_Aluminum.json",
+    "bytes": 13457,
+    "sha256": "7081145d7029bb49e13592bb041752500d7134921d151f640698ec9f060fe4b2"
+  },
+  {
+    "file": "materials/resources.assets_294_greenPlasticMatte.json",
+    "bytes": 13873,
+    "sha256": "3badd99975711330326f7af97d9af814af4e7f7fe9ea176c3881fdd195b80cbc"
+  },
+  {
+    "file": "materials/resources.assets_297_yellowPlasticMatte.json",
+    "bytes": 13811,
+    "sha256": "a16c2aa4c9ad6e825cf261e2d9cbba72ec8e8c4abc61cc9e4ea62859b1457470"
+  },
+  {
+    "file": "materials/resources.assets_299_LineGrey.json",
+    "bytes": 13755,
+    "sha256": "62785841aaf6cd0609d9a2972293c39fbb83d1e07e31d2761751909894550e75"
+  },
+  {
+    "file": "materials/resources.assets_304_Aluminum_CU.json",
+    "bytes": 14020,
+    "sha256": "7a28bf867605516e0c49924ab572aad9841d5605d4be5d3f9350e243f079c759"
+  },
+  {
+    "file": "materials/resources.assets_313_bluesemicleardark.json",
+    "bytes": 13722,
+    "sha256": "cbe2e14c2fed6c147b125fffa7f37def85d14975a8bd3e0908a006c33db19582"
+  },
+  {
+    "file": "materials/resources.assets_329_CircleHole.json",
+    "bytes": 6266,
+    "sha256": "475a9c26df5b313c865dfd70e8ef6d5a2933b7246f4786da19c1befba6d5704c"
+  },
+  {
+    "file": "materials/resources.assets_330_wheelRim.json",
+    "bytes": 14648,
+    "sha256": "424bbcdb8c18a1e93f87389f7e4ebb907257b2ae1374d00bb38e8bd14b30f901"
+  },
+  {
+    "file": "materials/resources.assets_334_wheelTread1.json",
+    "bytes": 14317,
+    "sha256": "7050670fb1c00803ae92b4ed5da3facd317951033383efeec49feaa2912ad042"
+  },
+  {
+    "file": "materials/resources.assets_335_BlackPlasticTextured2.json",
+    "bytes": 14053,
+    "sha256": "7c91de862b2287536402b0b6ff2e639605e3a9510e5d15fb875e368ab5234298"
+  },
+  {
+    "file": "materials/resources.assets_373_BlackPlastic.json",
+    "bytes": 13671,
+    "sha256": "cebdfbbaa6c5fc014dc64957e39c6f52a71f3a16517a9009442d7a069beed1a1"
+  },
+  {
+    "file": "materials/resources.assets_379_LightGreyNoRefl.json",
+    "bytes": 13873,
+    "sha256": "8f59fe8f19f2bb4b7101833af76fdb46211125c264342ae9cc05ae0ef62221b9"
+  },
+  {
+    "file": "materials/resources.assets_382_Semi_Clear_Gloss_Green.json",
+    "bytes": 14007,
+    "sha256": "419f8c7f47f0b6d9f4827f44cd79432aaf40a08e3b8abe8461cc40f3786842ae"
+  },
+  {
+    "file": "materials/resources.assets_383_ballMaterial.json",
+    "bytes": 14526,
+    "sha256": "79e717672168f93a8ec2d0b7e1f9260f2a6be049579cd5054932c18a5f0f5870"
+  },
+  {
+    "file": "materials/resources.assets_384_semiclearblack2.json",
+    "bytes": 13891,
+    "sha256": "e3c65ca64e165d76914f679079dbbbf6b5fc6f7f7487bf3612901f577cdbe008"
+  },
+  {
+    "file": "materials/resources.assets_395_netgrid.json",
+    "bytes": 14032,
+    "sha256": "041b721999481dda73b0368c788df4660653423bba86561d3adc07c6b9f0431b"
+  },
+  {
+    "file": "materials/resources.assets_396_PurplePlastic.json",
+    "bytes": 13892,
+    "sha256": "6d2cb3c247ddbee573fe397259ba4d00a23ec35d45d238ae6047df9bab32d5a2"
+  },
+  {
+    "file": "materials/resources.assets_398_greenwheel.json",
+    "bytes": 13859,
+    "sha256": "71fe9f3cb084333778c677741e2c5f152bb5d13b1278b2cf7bedaa3446863e78"
+  },
+  {
+    "file": "materials/resources.assets_400_ruler_material.json",
+    "bytes": 14002,
+    "sha256": "73b15feff37f3b1fd1dcc72b2d27ced5ff4ec9b8dca038e5d7f634b8bda8b7a0"
+  },
+  {
+    "file": "materials/resources.assets_402_Brushed_Metal_3.json",
+    "bytes": 13683,
+    "sha256": "9bff2911d7a396699e8eecbe78dfca35ffa548fd63bef737039bb72f20090289"
+  },
+  {
+    "file": "materials/resources.assets_425_Gloss_Green_Trans.json",
+    "bytes": 13912,
+    "sha256": "abea3a0c4d3773b5d7774ee0c2523ac41f479d8ed4e9d3e83dc0fe4a3c22f48c"
+  },
+  {
+    "file": "materials/resources.assets_452_Metal.json",
+    "bytes": 13453,
+    "sha256": "32fb63700ebf584d2b63953c9cb8c8fbf38f02c2d3828a3c7acd57dd9642f1be"
+  },
+  {
+    "file": "materials/resources.assets_509_Plastic_-_Glossy_White.json",
+    "bytes": 13491,
+    "sha256": "722cc644aa60c29b3b5021c77ba73dde02c2f3b5f341e2d36585d36291f776bb"
+  },
+  {
+    "file": "materials/resources.assets_565_Gloss_Green.json",
+    "bytes": 13533,
+    "sha256": "c58aa505733d10eec1671ef71902d391827cbba41c6ee055fac7d67a6cb7468a"
+  },
+  {
+    "file": "materials/resources.assets_63_Plastic_-_Matte_Black.json",
+    "bytes": 13499,
+    "sha256": "0ce233eb32c5cdb310c59f583801cb033366978a8e318a108c9559096bc72f95"
+  },
+  {
+    "file": "materials/resources.assets_83_BlackPlastic.json",
+    "bytes": 13841,
+    "sha256": "7defc52b8dd48168401f066f7c972e6578896d82827bd953b2f9a118542cef0d"
+  },
+  {
+    "file": "materials/resources.assets_84_TexturesCom_Metal_SteelRusted_512_albedo.json",
+    "bytes": 13917,
+    "sha256": "9dae6ca5d702357f469d1a30705808a961a78315bd3948541ddf8812e706a6e2"
+  },
+  {
+    "file": "materials/resources.assets_93_Gloss_Green.json",
+    "bytes": 13762,
+    "sha256": "3979f2a695347514ce78bc25c6ef8492f473fa2d9b15b22f847bc7ba8f17982a"
+  },
+  {
+    "file": "materials/sharedassets0.assets_3_DS-DIGI_SDF_Material.json",
+    "bytes": 12458,
+    "sha256": "0707d92fa7e2ba5f5dba02e8244ca351284c5259acfb3069e129adcf9d03fc39"
+  },
+  {
+    "file": "materials/unity_default_resources_10100_Font_Material.json",
+    "bytes": 1972,
+    "sha256": "85f158910ef254c5927856e61d20574d49980dccbbde33680145c0d30e2ee623"
+  },
+  {
+    "file": "mesh_catalog.json",
+    "bytes": 6411,
+    "sha256": "c2653230e610c9dfa7d5ebe8f4e663524b433332057b84a00a6abc39d235d287"
+  },
+  {
+    "file": "meshes/resources.assets_1086_Body1.031.json",
+    "bytes": 408857,
+    "sha256": "9e3af62cb7df86f9a939858e65b6e72f6511d91d10163a525484b40c3e771a59"
+  },
+  {
+    "file": "meshes/resources.assets_1173_KB-26008_Hood.001.json",
+    "bytes": 46673,
+    "sha256": "5d7644d80da16d10039c6ec8ea539ab1be27d2b56d54594856642fdaeca4f359"
+  },
+  {
+    "file": "meshes/resources.assets_1179_Flap003.json",
+    "bytes": 38132,
+    "sha256": "d23984104b209967a94a582bc9d2adf2960b5c1bc23548e3645542e1efb8bbba"
+  },
+  {
+    "file": "meshes/resources.assets_1390_Body1.043.json",
+    "bytes": 103195,
+    "sha256": "b86599c2c4f58afacfd5f5684faf7e552314f02ef3eddc062a4ac76555a353b4"
+  },
+  {
+    "file": "meshes/resources.assets_1456_REV-21-2051.json",
+    "bytes": 112854,
+    "sha256": "6e5243ce9731262198a195d59a2ce22c30c6272e73c5aabd7e314ae1713b3685"
+  },
+  {
+    "file": "meshes/resources.assets_1514_1143-0001-0048.json",
+    "bytes": 82543,
+    "sha256": "faccb006efedf0957f6f45a14e9ff0f3c290ea57f7207e1d5bcb0ee8f64851df"
+  },
+  {
+    "file": "meshes/resources.assets_1515_1143-0001-0048.json",
+    "bytes": 207978,
+    "sha256": "ba9af77f4afd96913fafe89ef1026e8b899f15e35a5a1113d2dbd1831f43b07d"
+  },
+  {
+    "file": "meshes/resources.assets_1617_Part__Feature086.json",
+    "bytes": 2684688,
+    "sha256": "9003136481afabc2d1c685f8dc9746a0b2ee432344b267e40670b9fa622c3321"
+  },
+  {
+    "file": "meshes/resources.assets_1709_Body1.json",
+    "bytes": 44856,
+    "sha256": "485eb08bffb5e4d8d2a3313acff155c263d2d17bb8040d34f7aaf85917db777c"
+  },
+  {
+    "file": "meshes/resources.assets_1842_Body1.json",
+    "bytes": 11546,
+    "sha256": "e7f3aa3bb36b2f93ddfc0d8f854d0b57c432dfe4de997c7ddd4b1e6ea09eee10"
+  },
+  {
+    "file": "meshes/resources.assets_1864_Body1.033.json",
+    "bytes": 408857,
+    "sha256": "e9a3dde13475f09e3984ef8406f2c71419e80e275f6e77ae06c796a068caf786"
+  },
+  {
+    "file": "meshes/resources.assets_2541_Body1.json",
+    "bytes": 94566,
+    "sha256": "dba3869cdbc6b2cda0fe2d0657d396bed2af17bea69e3658b6cfc650c557a9df"
+  },
+  {
+    "file": "meshes/resources.assets_2839_Body1.032.json",
+    "bytes": 29391,
+    "sha256": "dde6107d674d6bd44755789ca0e49aaff4ed9b32363665867f8248b16bc25281"
+  },
+  {
+    "file": "meshes/resources.assets_2968_Body2.json",
+    "bytes": 11606,
+    "sha256": "822192ffe83098357935c5d6a5ac6cc7a3371aad8af922701d07f8c20fbb238f"
+  },
+  {
+    "file": "meshes/resources.assets_3088_KB-26010_Launcher_GearPulley.json",
+    "bytes": 154690,
+    "sha256": "984eeeaacd640da42ec198712be14d74fb5b3dd205a22a5ecb4762fc56df6eb4"
+  },
+  {
+    "file": "meshes/unity_default_resources_10202_Cube.json",
+    "bytes": 3265,
+    "sha256": "78bda2231167eace7af54a9e8a7f9f20006d4bd48220be85ee28f7ef9bedfbaf"
+  },
+  {
+    "file": "meshes/unity_default_resources_10206_Cylinder.json",
+    "bytes": 19289,
+    "sha256": "99cdf28f930a13354b26aa634d44abd1c1d40aba7e4902da165a8ebe21fc8aa7"
+  },
+  {
+    "file": "meshes/unity_default_resources_10207_Sphere.json",
+    "bytes": 157489,
+    "sha256": "92bdcd4b3ab678a33cc9551c4d3289a553605e719a35ea6e37cf3e8c4da35aa8"
+  },
+  {
+    "file": "meshes/unity_default_resources_10208_Capsule.json",
+    "bytes": 169224,
+    "sha256": "f2bff0165191c9b57bec31af36935f35571fe13bcb5491e8e8e80e99166f3da7"
+  },
+  {
+    "file": "meshes/unity_default_resources_10209_Plane.json",
+    "bytes": 18199,
+    "sha256": "f99d565bef45be14f1837d56935d75cbdfc34d2ed5c0329a484087993817eace"
+  },
+  {
+    "file": "provenance.json",
+    "bytes": 3167,
+    "sha256": "85e14c24c767bcd7cc6ec73f97c3742757f767bdb314f3abe6fbdc4abbf3925f"
+  },
+  {
+    "file": "texture_catalog.json",
+    "bytes": 11161,
+    "sha256": "c3258641cc0c3f602437190a406099e8cb8bf199752565aadab4afdaf85a9dac"
+  },
+  {
+    "file": "textures/resources.assets_580_wheelRimHeight.png",
+    "bytes": 87582,
+    "sha256": "98f9fbdf4fbfb20e3d7e20e55dcfbc19631cdeccfe84a5a4180c58bba0e37d45"
+  },
+  {
+    "file": "textures/resources.assets_587_WhealTreadPic.png",
+    "bytes": 3301,
+    "sha256": "b8354b2241c00f6109d75d0ae144fdf3ba3dfb13d6cab58a9c668a7e8f3adeb9"
+  },
+  {
+    "file": "textures/resources.assets_588_yellowFoam2Normal.png",
+    "bytes": 529526,
+    "sha256": "398956cd9b90968fc3156c1ffbb81d26f5d56886f0c3b841ca8d0126f37fb591"
+  },
+  {
+    "file": "textures/resources.assets_592_wheelRimNorm.png",
+    "bytes": 207579,
+    "sha256": "4e9ade8b8726883cd8431f05ceb98f33070851ffc0ee0722c5f6ea6040a1e6c3"
+  },
+  {
+    "file": "textures/resources.assets_600_wheelRim.png",
+    "bytes": 101575,
+    "sha256": "f57494452029d927dcfc8e36c4c9389cfd98e841f2122a2644d77132bb380bf2"
+  },
+  {
+    "file": "textures/resources.assets_612_yellowFoam2.png",
+    "bytes": 280836,
+    "sha256": "79b85f68563912372c7e30ef8e028d3778b4c6bc75fe10fcf5445e175970754c"
+  },
+  {
+    "file": "textures/resources.assets_621_holepattern2.png",
+    "bytes": 1724,
+    "sha256": "be4a62046d57a40162d0d36a5707272b9fdf5c0f9d345aad9ededfed8e8e35f5"
+  },
+  {
+    "file": "textures/resources.assets_623_WhealTreadHeight.png",
+    "bytes": 4144,
+    "sha256": "b8528c96fc70c983802ac3c7b5c9cacf1a757eeb23163f0f2270c0b5851cb098"
+  },
+  {
+    "file": "textures/resources.assets_626_hexend.png",
+    "bytes": 4405,
+    "sha256": "81c4777af1545662b96850314cc8ccc303e1f861a75fa823d904e5da7adfeccb"
+  },
+  {
+    "file": "textures/resources.assets_632_texture_alumin.png",
+    "bytes": 439682,
+    "sha256": "5ced74a326ecb572ea698c4c9fad36a4f33e57a241c9fec5fb9a0b720407103a"
+  },
+  {
+    "file": "textures/resources.assets_639_TexturesCom_Metal_AluminumBrushed_1K_normal.png",
+    "bytes": 234909,
+    "sha256": "1b567bc120fd6c160650fd9214417a5a19646c3aad6736d69fb8ac5ee0c80246"
+  },
+  {
+    "file": "textures/resources.assets_658_greenwheel.png",
+    "bytes": 95007,
+    "sha256": "52f8d96d1d95a1ee2f2575826c64bac06602267ac2a8150ef9f419b41f9698f4"
+  },
+  {
+    "file": "textures/resources.assets_665_netgrid.png",
+    "bytes": 3805,
+    "sha256": "ff69d8da2669ee78f0b63f4f50e2fafbfe7a451393a4e6da71f47d00591428d3"
+  },
+  {
+    "file": "textures/resources.assets_671_SwatchYellowAlbedo.png",
+    "bytes": 109,
+    "sha256": "49c25ef4263db3a182860c050061d7b6a261bf9bc16b0298beeb146747d31e2b"
+  },
+  {
+    "file": "textures/resources.assets_675_holepattern1.png",
+    "bytes": 1467,
+    "sha256": "35bc14ecce41bca4302c31f4b023c71bf845f8ab17d0bd414fd2b235a4c5dec4"
+  },
+  {
+    "file": "textures/resources.assets_678_WheelTreadNorm.png",
+    "bytes": 8795,
+    "sha256": "44b713d489bd78563f872c17d032c562ad7dc8a6e47bb2b7d3c2cbe48f8cc41a"
+  },
+  {
+    "file": "textures/resources.assets_697_SwatchYellowAlbedo.png",
+    "bytes": 109,
+    "sha256": "49c25ef4263db3a182860c050061d7b6a261bf9bc16b0298beeb146747d31e2b"
+  },
+  {
+    "file": "textures/resources.assets_706_CircleHole.png",
+    "bytes": 4698,
+    "sha256": "d2123e090dc553bdac451ab573a4b4bf6b816ed900c92e24ace2747cb3047ac9"
+  },
+  {
+    "file": "textures/resources.assets_710_Plastic.png",
+    "bytes": 1561542,
+    "sha256": "8dcd5b7ee4e4dc8a063dcbaffdb769331add6d0d40f948e5175ac894b5c9b53a"
+  },
+  {
+    "file": "textures/resources.assets_713_firstLogoForBall.png",
+    "bytes": 15141,
+    "sha256": "6d4b31e774665c422b324e0cff96ebcc6e5f54021f9b32b30fe9fb58b1f74d56"
+  },
+  {
+    "file": "textures/resources.assets_731_TexturesCom_Metal_AluminumBrushed_1K_albedo.png",
+    "bytes": 439682,
+    "sha256": "5ced74a326ecb572ea698c4c9fad36a4f33e57a241c9fec5fb9a0b720407103a"
+  },
+  {
+    "file": "textures/resources.assets_734_TexturesCom_Metal_SteelRusted_512_albedo.png",
+    "bytes": 265878,
+    "sha256": "129cfd6ba602563a8361ae437f67c8d725f4925adbc4bc9e36940a31dbc7e747"
+  },
+  {
+    "file": "textures/resources.assets_738_Brushed_Metal_3.png",
+    "bytes": 90194,
+    "sha256": "2fa4cea62f459dae3cb610874403f863145289d63b88868ac84b3cc152f3d2cf"
+  },
+  {
+    "file": "textures/resources.assets_741_ruler.png",
+    "bytes": 11321,
+    "sha256": "9e061883592b023ad54496e5aba6f484d5696751f5f17fe0175bcaee4d7b7945"
+  },
+  {
+    "file": "textures/sharedassets0.assets_72_DS-DIGI_SDF_Atlas.png",
+    "bytes": 69754,
+    "sha256": "7831ba9759ccba8c5b335dcbfb533780d3f719763efd50b61bb4a39d79b4b036"
+  },
+  {
+    "file": "textures/unity_default_resources_10103_Font_Texture.serialized.bin",
+    "bytes": 124,
+    "sha256": "bc355d8d9cc50b26bfa96ca02ee5386ac26c067f4fadc72783c32ae31933bc4c"
+  }
+]

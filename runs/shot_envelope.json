@@ -1,0 +1,1210 @@
+{
+  "ranges": [
+    1.5,
+    1.75,
+    2.0,
+    2.25,
+    2.5,
+    2.75,
+    3.0,
+    3.25,
+    3.5,
+    3.75,
+    4.0,
+    4.5,
+    5.0
+  ],
+  "angles_deg": [
+    -40.0,
+    -20.0,
+    0.0,
+    20.0,
+    40.0
+  ],
+  "by_hub": {
+    "red": {
+      "results": [
+        {
+          "range_m": 1.803,
+          "angle_deg": -40.0,
+          "x": -0.944,
+          "y": 4.836,
+          "vertical_error_m": 0.5439,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 1.803,
+          "angle_deg": -20.0,
+          "x": -0.493,
+          "y": 5.097,
+          "vertical_error_m": 0.5439,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 1.803,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 5.187,
+          "vertical_error_m": 0.5439,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 1.803,
+          "angle_deg": 20.0,
+          "x": 0.533,
+          "y": 5.097,
+          "vertical_error_m": 0.5439,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 1.803,
+          "angle_deg": 40.0,
+          "x": 0.984,
+          "y": 4.836,
+          "vertical_error_m": 0.5439,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.053,
+          "angle_deg": -40.0,
+          "x": -1.105,
+          "y": 5.028,
+          "vertical_error_m": 0.0821,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.053,
+          "angle_deg": -20.0,
+          "x": -0.579,
+          "y": 5.332,
+          "vertical_error_m": 0.0821,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.053,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 5.437,
+          "vertical_error_m": 0.0821,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.053,
+          "angle_deg": 20.0,
+          "x": 0.618,
+          "y": 5.332,
+          "vertical_error_m": 0.0821,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.053,
+          "angle_deg": 40.0,
+          "x": 1.145,
+          "y": 5.028,
+          "vertical_error_m": 0.0821,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.302,
+          "angle_deg": -40.0,
+          "x": -1.266,
+          "y": 5.219,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.302,
+          "angle_deg": -20.0,
+          "x": -0.664,
+          "y": 5.567,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.302,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 5.687,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.302,
+          "angle_deg": 20.0,
+          "x": 0.704,
+          "y": 5.567,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.302,
+          "angle_deg": 40.0,
+          "x": 1.305,
+          "y": 5.219,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.55,
+          "angle_deg": -40.0,
+          "x": -1.426,
+          "y": 5.411,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.55,
+          "angle_deg": -20.0,
+          "x": -0.75,
+          "y": 5.802,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.55,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 5.937,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.55,
+          "angle_deg": 20.0,
+          "x": 0.789,
+          "y": 5.802,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.55,
+          "angle_deg": 40.0,
+          "x": 1.466,
+          "y": 5.411,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.799,
+          "angle_deg": -40.0,
+          "x": -1.587,
+          "y": 5.603,
+          "vertical_error_m": 0.0031,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.799,
+          "angle_deg": -20.0,
+          "x": -0.835,
+          "y": 6.037,
+          "vertical_error_m": 0.0031,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.799,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 6.187,
+          "vertical_error_m": 0.0031,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.799,
+          "angle_deg": 20.0,
+          "x": 0.875,
+          "y": 6.037,
+          "vertical_error_m": 0.0031,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.799,
+          "angle_deg": 40.0,
+          "x": 1.627,
+          "y": 5.603,
+          "vertical_error_m": 0.0031,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.048,
+          "angle_deg": -40.0,
+          "x": -1.748,
+          "y": 5.794,
+          "vertical_error_m": 0.0005,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.048,
+          "angle_deg": -20.0,
+          "x": -0.921,
+          "y": 6.272,
+          "vertical_error_m": 0.0005,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.048,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 6.437,
+          "vertical_error_m": 0.0005,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.048,
+          "angle_deg": 20.0,
+          "x": 0.96,
+          "y": 6.272,
+          "vertical_error_m": 0.0005,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.048,
+          "angle_deg": 40.0,
+          "x": 1.788,
+          "y": 5.794,
+          "vertical_error_m": 0.0005,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.297,
+          "angle_deg": -40.0,
+          "x": -1.908,
+          "y": 5.986,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.297,
+          "angle_deg": -20.0,
+          "x": -1.006,
+          "y": 6.506,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.297,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 6.687,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.297,
+          "angle_deg": 20.0,
+          "x": 1.046,
+          "y": 6.506,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.297,
+          "angle_deg": 40.0,
+          "x": 1.948,
+          "y": 5.986,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.545,
+          "angle_deg": -40.0,
+          "x": -2.069,
+          "y": 6.177,
+          "vertical_error_m": 0.0035,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.545,
+          "angle_deg": -20.0,
+          "x": -1.092,
+          "y": 6.741,
+          "vertical_error_m": 0.0035,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.545,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 6.937,
+          "vertical_error_m": 0.0035,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.545,
+          "angle_deg": 20.0,
+          "x": 1.131,
+          "y": 6.741,
+          "vertical_error_m": 0.0035,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.545,
+          "angle_deg": 40.0,
+          "x": 2.109,
+          "y": 6.177,
+          "vertical_error_m": 0.0035,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.794,
+          "angle_deg": -40.0,
+          "x": -2.23,
+          "y": 6.369,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.794,
+          "angle_deg": -20.0,
+          "x": -1.177,
+          "y": 6.976,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.794,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 7.187,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.794,
+          "angle_deg": 20.0,
+          "x": 1.217,
+          "y": 6.976,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.794,
+          "angle_deg": 40.0,
+          "x": 2.27,
+          "y": 6.369,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.043,
+          "angle_deg": -40.0,
+          "x": -2.391,
+          "y": 6.56,
+          "vertical_error_m": -0.0012,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.043,
+          "angle_deg": -20.0,
+          "x": -1.263,
+          "y": 7.211,
+          "vertical_error_m": -0.0012,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.043,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 7.437,
+          "vertical_error_m": -0.0012,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.043,
+          "angle_deg": 20.0,
+          "x": 1.302,
+          "y": 7.211,
+          "vertical_error_m": -0.0012,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.043,
+          "angle_deg": 40.0,
+          "x": 2.43,
+          "y": 6.56,
+          "vertical_error_m": -0.0012,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.292,
+          "angle_deg": -40.0,
+          "x": -2.551,
+          "y": 6.752,
+          "vertical_error_m": 0.0007,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.292,
+          "angle_deg": -20.0,
+          "x": -1.348,
+          "y": 7.446,
+          "vertical_error_m": 0.0007,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.292,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 7.687,
+          "vertical_error_m": 0.0007,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.292,
+          "angle_deg": 20.0,
+          "x": 1.388,
+          "y": 7.446,
+          "vertical_error_m": 0.0007,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.292,
+          "angle_deg": 40.0,
+          "x": 2.591,
+          "y": 6.752,
+          "vertical_error_m": 0.0007,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.79,
+          "angle_deg": -40.0,
+          "x": -2.873,
+          "y": 7.135,
+          "vertical_error_m": -0.002,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.79,
+          "angle_deg": -20.0,
+          "x": -1.519,
+          "y": 7.916,
+          "vertical_error_m": -0.002,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.79,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 8.187,
+          "vertical_error_m": -0.002,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.79,
+          "angle_deg": 20.0,
+          "x": 1.559,
+          "y": 7.916,
+          "vertical_error_m": -0.002,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.79,
+          "angle_deg": 40.0,
+          "x": 2.912,
+          "y": 7.135,
+          "vertical_error_m": -0.002,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 5.289,
+          "angle_deg": -40.0,
+          "x": -3.194,
+          "y": 7.518,
+          "vertical_error_m": 0.0019,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 5.289,
+          "angle_deg": -20.0,
+          "x": -1.69,
+          "y": 8.386,
+          "vertical_error_m": 0.0019,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 5.289,
+          "angle_deg": 0.0,
+          "x": 0.02,
+          "y": 8.687,
+          "vertical_error_m": 0.0019,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 5.289,
+          "angle_deg": 20.0,
+          "x": 1.73,
+          "y": 8.386,
+          "vertical_error_m": 0.0019,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 5.289,
+          "angle_deg": 40.0,
+          "x": 3.234,
+          "y": 7.518,
+          "vertical_error_m": 0.0019,
+          "trajectory_ok": true,
+          "scored": false
+        }
+      ],
+      "scored_count": 37,
+      "min_scored_range_m": 2.302,
+      "max_scored_range_m": 4.79
+    },
+    "blue": {
+      "results": [
+        {
+          "range_m": 1.803,
+          "angle_deg": -40.0,
+          "x": -0.984,
+          "y": -4.836,
+          "vertical_error_m": 0.5439,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 1.803,
+          "angle_deg": -20.0,
+          "x": -0.533,
+          "y": -5.097,
+          "vertical_error_m": 0.5439,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 1.803,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -5.187,
+          "vertical_error_m": 0.5439,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 1.803,
+          "angle_deg": 20.0,
+          "x": 0.493,
+          "y": -5.097,
+          "vertical_error_m": 0.5439,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 1.803,
+          "angle_deg": 40.0,
+          "x": 0.944,
+          "y": -4.836,
+          "vertical_error_m": 0.5439,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.053,
+          "angle_deg": -40.0,
+          "x": -1.145,
+          "y": -5.028,
+          "vertical_error_m": 0.0821,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.053,
+          "angle_deg": -20.0,
+          "x": -0.618,
+          "y": -5.332,
+          "vertical_error_m": 0.0821,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.053,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -5.437,
+          "vertical_error_m": 0.0821,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.053,
+          "angle_deg": 20.0,
+          "x": 0.579,
+          "y": -5.332,
+          "vertical_error_m": 0.0821,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.053,
+          "angle_deg": 40.0,
+          "x": 1.105,
+          "y": -5.028,
+          "vertical_error_m": 0.0821,
+          "trajectory_ok": false,
+          "scored": false
+        },
+        {
+          "range_m": 2.302,
+          "angle_deg": -40.0,
+          "x": -1.305,
+          "y": -5.219,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.302,
+          "angle_deg": -20.0,
+          "x": -0.704,
+          "y": -5.567,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.302,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -5.687,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.302,
+          "angle_deg": 20.0,
+          "x": 0.664,
+          "y": -5.567,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.302,
+          "angle_deg": 40.0,
+          "x": 1.266,
+          "y": -5.219,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.55,
+          "angle_deg": -40.0,
+          "x": -1.466,
+          "y": -5.411,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.55,
+          "angle_deg": -20.0,
+          "x": -0.789,
+          "y": -5.802,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.55,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -5.937,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.55,
+          "angle_deg": 20.0,
+          "x": 0.75,
+          "y": -5.802,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.55,
+          "angle_deg": 40.0,
+          "x": 1.426,
+          "y": -5.411,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.799,
+          "angle_deg": -40.0,
+          "x": -1.627,
+          "y": -5.603,
+          "vertical_error_m": 0.0031,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.799,
+          "angle_deg": -20.0,
+          "x": -0.875,
+          "y": -6.037,
+          "vertical_error_m": 0.0031,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.799,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -6.187,
+          "vertical_error_m": 0.0031,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.799,
+          "angle_deg": 20.0,
+          "x": 0.835,
+          "y": -6.037,
+          "vertical_error_m": 0.0031,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 2.799,
+          "angle_deg": 40.0,
+          "x": 1.587,
+          "y": -5.603,
+          "vertical_error_m": 0.0031,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.048,
+          "angle_deg": -40.0,
+          "x": -1.788,
+          "y": -5.794,
+          "vertical_error_m": 0.0005,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.048,
+          "angle_deg": -20.0,
+          "x": -0.96,
+          "y": -6.272,
+          "vertical_error_m": 0.0005,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.048,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -6.437,
+          "vertical_error_m": 0.0005,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.048,
+          "angle_deg": 20.0,
+          "x": 0.921,
+          "y": -6.272,
+          "vertical_error_m": 0.0005,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.048,
+          "angle_deg": 40.0,
+          "x": 1.748,
+          "y": -5.794,
+          "vertical_error_m": 0.0005,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.297,
+          "angle_deg": -40.0,
+          "x": -1.948,
+          "y": -5.986,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.297,
+          "angle_deg": -20.0,
+          "x": -1.046,
+          "y": -6.506,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.297,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -6.687,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.297,
+          "angle_deg": 20.0,
+          "x": 1.006,
+          "y": -6.506,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.297,
+          "angle_deg": 40.0,
+          "x": 1.908,
+          "y": -5.986,
+          "vertical_error_m": -0.0008,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.545,
+          "angle_deg": -40.0,
+          "x": -2.109,
+          "y": -6.177,
+          "vertical_error_m": 0.0035,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.545,
+          "angle_deg": -20.0,
+          "x": -1.131,
+          "y": -6.741,
+          "vertical_error_m": 0.0035,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.545,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -6.937,
+          "vertical_error_m": 0.0035,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.545,
+          "angle_deg": 20.0,
+          "x": 1.092,
+          "y": -6.741,
+          "vertical_error_m": 0.0035,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.545,
+          "angle_deg": 40.0,
+          "x": 2.069,
+          "y": -6.177,
+          "vertical_error_m": 0.0035,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.794,
+          "angle_deg": -40.0,
+          "x": -2.27,
+          "y": -6.369,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.794,
+          "angle_deg": -20.0,
+          "x": -1.217,
+          "y": -6.976,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 3.794,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -7.187,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.794,
+          "angle_deg": 20.0,
+          "x": 1.177,
+          "y": -6.976,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 3.794,
+          "angle_deg": 40.0,
+          "x": 2.23,
+          "y": -6.369,
+          "vertical_error_m": -0.0032,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.043,
+          "angle_deg": -40.0,
+          "x": -2.43,
+          "y": -6.56,
+          "vertical_error_m": -0.0012,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.043,
+          "angle_deg": -20.0,
+          "x": -1.302,
+          "y": -7.211,
+          "vertical_error_m": -0.0012,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.043,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -7.437,
+          "vertical_error_m": -0.0012,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.043,
+          "angle_deg": 20.0,
+          "x": 1.263,
+          "y": -7.211,
+          "vertical_error_m": -0.0012,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.043,
+          "angle_deg": 40.0,
+          "x": 2.391,
+          "y": -6.56,
+          "vertical_error_m": -0.0012,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.292,
+          "angle_deg": -40.0,
+          "x": -2.591,
+          "y": -6.752,
+          "vertical_error_m": 0.0007,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.292,
+          "angle_deg": -20.0,
+          "x": -1.388,
+          "y": -7.446,
+          "vertical_error_m": 0.0007,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.292,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -7.687,
+          "vertical_error_m": 0.0007,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.292,
+          "angle_deg": 20.0,
+          "x": 1.348,
+          "y": -7.446,
+          "vertical_error_m": 0.0007,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.292,
+          "angle_deg": 40.0,
+          "x": 2.551,
+          "y": -6.752,
+          "vertical_error_m": 0.0007,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.79,
+          "angle_deg": -40.0,
+          "x": -2.912,
+          "y": -7.135,
+          "vertical_error_m": -0.002,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 4.79,
+          "angle_deg": -20.0,
+          "x": -1.559,
+          "y": -7.916,
+          "vertical_error_m": -0.002,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.79,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -8.187,
+          "vertical_error_m": -0.002,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.79,
+          "angle_deg": 20.0,
+          "x": 1.519,
+          "y": -7.916,
+          "vertical_error_m": -0.002,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 4.79,
+          "angle_deg": 40.0,
+          "x": 2.873,
+          "y": -7.135,
+          "vertical_error_m": -0.002,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 5.289,
+          "angle_deg": -40.0,
+          "x": -3.234,
+          "y": -7.518,
+          "vertical_error_m": 0.0019,
+          "trajectory_ok": true,
+          "scored": true
+        },
+        {
+          "range_m": 5.289,
+          "angle_deg": -20.0,
+          "x": -1.73,
+          "y": -8.386,
+          "vertical_error_m": 0.0019,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 5.289,
+          "angle_deg": 0.0,
+          "x": -0.02,
+          "y": -8.687,
+          "vertical_error_m": 0.0019,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 5.289,
+          "angle_deg": 20.0,
+          "x": 1.69,
+          "y": -8.386,
+          "vertical_error_m": 0.0019,
+          "trajectory_ok": true,
+          "scored": false
+        },
+        {
+          "range_m": 5.289,
+          "angle_deg": 40.0,
+          "x": 3.194,
+          "y": -7.518,
+          "vertical_error_m": 0.0019,
+          "trajectory_ok": true,
+          "scored": false
+        }
+      ],
+      "scored_count": 39,
+      "min_scored_range_m": 2.302,
+      "max_scored_range_m": 5.289
+    }
+  }
+}

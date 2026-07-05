@@ -1,0 +1,22 @@
+{
+  "transitions": 105970,
+  "updates": 104972,
+  "episodes": 528,
+  "mean_return_last20": 24.81,
+  "mean_score_reward_last20": 4.0,
+  "mean_collect_reward_last20": 25.35,
+  "first5_returns": [
+    4.0,
+    2.56,
+    1.04,
+    -1.97,
+    -1.6
+  ],
+  "last5_returns": [
+    22.35,
+    16.34,
+    23.68,
+    21.16,
+    16.55
+  ]
+}

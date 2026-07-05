@@ -1,0 +1,22 @@
+{
+  "num_envs": 2,
+  "minutes": 6.0,
+  "template": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\assets\\rl\\env_template_96.usd",
+  "replay_capacity": 60000,
+  "batch_size": 128,
+  "gamma": 0.997,
+  "seed_transitions": 1000,
+  "updates_per_tx": 1.0,
+  "episode_len_s": 36.0,
+  "stage": "B",
+  "preload_prob": 0.5,
+  "collect_weight_start": 1.5,
+  "collect_weight_end": 0.3,
+  "collect_anneal_tx": 30000,
+  "checkpoint_every_tx": 10000,
+  "resume": "runs\\drqv2_stageA_clean\\latest.pt",
+  "out": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\drqv2_stageB_smoke",
+  "started_at_unix": 1783232152.6952083,
+  "started_at": "2026-07-05T14:15:52.695208+08:00",
+  "pid": 38608
+}

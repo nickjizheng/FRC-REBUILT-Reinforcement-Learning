@@ -1,0 +1,48 @@
+{
+  "checkpoint": {
+    "episodes": 6,
+    "mean_return": 18.12,
+    "mean_scored": 0.17,
+    "max_scored": 1,
+    "mean_collected": 14.17,
+    "max_collected": 22,
+    "per_episode": [
+      {
+        "return": 23.89,
+        "scored": 0,
+        "collected": 19,
+        "shots_fired": 0
+      },
+      {
+        "return": 11.77,
+        "scored": 0,
+        "collected": 11,
+        "shots_fired": 0
+      },
+      {
+        "return": 9.75,
+        "scored": 1,
+        "collected": 3,
+        "shots_fired": 2
+      },
+      {
+        "return": 23.57,
+        "scored": 0,
+        "collected": 19,
+        "shots_fired": 11
+      },
+      {
+        "return": 28.02,
+        "scored": 0,
+        "collected": 22,
+        "shots_fired": 0
+      },
+      {
+        "return": 11.7,
+        "scored": 0,
+        "collected": 11,
+        "shots_fired": 0
+      }
+    ]
+  }
+}

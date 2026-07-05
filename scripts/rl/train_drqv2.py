@@ -17,6 +17,7 @@ import json
 import os
 import sys
 import time
+from datetime import datetime
 from pathlib import Path
 
 os.environ.setdefault("OMNI_KIT_ACCEPT_EULA", "YES")
@@ -59,8 +60,39 @@ def main() -> None:
     ap.add_argument("--seed-transitions", type=int, default=1_000)
     ap.add_argument("--updates-per-tx", type=float, default=1.0)
     ap.add_argument("--episode-len-s", type=float, default=20.0)
+    ap.add_argument(
+        "--stage",
+        choices=("A", "B"),
+        default="A",
+        help="B = acquire-and-score: 36 s episodes, preloaded shooting starts "
+        "on half the episodes, collection reward annealed 1.5 -> 0.3",
+    )
+    ap.add_argument("--preload-prob", type=float, default=None)
+    ap.add_argument("--collect-weight-start", type=float, default=1.5)
+    ap.add_argument("--collect-weight-end", type=float, default=None)
+    ap.add_argument("--collect-anneal-tx", type=int, default=30_000)
+    ap.add_argument(
+        "--checkpoint-every-tx",
+        type=int,
+        default=10_000,
+        help="numbered finite-only checkpoints (ckpt_<transitions>.pt)",
+    )
+    ap.add_argument("--resume", default=None, help="checkpoint to resume from")
     ap.add_argument("--out", type=Path, default=PROJECT_ROOT / "runs" / "drqv2_stageA")
     args = ap.parse_args()
+    if args.stage == "B":
+        if args.episode_len_s == 20.0:
+            args.episode_len_s = 36.0
+        if args.preload_prob is None:
+            args.preload_prob = 0.5
+        if args.collect_weight_end is None:
+            args.collect_weight_end = 0.3
+    args.preload_prob = args.preload_prob or 0.0
+    args.collect_weight_end = (
+        args.collect_weight_start
+        if args.collect_weight_end is None
+        else args.collect_weight_end
+    )
 
     from isaacsim import SimulationApp
 
@@ -73,12 +105,26 @@ def main() -> None:
         from xrc_rebuilt.rl.vec_env import VecCompetitionEnv, VecEnvCfg
 
         args.out.mkdir(parents=True, exist_ok=True)
+        run_started_at = time.time()
+        run_config = {
+            **vars(args),
+            "out": str(args.out.resolve()),
+            "template": str(Path(args.template).resolve()),
+            "started_at_unix": run_started_at,
+            "started_at": datetime.fromtimestamp(run_started_at).astimezone().isoformat(),
+            "pid": os.getpid(),
+        }
+        (args.out / "run_config.json").write_text(
+            json.dumps(run_config, indent=2), encoding="utf-8"
+        )
         env = VecCompetitionEnv(
             VecEnvCfg(
                 num_envs=args.num_envs,
                 template_usd=args.template,
                 cameras=True,
                 episode_len_s=args.episode_len_s,
+                preload_prob=float(args.preload_prob),
+                collect_reward_weight=float(args.collect_weight_start),
             )
         )
         n = args.num_envs
@@ -101,6 +147,9 @@ def main() -> None:
                 privileged_dim=obs["privileged"].shape[1],
             )
         )
+        if args.resume:
+            agent.load(args.resume)
+            print(f"TRAIN_RESUMED {args.resume} steps={agent.train_steps}", flush=True)
         replay = PerEnvReplay(
             num_envs=n,
             capacity_per_env=max(1000, args.replay_capacity // n),
@@ -127,6 +176,9 @@ def main() -> None:
         report_every_s = 60.0
         update_debt = 0.0
         train_metrics: dict[str, float] = {}
+        best_return = float("-inf")
+        rejected_transitions = 0
+        next_numbered_ckpt = args.checkpoint_every_tx
 
         current = {
             "frames": frames,
@@ -143,7 +195,23 @@ def main() -> None:
                 ).astype(np.float32)
             obs, rewards, dones, info = env.step(actions)
             next_frames = to_policy_frames(obs["rgb"])
+            # reject non-finite inputs at the boundary: a corrupted sim step
+            # must never enter the replay buffer or the running statistics
+            finite_rewards = np.isfinite(rewards)
+            finite_obs = np.array(
+                [
+                    np.isfinite(obs["proprio"][i]).all()
+                    and np.isfinite(obs["privileged"][i]).all()
+                    for i in range(n)
+                ]
+            )
+            corrupt = ~(finite_rewards & finite_obs)
+            if corrupt.any():
+                rejected_transitions += int(corrupt.sum())
+                rewards = np.where(finite_rewards, rewards, 0.0).astype(np.float32)
             for i in range(n):
+                if corrupt[i]:
+                    continue
                 replay.add(
                     i,
                     current["frames"][i],
@@ -171,6 +239,17 @@ def main() -> None:
                 "privileged": obs["privileged"].copy(),
             }
             transitions += n
+            # collection-weight anneal (stage B): 1.5 -> 0.3 over the window
+            if args.collect_weight_end != args.collect_weight_start:
+                mix = min(1.0, transitions / max(1, args.collect_anneal_tx))
+                env.collect_weight = float(
+                    args.collect_weight_start
+                    + (args.collect_weight_end - args.collect_weight_start) * mix
+                )
+            if transitions >= next_numbered_ckpt:
+                next_numbered_ckpt += args.checkpoint_every_tx
+                if agent.weights_finite():
+                    agent.save(str(args.out / f"ckpt_{transitions:09d}.pt"))
 
             if replay.ready(max(args.batch_size, args.seed_transitions)):
                 update_debt += args.updates_per_tx * n
@@ -182,8 +261,12 @@ def main() -> None:
             if time.time() - last_report >= report_every_s:
                 last_report = time.time()
                 recent = finished_returns[-20:]
+                elapsed_s = time.time() - run_started_at
                 line = {
+                    "wall_time": datetime.now().astimezone().isoformat(),
+                    "elapsed_s": round(elapsed_s, 1),
                     "transitions": transitions,
+                    "transitions_per_s": round(transitions / max(elapsed_s, 1e-6), 3),
                     "updates": updates,
                     "replay": len(replay),
                     "recent_return_mean": round(float(np.mean(recent)), 2) if recent else None,
@@ -195,16 +278,38 @@ def main() -> None:
                     if finished_collects
                     else None,
                     "episodes": len(finished_returns),
+                    "collect_weight": round(float(env.collect_weight), 3),
+                    "rejected_transitions": rejected_transitions,
                     **{k: round(v, 4) for k, v in train_metrics.items()},
                 }
                 print("TRAIN " + json.dumps(line), flush=True)
                 with metrics_path.open("a", encoding="utf-8") as fh:
                     fh.write(json.dumps(line) + "\n")
-                agent.save(str(args.out / "latest.pt"))
+                # checkpoint hygiene: never persist non-finite weights (a 4 h
+                # run once diverged in its final minute and poisoned final.pt),
+                # and keep the best-return checkpoint separately.
+                if agent.weights_finite():
+                    agent.save(str(args.out / "latest.pt"))
+                    if recent and float(np.mean(recent)) > best_return:
+                        best_return = float(np.mean(recent))
+                        agent.save(str(args.out / "best.pt"))
+                else:
+                    print("TRAIN_WEIGHTS_NONFINITE latest.pt NOT overwritten", flush=True)
 
-        agent.save(str(args.out / "final.pt"))
+        if agent.weights_finite():
+            agent.save(str(args.out / "final.pt"))
+        else:
+            print(
+                "TRAIN_FINAL_NONFINITE final.pt skipped; use latest.pt/best.pt",
+                flush=True,
+            )
+        elapsed_s = time.time() - run_started_at
         summary = {
+            "started_at": run_config["started_at"],
+            "finished_at": datetime.now().astimezone().isoformat(),
+            "elapsed_s": round(elapsed_s, 1),
             "transitions": transitions,
+            "transitions_per_s": round(transitions / max(elapsed_s, 1e-6), 3),
             "updates": updates,
             "episodes": len(finished_returns),
             "mean_return_last20": round(float(np.mean(finished_returns[-20:])), 2)

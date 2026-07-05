@@ -51,6 +51,16 @@ class VecEnvCfg:
     spawn_yaw_range_deg: tuple[float, float] = (-180.0, 180.0)
     proprio_noise_std: float = 0.02
     seed: int = 2026
+    # reward weights (collect weight is annealed live by the trainer via
+    # env.collect_weight; score weight stays fixed per the converged plan)
+    score_reward_weight: float = 10.0
+    collect_reward_weight: float = 1.5
+    # stage B: acquire-and-score.  With probability preload_prob an episode
+    # starts ALREADY holding preload_count FUEL at a valid shooting pose
+    # (learn to convert inventory); otherwise it must collect first.
+    preload_prob: float = 0.0
+    preload_count_range: tuple[int, int] = (4, 8)
+    shoot_spawn_xy_range: tuple[float, float, float, float] = (-2.0, 2.0, -2.2, -0.9)
 
 
 @dataclass
@@ -259,6 +269,8 @@ class VecCompetitionEnv:
         self.spec = CompetitionRLSpec()
         self.spec.validate()
         self.rng = np.random.default_rng(cfg.seed)
+        # live-annealable collection weight (trainer lowers it during stage B)
+        self.collect_weight = float(cfg.collect_reward_weight)
         self._build_scene()
         self._build_views()
         self._build_cameras()
@@ -426,9 +438,12 @@ class VecCompetitionEnv:
     # -- reset -------------------------------------------------------------
     def _reset_slot(self, slot: EnvSlot) -> None:
         cfg = self.cfg
+        # stage B: some episodes begin holding FUEL at a valid shooting pose
+        preloaded = bool(cfg.preload_prob > 0.0 and self.rng.random() < cfg.preload_prob)
+        spawn_box = cfg.shoot_spawn_xy_range if preloaded else cfg.spawn_xy_range
         # robot pose: random field spawn inside the configured box
-        x = float(self.rng.uniform(cfg.spawn_xy_range[0], cfg.spawn_xy_range[1]))
-        y = float(self.rng.uniform(cfg.spawn_xy_range[2], cfg.spawn_xy_range[3]))
+        x = float(self.rng.uniform(spawn_box[0], spawn_box[1]))
+        y = float(self.rng.uniform(spawn_box[2], spawn_box[3]))
         yaw = math.radians(
             float(self.rng.uniform(cfg.spawn_yaw_range_deg[0], cfg.spawn_yaw_range_deg[1]))
         )
@@ -456,6 +471,15 @@ class VecCompetitionEnv:
         controller.reset_match_state()
         controller.snap_storage_state(bool(cfg.lock_storage_extended))
         controller.intake_on = False
+        if preloaded:
+            count = int(
+                self.rng.integers(
+                    cfg.preload_count_range[0], cfg.preload_count_range[1] + 1
+                )
+            )
+            # fills the magazine only; balls_collected stays 0, so preloaded
+            # FUEL never earns collection reward - only its conversion to score
+            controller.preload(slot.fuel, count=count)
 
         router = slot.router
         router.pending.clear()
@@ -531,8 +555,8 @@ class VecCompetitionEnv:
             i = slot.index
             scored = int(slot.router.scored["blue"])
             collected = int(slot.controller.balls_collected)
-            r_score = 10.0 * (scored - slot.score_seen)
-            r_collect = 1.5 * (collected - slot.collected_seen)
+            r_score = self.cfg.score_reward_weight * (scored - slot.score_seen)
+            r_collect = self.collect_weight * (collected - slot.collected_seen)
             r_action = -0.01 * float(np.square(actions[i, :3]).sum())
             rewards[i] = r_score + r_collect + r_action
             info["reward_components"].append(

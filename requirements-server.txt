@@ -1,0 +1,7 @@
+# Python 3.11.  Install order matters: torch (cu128) and isaacsim first - see
+# README_SERVER.md.  Versions pinned to the working Windows dev machine.
+numpy==1.26.0
+pillow==11.3.0
+opencv-python-headless==4.11.0.86
+pytest>=8
+psutil>=5.9

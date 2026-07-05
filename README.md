@@ -140,6 +140,21 @@ The initial policy contract is implemented in `xrc_rebuilt.rl`: 60 Hz physics,
 blue-only action space. The next implementation milestone is the vectorized
 `DirectRLEnv`.
 
+### Live training dashboard
+
+Start the localhost-only monitor in a separate terminal:
+
+```powershell
+& C:\il\venv\Scripts\python.exe .\scripts\rl\training_dashboard.py
+```
+
+It opens `http://127.0.0.1:8765` and automatically discovers DrQ-v2 run
+directories. The page distinguishes a live process from an interrupted run,
+tracks transitions, updates, ETA, reward components and learning curves, and
+shows CPU, RAM, RTX utilization, VRAM, temperature, and power. New training
+runs also write `run_config.json` plus timestamped throughput metrics so the
+dashboard can calculate progress without inferring it from file timestamps.
+
 ## Imported assets and distribution
 
 The repository contains extracted xRC interoperability assets and supplied

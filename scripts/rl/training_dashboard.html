@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REBUILT Training Monitor</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b11; --panel: #111722; --panel2: #171f2c; --line: #293448;
+      --text: #eef4ff; --muted: #8f9bb0; --blue: #55a7ff; --cyan: #45e0d0;
+      --yellow: #ffd05a; --red: #ff6477; --green: #57e28f;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: radial-gradient(circle at 50% -20%, #17243a 0, var(--bg) 42%);
+      color: var(--text); font: 14px/1.45 Inter, ui-sans-serif, system-ui, sans-serif; }
+    .shell { max-width: 1500px; margin: auto; padding: 22px; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:18px; }
+    h1 { font-size:22px; margin:0; letter-spacing:.04em; }
+    h1 span { color:var(--yellow); }
+    .live { display:flex; align-items:center; gap:9px; color:var(--muted); }
+    .dot { width:10px; height:10px; border-radius:50%; background:var(--red); box-shadow:0 0 14px currentColor; }
+    .dot.running { background:var(--green); color:var(--green); animation:pulse 1.4s infinite; }
+    @keyframes pulse { 50% { opacity:.4; } }
+    select { background:var(--panel2); border:1px solid var(--line); color:var(--text); padding:8px 12px; border-radius:8px; }
+    .panel { background:linear-gradient(145deg,rgba(23,31,44,.96),rgba(14,19,29,.96));
+      border:1px solid var(--line); border-radius:14px; padding:17px; box-shadow:0 14px 50px rgba(0,0,0,.2); }
+    .hero { display:grid; grid-template-columns:1.4fr 1fr; gap:14px; margin-bottom:14px; }
+    .statusline { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+    .eyebrow { color:var(--muted); text-transform:uppercase; letter-spacing:.13em; font-size:11px; }
+    .big { font-size:34px; font-weight:750; margin:2px 0 4px; }
+    .badge { padding:6px 10px; border-radius:99px; background:#2b1720; color:var(--red); font-weight:700; text-transform:uppercase; font-size:11px; }
+    .badge.running { background:#142b22; color:var(--green); }
+    .badge.complete { background:#14273c; color:var(--blue); }
+    .progress { height:12px; background:#090d14; border:1px solid var(--line); border-radius:99px; overflow:hidden; margin:17px 0 8px; }
+    .progress div { height:100%; background:linear-gradient(90deg,var(--blue),var(--cyan)); border-radius:inherit; transition:width .4s; }
+    .progressmeta { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; }
+    .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:14px; }
+    .metric .value { font-size:27px; font-weight:740; margin-top:4px; white-space:nowrap; }
+    .metric .sub { color:var(--muted); font-size:12px; margin-top:4px; }
+    .grid { display:grid; grid-template-columns:2fr 1fr; gap:14px; }
+    .charts { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .chart-title { display:flex; justify-content:space-between; margin-bottom:8px; }
+    canvas { width:100%; height:220px; display:block; }
+    .resources { display:grid; gap:13px; }
+    .resource-head { display:flex; justify-content:space-between; }
+    .bar { height:7px; background:#090d14; border-radius:10px; overflow:hidden; margin-top:7px; }
+    .bar div { height:100%; background:var(--blue); }
+    .bar.gpu div { background:var(--cyan); } .bar.ram div { background:var(--yellow); }
+    .alerts { margin-top:14px; display:grid; gap:8px; }
+    .alert { border-left:3px solid var(--blue); background:#121c2a; padding:9px 11px; border-radius:5px; color:#c8d5e8; }
+    .alert.error { border-color:var(--red); background:#25151b; }
+    .alert.success { border-color:var(--green); background:#12251d; }
+    .footer { color:var(--muted); margin-top:14px; font-size:12px; display:flex; justify-content:space-between; }
+    @media(max-width:1000px) { .hero,.grid {grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr} }
+    @media(max-width:650px) { .shell{padding:12px}.charts{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.big{font-size:27px} }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div><div class="eyebrow">FULL-PHYSICS RL</div><h1><span>REBUILT</span> Training Monitor</h1></div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <select id="runSelect"></select>
+      <div class="live"><span id="liveDot" class="dot"></span><span id="liveText">Connecting</span></div>
+    </div>
+  </header>
+  <section class="hero">
+    <div class="panel">
+      <div class="statusline">
+        <div><div class="eyebrow">Selected run</div><div id="runName" class="big">—</div><div id="runPath" style="color:var(--muted)">—</div></div>
+        <div id="statusBadge" class="badge">unknown</div>
+      </div>
+      <div class="progress"><div id="progressBar" style="width:0%"></div></div>
+      <div class="progressmeta"><span id="elapsed">Elapsed —</span><span id="eta">ETA —</span></div>
+      <div id="alerts" class="alerts"></div>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">Run configuration</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:13px">
+        <div><div class="eyebrow">Environments</div><div id="envs" class="big">—</div></div>
+        <div><div class="eyebrow">Target</div><div id="target" class="big">—</div></div>
+        <div><div class="eyebrow">Checkpoint</div><div id="checkpoint" style="font-size:18px;font-weight:650">—</div></div>
+        <div><div class="eyebrow">Last update</div><div id="lastUpdate" style="font-size:18px;font-weight:650">—</div></div>
+      </div>
+    </div>
+  </section>
+  <section class="metrics">
+    <div class="panel metric"><div class="eyebrow">Transitions</div><div id="transitions" class="value">—</div><div id="throughput" class="sub">— tx/s</div></div>
+    <div class="panel metric"><div class="eyebrow">Updates</div><div id="updates" class="value">—</div><div id="replay" class="sub">— replay</div></div>
+    <div class="panel metric"><div class="eyebrow">Recent return</div><div id="return" class="value">—</div><div id="returnMax" class="sub">max —</div></div>
+    <div class="panel metric"><div class="eyebrow">Episodes</div><div id="episodes" class="value">—</div><div id="rewardSplit" class="sub">score — · collect —</div></div>
+  </section>
+  <main class="grid">
+    <div class="charts">
+      <div class="panel"><div class="chart-title"><b>Return</b><span class="eyebrow">recent mean / max</span></div><canvas id="returnChart"></canvas></div>
+      <div class="panel"><div class="chart-title"><b>Reward components</b><span class="eyebrow">score / collect</span></div><canvas id="rewardChart"></canvas></div>
+      <div class="panel"><div class="chart-title"><b>Learning signals</b><span class="eyebrow">Q / critic loss</span></div><canvas id="learningChart"></canvas></div>
+      <div class="panel"><div class="chart-title"><b>Exploration</b><span class="eyebrow">stddev schedule</span></div><canvas id="exploreChart"></canvas></div>
+    </div>
+    <aside class="panel">
+      <div class="chart-title"><b>Laptop resources</b><span class="eyebrow">live</span></div>
+      <div class="resources">
+        <div><div class="resource-head"><span>CPU</span><b id="cpu">—</b></div><div class="bar"><div id="cpuBar"></div></div></div>
+        <div><div class="resource-head"><span>System RAM</span><b id="ram">—</b></div><div class="bar ram"><div id="ramBar"></div></div></div>
+        <div><div class="resource-head"><span>RTX 5080</span><b id="gpu">—</b></div><div class="bar gpu"><div id="gpuBar"></div></div></div>
+        <div><div class="resource-head"><span>GPU VRAM</span><b id="vram">—</b></div><div class="bar gpu"><div id="vramBar"></div></div></div>
+        <div><div class="resource-head"><span>GPU temperature</span><b id="temp">—</b></div></div>
+        <div><div class="resource-head"><span>GPU power</span><b id="power">—</b></div></div>
+      </div>
+      <div style="margin-top:25px"><div class="chart-title"><b>Resource history</b><span class="eyebrow">GPU / RAM</span></div><canvas id="resourceChart" style="height:190px"></canvas></div>
+    </aside>
+  </main>
+  <div class="footer"><span>Refreshes every 3 seconds · localhost only</span><span id="generated">—</span></div>
+</div>
+<script>
+const $=id=>document.getElementById(id); let selectedRun=null;
+const fmt=n=>n==null?'—':Number(n).toLocaleString(undefined,{maximumFractionDigits:2});
+const duration=s=>{if(s==null)return '—';s=Math.max(0,s);let h=Math.floor(s/3600),m=Math.floor((s%3600)/60),q=Math.floor(s%60);return h?`${h}h ${m}m`:`${m}m ${q}s`};
+function chart(id, series){
+  const c=$(id), dpr=devicePixelRatio||1, rect=c.getBoundingClientRect(); c.width=rect.width*dpr;c.height=rect.height*dpr;
+  const x=c.getContext('2d');x.scale(dpr,dpr);let w=rect.width,h=rect.height,p=26;
+  x.clearRect(0,0,w,h);x.strokeStyle='#263248';x.lineWidth=1;
+  for(let i=0;i<4;i++){let y=p+(h-2*p)*i/3;x.beginPath();x.moveTo(p,y);x.lineTo(w-p,y);x.stroke()}
+  let vals=series.flatMap(s=>s.values).filter(Number.isFinite);if(!vals.length){x.fillStyle='#738099';x.fillText('Waiting for metrics',p,h/2);return}
+  let lo=Math.min(...vals),hi=Math.max(...vals);if(hi===lo){hi+=1;lo-=1}let count=Math.max(...series.map(s=>s.values.length));
+  series.forEach(s=>{x.strokeStyle=s.color;x.lineWidth=2;x.beginPath();s.values.forEach((v,i)=>{if(!Number.isFinite(v))return;let px=p+(w-2*p)*(count<=1?0:i/(count-1)),py=h-p-(h-2*p)*(v-lo)/(hi-lo);i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke()});
+  x.fillStyle='#8f9bb0';x.font='11px system-ui';x.fillText(hi.toFixed(2),3,p);x.fillText(lo.toFixed(2),3,h-p);
+  let lx=p;series.forEach(s=>{x.fillStyle=s.color;x.fillRect(lx,h-10,12,2);x.fillStyle='#a9b4c8';x.fillText(s.name,lx+16,h-5);lx+=80});
+}
+function setBar(id,value){$(id).style.width=Math.max(0,Math.min(100,value||0))+'%'}
+async function refresh(){
+  try{
+    let u='/api/status'+(selectedRun?`?run=${encodeURIComponent(selectedRun)}`:'');let data=await fetch(u,{cache:'no-store'}).then(r=>r.json());
+    let select=$('runSelect'), names=data.runs.map(r=>r.name);if(select.options.length!==names.length||[...select.options].some((o,i)=>o.value!==names[i])){select.innerHTML=names.map(n=>`<option>${n}</option>`).join('')}
+    let r=data.selected;if(!r){$('runName').textContent='No training runs';return}selectedRun=r.name;select.value=r.name;
+    $('runName').textContent=r.name;$('runPath').textContent=r.path;
+    $('statusBadge').textContent=r.status;$('statusBadge').className='badge '+r.status;
+    $('liveDot').className='dot '+(r.running?'running':'');$('liveText').textContent=r.running?'Training live':'Not running';
+    $('progressBar').style.width=((r.progress||0)*100).toFixed(1)+'%';$('elapsed').textContent='Elapsed '+duration(r.elapsed_s);$('eta').textContent=r.running?'ETA '+duration(r.eta_s):'Last activity '+new Date(r.updated_at).toLocaleTimeString();
+    let l=r.latest||{},p=r.processes?.[0]||{},cfg=r.config||{};
+    $('envs').textContent=p.num_envs||cfg.num_envs||'—';$('target').textContent=r.target_minutes?duration(r.target_minutes*60):'—';
+    $('checkpoint').textContent=r.checkpoint.final?'Final saved':r.checkpoint.latest?'Latest saved':'None';$('lastUpdate').textContent=Math.round(r.metrics_age_s)+'s ago';
+    $('transitions').textContent=fmt(l.transitions||r.summary?.transitions);$('throughput').textContent=fmt(r.overall_transitions_per_s)+' tx/s · expected '+fmt(r.expected_transitions);
+    $('updates').textContent=fmt(l.updates||r.summary?.updates);$('replay').textContent=fmt(l.replay)+' replay';
+    $('return').textContent=fmt(l.recent_return_mean||r.summary?.mean_return_last20);$('returnMax').textContent='max '+fmt(l.recent_return_max);
+    $('episodes').textContent=fmt(l.episodes||r.summary?.episodes);$('rewardSplit').textContent='score '+fmt(l.recent_score_reward)+' · collect '+fmt(l.recent_collect_reward);
+    $('alerts').innerHTML=r.alerts.map(a=>`<div class="alert ${a.level}">${a.text}</div>`).join('');
+    let h=r.history||[];chart('returnChart',[{name:'mean',color:'#55a7ff',values:h.map(v=>+v.recent_return_mean)},{name:'max',color:'#ffd05a',values:h.map(v=>+v.recent_return_max)}]);
+    chart('rewardChart',[{name:'score',color:'#57e28f',values:h.map(v=>+v.recent_score_reward)},{name:'collect',color:'#45e0d0',values:h.map(v=>+v.recent_collect_reward)}]);
+    chart('learningChart',[{name:'Q1',color:'#a58cff',values:h.map(v=>+v.q1)},{name:'loss',color:'#ff6477',values:h.map(v=>+v.critic_loss)}]);
+    chart('exploreChart',[{name:'stddev',color:'#ffd05a',values:h.map(v=>+v.stddev)}]);
+    let s=data.resources||{};$('cpu').textContent=fmt(s.cpu_percent)+'%';setBar('cpuBar',s.cpu_percent);$('ram').textContent=fmt(s.ram_percent)+'%';setBar('ramBar',s.ram_percent);
+    $('gpu').textContent=fmt(s.gpu_percent)+'%';setBar('gpuBar',s.gpu_percent);let vp=s.gpu_memory_total_mb?100*s.gpu_memory_used_mb/s.gpu_memory_total_mb:0;$('vram').textContent=fmt(s.gpu_memory_used_mb)+' / '+fmt(s.gpu_memory_total_mb)+' MB';setBar('vramBar',vp);
+    $('temp').textContent=fmt(s.gpu_temperature_c)+' °C';$('power').textContent=fmt(s.gpu_power_w)+' W';
+    let rh=data.resource_history||[];chart('resourceChart',[{name:'GPU',color:'#45e0d0',values:rh.map(v=>+v.gpu_percent)},{name:'RAM',color:'#ffd05a',values:rh.map(v=>+v.ram_percent)}]);
+    $('generated').textContent='Updated '+new Date(data.generated_at).toLocaleTimeString();
+  }catch(e){$('liveText').textContent='Dashboard error';console.error(e)}
+}
+$('runSelect').addEventListener('change',e=>{selectedRun=e.target.value;refresh()});window.addEventListener('resize',refresh);refresh();setInterval(refresh,3000);
+</script>
+</body>
+</html>

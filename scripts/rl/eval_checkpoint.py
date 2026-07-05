@@ -105,6 +105,9 @@ def main() -> None:
                 "mean_return": round(float(np.mean(rets)), 2),
                 "mean_scored": round(float(np.mean(scored)), 2),
                 "max_scored": int(np.max(scored)),
+                "pct_episodes_scored": round(
+                    100.0 * float(np.mean([s >= 1 for s in scored])), 1
+                ),
                 "mean_collected": round(float(np.mean(collected)), 2),
                 "max_collected": int(np.max(collected)),
                 "per_episode": episode_stats[:needed],

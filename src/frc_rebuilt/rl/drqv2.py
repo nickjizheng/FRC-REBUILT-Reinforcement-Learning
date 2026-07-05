@@ -105,6 +105,7 @@ class DrQConfig:
     frame_w: int = 160
     lr: float = 1e-4
     critic_tau: float = 0.01
+    grad_clip_norm: float = 1.0   # converged plan; prevents late-run Q blow-ups
     stddev_start: float = 1.0
     stddev_end: float = 0.1
     stddev_steps: int = 100_000
@@ -132,6 +133,7 @@ class DrQV2Agent:
         self.actor_opt = torch.optim.Adam(self.actor.parameters(), lr=cfg.lr)
         self.critic_opt = torch.optim.Adam(self.critic.parameters(), lr=cfg.lr)
         self.train_steps = 0
+        self.skipped_updates = 0
 
     # -- exploration schedule ----------------------------------------------
     def stddev(self) -> float:
@@ -181,9 +183,16 @@ class DrQV2Agent:
 
         q1, q2 = self.critic(feat, proprio, privileged, action)
         critic_loss = F.mse_loss(q1, target_q) + F.mse_loss(q2, target_q)
+        # non-finite guard: a diverged batch must never write NaN into the
+        # weights (a 4 h run was destroyed by its final ~200 updates)
+        if not torch.isfinite(critic_loss):
+            self.skipped_updates += 1
+            return {"critic_loss": float("nan"), "skipped": float(self.skipped_updates)}
         self.encoder_opt.zero_grad(set_to_none=True)
         self.critic_opt.zero_grad(set_to_none=True)
         critic_loss.backward()
+        torch.nn.utils.clip_grad_norm_(self.encoder.parameters(), cfg.grad_clip_norm)
+        torch.nn.utils.clip_grad_norm_(self.critic.parameters(), cfg.grad_clip_norm)
         self.encoder_opt.step()
         self.critic_opt.step()
 
@@ -196,8 +205,12 @@ class DrQV2Agent:
         sampled = torch.clamp(mean + noise, -1.0, 1.0)
         aq1, aq2 = self.critic(feat_detached, proprio, privileged, sampled)
         actor_loss = -torch.min(aq1, aq2).mean()
+        if not torch.isfinite(actor_loss):
+            self.skipped_updates += 1
+            return {"actor_loss": float("nan"), "skipped": float(self.skipped_updates)}
         self.actor_opt.zero_grad(set_to_none=True)
         actor_loss.backward()
+        torch.nn.utils.clip_grad_norm_(self.actor.parameters(), cfg.grad_clip_norm)
         self.actor_opt.step()
 
         with torch.no_grad():
@@ -213,6 +226,13 @@ class DrQV2Agent:
         }
 
     # -- persistence ---------------------------------------------------------
+    def weights_finite(self) -> bool:
+        return all(
+            bool(torch.isfinite(p).all())
+            for module in (self.encoder, self.actor, self.critic)
+            for p in module.parameters()
+        )
+
     def save(self, path: str) -> None:
         torch.save(
             {
@@ -220,7 +240,11 @@ class DrQV2Agent:
                 "actor": self.actor.state_dict(),
                 "critic": self.critic.state_dict(),
                 "critic_target": self.critic_target.state_dict(),
+                "encoder_opt": self.encoder_opt.state_dict(),
+                "actor_opt": self.actor_opt.state_dict(),
+                "critic_opt": self.critic_opt.state_dict(),
                 "train_steps": self.train_steps,
+                "skipped_updates": self.skipped_updates,
             },
             path,
         )
@@ -231,4 +255,14 @@ class DrQV2Agent:
         self.actor.load_state_dict(payload["actor"])
         self.critic.load_state_dict(payload["critic"])
         self.critic_target.load_state_dict(payload["critic_target"])
+        # optimizer state enables exact training resume (older checkpoints
+        # without it still load for evaluation)
+        for name, optimizer in (
+            ("encoder_opt", self.encoder_opt),
+            ("actor_opt", self.actor_opt),
+            ("critic_opt", self.critic_opt),
+        ):
+            if name in payload:
+                optimizer.load_state_dict(payload[name])
         self.train_steps = int(payload.get("train_steps", 0))
+        self.skipped_updates = int(payload.get("skipped_updates", 0))

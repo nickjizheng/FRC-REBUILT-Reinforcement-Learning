@@ -1,0 +1,26 @@
+{
+  "started_at": "2026-07-05T14:15:52.695208+08:00",
+  "finished_at": "2026-07-05T14:22:01.915347+08:00",
+  "elapsed_s": 369.2,
+  "transitions": 2450,
+  "transitions_per_s": 6.636,
+  "updates": 1452,
+  "episodes": 6,
+  "mean_return_last20": 26.79,
+  "mean_score_reward_last20": 0.0,
+  "mean_collect_reward_last20": 33.0,
+  "first5_returns": [
+    5.2,
+    38.13,
+    19.24,
+    28.86,
+    40.33
+  ],
+  "last5_returns": [
+    38.13,
+    19.24,
+    28.86,
+    40.33,
+    28.97
+  ]
+}

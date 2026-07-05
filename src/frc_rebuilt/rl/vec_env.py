@@ -462,6 +462,7 @@ class VecCompetitionEnv:
         router.blocked_until_clear = set()
         router.released_watch.clear()
         router.exit_free_at.clear()
+        router.funnel_entry.clear()
         router.scored = {"red": 0, "blue": 0}
         router.detected = 0
         router.released = 0

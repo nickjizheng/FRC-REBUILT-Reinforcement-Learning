@@ -105,6 +105,13 @@ class HubRouter:
         # "FUEL scored in an inactive HUB will not earn any points").
         self.active = {"red": True, "blue": True}
         self.scored = {"red": 0, "blue": 0}
+        # Funnel-entry gate: a FUEL is only capturable after it plausibly
+        # entered through the TOP funnel (seen high over the hub footprint or
+        # inside the core sensor box), never by being bulldozed underneath the
+        # structure.  RL evaluation exposed that exploit: an episode "scored"
+        # 3 FUEL it never possessed by squeezing balls under the hub into the
+        # z>=0.40 rescue windows.
+        self.funnel_entry: set[int] = set()
         self.delays: list[float] = []
         self.release_intervals: list[float] = []
         self.demo_indices: list[int] = []
@@ -130,6 +137,26 @@ class HubRouter:
             index for index in self.blocked_until_clear
             if not (float(positions_np[index, 2]) < 0.40 or abs(float(positions_np[index, 1])) < 2.70)
         }
+        # ---- funnel-entry bookkeeping (see __init__ note) ----
+        z = positions_np[:, 2]
+        x_ok = np.abs(positions_np[:, 0]) <= 0.90
+        over_footprint = np.zeros(len(positions_np), dtype=bool)
+        core_box = np.zeros(len(positions_np), dtype=bool)
+        for hub in self.HUBS.values():
+            dy_all = np.abs(positions_np[:, 1] - hub["sensor_y"])
+            over_footprint |= x_ok & (dy_all <= 0.70) & (z >= 1.45)
+            core_box |= (
+                (np.abs(positions_np[:, 0]) <= 0.65)
+                & (dy_all <= 0.40)
+                & (z >= 0.60)
+                & (z <= 1.35)
+            )
+        for index in np.flatnonzero(over_footprint | core_box):
+            self.funnel_entry.add(int(index))
+        # flag expires once the ball is back on the floor away from the hubs
+        on_floor_outside = (z < 0.30) & (np.abs(positions_np[:, 1]) < 2.70)
+        for index in np.flatnonzero(on_floor_outside):
+            self.funnel_entry.discard(int(index))
         # Anti-pile crowd rescue.  The wide continuous stream aims ~0.42 m
         # outboard of the scorer sensor, so several FUEL can occupy the funnel
         # mouth at once; a churning pile there never drops below the settled
@@ -148,6 +175,7 @@ class HubRouter:
                 int(index) for index in np.flatnonzero(mask)
                 if int(index) not in self.pending
                 and int(index) not in self.blocked_until_clear
+                and int(index) in self.funnel_entry
             ]
             if len(candidates) > 3:
                 candidates.sort(key=lambda i: float(positions_np[i, 2]))
@@ -167,6 +195,10 @@ class HubRouter:
                 # (apex speeds >1 m/s) stay airborne.
                 at_sensor = abs(float(position[0])) <= 0.70 and dy <= 0.55 and 0.45 <= float(position[2]) <= 1.42
                 settled = abs(float(position[0])) <= 0.90 and dy <= 0.65 and float(position[2]) >= 0.40 and speed < 0.85
+                if index not in self.funnel_entry:
+                    # never entered via the top funnel (e.g. pushed under the
+                    # structure by a robot) - not capturable, not scoreable
+                    continue
                 if at_sensor or settled or crowd_capture.get(index) == alliance:
                     if not (at_sensor or settled):
                         self.crowd_rescued += 1

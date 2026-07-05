@@ -41,8 +41,21 @@ def main() -> None:
     ap.add_argument("--num-envs", type=int, default=2)
     ap.add_argument("--minutes", type=float, default=20.0)
     ap.add_argument("--template", default=str(PROJECT_ROOT / "assets/rl/env_template_32.usd"))
-    ap.add_argument("--replay-capacity", type=int, default=60_000)
+    ap.add_argument(
+        "--replay-capacity",
+        type=int,
+        default=60_000,
+        help="total transitions in RAM (~130 KB each; 60k = ~7.8 GB on the "
+        "32 GB machine - the D:-NVMe chunk store is the planned larger tier)",
+    )
     ap.add_argument("--batch-size", type=int, default=128)
+    ap.add_argument(
+        "--gamma",
+        type=float,
+        default=0.997,
+        help="converged plan: 0.997 for short curriculum stages, annealed "
+        "toward 0.999 for full matches",
+    )
     ap.add_argument("--seed-transitions", type=int, default=1_000)
     ap.add_argument("--updates-per-tx", type=float, default=1.0)
     ap.add_argument("--episode-len-s", type=float, default=20.0)
@@ -97,7 +110,7 @@ def main() -> None:
             privileged_dim=obs["privileged"].shape[1],
             action_dim=7,
             n_step=3,
-            gamma=0.99,
+            gamma=args.gamma,
         )
 
         deadline = time.time() + args.minutes * 60.0

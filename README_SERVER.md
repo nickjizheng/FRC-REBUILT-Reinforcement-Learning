@@ -29,6 +29,54 @@ System per concurrent run: >=6 CPU cores, >=32 GB RAM (recommend 64+ GB
 total for parallel runs; replay is ~8 GB/run), NVMe >=1 TB, Ubuntu 22.04/24.04,
 NVIDIA driver >= 570.
 
+## 1b. Compute-only containers (AutoDL etc.): make Vulkan rendering work
+
+Many China GPU hosts (AutoDL) ship **compute-only** images: CUDA works, but
+Isaac's camera rendering (Vulkan) fails with `ERROR_INCOMPATIBLE_DRIVER` /
+`Failed to create any GPU devices`. The GPUs DO support graphics (check
+`ls /dev/dri` — render nodes present); the image just stripped the userspace
+graphics stack. Symptoms and the exact, verified fix (driver 580.105.08 open
+module, 4×5090 AutoDL, 2026-07):
+
+1. **Do NOT `apt install libnvidia-gl-580`** to get the Vulkan ICD — apt only
+   has a *different* point release (e.g. 580.159.03) and it drags in
+   `libnvidia-compute-580`, whose libs mismatch the kernel module and break
+   CUDA too (`NVML_ERROR_LIB_RM_VERSION_MISMATCH`, `CUDA error 804`). If you
+   already did this, move the mismatched libs aside and let ldconfig repoint to
+   the host-mounted matched version:
+   ```bash
+   cd /usr/lib/x86_64-linux-gnu
+   for f in *.580.159.03; do b=${f%.580.159.03}; [ -e "$b.580.105.08" ] && mv "$f" /root/nv159_backup/; done
+   ldconfig   # symlinks now point at the kernel-matched 580.105.08
+   ```
+2. **The real missing piece is GLVND + GL/X utility libs** (vendor-neutral,
+   safe, version-independent). This alone is what makes NVIDIA Vulkan init:
+   ```bash
+   apt-get install -y --no-install-recommends \
+     libglvnd0 libegl1 libgl1 libopengl0 \
+     libglu1-mesa libxt6 libsm6 libice6 libxrandr2 libxinerama1 \
+     libxcursor1 libxi6 libxrender1 libxfixes3
+   ```
+3. **A correct Vulkan ICD** pointing at the kernel-matched driver:
+   ```bash
+   printf '{\n  "file_format_version":"1.0.0",\n  "ICD":{"library_path":"/usr/lib/x86_64-linux-gnu/libGLX_nvidia.so.580.105.08","api_version":"1.3.277"}\n}\n' > /root/nvidia_icd_105.json
+   export VK_ICD_FILENAMES=/root/nvidia_icd_105.json
+   ```
+4. **Device nodes** — a multi-GPU slice often exposes only `/dev/nvidia3..6`
+   while `/proc/driver/nvidia/gpus/` lists all host GPUs; create the missing
+   minors so Vulkan enumeration doesn't abort (cgroup still blocks real access):
+   ```bash
+   for m in 0 1 2 7; do [ -e /dev/nvidia$m ] || mknod -m 666 /dev/nvidia$m c 195 $m; done
+   ```
+5. Verify: `vulkaninfo --summary` must list `NVIDIA GeForce RTX 5090`. Then the
+   **first** Isaac render compiles shaders (cameras black, `std=0.0`); the
+   **second** run reads the warm cache and delivers real frames (`std>1`).
+
+The system Vulkan loader version is NOT the issue (a from-source 1.4.309 loader
+failed identically until GLVND was installed). `/dev` nodes + env vars reset on
+container restart — put steps 3-4 in a `setup_render_env.sh` sourced from
+`~/.bashrc`; the apt packages and lib moves persist on disk.
+
 ## 2. Install
 
 **Disk space first:** `isaacsim[all,extscache]` needs ~35-45 GB installed plus
@@ -115,6 +163,42 @@ Parallel runs on a multi-GPU box (one GPU per run):
 CUDA_VISIBLE_DEVICES=0 python scripts/rl/train_drqv2.py ... --out runs/seed0 &
 CUDA_VISIBLE_DEVICES=1 python scripts/rl/train_drqv2.py ... --out runs/seed1 &
 ```
+
+## 4b. Distributed collection (Stage C+): N GPUs -> one policy
+
+A single vision env is render-bound at ~0.2x real time, so one policy can't use
+more than ~20% of a GPU. The distributed collector fixes that: **N collector
+processes render on separate GPUs in parallel and feed ONE learner** through a
+RAM-backed (`/dev/shm`) transport, giving ~Nx the transitions/sec to a single
+policy. Files: `src/xrc_rebuilt/rl/distributed.py` (transport, unit-tested),
+`scripts/rl/collector.py`, `scripts/rl/learner.py`, `scripts/rl/run_distributed.sh`.
+
+Validate first with a short smoke (2 collectors + learner, ~4 min):
+```bash
+chmod +x scripts/rl/run_distributed.sh
+scripts/rl/run_distributed.sh runs/drqv2_seedA6/best.pt 2 4
+sleep 200
+tail -5 /root/autodl-tmp/runs/drqv2_C_dist/metrics.jsonl        # transitions + updates climbing
+grep -E "READY|initial weights|Traceback" /root/autodl-tmp/runs/drqv2_C_dist.learner.log \
+     /root/autodl-tmp/runs/drqv2_C_dist.collector*.log
+ls -la /dev/shm/xrc_dist/weights/                              # weights being republished
+```
+Healthy = learner "published initial weights", each collector "READY", and
+`transitions`/`updates` rising in metrics.jsonl. If a collector shows a
+Traceback, its GPU or the template path is the culprit; the others keep running.
+
+Full run (3 collectors on GPU0-2 + learner on GPU3, from the Stage-B champion):
+```bash
+scripts/rl/run_distributed.sh runs/<stageB_champion>/best.pt 3 240
+```
+Tuning knobs live in the two scripts: `--updates-per-tx` (learner UTD),
+`--preload-prob` / `--episode-len-s` (collector curriculum), `--chunk-steps`
+(transport latency vs overhead). The dashboard finds it as `drqv2_C_dist`.
+
+Note the transport dirs (`/dev/shm/xrc_dist`) are RAM — they vanish on reboot
+and the run cleans them on launch. Stage-C specifics (200-ball template, hub
+active/inactive timing) are env-config tweaks layered on once the machinery is
+validated.
 
 ## 5. Evaluate + Stage-B promotion gate
 

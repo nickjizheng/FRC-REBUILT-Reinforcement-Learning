@@ -31,6 +31,23 @@ NVIDIA driver >= 570.
 
 ## 2. Install
 
+**Disk space first:** `isaacsim[all,extscache]` needs ~35-45 GB installed plus
+transient pip space. Rented GPU boxes often have a small root disk and a big
+data mount (`/workspace`, `/data`). Put the project, the venv, pip's
+TMPDIR/cache, AND Isaac's runtime caches on the big disk:
+
+```bash
+df -h                                  # find the big mount; substitute below
+cd /workspace && mkdir -p tmp pip-cache ov/cache ov/data
+export TMPDIR=/workspace/tmp PIP_CACHE_DIR=/workspace/pip-cache
+ln -s /workspace/ov/cache ~/.cache/ov
+ln -s /workspace/ov/data  ~/.local/share/ov
+```
+
+If space is still tight (<60 GB free), install `isaacsim[all]` (without
+`,extscache`, ~15-20 GB smaller); extensions then stream on first boot
+(needs internet, first launch is slower).
+
 ```bash
 python3.11 -m venv venv && source venv/bin/activate
 pip install -U pip

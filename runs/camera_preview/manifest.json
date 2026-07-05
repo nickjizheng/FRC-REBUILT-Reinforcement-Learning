@@ -1,0 +1,62 @@
+{
+  "images": [
+    {
+      "key": "driving_128x128",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\driving_128x128.png",
+      "shape": [
+        128,
+        128,
+        4
+      ]
+    },
+    {
+      "key": "driving_256x256",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\driving_256x256.png",
+      "shape": [
+        256,
+        256,
+        4
+      ]
+    },
+    {
+      "key": "driving_400x300",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\driving_400x300.png",
+      "shape": [
+        300,
+        400,
+        4
+      ]
+    },
+    {
+      "key": "collection_128x128",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\collection_128x128.png",
+      "shape": [
+        128,
+        128,
+        4
+      ]
+    },
+    {
+      "key": "collection_256x256",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\collection_256x256.png",
+      "shape": [
+        256,
+        256,
+        4
+      ]
+    },
+    {
+      "key": "overview_640x480",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\overview_640x480.png",
+      "shape": [
+        480,
+        640,
+        4
+      ]
+    }
+  ],
+  "perf": {
+    "render_fps": 15.401756750051835,
+    "vram_gb_torch": 0.0
+  }
+}

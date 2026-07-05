@@ -240,6 +240,67 @@ BUMPER_DEPTH_M = 0.062
 BUMPER_CENTER_X_M = -0.142
 BUMPER_BLUE_RGBA = (0.025, 0.16, 0.82, 1.0)
 
+# Onboard vision rig.  These cameras are real chassis children, not world-fixed
+# debug views.  Their conservative housing boxes include the camera body,
+# bracket standoff and cable strain relief.  Every box remains inside the blue
+# bumper plan envelope and below z=0.47 m, so the existing 0.533 m compact CAD
+# crown—not a camera—continues to define trench clearance.
+CAMERA_RESOLUTION = (640, 360)
+CAMERA_RATE_HZ = 10
+CAMERA_TWO_VIEW_NAMES = ("intake", "shooter")
+CAMERA_BASELINE_NAMES = ("intake", "shooter", "navigation")
+CAMERA_ABLATION_NAMES = ("intake", "shooter", "navigation")
+CAMERA_HORIZONTAL_APERTURE_MM = 20.955
+CAMERA_RIG = {
+    # Mounted on the folding intake link.  In deployed mode the lens is at the
+    # front crossbar and sees the complete collection row; in compact mode the
+    # same rigid transform folds beneath the 0.533 m compact crown.
+    "intake": {
+        "parent_path": f"{ROBOT_ROOT_PATH}/CADMechanisms/Intake",
+        "position": (0.335, 0.0, 0.055),
+        "direction": (1.0, 0.0, -0.320),
+        "hfov_deg": 110.0,
+        "housing_half_extents": (0.040, 0.035, 0.025),
+        "housing_center": (0.290, 0.0, 0.055),
+        "compact_top_m": 0.515,
+        "role": "intake-mouth, complete collection row and near-field FUEL",
+    },
+    # Parent to the retracting shooter link, immediately behind the exit.  It
+    # sees along the actual firing axis and lowers with the turret for trench
+    # passage instead of remaining on the chassis.
+    "shooter": {
+        "parent_path": f"{ROBOT_ROOT_PATH}/CADMechanisms/ShooterRetract",
+        "position": (-0.462, 0.0, 0.530),
+        "direction": (-1.0, 0.0, 0.250),
+        "hfov_deg": 100.0,
+        "housing_half_extents": (0.040, 0.035, 0.025),
+        "housing_center": (-0.418, 0.0, 0.530),
+        "compact_top_m": 0.415,
+        "role": "firing axis, HUB opening, shot corridor and reverse travel",
+    },
+    # High protected chassis view for horizon, trenches and side context.  The
+    # lens is at the side guard while the complete housing remains inside the
+    # bumper footprint and below the compact CAD crown.
+    "navigation": {
+        "parent_path": f"{ROBOT_ROOT_PATH}/chassis",
+        "position": (-0.050, 0.430, 0.480),
+        "direction": (0.0, 1.0, -0.100),
+        "hfov_deg": 105.0,
+        "housing_half_extents": (0.040, 0.040, 0.025),
+        "housing_center": (-0.050, 0.385, 0.480),
+        "compact_top_m": 0.505,
+        "role": "wide left-side context, trenches, obstacles and distant FUEL",
+    },
+}
+CAMERA_PRIM_PATHS = {
+    name: f"{spec['parent_path']}/Sensors/Cameras/{name}/OpticalCamera"
+    for name, spec in CAMERA_RIG.items()
+}
+CAMERA_HOUSING_COLLIDERS = tuple(
+    (spec["housing_half_extents"], spec["housing_center"])
+    for spec in CAMERA_RIG.values()
+)
+
 # WeidaiSub.cpp: 22.5:1 actuator, normalized positions 0.99 (StartStorage) and
 # 0.02 (CloseStorage).  The 22.25 in xRC/FIRST trench opening is 0.565 m high.
 STORAGE_EXTENDED_POSITION = 0.99
@@ -568,6 +629,60 @@ def _point_on_polyline(points: np.ndarray, distance_m: float) -> tuple[np.ndarra
     return points[-1].copy(), True
 
 
+def camera_orientation_wxyz(
+    direction: tuple[float, float, float] | np.ndarray,
+    up: tuple[float, float, float] | np.ndarray = (0.0, 0.0, 1.0),
+) -> np.ndarray:
+    """Return the USD-camera quaternion for a chassis-local look direction.
+
+    USD cameras view along local ``-Z`` with local ``+Y`` as image-up.
+    """
+
+    forward = np.asarray(direction, dtype=np.float64)
+    forward /= np.linalg.norm(forward) + 1e-12
+    camera_z = -forward
+    world_up = np.asarray(up, dtype=np.float64)
+    camera_x = np.cross(world_up, camera_z)
+    camera_x /= np.linalg.norm(camera_x) + 1e-12
+    camera_y = np.cross(camera_z, camera_x)
+    rotation = np.stack((camera_x, camera_y, camera_z), axis=1)
+    trace = float(np.trace(rotation))
+    if trace > 0.0:
+        scale = 0.5 / math.sqrt(trace + 1.0)
+        w = 0.25 / scale
+        x = (rotation[2, 1] - rotation[1, 2]) * scale
+        y = (rotation[0, 2] - rotation[2, 0]) * scale
+        z = (rotation[1, 0] - rotation[0, 1]) * scale
+    else:
+        axis = int(np.argmax(np.diag(rotation)))
+        if axis == 0:
+            root = 2.0 * math.sqrt(
+                max(1e-12, 1.0 + rotation[0, 0] - rotation[1, 1] - rotation[2, 2])
+            )
+            w = (rotation[2, 1] - rotation[1, 2]) / root
+            x = 0.25 * root
+            y = (rotation[0, 1] + rotation[1, 0]) / root
+            z = (rotation[0, 2] + rotation[2, 0]) / root
+        elif axis == 1:
+            root = 2.0 * math.sqrt(
+                max(1e-12, 1.0 + rotation[1, 1] - rotation[0, 0] - rotation[2, 2])
+            )
+            w = (rotation[0, 2] - rotation[2, 0]) / root
+            x = (rotation[0, 1] + rotation[1, 0]) / root
+            y = 0.25 * root
+            z = (rotation[1, 2] + rotation[2, 1]) / root
+        else:
+            root = 2.0 * math.sqrt(
+                max(1e-12, 1.0 + rotation[2, 2] - rotation[0, 0] - rotation[1, 1])
+            )
+            w = (rotation[1, 0] - rotation[0, 1]) / root
+            x = (rotation[0, 2] + rotation[2, 0]) / root
+            y = (rotation[1, 2] + rotation[2, 1]) / root
+            z = 0.25 * root
+    quat = np.asarray((w, x, y, z), dtype=np.float32)
+    return quat / (np.linalg.norm(quat) + 1e-12)
+
+
 class CompetitionRobotArticulationBuilder:
     """Author the lightweight CAD visual plus a physical four-module swerve."""
 
@@ -767,6 +882,55 @@ class CompetitionRobotArticulationBuilder:
                 BUMPER_BLUE_RGBA,
             )
             sb.UsdShade.MaterialBindingAPI.Apply(bumper_visual).Bind(bumper_material)
+
+        # Physically realizable onboard cameras.  Intake and shooter cameras
+        # are children of their moving rigid links; navigation is a chassis
+        # child.  Their invisible conservative housing colliders therefore
+        # follow the same compact/deploy motion as the real mounts.
+        for name, spec in CAMERA_RIG.items():
+            camera_root = f"{spec['parent_path']}/Sensors/Cameras"
+            UsdGeom.Xform.Define(stage, camera_root)
+            mount_path = f"{camera_root}/{name}"
+            UsdGeom.Xform.Define(stage, mount_path)
+            # Cosmetic black housing VISUALS removed (declutter + render cost);
+            # the housing COLLISION boxes still enforce the real envelope.
+            housing = sb._mesh(
+                f"{mount_path}/HousingCollider",
+                _box_triangles(
+                    spec["housing_half_extents"], spec["housing_center"]
+                ),
+                (0.1, 0.8, 0.2, 0.12),
+                collision=True,
+            )
+            UsdPhysics.MeshCollisionAPI.Apply(housing).CreateApproximationAttr(
+                "convexHull"
+            )
+            housing_physx = sb.PhysxSchema.PhysxCollisionAPI.Apply(housing)
+            housing_physx.CreateContactOffsetAttr(0.004)
+            housing_physx.CreateRestOffsetAttr(0.001)
+            housing.GetAttribute("visibility").Set(
+                "inherited" if sb.debug_colliders else "invisible"
+            )
+            camera = UsdGeom.Camera.Define(stage, f"{mount_path}/OpticalCamera")
+            camera.CreateHorizontalApertureAttr(CAMERA_HORIZONTAL_APERTURE_MM)
+            camera.CreateVerticalApertureAttr(
+                CAMERA_HORIZONTAL_APERTURE_MM
+                * CAMERA_RESOLUTION[1]
+                / CAMERA_RESOLUTION[0]
+            )
+            camera.CreateFocalLengthAttr(
+                CAMERA_HORIZONTAL_APERTURE_MM
+                / (
+                    2.0
+                    * math.tan(math.radians(float(spec["hfov_deg"])) * 0.5)
+                )
+            )
+            camera.CreateClippingRangeAttr(Gf.Vec2f(0.04, 100.0))
+            camera.AddTranslateOp().Set(Gf.Vec3d(*spec["position"]))
+            w, x, y, z = camera_orientation_wxyz(spec["direction"])
+            camera.AddOrientOp().Set(
+                Gf.Quatf(float(w), float(x), float(y), float(z))
+            )
 
         # Folding storage cage/net.  Curve nodes are updated by a four-bar
         # kinematic model; there is no uniform scale shortcut.
@@ -1219,6 +1383,14 @@ class CompetitionRobotArticulationBuilder:
             "robot_bumper_continuous": True,
             "robot_bumper_alliance": "blue",
             "robot_bumper_profile": "front and rear C-shaped external soft assemblies",
+            "robot_camera_resolution": list(CAMERA_RESOLUTION),
+            "robot_camera_rate_hz": CAMERA_RATE_HZ,
+            "robot_camera_baseline": list(CAMERA_BASELINE_NAMES),
+            "robot_camera_ablation": list(CAMERA_ABLATION_NAMES),
+            "robot_camera_max_envelope_z_m": max(
+                float(spec["compact_top_m"])
+                for spec in CAMERA_RIG.values()
+            ),
             "robot_storage_net": "folding triangular white side net + sloped black top net",
             "robot_storage_motion": "reference-style four-bar compact -> raised horizontal carriage; intake below",
             "robot_storage_height_m": [STORAGE_LOWERED_TOP_M, STORAGE_EXTENDED_TOP_M],
@@ -1232,10 +1404,18 @@ class CompetitionRobotArticulationBuilder:
 
 
 class CompetitionRobotController:
-    def __init__(self, alliance_lock: str | None = None):
+    def __init__(
+        self,
+        alliance_lock: str | None = None,
+        usd_root_path: str = ROBOT_ROOT_PATH,
+    ):
         if alliance_lock is not None and alliance_lock not in HUB_TARGETS:
             raise ValueError(f"unknown alliance lock: {alliance_lock!r}")
         self.alliance_lock = alliance_lock
+        # Vectorized RL clones the robot under /World/envs/env_i/...; every
+        # absolute USD path the controller touches is rebased onto this root
+        # so mechanism visuals and the net collision swap hit THIS robot.
+        self.usd_root_path = usd_root_path
         self.articulation: Any = None
         self.control = CalibratedRobotControl()
         self.state_machine = ShooterStateMachine(
@@ -1313,6 +1493,45 @@ class CompetitionRobotController:
         except AttributeError:
             articulation.set_max_efforts(efforts)
 
+    def reset_match_state(self) -> None:
+        """Reset EVERY piece of per-episode logic state (vectorized RL resets).
+
+        Clears ball custody, feeder/intake pipelines, shooter FSM latches and
+        cooldowns, drive slew memory, and counters - so nothing (including the
+        internal driver velocity or a held fire request) leaks into the next
+        episode.  Physical robot/FUEL poses are the caller's responsibility.
+        """
+        self.magazine = []
+        self.captured_indices = set()
+        self.intake_transit.clear()
+        self.intake_lane_y.clear()
+        self.intake_release_target.clear()
+        self.feeder_queue = []
+        self.pen_reserved = set()
+        self._muzzle_watch = set()
+        self.intake_on = False
+        self.last_shot_time = -1.0
+        self.last_aim_solution = {}
+        self.shots_fired = 0
+        self.balls_collected = 0
+        self.volleys_fired = 0
+        self.retention_corrections = 0
+        self.last_fired_indices = []
+        self._batch_wait_started = None
+        self._volley_target_count = None
+        self._next_shot_gap_s = SHOOTER_COOLDOWN_S
+        # drive slew memory (field velocity + omega ramps)
+        self._driver_field_velocity = np.zeros(2, dtype=np.float32)
+        self._driver_omega = 0.0
+        self._last_module_angles = {name: 0.0 for name in MODULE_ORDER}
+        # fresh shooter FSM (drops hold/continuous latches and cooldown state)
+        self.state_machine = ShooterStateMachine(
+            cooldown_s=SHOOTER_COOLDOWN_S,
+            yaw_tolerance_deg=AUTO_ALIGN_TOLERANCE_DEG,
+            max_speed_mps=SCORE_FIRE_MAX_SPEED_MPS,
+            max_yaw_rate_dps=FIRE_MAX_YAW_RATE_DPS,
+        )
+
     def snap_storage_state(self, extended: bool) -> None:
         """Set the initial mechanism pose before the first live physics frame.
 
@@ -1357,6 +1576,10 @@ class CompetitionRobotController:
     @staticmethod
     def _np(value: Any) -> np.ndarray:
         return value.detach().cpu().numpy() if hasattr(value, "detach") else np.asarray(value)
+
+    def _p(self, absolute_path: str) -> str:
+        """Rebase a module-level absolute robot prim path onto this instance."""
+        return absolute_path.replace(ROBOT_ROOT_PATH, self.usd_root_path, 1)
 
     def chassis_pose(self) -> tuple[np.ndarray, np.ndarray]:
         position, orientation = self.articulation.get_world_pose()
@@ -1408,8 +1631,8 @@ class CompetitionRobotController:
             compact_collision = self.container_extension < 0.5
             if compact_collision != self._net_collision_compact:
                 for root_path, enabled in (
-                    (f"{CAD_VERTICAL_PATH}/NetColliders", not compact_collision),
-                    (NET_COMPACT_COLLIDER_ROOT, compact_collision),
+                    (self._p(f"{CAD_VERTICAL_PATH}/NetColliders"), not compact_collision),
+                    (self._p(NET_COMPACT_COLLIDER_ROOT), compact_collision),
                 ):
                     root = stage.GetPrimAtPath(root_path)
                     if not root or not root.IsValid():
@@ -1423,9 +1646,9 @@ class CompetitionRobotController:
                 self._net_collision_compact = compact_collision
             side, top, linkage, t = _storage_curve_segments(self.storage_position)
             for path, segments in (
-                (STORAGE_SIDE_NET_PATH, side),
-                (STORAGE_TOP_NET_PATH, top),
-                (STORAGE_LINKAGE_PATH, linkage),
+                (self._p(STORAGE_SIDE_NET_PATH), side),
+                (self._p(STORAGE_TOP_NET_PATH), top),
+                (self._p(STORAGE_LINKAGE_PATH), linkage),
             ):
                 points = [Gf.Vec3f(*point) for segment in segments for point in segment]
                 proc_prim = stage.GetPrimAtPath(path)
@@ -1445,7 +1668,7 @@ class CompetitionRobotController:
             net_corners[:2, 2] += vertical_offset
             net_corners[2:, 0] += horizontal_offset
             net_segments, _ = _four_corner_soft_net_segments(net_corners)
-            rope_path = f"{NET_VISUAL_ROOT}/Ropes"
+            rope_path = self._p(f"{NET_VISUAL_ROOT}/Ropes")
             net_points = [
                 Gf.Vec3f(float(point[0]), float(point[1]), float(point[2]))
                 for segment in net_segments for point in segment
@@ -1474,7 +1697,7 @@ class CompetitionRobotController:
                         )
                 for index, corner in enumerate(net_corners):
                     _knot = _rt.GetPrimAtPath(
-                        _RtSdf.Path(f"{NET_VISUAL_ROOT}/CornerKnot_{index}")
+                        _RtSdf.Path(self._p(f"{NET_VISUAL_ROOT}/CornerKnot_{index}"))
                     )
                     if _knot and _knot.IsValid():
                         _translate = _knot.GetAttribute("xformOp:translate")
@@ -1489,7 +1712,7 @@ class CompetitionRobotController:
                     print(f"NET_RUNTIME_UPDATE_FAILED {net_runtime_error!r}", flush=True)
                     self._reported_net_runtime_error = True
             for index, corner in enumerate(net_corners):
-                knot = stage.GetPrimAtPath(f"{NET_VISUAL_ROOT}/CornerKnot_{index}")
+                knot = stage.GetPrimAtPath(self._p(f"{NET_VISUAL_ROOT}/CornerKnot_{index}"))
                 if knot and knot.IsValid():
                     knot.GetAttribute("xformOp:translate").Set(
                         Gf.Vec3d(float(corner[0]), float(corner[1]), float(corner[2]))
@@ -1498,9 +1721,9 @@ class CompetitionRobotController:
             # Deployment sequence from the native assembly: the under-frame
             # intake starts moving first, then the paired links lift the upper
             # carriage.  Retraction follows the same collision-safe path back.
-            stage.GetPrimAtPath(INTAKE_XFORM_PATH).GetAttribute("xformOp:rotateY").Set(
-                INTAKE_STOW_ANGLE_DEG * (1.0 - self.intake_extension)
-            )
+            stage.GetPrimAtPath(self._p(INTAKE_XFORM_PATH)).GetAttribute(
+                "xformOp:rotateY"
+            ).Set(INTAKE_STOW_ANGLE_DEG * (1.0 - self.intake_extension))
         except (AttributeError, RuntimeError, ImportError):
             # Unit tests deliberately run without a live USD stage.
             pass

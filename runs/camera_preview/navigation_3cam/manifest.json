@@ -1,0 +1,467 @@
+{
+  "rig": "navigation_3cam",
+  "camera_names": [
+    "intake",
+    "shooter",
+    "navigation"
+  ],
+  "resolution": [
+    640,
+    360
+  ],
+  "rate_hz": 10,
+  "max_fuel": 456,
+  "camera_specs": {
+    "intake": {
+      "position": [
+        0.2,
+        -0.428,
+        0.3
+      ],
+      "direction": [
+        1.0,
+        -0.12,
+        -0.268
+      ],
+      "hfov_deg": 100.0,
+      "housing_half_extents": [
+        0.045,
+        0.04,
+        0.025
+      ],
+      "housing_center": [
+        0.2,
+        -0.382,
+        0.3
+      ],
+      "role": "front intake and near-field FUEL"
+    },
+    "shooter": {
+      "position": [
+        -0.566,
+        0.0,
+        0.405
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        0.325
+      ],
+      "hfov_deg": 92.0,
+      "housing_half_extents": [
+        0.045,
+        0.03,
+        0.025
+      ],
+      "housing_center": [
+        -0.518,
+        0.0,
+        0.405
+      ],
+      "role": "rear shooter, HUB and reverse travel"
+    },
+    "navigation": {
+      "position": [
+        0.1,
+        0.428,
+        0.44
+      ],
+      "direction": [
+        1.0,
+        0.1,
+        -0.052
+      ],
+      "hfov_deg": 106.0,
+      "housing_half_extents": [
+        0.04,
+        0.04,
+        0.025
+      ],
+      "housing_center": [
+        0.1,
+        0.382,
+        0.44
+      ],
+      "role": "forward horizon and lateral navigation"
+    }
+  },
+  "captures": [
+    {
+      "scenario": "calibration_deployed",
+      "camera": "intake",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\calibration_deployed__intake.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 90.786,
+        "luminance_mean": 124.076,
+        "unique_rgb_sampled": 4925,
+        "yellow_component_count": 4,
+        "yellow_max_diameter_px": 431.0,
+        "yellow_mask_fraction": 0.295048
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 216.44,
+        "0.5m": 110.63,
+        "1m": 55.63,
+        "2m": 27.86,
+        "4m": 13.93,
+        "6m": 9.29
+      }
+    },
+    {
+      "scenario": "calibration_deployed",
+      "camera": "shooter",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\calibration_deployed__shooter.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 54.676,
+        "luminance_mean": 174.167,
+        "unique_rgb_sampled": 1438,
+        "yellow_component_count": 1,
+        "yellow_max_diameter_px": 16.0,
+        "yellow_mask_fraction": 0.000477
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 235.26,
+        "0.5m": 120.25,
+        "1m": 60.47,
+        "2m": 30.28,
+        "4m": 15.14,
+        "6m": 10.1
+      }
+    },
+    {
+      "scenario": "calibration_deployed",
+      "camera": "navigation",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\calibration_deployed__navigation.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 62.93,
+        "luminance_mean": 132.8,
+        "unique_rgb_sampled": 4890,
+        "yellow_component_count": 4,
+        "yellow_max_diameter_px": 235.0,
+        "yellow_mask_fraction": 0.132036
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 204.19,
+        "0.5m": 104.37,
+        "1m": 52.48,
+        "2m": 26.28,
+        "4m": 13.14,
+        "6m": 8.76
+      }
+    },
+    {
+      "scenario": "spawn_deployed",
+      "camera": "intake",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\spawn_deployed__intake.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 73.259,
+        "luminance_mean": 87.28,
+        "unique_rgb_sampled": 2417,
+        "yellow_component_count": 1,
+        "yellow_max_diameter_px": 11.0,
+        "yellow_mask_fraction": 0.000382
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 216.44,
+        "0.5m": 110.63,
+        "1m": 55.63,
+        "2m": 27.86,
+        "4m": 13.93,
+        "6m": 9.29
+      }
+    },
+    {
+      "scenario": "spawn_deployed",
+      "camera": "shooter",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\spawn_deployed__shooter.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 71.578,
+        "luminance_mean": 157.541,
+        "unique_rgb_sampled": 2684,
+        "yellow_component_count": 8,
+        "yellow_max_diameter_px": 105.0,
+        "yellow_mask_fraction": 0.005859
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 235.26,
+        "0.5m": 120.25,
+        "1m": 60.47,
+        "2m": 30.28,
+        "4m": 15.14,
+        "6m": 10.1
+      }
+    },
+    {
+      "scenario": "spawn_deployed",
+      "camera": "navigation",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\spawn_deployed__navigation.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 60.304,
+        "luminance_mean": 52.026,
+        "unique_rgb_sampled": 2676,
+        "yellow_component_count": 1,
+        "yellow_max_diameter_px": 109.0,
+        "yellow_mask_fraction": 0.007135
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 204.19,
+        "0.5m": 104.37,
+        "1m": 52.48,
+        "2m": 26.28,
+        "4m": 13.14,
+        "6m": 8.76
+      }
+    },
+    {
+      "scenario": "hub_range_deployed",
+      "camera": "intake",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\hub_range_deployed__intake.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 84.696,
+        "luminance_mean": 110.431,
+        "unique_rgb_sampled": 5811,
+        "yellow_component_count": 4,
+        "yellow_max_diameter_px": 516.0,
+        "yellow_mask_fraction": 0.321345
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 216.44,
+        "0.5m": 110.63,
+        "1m": 55.63,
+        "2m": 27.86,
+        "4m": 13.93,
+        "6m": 9.29
+      }
+    },
+    {
+      "scenario": "hub_range_deployed",
+      "camera": "shooter",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\hub_range_deployed__shooter.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 82.38,
+        "luminance_mean": 122.908,
+        "unique_rgb_sampled": 3364,
+        "yellow_component_count": 5,
+        "yellow_max_diameter_px": 87.0,
+        "yellow_mask_fraction": 0.003902
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 235.26,
+        "0.5m": 120.25,
+        "1m": 60.47,
+        "2m": 30.28,
+        "4m": 15.14,
+        "6m": 10.1
+      }
+    },
+    {
+      "scenario": "hub_range_deployed",
+      "camera": "navigation",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\hub_range_deployed__navigation.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 60.904,
+        "luminance_mean": 184.76,
+        "unique_rgb_sampled": 4532,
+        "yellow_component_count": 5,
+        "yellow_max_diameter_px": 402.0,
+        "yellow_mask_fraction": 0.213802
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 204.19,
+        "0.5m": 104.37,
+        "1m": 52.48,
+        "2m": 26.28,
+        "4m": 13.14,
+        "6m": 8.76
+      }
+    },
+    {
+      "scenario": "trench_compact",
+      "camera": "intake",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\trench_compact__intake.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 74.282,
+        "luminance_mean": 90.208,
+        "unique_rgb_sampled": 2587,
+        "yellow_component_count": 3,
+        "yellow_max_diameter_px": 12.0,
+        "yellow_mask_fraction": 0.000799
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 216.44,
+        "0.5m": 110.63,
+        "1m": 55.63,
+        "2m": 27.86,
+        "4m": 13.93,
+        "6m": 9.29
+      }
+    },
+    {
+      "scenario": "trench_compact",
+      "camera": "shooter",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\trench_compact__shooter.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 70.477,
+        "luminance_mean": 158.458,
+        "unique_rgb_sampled": 2736,
+        "yellow_component_count": 5,
+        "yellow_max_diameter_px": 107.0,
+        "yellow_mask_fraction": 0.00638
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 235.26,
+        "0.5m": 120.25,
+        "1m": 60.47,
+        "2m": 30.28,
+        "4m": 15.14,
+        "6m": 10.1
+      }
+    },
+    {
+      "scenario": "trench_compact",
+      "camera": "navigation",
+      "path": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\runs\\camera_preview\\navigation_3cam\\trench_compact__navigation.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 66.056,
+        "luminance_mean": 60.715,
+        "unique_rgb_sampled": 2670,
+        "yellow_component_count": 3,
+        "yellow_max_diameter_px": 103.0,
+        "yellow_mask_fraction": 0.00819
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 204.19,
+        "0.5m": 104.37,
+        "1m": 52.48,
+        "2m": 26.28,
+        "4m": 13.14,
+        "6m": 8.76
+      }
+    }
+  ],
+  "performance": {
+    "policy_transitions": 20,
+    "policy_transitions_per_s": 3.499,
+    "physics_steps_per_s": 20.994,
+    "transition_ms_mean": 285.79,
+    "transition_ms_p50": 262.496,
+    "transition_ms_p95": 310.996,
+    "render_step_ms_mean": 70.768,
+    "render_step_ms_p95": 79.387,
+    "physics_only_step_ms_mean": 42.997,
+    "gpu_memory_used_mb": 4082
+  },
+  "scene_stats": {
+    "hub_light_bars": 8,
+    "hub_light_source_triangles": 192,
+    "visual_groups": 16,
+    "visible_triangles": 108091,
+    "static_collision_triangles": 2556,
+    "fuel_bodies": 456,
+    "fuel_preload_pool": 48,
+    "fuel_total_xrc": 456,
+    "fuel_robot_preloaded": 8,
+    "fuel_field_at_start": 448,
+    "robot_name": "Competition Robot (Reference Robot CAD)",
+    "robot_visual_triangles": 1292887,
+    "robot_split_cad_mechanisms": true,
+    "robot_visual_vertices": 588676,
+    "robot_chassis_colliders": 115,
+    "robot_bumper_assemblies": 2,
+    "robot_bumper_collision_pads": 6,
+    "robot_bumper_zone_m": [
+      0.065,
+      0.14604999999999999
+    ],
+    "robot_bumper_continuous": true,
+    "robot_bumper_alliance": "blue",
+    "robot_bumper_profile": "front and rear C-shaped external soft assemblies",
+    "robot_camera_resolution": [
+      640,
+      360
+    ],
+    "robot_camera_rate_hz": 10,
+    "robot_camera_baseline": [
+      "intake",
+      "shooter"
+    ],
+    "robot_camera_ablation": [
+      "intake",
+      "shooter",
+      "navigation"
+    ],
+    "robot_camera_max_envelope_z_m": 0.465,
+    "robot_storage_net": "folding triangular white side net + sloped black top net",
+    "robot_storage_motion": "reference-style four-bar compact -> raised horizontal carriage; intake below",
+    "robot_storage_height_m": [
+      0.51,
+      0.74
+    ],
+    "robot_trench_clearance_m": 0.5651499999999999,
+    "robot_wheels": 4,
+    "robot_mass_kg": 52.0,
+    "robot_articulated": true,
+    "robot_drive": "competition four-module swerve",
+    "robot_control": "calibrated shooter + moving-aim vector compensation"
+  }
+}

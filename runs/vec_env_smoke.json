@@ -1,0 +1,31 @@
+{
+  "num_envs": 2,
+  "steps": 30,
+  "template": "C:\\Users\\nickj\\Desktop\\xrc-robot-rl\\assets\\rl\\env_template_32.usd",
+  "cameras": true,
+  "obs_shapes": {
+    "rgb": [
+      2,
+      3,
+      360,
+      640,
+      3
+    ],
+    "proprio": [
+      2,
+      22
+    ],
+    "privileged": [
+      2,
+      26
+    ]
+  },
+  "policy_tx_per_s": 14.01,
+  "wall_s": 4.3,
+  "episode_resets": 0,
+  "sum_reward_per_env": [
+    4.18,
+    1.21
+  ],
+  "gate_8_tx_per_s_cleared": true
+}

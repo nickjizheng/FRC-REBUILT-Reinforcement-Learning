@@ -1,0 +1,140 @@
+{
+  "checkpoint": {
+    "episodes": 6,
+    "mean_return": 10.5,
+    "mean_scored": 0.5,
+    "max_scored": 3,
+    "mean_collected": 7.17,
+    "max_collected": 11,
+    "per_episode": [
+      {
+        "return": 27.61,
+        "scored": 3,
+        "collected": 2,
+        "shots_fired": 0
+      },
+      {
+        "return": 11.29,
+        "scored": 0,
+        "collected": 11,
+        "shots_fired": 0
+      },
+      {
+        "return": 6.19,
+        "scored": 0,
+        "collected": 8,
+        "shots_fired": 0
+      },
+      {
+        "return": 9.32,
+        "scored": 0,
+        "collected": 10,
+        "shots_fired": 0
+      },
+      {
+        "return": -1.27,
+        "scored": 0,
+        "collected": 2,
+        "shots_fired": 2
+      },
+      {
+        "return": 9.84,
+        "scored": 0,
+        "collected": 10,
+        "shots_fired": 0
+      }
+    ]
+  },
+  "random": {
+    "episodes": 6,
+    "mean_return": 4.48,
+    "mean_scored": 0.0,
+    "max_scored": 0,
+    "mean_collected": 4.33,
+    "max_collected": 11,
+    "per_episode": [
+      {
+        "return": -1.99,
+        "scored": 0,
+        "collected": 0,
+        "shots_fired": 0
+      },
+      {
+        "return": -0.55,
+        "scored": 0,
+        "collected": 1,
+        "shots_fired": 0
+      },
+      {
+        "return": 4.0,
+        "scored": 0,
+        "collected": 4,
+        "shots_fired": 0
+      },
+      {
+        "return": 11.43,
+        "scored": 0,
+        "collected": 9,
+        "shots_fired": 8
+      },
+      {
+        "return": -0.48,
+        "scored": 0,
+        "collected": 1,
+        "shots_fired": 0
+      },
+      {
+        "return": 14.49,
+        "scored": 0,
+        "collected": 11,
+        "shots_fired": 0
+      }
+    ]
+  },
+  "zero": {
+    "episodes": 6,
+    "mean_return": 0.0,
+    "mean_scored": 0.0,
+    "max_scored": 0,
+    "mean_collected": 0.0,
+    "max_collected": 0,
+    "per_episode": [
+      {
+        "return": 0.0,
+        "scored": 0,
+        "collected": 0,
+        "shots_fired": 0
+      },
+      {
+        "return": 0.0,
+        "scored": 0,
+        "collected": 0,
+        "shots_fired": 0
+      },
+      {
+        "return": 0.0,
+        "scored": 0,
+        "collected": 0,
+        "shots_fired": 0
+      },
+      {
+        "return": 0.0,
+        "scored": 0,
+        "collected": 0,
+        "shots_fired": 0
+      },
+      {
+        "return": 0.0,
+        "scored": 0,
+        "collected": 0,
+        "shots_fired": 0
+      },
+      {
+        "return": 0.0,
+        "scored": 0,
+        "collected": 0,
+        "shots_fired": 0
+      }
+    ]
+  }
+}

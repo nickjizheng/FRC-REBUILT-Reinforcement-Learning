@@ -1,0 +1,20 @@
+{
+  "num_envs": 4,
+  "spacing": 24.0,
+  "steps": 60,
+  "stage_articulation_roots": [
+    "/World/envs/env_0/Robot/CompetitionRobot",
+    "/World/envs/env_1/Robot/CompetitionRobot",
+    "/World/envs/env_2/Robot/CompetitionRobot",
+    "/World/envs/env_3/Robot/CompetitionRobot"
+  ],
+  "stage_fuel_bodies": 128,
+  "robot_count": 4,
+  "fuel_count": 128,
+  "vram_mb_after_warmup": 2370,
+  "sim_steps_per_s": 73.84,
+  "aggregate_env_steps_per_s": 295.35,
+  "aggregate_policy_tx_per_s": 49.22,
+  "gate_8_tx_per_s_cleared": true,
+  "vram_mb_peak": 2517
+}

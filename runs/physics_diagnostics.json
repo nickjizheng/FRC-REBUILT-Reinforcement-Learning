@@ -1,28 +1,28 @@
 {
-  "frames": 11417,
-  "sim_seconds": 190.2833432573825,
+  "frames": 11473,
+  "sim_seconds": 40.03333542123437,
   "fuel_count": 456,
-  "fuel_mean_displacement_m": 3.5660181045532227,
-  "fuel_moved_over_5cm": 360,
+  "fuel_mean_displacement_m": 0.0436675101518631,
+  "fuel_moved_over_5cm": 8,
   "fuel_height_range_m": [
-    0.07797756046056747,
-    0.9626703262329102
+    0.07771749049425125,
+    0.9627302289009094
   ],
-  "fuel_max_speed_mps": 0.19482553005218506,
-  "robot_displacement_m": 2.786936044692993,
-  "robot_max_height_m": 0.7546876072883606,
+  "fuel_max_speed_mps": 0.031233297660946846,
+  "robot_displacement_m": 2.3896844387054443,
+  "robot_max_height_m": 0.15286770462989807,
   "robot_start": [
     [
       3.3582000732421875,
       -3.884999990463257,
-      0.009999945759773254
+      0.010000050067901611
     ]
   ],
   "robot_end": [
     [
-      1.1548527479171753,
-      -2.2831833362579346,
-      0.5986065864562988
+      1.8463728427886963,
+      -5.735650062561035,
+      0.0020163655281066895
     ]
   ],
   "hub_detected": 0,
@@ -37,30 +37,30 @@
   "hub_mean_release_interval_s": null,
   "robot": "Competition Robot",
   "alliance_lock": "blue",
-  "magazine": 7,
+  "magazine": 8,
   "intake_transit": 0,
-  "feeder_staged": 7,
+  "feeder_staged": 8,
   "retention_corrections": 0,
   "storage_position": 0.99,
   "storage_target": 0.99,
   "storage_top_m": 0.74,
   "storage_mode": "rectangle/deployed",
   "intake_deployed": true,
-  "mechanism_transitions": 5,
-  "balls_collected": 132,
-  "shots_fired": 133,
-  "volleys_fired": 62,
+  "mechanism_transitions": 1,
+  "balls_collected": 0,
+  "shots_fired": 0,
+  "volleys_fired": 0,
   "shooter_state": "IDLE",
   "auto_aim": {
     "alliance": "blue",
-    "distance_m": 1.6507987413369707,
-    "speed_mps": 6.608184931998282,
-    "pitch_deg": 77.02581218733403,
-    "motor_target_rps": 48.69424031322276,
-    "desired_yaw_rad": 0.8778350044518872,
-    "shot_yaw_rad": -2.2637576491379066,
-    "flight_time_s": 1.1103982893733497,
-    "yaw_error_deg": -43.70724370138136,
+    "distance_m": 2.5909721483884764,
+    "speed_mps": 7.0630626934187015,
+    "pitch_deg": 71.74310971597282,
+    "motor_target_rps": 54.25670377877634,
+    "desired_yaw_rad": -0.8317909824921395,
+    "shot_yaw_rad": 2.3098016710976537,
+    "flight_time_s": 1.1710264598424054,
+    "yaw_error_deg": -154.7201599823487,
     "aligned": false,
     "valid": true,
     "blocked_reason": ""

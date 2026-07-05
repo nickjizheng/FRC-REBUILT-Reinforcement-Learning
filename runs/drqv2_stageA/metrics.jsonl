@@ -1,0 +1,19 @@
+{"transitions": 780, "updates": 0, "replay": 780, "recent_return_mean": 3.91, "recent_return_max": 5.41, "episodes": 2}
+{"transitions": 1416, "updates": 418, "replay": 1416, "recent_return_mean": 0.45, "recent_return_max": 5.41, "episodes": 6, "critic_loss": 0.0125, "actor_loss": -0.1437, "q1": 0.1245, "stddev": 0.9962}
+{"transitions": 1964, "updates": 966, "replay": 1964, "recent_return_mean": -0.68, "recent_return_max": 5.41, "episodes": 8, "critic_loss": 0.0349, "actor_loss": -0.3203, "q1": 0.263, "stddev": 0.9913}
+{"transitions": 2506, "updates": 1508, "replay": 2506, "recent_return_mean": 0.36, "recent_return_max": 5.41, "episodes": 12, "critic_loss": 0.1242, "actor_loss": -0.8299, "q1": 0.7243, "stddev": 0.9864}
+{"transitions": 3056, "updates": 2058, "replay": 3056, "recent_return_mean": -0.26, "recent_return_max": 5.41, "episodes": 14, "critic_loss": 0.0619, "actor_loss": -1.0057, "q1": 0.9795, "stddev": 0.9815}
+{"transitions": 3600, "updates": 2602, "replay": 3600, "recent_return_mean": -0.11, "recent_return_max": 6.29, "episodes": 18, "critic_loss": 0.0524, "actor_loss": -0.8655, "q1": 0.7946, "stddev": 0.9766}
+{"transitions": 4166, "updates": 3168, "replay": 4166, "recent_return_mean": -0.18, "recent_return_max": 6.29, "episodes": 20, "critic_loss": 0.1213, "actor_loss": -0.7874, "q1": 0.6899, "stddev": 0.9715}
+{"transitions": 4726, "updates": 3728, "replay": 4726, "recent_return_mean": -0.74, "recent_return_max": 6.29, "episodes": 22, "critic_loss": 0.0557, "actor_loss": -1.0385, "q1": 0.9509, "stddev": 0.9664}
+{"transitions": 5278, "updates": 4280, "replay": 5278, "recent_return_mean": -0.73, "recent_return_max": 6.29, "episodes": 26, "critic_loss": 0.1731, "actor_loss": -0.6544, "q1": 0.57, "stddev": 0.9615}
+{"transitions": 5810, "updates": 4812, "replay": 5810, "recent_return_mean": -0.26, "recent_return_max": 6.29, "episodes": 28, "critic_loss": 0.1242, "actor_loss": -0.9527, "q1": 0.8968, "stddev": 0.9567}
+{"transitions": 6368, "updates": 5370, "replay": 6368, "recent_return_mean": -0.4, "recent_return_max": 6.29, "episodes": 30, "critic_loss": 0.0784, "actor_loss": -1.0194, "q1": 0.9711, "stddev": 0.9517}
+{"transitions": 6918, "updates": 5920, "replay": 6918, "recent_return_mean": -0.56, "recent_return_max": 6.29, "episodes": 34, "critic_loss": 0.236, "actor_loss": -0.5694, "q1": 0.5328, "stddev": 0.9467}
+{"transitions": 7464, "updates": 6466, "replay": 7464, "recent_return_mean": -0.11, "recent_return_max": 6.29, "episodes": 36, "critic_loss": 0.096, "actor_loss": -0.8193, "q1": 0.7737, "stddev": 0.9418}
+{"transitions": 8002, "updates": 7004, "replay": 8002, "recent_return_mean": -0.15, "recent_return_max": 6.69, "episodes": 40, "critic_loss": 0.1864, "actor_loss": -0.7952, "q1": 0.7497, "stddev": 0.937}
+{"transitions": 8540, "updates": 7542, "replay": 8540, "recent_return_mean": 0.45, "recent_return_max": 8.08, "episodes": 42, "critic_loss": 0.0813, "actor_loss": -0.3938, "q1": 0.3515, "stddev": 0.9321}
+{"transitions": 9082, "updates": 8084, "replay": 9082, "recent_return_mean": 0.75, "recent_return_max": 8.08, "episodes": 44, "critic_loss": 0.1345, "actor_loss": -0.67, "q1": 0.6398, "stddev": 0.9272}
+{"transitions": 9626, "updates": 8628, "replay": 9626, "recent_return_mean": 0.59, "recent_return_max": 8.08, "episodes": 48, "critic_loss": 0.1841, "actor_loss": -0.5737, "q1": 0.4849, "stddev": 0.9223}
+{"transitions": 10166, "updates": 9168, "replay": 10166, "recent_return_mean": 0.35, "recent_return_max": 8.08, "episodes": 50, "critic_loss": 0.1677, "actor_loss": -0.977, "q1": 0.9374, "stddev": 0.9175}
+{"transitions": 10702, "updates": 9704, "replay": 10702, "recent_return_mean": 1.33, "recent_return_max": 12.51, "episodes": 52, "critic_loss": 0.1893, "actor_loss": -0.7751, "q1": 0.7086, "stddev": 0.9127}

@@ -28,6 +28,7 @@ def main() -> None:
 
         from xrc_rebuilt.isaac_scene import SceneBuilder
         from xrc_rebuilt.competition_robot import (
+            CAMERA_RIG,
             ROBOT_ROOT_PATH,
             STORAGE_LOWERED_POSITION,
             XRC_PRELOAD_COUNT,
@@ -203,6 +204,11 @@ def main() -> None:
         compact_envelope_top = 0.533
         roof_bottom = 0.591
         envelope_clearance = roof_bottom - (compact_envelope_top + max_z)
+        camera_envelope_top = max(
+            float(spec["compact_top_m"])
+            for spec in CAMERA_RIG.values()
+        )
+        camera_clearance = roof_bottom - (camera_envelope_top + max_z)
         dynamic_drive_completed = float(end[1]) > -2.95
 
         result = {
@@ -223,8 +229,10 @@ def main() -> None:
             "feeder_staged": len(controller.feeder_queue),
             "scene_compact_height_m": stats.get("robot_storage_height_m", [None])[0],
             "compact_collision_envelope_top_m": compact_envelope_top,
+            "camera_collision_envelope_top_m": camera_envelope_top,
             "xrc_roof_bottom_m": roof_bottom,
             "minimum_envelope_clearance_m": envelope_clearance,
+            "minimum_camera_clearance_m": camera_clearance,
             "stable_under_roof": max_tilt < math.radians(5) and max_z < 0.02,
             "dynamic_drive_completed": dynamic_drive_completed,
             "nearest_collision_pairs": nearest_pairs[:24],
@@ -240,6 +248,8 @@ def main() -> None:
             and entered
             and dynamic_drive_completed
             and envelope_clearance > 0.02
+            and camera_envelope_top <= compact_envelope_top
+            and camera_clearance > 0.02
             and max_z < 0.25
             and max_tilt < math.radians(35)
             and result["retained_preloads"] == XRC_PRELOAD_COUNT

@@ -1,0 +1,474 @@
+{
+  "rig": "baseline_3cam",
+  "camera_names": [
+    "intake",
+    "shooter",
+    "navigation"
+  ],
+  "resolution": [
+    640,
+    360
+  ],
+  "rate_hz": 10,
+  "max_fuel": 24,
+  "camera_specs": {
+    "intake": {
+      "parent_path": "/World/Robot/CompetitionRobot/CADMechanisms/Intake",
+      "position": [
+        0.335,
+        0.0,
+        0.055
+      ],
+      "direction": [
+        1.0,
+        0.0,
+        -0.32
+      ],
+      "hfov_deg": 110.0,
+      "housing_half_extents": [
+        0.04,
+        0.035,
+        0.025
+      ],
+      "housing_center": [
+        0.29,
+        0.0,
+        0.055
+      ],
+      "compact_top_m": 0.515,
+      "role": "intake-mouth, complete collection row and near-field FUEL"
+    },
+    "shooter": {
+      "parent_path": "/World/Robot/CompetitionRobot/CADMechanisms/ShooterRetract",
+      "position": [
+        -0.462,
+        0.0,
+        0.53
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        0.25
+      ],
+      "hfov_deg": 100.0,
+      "housing_half_extents": [
+        0.04,
+        0.035,
+        0.025
+      ],
+      "housing_center": [
+        -0.418,
+        0.0,
+        0.53
+      ],
+      "compact_top_m": 0.415,
+      "role": "firing axis, HUB opening, shot corridor and reverse travel"
+    },
+    "navigation": {
+      "parent_path": "/World/Robot/CompetitionRobot/chassis",
+      "position": [
+        -0.05,
+        0.43,
+        0.48
+      ],
+      "direction": [
+        0.0,
+        1.0,
+        -0.1
+      ],
+      "hfov_deg": 105.0,
+      "housing_half_extents": [
+        0.04,
+        0.04,
+        0.025
+      ],
+      "housing_center": [
+        -0.05,
+        0.385,
+        0.48
+      ],
+      "compact_top_m": 0.505,
+      "role": "wide left-side context, trenches, obstacles and distant FUEL"
+    }
+  },
+  "captures": [
+    {
+      "scenario": "calibration_deployed",
+      "camera": "intake",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\calibration_deployed__intake.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 63.944,
+        "luminance_mean": 131.533,
+        "unique_rgb_sampled": 3079,
+        "yellow_component_count": 7,
+        "yellow_max_diameter_px": 62.0,
+        "yellow_mask_fraction": 0.033971
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 196.76,
+        "0.5m": 100.57,
+        "1m": 50.57,
+        "2m": 25.32,
+        "4m": 12.67,
+        "6m": 8.44
+      }
+    },
+    {
+      "scenario": "calibration_deployed",
+      "camera": "shooter",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\calibration_deployed__shooter.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 54.89,
+        "luminance_mean": 172.207,
+        "unique_rgb_sampled": 2271,
+        "yellow_component_count": 3,
+        "yellow_max_diameter_px": 30.0,
+        "yellow_mask_fraction": 0.004939
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 216.44,
+        "0.5m": 110.63,
+        "1m": 55.63,
+        "2m": 27.86,
+        "4m": 13.93,
+        "6m": 9.29
+      }
+    },
+    {
+      "scenario": "calibration_deployed",
+      "camera": "navigation",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\calibration_deployed__navigation.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 53.339,
+        "luminance_mean": 158.239,
+        "unique_rgb_sampled": 3703,
+        "yellow_component_count": 2,
+        "yellow_max_diameter_px": 167.0,
+        "yellow_mask_fraction": 0.023863
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 206.13,
+        "0.5m": 105.36,
+        "1m": 52.98,
+        "2m": 26.53,
+        "4m": 13.27,
+        "6m": 8.85
+      }
+    },
+    {
+      "scenario": "spawn_deployed",
+      "camera": "intake",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\spawn_deployed__intake.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 65.617,
+        "luminance_mean": 135.392,
+        "unique_rgb_sampled": 2997,
+        "yellow_component_count": 6,
+        "yellow_max_diameter_px": 114.0,
+        "yellow_mask_fraction": 0.009006
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 196.76,
+        "0.5m": 100.57,
+        "1m": 50.57,
+        "2m": 25.32,
+        "4m": 12.67,
+        "6m": 8.44
+      }
+    },
+    {
+      "scenario": "spawn_deployed",
+      "camera": "shooter",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\spawn_deployed__shooter.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 70.143,
+        "luminance_mean": 159.831,
+        "unique_rgb_sampled": 3144,
+        "yellow_component_count": 2,
+        "yellow_max_diameter_px": 91.0,
+        "yellow_mask_fraction": 0.001137
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 216.44,
+        "0.5m": 110.63,
+        "1m": 55.63,
+        "2m": 27.86,
+        "4m": 13.93,
+        "6m": 9.29
+      }
+    },
+    {
+      "scenario": "spawn_deployed",
+      "camera": "navigation",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\spawn_deployed__navigation.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 92.764,
+        "luminance_mean": 109.241,
+        "unique_rgb_sampled": 3893,
+        "yellow_component_count": 1,
+        "yellow_max_diameter_px": 54.0,
+        "yellow_mask_fraction": 0.0024
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 206.13,
+        "0.5m": 105.36,
+        "1m": 52.98,
+        "2m": 26.53,
+        "4m": 13.27,
+        "6m": 8.85
+      }
+    },
+    {
+      "scenario": "hub_range_deployed",
+      "camera": "intake",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\hub_range_deployed__intake.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 56.855,
+        "luminance_mean": 140.28,
+        "unique_rgb_sampled": 3841,
+        "yellow_component_count": 10,
+        "yellow_max_diameter_px": 109.0,
+        "yellow_mask_fraction": 0.060651
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 196.76,
+        "0.5m": 100.57,
+        "1m": 50.57,
+        "2m": 25.32,
+        "4m": 12.67,
+        "6m": 8.44
+      }
+    },
+    {
+      "scenario": "hub_range_deployed",
+      "camera": "shooter",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\hub_range_deployed__shooter.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 80.849,
+        "luminance_mean": 138.415,
+        "unique_rgb_sampled": 3552,
+        "yellow_component_count": 3,
+        "yellow_max_diameter_px": 120.0,
+        "yellow_mask_fraction": 0.008763
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 216.44,
+        "0.5m": 110.63,
+        "1m": 55.63,
+        "2m": 27.86,
+        "4m": 13.93,
+        "6m": 9.29
+      }
+    },
+    {
+      "scenario": "hub_range_deployed",
+      "camera": "navigation",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\hub_range_deployed__navigation.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 51.553,
+        "luminance_mean": 166.789,
+        "unique_rgb_sampled": 2463,
+        "yellow_component_count": 7,
+        "yellow_max_diameter_px": 30.0,
+        "yellow_mask_fraction": 0.004158
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 206.13,
+        "0.5m": 105.36,
+        "1m": 52.98,
+        "2m": 26.53,
+        "4m": 13.27,
+        "6m": 8.85
+      }
+    },
+    {
+      "scenario": "trench_compact",
+      "camera": "intake",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\trench_compact__intake.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 62.894,
+        "luminance_mean": 140.404,
+        "unique_rgb_sampled": 2929,
+        "yellow_component_count": 7,
+        "yellow_max_diameter_px": 86.0,
+        "yellow_mask_fraction": 0.008294
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 196.76,
+        "0.5m": 100.57,
+        "1m": 50.57,
+        "2m": 25.32,
+        "4m": 12.67,
+        "6m": 8.44
+      }
+    },
+    {
+      "scenario": "trench_compact",
+      "camera": "shooter",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\trench_compact__shooter.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 67.793,
+        "luminance_mean": 163.929,
+        "unique_rgb_sampled": 3057,
+        "yellow_component_count": 7,
+        "yellow_max_diameter_px": 14.0,
+        "yellow_mask_fraction": 0.000799
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 216.44,
+        "0.5m": 110.63,
+        "1m": 55.63,
+        "2m": 27.86,
+        "4m": 13.93,
+        "6m": 9.29
+      }
+    },
+    {
+      "scenario": "trench_compact",
+      "camera": "navigation",
+      "path": "runs\\camera_preview\\nav_clear_test\\baseline_3cam\\trench_compact__navigation.png",
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "metrics": {
+        "rgb_std": 91.959,
+        "luminance_mean": 110.738,
+        "unique_rgb_sampled": 3954,
+        "yellow_component_count": 1,
+        "yellow_max_diameter_px": 54.0,
+        "yellow_mask_fraction": 0.002292
+      },
+      "expected_ball_diameter_px": {
+        "0.25m": 206.13,
+        "0.5m": 105.36,
+        "1m": 52.98,
+        "2m": 26.53,
+        "4m": 13.27,
+        "6m": 8.85
+      }
+    }
+  ],
+  "performance": {
+    "policy_transitions": 1,
+    "policy_transitions_per_s": 14.741,
+    "physics_steps_per_s": 88.446,
+    "transition_ms_mean": 67.838,
+    "transition_ms_p50": 67.838,
+    "transition_ms_p95": 67.838,
+    "render_step_ms_mean": 40.004,
+    "render_step_ms_p95": 40.004,
+    "physics_only_step_ms_mean": 5.561,
+    "gpu_memory_used_mb": 6755
+  },
+  "scene_stats": {
+    "hub_light_bars": 8,
+    "hub_light_source_triangles": 192,
+    "visual_groups": 16,
+    "visible_triangles": 108091,
+    "static_collision_triangles": 2556,
+    "fuel_bodies": 24,
+    "fuel_preload_pool": 0,
+    "fuel_total_xrc": 24,
+    "fuel_robot_preloaded": 8,
+    "fuel_field_at_start": 16,
+    "robot_name": "Competition Robot (Reference Robot CAD)",
+    "robot_visual_triangles": 1292887,
+    "robot_split_cad_mechanisms": true,
+    "robot_visual_vertices": 588676,
+    "robot_chassis_colliders": 112,
+    "robot_bumper_assemblies": 2,
+    "robot_bumper_collision_pads": 6,
+    "robot_bumper_zone_m": [
+      0.065,
+      0.14604999999999999
+    ],
+    "robot_bumper_continuous": true,
+    "robot_bumper_alliance": "blue",
+    "robot_bumper_profile": "front and rear C-shaped external soft assemblies",
+    "robot_camera_resolution": [
+      640,
+      360
+    ],
+    "robot_camera_rate_hz": 10,
+    "robot_camera_baseline": [
+      "intake",
+      "shooter",
+      "navigation"
+    ],
+    "robot_camera_ablation": [
+      "intake",
+      "shooter",
+      "navigation"
+    ],
+    "robot_camera_max_envelope_z_m": 0.515,
+    "robot_storage_net": "folding triangular white side net + sloped black top net",
+    "robot_storage_motion": "reference-style four-bar compact -> raised horizontal carriage; intake below",
+    "robot_storage_height_m": [
+      0.51,
+      0.74
+    ],
+    "robot_trench_clearance_m": 0.5651499999999999,
+    "robot_wheels": 4,
+    "robot_mass_kg": 52.0,
+    "robot_articulated": true,
+    "robot_drive": "competition four-module swerve",
+    "robot_control": "calibrated shooter + moving-aim vector compensation"
+  }
+}

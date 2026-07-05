@@ -4,11 +4,15 @@ This repository reconstructs the xRC REBUILT FRC game in NVIDIA Isaac Sim and
 provides a detailed competition robot for training an autonomous
 match-playing reinforcement-learning policy.
 
-The immediate goal is a match-legal blue-alliance agent that drives, collects
-FUEL, manages the compact and extended robot configurations, and scores at
-least 200 FUEL in a full evaluation match. Automatic flywheel control and
-aiming remain inside the robot controller; RL learns strategic driving,
-collection, positioning, timing, and shoot or ferry decisions.
+The goal is a match-legal blue-alliance agent, trained **directly from the
+robot's on-board cameras on the full physics engine** (no privileged-state
+actor, no teacher-student distillation), that drives, collects FUEL, manages
+the compact and extended configurations, and maximizes legal score under the
+full REBUILT match rules (AUTO + SHIFT schedule with inactive-HUB windows).
+Automatic flywheel control and aiming remain inside the robot controller; RL
+learns strategic driving, collection, positioning, timing, and shoot or ferry
+decisions. The method selection and its rationale are recorded turn-by-turn
+in [`RL_BRAINSTORM.md`](RL_BRAINSTORM.md).
 
 ## Current status
 
@@ -30,7 +34,13 @@ collection, positioning, timing, and shoot or ferry decisions.
   moving-shot compensation, and one-to-three-ball feeder release.
 - Viewport selection and its context menu are disabled during interactive
   simulation, while camera orbit, pan, and zoom remain available.
-- The current verification suite passes **129/129 tests**.
+- Three chassis-mounted 640x360 cameras (intake, shooter, navigation) render
+  the policy's viewpoint; the GUI shows them live without stealing keyboard
+  control.
+- A vectorized full-physics RL environment clones N fields on one GPU scene;
+  throughput is FUEL-count-bound (curriculum stages clear the 8 policy-tx/s
+  gate; full-456 runs ~4 tx/s and is reserved for evaluation).
+- The current verification suite passes **145/145 tests**.
 
 ## Architecture
 
@@ -43,11 +53,13 @@ xRC assets and rules
                     |
                     +--> interactive GUI and manual controls
                     |
-                    +--> Isaac Lab vectorized RL environment
+                    +--> vectorized full-physics RL environment
                               |
-                              +--> privileged-state PPO teacher
+                              +--> DrQ-v2 pixel baseline
+                              |    (asymmetric privileged critic)
                               |
-                              +--> camera and AprilTag student policy
+                              +--> bake-off arms: reconstruction-free
+                                   recurrent world model, TD-MPC2
 ```
 
 The high-detail model is used for interactive inspection and final
@@ -100,15 +112,22 @@ logs, USD exports, and learned checkpoints are intentionally ignored.
 
 ## RL plan
 
-The complete implementation and experiment plan is in
-[`docs/RL_TRAINING_PLAN.md`](docs/RL_TRAINING_PLAN.md). Its main sequence is:
+The governing document is [`RL_BRAINSTORM.md`](RL_BRAINSTORM.md) (converged
+decisions + implementation log); engineering details live in
+[`docs/VECTORIZATION_PLAN.md`](docs/VECTORIZATION_PLAN.md). The plan, in
+sequence (the original PPO/teacher-student plan in
+`docs/RL_TRAINING_PLAN.md` is retained for history but superseded):
 
-1. expose a vectorized Isaac Lab `DirectRLEnv`;
-2. train a privileged-state PPO teacher with staged collection and scoring
-   curricula;
-3. evaluate full 160-second, 456-FUEL matches and cross the 200-score gate;
-4. distill into a recurrent vision policy using tiled RGB and depth rendering;
-5. fine-tune with dynamics, camera, lighting, and latency randomization.
+1. vectorized full-physics environment with the real controller per env
+   (done: `xrc_rebuilt.rl.vec_env`);
+2. DrQ-v2 pixel baseline with an asymmetric privileged critic and per-env
+   n-step replay (done: `xrc_rebuilt.rl.drqv2`, `scripts/rl/train_drqv2.py`);
+3. curriculum stages A-D (short acquisition episodes up to full 160 s,
+   456-FUEL matches under exact rules);
+4. equal-budget bake-off vs a reconstruction-free recurrent world model and
+   TD-MPC2, judged on deterministic held-out evaluations
+   (`scripts/rl/eval_checkpoint.py`);
+5. dynamics, camera, lighting, and latency randomization hardening.
 
 The RL stack can be checked independently of the environment:
 
@@ -125,6 +144,5 @@ blue-only action space. The next implementation milestone is the vectorized
 
 The repository contains extracted xRC interoperability assets and supplied
 robot CAD. Their copyrights and trademarks remain with their respective
-owners. The GitHub repository is private by default; do not make it public or
-redistribute those assets without confirming permission and replacing any
-non-redistributable content.
+owners; do not redistribute those assets separately without confirming
+permission from the original owners.

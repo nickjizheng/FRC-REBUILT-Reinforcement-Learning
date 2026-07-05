@@ -908,9 +908,9 @@ def main() -> None:
         {"headless": args.headless, "width": 1600, "height": 900, "multi_gpu": False}
     )
     print("XRC_REBUILT_APP_READY", app.is_running(), flush=True)
-    # Fabric (flatcache): push physics transforms to Fabric and let Hydra render
-    # from it, bypassing the per-step USD write of all 456 FUEL poses (the
-    # dominant CPU cost with the full ball field).
+    # Fabric keeps all 456 moving FUEL transforms on the fast scene delegate.
+    # Onboard GUI views use GPU viewports directly (not CPU RGB annotators), so
+    # they are compatible with updateToUsd=False and avoid a per-frame readback.
     if not args.headless:
         try:
             import carb
@@ -922,7 +922,7 @@ def main() -> None:
             _fab.set_bool("/physics/updateToUsd", False)
             _fab.set_bool("/physics/updateVelocitiesToUsd", False)
             _fab.set_bool("/physics/fabricUpdateTransformations", True)
-            print("XRC_REBUILT_FABRIC on", flush=True)
+            print("XRC_REBUILT_FABRIC on (GPU camera viewports)", flush=True)
         except Exception as _fab_err:  # noqa: BLE001
             print("XRC_REBUILT_FABRIC_FAILED", repr(_fab_err), flush=True)
     try:
@@ -1002,6 +1002,10 @@ def main() -> None:
         target_reason = "auto"
         status_window = None
         status_labels: dict[str, Any] = {}
+        gui_camera_viewports: dict[str, Any] = {}
+        # Live inspection viewports are deliberately smaller than the policy
+        # observations. Training still receives full 640x360 frames.
+        GUI_CAMERA_RENDER = (320, 180)
         if not args.headless:
             import omni.ui as ui
 
@@ -1154,6 +1158,59 @@ def main() -> None:
             )
         else:
             robot_view.initialize()
+        # Separate GPU-backed viewport windows avoid Replicator's host readback
+        # and are safe with Fabric. They are explicitly shown because the
+        # stripped-down quick layout otherwise leaves newly created viewports
+        # behind the primary viewport window.
+        if not args.headless:
+            from omni.kit.viewport.utility import create_viewport_window
+            from pxr import Sdf
+            from xrc_rebuilt.competition_robot import (
+                CAMERA_BASELINE_NAMES as _CAM_NAMES,
+                CAMERA_PRIM_PATHS as _CAM_PATHS,
+            )
+
+            def _lock_camera_viewport(vp) -> None:
+                """Make a camera viewport display-only: hide its 'Camera'
+                manipulator layer so it cannot capture WASD/keyboard (or mouse
+                fly) from the robot.  Returns nothing; safe to call repeatedly
+                since the layer is created lazily on the first render."""
+                try:
+                    layer = vp._find_viewport_layer("Camera", "manipulator")
+                    if layer is not None:
+                        layer.visible = False
+                except Exception:
+                    pass
+
+            for _index, _cam_name in enumerate(_CAM_NAMES):
+                try:
+                    _title = f"Viewport {_cam_name.title()}"
+                    _x = 440 + _index * (GUI_CAMERA_RENDER[0] + 12)
+                    _viewport = create_viewport_window(
+                        name=_title,
+                        width=GUI_CAMERA_RENDER[0],
+                        height=GUI_CAMERA_RENDER[1],
+                        position_x=_x,
+                        position_y=680,
+                        camera_path=Sdf.Path(_CAM_PATHS[_cam_name]),
+                    )
+                    _viewport.position_x = _x
+                    _viewport.position_y = 680
+                    _viewport.viewport_api.resolution = GUI_CAMERA_RENDER
+                    _viewport.viewport_api.camera_path = Sdf.Path(
+                        _CAM_PATHS[_cam_name]
+                    )
+                    _viewport.visible = True
+                    ui.Workspace.show_window(_title, True)
+                    _lock_camera_viewport(_viewport)  # first attempt (may be early)
+                    gui_camera_viewports[_cam_name] = _viewport
+                    print(
+                        f"GUI_GPU_CAMERA_READY {_cam_name} "
+                        f"{GUI_CAMERA_RENDER[0]}x{GUI_CAMERA_RENDER[1]}",
+                        flush=True,
+                    )
+                except Exception as _cam_err:  # noqa: BLE001
+                    print(f"GUI GPU camera {_cam_name} unavailable: {_cam_err!r}", flush=True)
         # Phase F helpers: prebuild the static field map once for fast target select.
         from xrc_rebuilt.rules import (
             AUTO_DURATION_S,
@@ -1364,6 +1421,15 @@ def main() -> None:
                     _perf["control"] += _time.perf_counter() - _tc
             if not args.headless and frame == 30:
                 declutter_isaac_ui()  # catch panels that appear after startup
+                # re-lock the camera viewports now that their lazily-created
+                # 'Camera' manipulator layers exist, so WASD stays with the robot
+                for _vp in gui_camera_viewports.values():
+                    try:
+                        _cl = _vp._find_viewport_layer("Camera", "manipulator")
+                        if _cl is not None:
+                            _cl.visible = False
+                    except Exception:
+                        pass
             if status_labels and frame % 15 == 0:
                 elapsed = max(0.0, sim.current_time - match_ref["t0"])
                 sandbox_ui = elapsed >= MATCH_DURATION_S

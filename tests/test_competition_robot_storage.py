@@ -18,6 +18,12 @@ from xrc_rebuilt.competition_robot import (
     BUMPER_DEPTH_M,
     BUMPER_OUTER_HALF_M,
     BUMPER_TOP_M,
+    CAMERA_ABLATION_NAMES,
+    CAMERA_BASELINE_NAMES,
+    CAMERA_HOUSING_COLLIDERS,
+    CAMERA_RATE_HZ,
+    CAMERA_RESOLUTION,
+    CAMERA_RIG,
     DRIVER_ACCEL_LIMIT_MPS2,
     DRIVER_CONTROL_DT_S,
     INTAKE_CENTER_LOCAL,
@@ -36,6 +42,7 @@ from xrc_rebuilt.competition_robot import (
     HOPPER_ROLLER_COLLIDERS,
     HOPPER_PRESSURE_CAPACITY,
     MUZZLE_LOCAL,
+    ROBOT_ROOT_PATH,
     SHOOTER_CAGE_COLLIDERS,
     SHOOTER_LANES,
     SHOOTER_LANE_SPACING_M,
@@ -49,6 +56,7 @@ from xrc_rebuilt.competition_robot import (
     UPPER_SIDE_BOARD_COLLIDERS,
     XRC_PRELOAD_COUNT,
     CompetitionRobotController,
+    camera_orientation_wxyz,
     _four_corner_soft_net_collision_blocks,
     _four_corner_soft_net_segments,
     _hopper_slots,
@@ -125,6 +133,53 @@ def test_compact_start_pose_fits_beneath_blue_trench_and_faces_out():
     assert left_clearance > 0.18
     assert right_clearance > 0.18
     assert z + STORAGE_LOWERED_TOP_M < 0.591
+
+
+def test_onboard_camera_rig_is_trench_safe_and_bumper_protected():
+    assert CAMERA_RESOLUTION == (640, 360)
+    assert CAMERA_RATE_HZ == 10
+    assert CAMERA_BASELINE_NAMES == ("intake", "shooter", "navigation")
+    assert CAMERA_ABLATION_NAMES == ("intake", "shooter", "navigation")
+    assert len(CAMERA_HOUSING_COLLIDERS) == 3
+    for name, spec in CAMERA_RIG.items():
+        center = np.asarray(spec["housing_center"], dtype=np.float64)
+        half = np.asarray(spec["housing_half_extents"], dtype=np.float64)
+        lower = center - half
+        upper = center + half
+        assert str(spec["parent_path"]).startswith(ROBOT_ROOT_PATH), name
+        # Moving camera housings are specified in their link-local frames.
+        assert np.all(half > 0.0), name
+        assert np.all(upper > lower), name
+        # Existing compact CAD, not a camera, remains the height constraint.
+        assert float(spec["compact_top_m"]) < 0.533, name
+
+    # The fixed navigation housing remains inside the bumper footprint.
+    navigation = CAMERA_RIG["navigation"]
+    center = np.asarray(navigation["housing_center"], dtype=np.float64)
+    half = np.asarray(navigation["housing_half_extents"], dtype=np.float64)
+    lower, upper = center - half, center + half
+    assert upper[0] <= BUMPER_CENTER_X_M + BUMPER_OUTER_HALF_M
+    assert lower[0] >= BUMPER_CENTER_X_M - BUMPER_OUTER_HALF_M
+    assert upper[1] <= BUMPER_OUTER_HALF_M
+    assert lower[1] >= -BUMPER_OUTER_HALF_M
+
+
+def test_camera_quaternions_point_usd_minus_z_along_requested_direction():
+    for spec in CAMERA_RIG.values():
+        quat = camera_orientation_wxyz(spec["direction"])
+        assert float(np.linalg.norm(quat)) == pytest.approx(1.0)
+        w, x, y, z = [float(value) for value in quat]
+        rotation = np.asarray(
+            [
+                [1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)],
+                [2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)],
+                [2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)],
+            ]
+        )
+        requested = np.asarray(spec["direction"], dtype=np.float64)
+        requested /= np.linalg.norm(requested)
+        actual = rotation @ np.asarray([0.0, 0.0, -1.0])
+        assert actual == pytest.approx(requested, abs=1e-6)
 
 
 def test_weidai_square_rectangle_motion_couples_net_and_intake():

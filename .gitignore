@@ -8,6 +8,9 @@ __pycache__/
 assets/rebuilt_*.usda
 *.usdc
 
+# Generated RL env templates (rebuild with scripts/rl/export_env_template.py)
+assets/rl/
+
 # Logs, screenshots, and other rebuildable run artifacts
 *.log
 *.png

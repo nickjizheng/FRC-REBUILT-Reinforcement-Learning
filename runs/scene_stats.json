@@ -23,6 +23,22 @@
   "robot_bumper_continuous": true,
   "robot_bumper_alliance": "blue",
   "robot_bumper_profile": "front and rear C-shaped external soft assemblies",
+  "robot_camera_resolution": [
+    640,
+    360
+  ],
+  "robot_camera_rate_hz": 10,
+  "robot_camera_baseline": [
+    "intake",
+    "shooter",
+    "navigation"
+  ],
+  "robot_camera_ablation": [
+    "intake",
+    "shooter",
+    "navigation"
+  ],
+  "robot_camera_max_envelope_z_m": 0.515,
   "robot_storage_net": "folding triangular white side net + sloped black top net",
   "robot_storage_motion": "reference-style four-bar compact -> raised horizontal carriage; intake below",
   "robot_storage_height_m": [

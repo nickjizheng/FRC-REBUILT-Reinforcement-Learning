@@ -1,0 +1,20 @@
+{
+  "transitions": 31288,
+  "updates": 30290,
+  "episodes": 156,
+  "mean_return_last20": 6.57,
+  "first5_returns": [
+    -0.64,
+    2.5,
+    2.58,
+    -2.02,
+    -1.4
+  ],
+  "last5_returns": [
+    0.62,
+    9.65,
+    11.12,
+    2.18,
+    11.31
+  ]
+}

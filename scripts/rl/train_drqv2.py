@@ -78,6 +78,13 @@ def main() -> None:
         help="numbered finite-only checkpoints (ckpt_<transitions>.pt)",
     )
     ap.add_argument("--resume", default=None, help="checkpoint to resume from")
+    ap.add_argument(
+        "--seed",
+        type=int,
+        default=2026,
+        help="master seed (env resets, replay sampling, torch, exploration) - "
+        "vary per parallel run so seeds are real replications",
+    )
     ap.add_argument("--out", type=Path, default=PROJECT_ROOT / "runs" / "drqv2_stageA")
     args = ap.parse_args()
     if args.stage == "B":
@@ -98,7 +105,10 @@ def main() -> None:
 
     app = SimulationApp({"headless": True})
     try:
-        import torch  # noqa: F401  (fail fast if the RL stack is broken)
+        import torch
+
+        np.random.seed(args.seed)
+        torch.manual_seed(args.seed)
 
         from xrc_rebuilt.rl.drqv2 import DrQConfig, DrQV2Agent
         from xrc_rebuilt.rl.replay import PerEnvReplay
@@ -125,6 +135,7 @@ def main() -> None:
                 episode_len_s=args.episode_len_s,
                 preload_prob=float(args.preload_prob),
                 collect_reward_weight=float(args.collect_weight_start),
+                seed=args.seed,
             )
         )
         n = args.num_envs
@@ -153,7 +164,7 @@ def main() -> None:
         replay = PerEnvReplay(
             num_envs=n,
             capacity_per_env=max(1000, args.replay_capacity // n),
-            seed=11,
+            seed=args.seed + 11,
             obs_shape=tuple(frames.shape[1:]),
             proprio_dim=obs["proprio"].shape[1],
             privileged_dim=obs["privileged"].shape[1],

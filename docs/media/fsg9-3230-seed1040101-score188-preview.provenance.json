@@ -66,9 +66,6 @@
     "keyint": 100,
     "source_intermediary_sha256": "d2ca341f396e33bebaaf348628dde9941eccba1070f4065c3cf5fd53d04b7fcd"
   },
-  "master_file": "fsg9-3230-seed1040101-score188-full-match.mp4",
-  "master_sha256": "ed774c7a5177dc28add076bccc9b15ec66b0ba0f204c287525908878cee026c9",
-  "master_bytes": 41767347,
   "poster_file": "fsg9-3230-seed1040101-score188-preview-poster.png",
   "poster_sha256": "6b81b70a2d36cb0a3a64605a86ea5dec4cf1a7936c29d94036f8e3b4351dc599",
   "poster_bytes": 241446

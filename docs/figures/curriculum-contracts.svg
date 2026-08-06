@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="350" viewBox="0 0 1200 350" role="img" aria-labelledby="title desc">
+  <title id="title">Stage A-D curriculum contracts</title>
+  <desc id="desc">Four curriculum stages with increasing horizon and FUEL count, each with a different evidence tier.</desc>
+  <style>
+    :root { --bg:#ffffff; --fg:#172033; --muted:#5f6b7a; --grid:#d8dee8; --blue:#2563eb; --orange:#ea580c; --green:#15803d; --red:#b91c1c; --purple:#7c3aed; --soft:#f3f6fa; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#0f172a; --fg:#f1f5f9; --muted:#b7c0cf; --grid:#3a475c; --blue:#60a5fa; --orange:#fb923c; --green:#4ade80; --red:#f87171; --purple:#c4b5fd; --soft:#172033; } }
+    .bg{fill:var(--bg)} .fg{fill:var(--fg)} .muted{fill:var(--muted)} .soft{fill:var(--soft)}
+    .grid{stroke:var(--grid);stroke-width:1} .axis{stroke:var(--fg);stroke-width:1.25}
+    .blue{fill:var(--blue);stroke:var(--blue)} .orange{fill:var(--orange);stroke:var(--orange)}
+    .green{fill:var(--green);stroke:var(--green)} .red{fill:var(--red);stroke:var(--red)}
+    .purple{fill:var(--purple);stroke:var(--purple)}
+    text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:var(--fg)}
+    .title{font-size:26px;font-weight:600} .subtitle{font-size:15px;fill:var(--muted)}
+    .label{font-size:14px} .small{font-size:12px;fill:var(--muted)} .value{font-size:14px;font-weight:600}
+  </style>
+  <rect class="bg" x="0" y="0" width="1200" height="350"/>
+  <text class="title" x="48" y="48">Curriculum contracts: evidence grows while the task changes</text>
+<text class="subtitle" x="48" y="75">Scores are comparable within a contract, not across stages.</text>
+<rect class="soft" x="48" y="112" width="246" height="190" rx="10"/>
+<circle class="blue" cx="82" cy="143" r="18"/>
+<text x="82" y="149" text-anchor="middle" style="fill:var(--bg);font-size:16px;font-weight:600">A</text>
+<text class="value" x="110" y="140">20 s · 32 FUEL</text>
+<text class="label" x="70" y="190">Acquire FUEL from camera observations</text>
+<text class="small" x="70" y="268">Evidence: fixed diagnostic</text>
+<path d="M 296 207 H 327" class="axis" fill="none"/>
+<path d="M 321 201 L 329 207 L 321 213" class="axis" fill="none"/>
+<rect class="soft" x="334" y="112" width="246" height="190" rx="10"/>
+<circle class="orange" cx="368" cy="143" r="18"/>
+<text x="368" y="149" text-anchor="middle" style="fill:var(--bg);font-size:16px;font-weight:600">B</text>
+<text class="value" x="396" y="140">36 s · 96 FUEL</text>
+<text class="label" x="356" y="190">Acquire and score from mixed</text>
+<text class="label" x="356" y="212">starts</text>
+<text class="small" x="356" y="268">Evidence: smoke</text>
+<path d="M 582 207 H 613" class="axis" fill="none"/>
+<path d="M 607 201 L 615 207 L 607 213" class="axis" fill="none"/>
+<rect class="soft" x="620" y="112" width="246" height="190" rx="10"/>
+<circle class="green" cx="654" cy="143" r="18"/>
+<text x="654" y="149" text-anchor="middle" style="fill:var(--bg);font-size:16px;font-weight:600">C</text>
+<text class="value" x="682" y="140">90 / 120 s · 200 FUEL</text>
+<text class="label" x="642" y="190">Repeat collection, return, and scoring</text>
+<text class="label" x="642" y="212">cycles</text>
+<text class="small" x="642" y="268">Evidence: fixed diagnostic</text>
+<path d="M 868 207 H 899" class="axis" fill="none"/>
+<path d="M 893 201 L 901 207 L 893 213" class="axis" fill="none"/>
+<rect class="soft" x="906" y="112" width="246" height="190" rx="10"/>
+<circle class="purple" cx="940" cy="143" r="18"/>
+<text x="940" y="149" text-anchor="middle" style="fill:var(--bg);font-size:16px;font-weight:600">D</text>
+<text class="value" x="968" y="140">160 s · 456 FUEL</text>
+<text class="label" x="928" y="190">Exact full-match behavior</text>
+<text class="small" x="928" y="268">Evidence: fixed paired</text>
+</svg>

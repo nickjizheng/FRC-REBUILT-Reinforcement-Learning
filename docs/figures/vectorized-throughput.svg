@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" role="img" aria-labelledby="title desc">
+  <title id="title">Vectorized simulator throughput</title>
+  <desc id="desc">Scatter plot of aggregate policy transitions per second by environment count, with FUEL body count annotations.</desc>
+  <style>
+    :root { --bg:#ffffff; --fg:#172033; --muted:#5f6b7a; --grid:#d8dee8; --blue:#2563eb; --orange:#ea580c; --green:#15803d; --red:#b91c1c; --purple:#7c3aed; --soft:#f3f6fa; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#0f172a; --fg:#f1f5f9; --muted:#b7c0cf; --grid:#3a475c; --blue:#60a5fa; --orange:#fb923c; --green:#4ade80; --red:#f87171; --purple:#c4b5fd; --soft:#172033; } }
+    .bg{fill:var(--bg)} .fg{fill:var(--fg)} .muted{fill:var(--muted)} .soft{fill:var(--soft)}
+    .grid{stroke:var(--grid);stroke-width:1} .axis{stroke:var(--fg);stroke-width:1.25}
+    .blue{fill:var(--blue);stroke:var(--blue)} .orange{fill:var(--orange);stroke:var(--orange)}
+    .green{fill:var(--green);stroke:var(--green)} .red{fill:var(--red);stroke:var(--red)}
+    .purple{fill:var(--purple);stroke:var(--purple)}
+    text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:var(--fg)}
+    .title{font-size:26px;font-weight:600} .subtitle{font-size:15px;fill:var(--muted)}
+    .label{font-size:14px} .small{font-size:12px;fill:var(--muted)} .value{font-size:14px;font-weight:600}
+  </style>
+  <rect class="bg" x="0" y="0" width="1200" height="540"/>
+  <text class="title" x="48" y="48">Vectorized simulator throughput diagnostics</text>
+<text class="subtitle" x="48" y="75">The two-env run is an overload case with 912 FUEL bodies; the other rows use 32 FUEL per environment.</text>
+<rect x="100" y="120" width="1030" height="310" fill="none" class="grid"/>
+<path class="grid" d="M 100 430.0 H 1130"/>
+<text class="small" x="90" y="434.0" text-anchor="end">0</text>
+<path class="grid" d="M 100 368.0 H 1130"/>
+<text class="small" x="90" y="372.0" text-anchor="end">10</text>
+<path class="grid" d="M 100 306.0 H 1130"/>
+<text class="small" x="90" y="310.0" text-anchor="end">20</text>
+<path class="grid" d="M 100 244.0 H 1130"/>
+<text class="small" x="90" y="248.0" text-anchor="end">30</text>
+<path class="grid" d="M 100 182.0 H 1130"/>
+<text class="small" x="90" y="186.0" text-anchor="end">40</text>
+<path class="grid" d="M 100 120.0 H 1130"/>
+<text class="small" x="90" y="124.0" text-anchor="end">50</text>
+<circle class="blue" cx="164.4" cy="178.8" r="9"/>
+<text class="value" x="164.4" y="164.8" text-anchor="middle">40.52</text>
+<text class="small" x="164.4" y="456" text-anchor="middle">1 env</text>
+<text class="small" x="164.4" y="474" text-anchor="middle">32 FUEL</text>
+<circle class="red" cx="293.1" cy="405.6" r="9"/>
+<text class="value" x="293.1" y="391.6" text-anchor="middle">3.93</text>
+<text class="small" x="293.1" y="456" text-anchor="middle">2 env</text>
+<text class="small" x="293.1" y="474" text-anchor="middle">912 FUEL</text>
+<circle class="blue" cx="550.6" cy="124.8" r="9"/>
+<text class="value" x="550.6" y="110.8" text-anchor="middle">49.22</text>
+<text class="small" x="550.6" y="456" text-anchor="middle">4 env</text>
+<text class="small" x="550.6" y="474" text-anchor="middle">128 FUEL</text>
+<circle class="blue" cx="1065.6" cy="139.2" r="9"/>
+<text class="value" x="1065.6" y="125.2" text-anchor="middle">46.91</text>
+<text class="small" x="1065.6" y="456" text-anchor="middle">8 env</text>
+<text class="small" x="1065.6" y="474" text-anchor="middle">256 FUEL</text>
+<text class="label" x="615.0" y="500" text-anchor="middle">Vectorized environment count</text>
+<text class="label" x="28" y="275.0" text-anchor="middle" transform="rotate(-90 28 275.0)">Policy transitions / second</text>
+</svg>

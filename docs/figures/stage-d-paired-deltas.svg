@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">Stage D paired checkpoint deltas</title>
+  <desc id="desc">Forest plot of three paired checkpoint mean score deltas with descriptive 95 percent t intervals.</desc>
+  <style>
+    :root { --bg:#ffffff; --fg:#172033; --muted:#5f6b7a; --grid:#d8dee8; --blue:#2563eb; --orange:#ea580c; --green:#15803d; --red:#b91c1c; --purple:#7c3aed; --soft:#f3f6fa; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#0f172a; --fg:#f1f5f9; --muted:#b7c0cf; --grid:#3a475c; --blue:#60a5fa; --orange:#fb923c; --green:#4ade80; --red:#f87171; --purple:#c4b5fd; --soft:#172033; } }
+    .bg{fill:var(--bg)} .fg{fill:var(--fg)} .muted{fill:var(--muted)} .soft{fill:var(--soft)}
+    .grid{stroke:var(--grid);stroke-width:1} .axis{stroke:var(--fg);stroke-width:1.25}
+    .blue{fill:var(--blue);stroke:var(--blue)} .orange{fill:var(--orange);stroke:var(--orange)}
+    .green{fill:var(--green);stroke:var(--green)} .red{fill:var(--red);stroke:var(--red)}
+    .purple{fill:var(--purple);stroke:var(--purple)}
+    text{font-family:Inter,Segoe UI,Arial,sans-serif;fill:var(--fg)}
+    .title{font-size:26px;font-weight:600} .subtitle{font-size:15px;fill:var(--muted)}
+    .label{font-size:14px} .small{font-size:12px;fill:var(--muted)} .value{font-size:14px;font-weight:600}
+  </style>
+  <rect class="bg" x="0" y="0" width="1200" height="500"/>
+  <text class="title" x="48" y="48">Stage D paired checkpoint deltas</text>
+<text class="subtitle" x="48" y="75">Candidate minus baseline mean score; whiskers are descriptive 95% t intervals. All span zero.</text>
+<path d="M 713.3 108 V 400" class="axis"/>
+<path d="M 420.0 400 V 408" class="axis"/>
+<text class="small" x="420.0" y="430" text-anchor="middle">-40</text>
+<path d="M 566.7 400 V 408" class="axis"/>
+<text class="small" x="566.7" y="430" text-anchor="middle">-20</text>
+<path d="M 713.3 400 V 408" class="axis"/>
+<text class="small" x="713.3" y="430" text-anchor="middle">+0</text>
+<path d="M 860.0 400 V 408" class="axis"/>
+<text class="small" x="860.0" y="430" text-anchor="middle">+20</text>
+<path d="M 1006.7 400 V 408" class="axis"/>
+<text class="small" x="1006.7" y="430" text-anchor="middle">+40</text>
+<text class="value" x="48" y="155">v8 vs source</text>
+<text class="small" x="48" y="177">n=44 · 28W/16L · promote</text>
+<path d="M 711.1 150 H 1014.9" class="green" stroke-width="3"/>
+<path d="M 711.1 142 V 158 M 1014.9 142 V 158" class="green" stroke-width="2"/>
+<circle class="green" cx="863.0" cy="150" r="8"/>
+<text class="value" x="875.0" y="136" text-anchor="start">+20.41</text>
+<text class="value" x="48" y="250">v9 vs v8</text>
+<text class="small" x="48" y="272">n=46 · 26W/20L · promote</text>
+<path d="M 635.9 245 H 925.6" class="green" stroke-width="3"/>
+<path d="M 635.9 237 V 253 M 925.6 237 V 253" class="green" stroke-width="2"/>
+<circle class="green" cx="780.8" cy="245" r="8"/>
+<text class="value" x="792.8" y="231" text-anchor="start">+9.20</text>
+<text class="value" x="48" y="345">v10 / 3270 vs v9</text>
+<text class="small" x="48" y="367">n=41 · 13W/28L · reject</text>
+<path d="M 488.3 340 H 772.1" class="red" stroke-width="3"/>
+<path d="M 488.3 332 V 348 M 772.1 332 V 348" class="red" stroke-width="2"/>
+<circle class="red" cx="630.2" cy="340" r="8"/>
+<text class="value" x="618.2" y="326" text-anchor="end">-11.34</text>
+<text class="label" x="750.0" y="470" text-anchor="middle">Paired score delta (candidate − baseline)</text>
+</svg>

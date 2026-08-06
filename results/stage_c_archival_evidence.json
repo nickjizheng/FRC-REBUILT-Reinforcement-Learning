@@ -1,0 +1,178 @@
+{
+  "schema": "frc_rebuilt_stage_c_archival_evidence_v1",
+  "snapshot_date": "2026-08-06",
+  "scope": "Sanitized rows and custody identifiers from fixed Stage-C evaluation blocks",
+  "legacy_90_second": {
+    "contract": {
+      "horizon_seconds": 90,
+      "fuel_template_count": 200,
+      "seed": 424242,
+      "deterministic": true,
+      "spawn_under_trench": true,
+      "dump_on_press": false,
+      "action_semantics": "one ball per press"
+    },
+    "models": [
+      {
+        "model_id": "champion-998753",
+        "checkpoint_sha256": "a4778ad54995ab76bc5258cc6f2e17cb4d7c8e29c6c0fdcbfbbb4c57c203a182",
+        "train_steps": 998753,
+        "source_artifact_sha256": "67d875a2da4f67d152719c4563f73358073e3e7ac2a119fa4a2b1133c512a63b",
+        "aggregate_score_per_shot": 0.804,
+        "decision": "retain",
+        "episodes": [
+          {"episode_index": 0, "scored": 41, "collected": 53, "shots_fired": 47},
+          {"episode_index": 1, "scored": 48, "collected": 63, "shots_fired": 63},
+          {"episode_index": 2, "scored": 50, "collected": 58, "shots_fired": 59},
+          {"episode_index": 3, "scored": 50, "collected": 59, "shots_fired": 60},
+          {"episode_index": 4, "scored": 43, "collected": 53, "shots_fired": 53},
+          {"episode_index": 5, "scored": 48, "collected": 65, "shots_fired": 60},
+          {"episode_index": 6, "scored": 50, "collected": 58, "shots_fired": 61},
+          {"episode_index": 7, "scored": 2, "collected": 57, "shots_fired": 10}
+        ]
+      },
+      {
+        "model_id": "retest-1019053",
+        "checkpoint_sha256": "acce25a2b0db8593b00910591d95f43f0373a03cf706bbfe48818a05e9744951",
+        "train_steps": 1019053,
+        "source_artifact_sha256": "a4e8a1dcc4845c3fe60d5318a977c4f1ffb4b485bbe55b2bb8eb94ade8e3abd6",
+        "aggregate_score_per_shot": 0.7638,
+        "decision": "do-not-promote",
+        "episodes": [
+          {"episode_index": 0, "scored": 45, "collected": 58, "shots_fired": 51},
+          {"episode_index": 1, "scored": 42, "collected": 53, "shots_fired": 53},
+          {"episode_index": 2, "scored": 46, "collected": 62, "shots_fired": 59},
+          {"episode_index": 3, "scored": 48, "collected": 58, "shots_fired": 58},
+          {"episode_index": 4, "scored": 43, "collected": 53, "shots_fired": 53},
+          {"episode_index": 5, "scored": 36, "collected": 44, "shots_fired": 44},
+          {"episode_index": 6, "scored": 0, "collected": 52, "shots_fired": 10},
+          {"episode_index": 7, "scored": 2, "collected": 61, "shots_fired": 15}
+        ]
+      }
+    ]
+  },
+  "v2_120_second_single_block": {
+    "contract": {
+      "horizon_seconds": 120,
+      "fuel_template_count": 200,
+      "environment_count": 2,
+      "environment_seed": 270001,
+      "action_seed": 270001,
+      "deterministic": true,
+      "dump_on_press": true
+    },
+    "checkpoint_sha256": "9f401501da13da8ad6d4cba22b99bc03eefcd4cdbb9256a948df7f90d25f4689",
+    "checkpoint_train_steps": 1629177,
+    "checkpoint_v2_updates": 465424,
+    "row_bundle_sha256": "7d572d0b882d5d3dd7f0b861ce8d2b8b0461b60325f8b3a9b153c0e9bf9af4d1",
+    "summary_artifact_sha256": "86f13b73e3e95cdcf96899204422c3a1f4ad4fcc44f06ef7d05cadfadec134c7",
+    "episodes": [
+      {"episode_index": 0, "env_index": 0, "scored": 52, "collected": 81, "shots_fired": 63, "cycles_completed": 0, "success": false, "terminal_reason": "horizon"},
+      {"episode_index": 1, "env_index": 1, "scored": 75, "collected": 85, "shots_fired": 85, "cycles_completed": 1, "success": true, "terminal_reason": "horizon"},
+      {"episode_index": 2, "env_index": 0, "scored": 58, "collected": 85, "shots_fired": 69, "cycles_completed": 0, "success": false, "terminal_reason": "horizon"},
+      {"episode_index": 3, "env_index": 1, "scored": 57, "collected": 70, "shots_fired": 70, "cycles_completed": 0, "success": false, "terminal_reason": "horizon"},
+      {"episode_index": 4, "env_index": 0, "scored": 74, "collected": 85, "shots_fired": 85, "cycles_completed": 1, "success": true, "terminal_reason": "horizon"},
+      {"episode_index": 5, "env_index": 1, "scored": 67, "collected": 90, "shots_fired": 77, "cycles_completed": 1, "success": true, "terminal_reason": "horizon"},
+      {"episode_index": 6, "env_index": 0, "scored": 72, "collected": 85, "shots_fired": 85, "cycles_completed": 1, "success": true, "terminal_reason": "horizon"},
+      {"episode_index": 7, "env_index": 1, "scored": 73, "collected": 91, "shots_fired": 83, "cycles_completed": 1, "success": true, "terminal_reason": "horizon"},
+      {"episode_index": 8, "env_index": 0, "scored": 74, "collected": 94, "shots_fired": 84, "cycles_completed": 1, "success": true, "terminal_reason": "horizon"},
+      {"episode_index": 9, "env_index": 1, "scored": 86, "collected": 96, "shots_fired": 98, "cycles_completed": 2, "success": true, "terminal_reason": "horizon"}
+    ]
+  },
+  "v2_120_second_matched_progression": {
+    "contract": {
+      "horizon_seconds": 120,
+      "environment_count": 2,
+      "rows_per_checkpoint": 12,
+      "seed_blocks": [7192026, 7192027],
+      "deterministic": true
+    },
+    "archive_summary_sha256": "e5228e1a45b85f76bf780c769043bdeef18bdc82f63bd64e02195ddf1beb2a0f",
+    "checkpoint_manifest_sha256": "1779708b32d2a8169e12da3b37003222081bb297491a8990fa1c9a29fd253160",
+    "prefix_checkpoint_sha256": "96dffb4361ee6229005b1d4a286bad875efb11ec312ab00f3eea132d1a0a45cd",
+    "models": [
+      {
+        "model_id": "835k",
+        "checkpoint_sha256": "47d14ebbc41f2232fade22b41670f210affe2a7e61fb31310795911d57db5ba7",
+        "row_bundle_sha256": "6cb8713112344f328d60acf6e27314ed84a163063c1db79cdf4feb2eec727898",
+        "scores": [79, 78, 77, 62, 73, 62, 3, 77, 59, 62, 77, 69],
+        "collected": [92, 107, 89, 71, 88, 72, 74, 90, 76, 87, 102, 88]
+      },
+      {
+        "model_id": "840k",
+        "checkpoint_sha256": "1113accf3c2968420d14e44a6e3e0950e866dcba707eb4f6871bcb8fcc4dd797",
+        "row_bundle_sha256": "fe4eda9135b37613589506782cf25d06f51be379b18d38a5c4b43c8224559b18",
+        "scores": [59, 75, 65, 62, 57, 76, 60, 58, 71, 61, 72, 77],
+        "collected": [92, 88, 90, 88, 72, 90, 89, 89, 95, 72, 88, 89]
+      },
+      {
+        "model_id": "845k",
+        "checkpoint_sha256": "3f2a5d64e88c1e012087cbf32b27aa3dce0fae8180e64912fbefad5f2f319f6a",
+        "row_bundle_sha256": "ab420fd224451c33731a398df197ea593d95ce6fd74a4ee18993a4c2fac7a940",
+        "scores": [77, 79, 76, 64, 81, 76, 76, 63, 75, 1, 78, 80],
+        "collected": [88, 90, 89, 86, 91, 89, 88, 86, 89, 74, 87, 90]
+      },
+      {
+        "model_id": "latest-2014905",
+        "checkpoint_sha256": "94d27d391392d7929ba9a577f9a9e5532abe7453c31d8ddfd9abc238e461692a",
+        "row_bundle_sha256": "83ededec89434b0b57dbef6f55259f235b86471eb5e4ed0bde4146901db62888",
+        "scores": [0, 79, 80, 95, 78, 61, 62, 91, 76, 76, 78, 80],
+        "collected": [74, 97, 90, 106, 90, 75, 90, 112, 88, 88, 91, 90]
+      }
+    ],
+    "exclusion_note": "One PhysX-corrupt raw record was excluded before the selected matched-12 block; the archive summary records the exclusion."
+  },
+  "v4_multiseed_90_second_bank": {
+    "contract": {
+      "horizon_seconds": 90,
+      "seeds": [72020, 73020, 74020, 75020],
+      "environment_indices": [0, 1],
+      "deterministic": true
+    },
+    "checkpoint_sha256": "d49677004c12831f99965ae7a1f8a82b5ae8350924c56b77e0405aa70b696a59",
+    "prefix_checkpoint_sha256": "96dffb4361ee6229005b1d4a286bad875efb11ec312ab00f3eea132d1a0a45cd",
+    "all_capture_manifest_sha256": "4748410af2d37f7bd1594c9a03db936118d44f85d46e80dddbf0504b949d31db",
+    "qualified_capture_manifest_sha256": "5a4eef2781ded0dda275abd397d5e46e662a237429a2bc982d003a7aaa4d3447",
+    "rows": [
+      {"seed": 72020, "env_index": 0, "scored": 77, "collected": 99, "cycles_completed": 1, "terminal_reason": "horizon"},
+      {"seed": 72020, "env_index": 1, "scored": 76, "collected": 102, "cycles_completed": 1, "terminal_reason": "horizon"},
+      {"seed": 73020, "env_index": 0, "scored": 93, "collected": 108, "cycles_completed": 2, "terminal_reason": "horizon"},
+      {"seed": 73020, "env_index": 1, "scored": 78, "collected": 90, "cycles_completed": 1, "terminal_reason": "horizon"},
+      {"seed": 74020, "env_index": 0, "scored": 60, "collected": 92, "cycles_completed": 0, "terminal_reason": "unhealthy"},
+      {"seed": 74020, "env_index": 1, "scored": 80, "collected": 105, "cycles_completed": 1, "terminal_reason": "horizon"},
+      {"seed": 75020, "env_index": 0, "scored": 78, "collected": 93, "cycles_completed": 1, "terminal_reason": "horizon"},
+      {"seed": 75020, "env_index": 1, "scored": 76, "collected": 106, "cycles_completed": 1, "terminal_reason": "unhealthy"}
+    ]
+  },
+  "matched_two_row_gate": {
+    "source_artifact_sha256": "ee710ed7c357edf8ccd959710817ca9aa602f3b2af366dbcc64a9ecbb24a362d",
+    "contract": {
+      "horizon_seconds": 90,
+      "environment_seed": 72020,
+      "environment_count": 2,
+      "deterministic": true
+    },
+    "models": {
+      "v4_985k": {
+        "checkpoint_reference": "stagec_rampout_v4_best_v2_000985000",
+        "scores": [96, 94],
+        "mean_collected": 112.5,
+        "cycles_completed_total": 4,
+        "ramp_out_successes": 4,
+        "ramp_out_attempts": 6,
+        "outer_rail_fraction_raw": 0.1857
+      },
+      "v7_1331": {
+        "checkpoint_reference": "stagec_v7_eval_20260720_1331",
+        "scores": [62, 71],
+        "mean_collected": 91.5,
+        "cycles_completed_total": 0,
+        "ramp_out_successes": 1,
+        "ramp_out_attempts": 1,
+        "outer_rail_fraction_raw": 0.0267
+      }
+    },
+    "decision": "Stop v7; retain v4 for the next design step.",
+    "evidence_note": "Fixed engineering gate only; n=2 per model."
+  }
+}

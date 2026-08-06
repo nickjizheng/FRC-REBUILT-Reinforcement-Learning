@@ -1,0 +1,3070 @@
+{
+  "schema": "frc_rebuilt_stage_abcd_experiment_results_v1",
+  "snapshot_date": "2026-08-06",
+  "scope": "Sanitized public evidence available for Stages A-D",
+  "interpretation_rule": "Raw scores must not be compared across stages because horizons, FUEL counts, reset distributions, action semantics, and match contracts differ.",
+  "evidence_tiers": {
+    "fixed_paired": "Immutable checkpoints on identical seed keys within one contract.",
+    "fixed_diagnostic": "Frozen checkpoint evaluation with limited sample size or provenance.",
+    "directional": "Moving-policy training telemetry used only for screening.",
+    "smoke": "Infrastructure/resume validation; not a policy-performance conclusion."
+  },
+  "curriculum": [
+    {
+      "stage": "A",
+      "horizon_seconds": 20,
+      "fuel_template_count": 32,
+      "objective": "Acquire FUEL from camera observations",
+      "primary_public_evidence": "fixed_diagnostic"
+    },
+    {
+      "stage": "B",
+      "horizon_seconds": 36,
+      "fuel_template_count": 96,
+      "objective": "Acquire and score from mixed starts",
+      "primary_public_evidence": "smoke"
+    },
+    {
+      "stage": "C",
+      "horizon_seconds": [
+        90,
+        120
+      ],
+      "fuel_template_count": 200,
+      "objective": "Repeat collection, return, and scoring cycles",
+      "primary_public_evidence": "fixed_diagnostic"
+    },
+    {
+      "stage": "D",
+      "horizon_seconds": 160,
+      "fuel_template_count": 456,
+      "objective": "Exact full-match behavior",
+      "primary_public_evidence": "fixed_paired"
+    }
+  ],
+  "stages": {
+    "A": {
+      "evidence_tier": "fixed_diagnostic",
+      "contract": {
+        "horizon_seconds": 20,
+        "fuel_template_count": 32,
+        "evaluation_episodes_per_policy": 6,
+        "environment_count": 2,
+        "intended_measure": "FUEL acquisition"
+      },
+      "training_telemetry": {
+        "transitions": 105970,
+        "updates": 104972,
+        "episodes": 528,
+        "mean_return_last20": 24.81,
+        "mean_score_reward_last20": 4.0,
+        "mean_collect_reward_last20": 25.35,
+        "first5_returns": [
+          4.0,
+          2.56,
+          1.04,
+          -1.97,
+          -1.6
+        ],
+        "last5_returns": [
+          22.35,
+          16.34,
+          23.68,
+          21.16,
+          16.55
+        ],
+        "series": [
+          {
+            "transitions": 824,
+            "episodes": 4,
+            "recent_return_mean": 1.41,
+            "recent_collect_reward": 3.38,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 1360,
+            "episodes": 6,
+            "recent_return_mean": 4.5,
+            "recent_collect_reward": 3.5,
+            "recent_score_reward": 3.33
+          },
+          {
+            "transitions": 1836,
+            "episodes": 8,
+            "recent_return_mean": 2.75,
+            "recent_collect_reward": 3.0,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 2310,
+            "episodes": 10,
+            "recent_return_mean": 1.39,
+            "recent_collect_reward": 2.4,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 2778,
+            "episodes": 12,
+            "recent_return_mean": 0.62,
+            "recent_collect_reward": 2.12,
+            "recent_score_reward": 1.67
+          },
+          {
+            "transitions": 3234,
+            "episodes": 16,
+            "recent_return_mean": 0.14,
+            "recent_collect_reward": 2.25,
+            "recent_score_reward": 1.25
+          },
+          {
+            "transitions": 3682,
+            "episodes": 18,
+            "recent_return_mean": 0.93,
+            "recent_collect_reward": 3.25,
+            "recent_score_reward": 1.11
+          },
+          {
+            "transitions": 4136,
+            "episodes": 20,
+            "recent_return_mean": 1.04,
+            "recent_collect_reward": 3.52,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 4586,
+            "episodes": 22,
+            "recent_return_mean": 0.98,
+            "recent_collect_reward": 3.67,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 5036,
+            "episodes": 24,
+            "recent_return_mean": 1.22,
+            "recent_collect_reward": 4.12,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 5490,
+            "episodes": 26,
+            "recent_return_mean": 0.44,
+            "recent_collect_reward": 4.42,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 5940,
+            "episodes": 28,
+            "recent_return_mean": 0.52,
+            "recent_collect_reward": 4.5,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 6390,
+            "episodes": 30,
+            "recent_return_mean": 1.2,
+            "recent_collect_reward": 5.17,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 6842,
+            "episodes": 34,
+            "recent_return_mean": 1.88,
+            "recent_collect_reward": 5.85,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 7304,
+            "episodes": 36,
+            "recent_return_mean": 2.34,
+            "recent_collect_reward": 6.3,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 7766,
+            "episodes": 38,
+            "recent_return_mean": 1.91,
+            "recent_collect_reward": 5.85,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 8226,
+            "episodes": 40,
+            "recent_return_mean": 1.92,
+            "recent_collect_reward": 5.85,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 8684,
+            "episodes": 42,
+            "recent_return_mean": 2.38,
+            "recent_collect_reward": 6.3,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 9150,
+            "episodes": 44,
+            "recent_return_mean": 3.1,
+            "recent_collect_reward": 6.97,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 9590,
+            "episodes": 46,
+            "recent_return_mean": 2.87,
+            "recent_collect_reward": 6.75,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 10012,
+            "episodes": 50,
+            "recent_return_mean": 5.51,
+            "recent_collect_reward": 7.88,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 10444,
+            "episodes": 52,
+            "recent_return_mean": 6.77,
+            "recent_collect_reward": 9.15,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 10882,
+            "episodes": 54,
+            "recent_return_mean": 7.67,
+            "recent_collect_reward": 10.05,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 11328,
+            "episodes": 56,
+            "recent_return_mean": 7.9,
+            "recent_collect_reward": 10.28,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 11772,
+            "episodes": 58,
+            "recent_return_mean": 8.43,
+            "recent_collect_reward": 10.8,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 12218,
+            "episodes": 60,
+            "recent_return_mean": 9.26,
+            "recent_collect_reward": 11.62,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 12650,
+            "episodes": 62,
+            "recent_return_mean": 9.05,
+            "recent_collect_reward": 11.4,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 13088,
+            "episodes": 64,
+            "recent_return_mean": 11.34,
+            "recent_collect_reward": 11.7,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 13520,
+            "episodes": 66,
+            "recent_return_mean": 12.01,
+            "recent_collect_reward": 12.38,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 13942,
+            "episodes": 68,
+            "recent_return_mean": 10.89,
+            "recent_collect_reward": 12.75,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 14354,
+            "episodes": 70,
+            "recent_return_mean": 10.68,
+            "recent_collect_reward": 12.53,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 14784,
+            "episodes": 72,
+            "recent_return_mean": 10.32,
+            "recent_collect_reward": 12.15,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 15198,
+            "episodes": 76,
+            "recent_return_mean": 11.5,
+            "recent_collect_reward": 12.82,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 15622,
+            "episodes": 78,
+            "recent_return_mean": 11.86,
+            "recent_collect_reward": 13.2,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 16066,
+            "episodes": 80,
+            "recent_return_mean": 11.35,
+            "recent_collect_reward": 12.68,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 16516,
+            "episodes": 82,
+            "recent_return_mean": 12.05,
+            "recent_collect_reward": 12.9,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 16964,
+            "episodes": 84,
+            "recent_return_mean": 9.91,
+            "recent_collect_reward": 12.75,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 17420,
+            "episodes": 86,
+            "recent_return_mean": 9.24,
+            "recent_collect_reward": 12.07,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 17872,
+            "episodes": 88,
+            "recent_return_mean": 9.67,
+            "recent_collect_reward": 12.53,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 18322,
+            "episodes": 90,
+            "recent_return_mean": 10.86,
+            "recent_collect_reward": 12.22,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 18762,
+            "episodes": 92,
+            "recent_return_mean": 11.03,
+            "recent_collect_reward": 12.38,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 19188,
+            "episodes": 94,
+            "recent_return_mean": 10.79,
+            "recent_collect_reward": 12.15,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 19610,
+            "episodes": 98,
+            "recent_return_mean": 10.43,
+            "recent_collect_reward": 12.3,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 20036,
+            "episodes": 100,
+            "recent_return_mean": 11.01,
+            "recent_collect_reward": 12.9,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 20482,
+            "episodes": 102,
+            "recent_return_mean": 10.38,
+            "recent_collect_reward": 12.75,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 20936,
+            "episodes": 104,
+            "recent_return_mean": 9.77,
+            "recent_collect_reward": 12.15,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 21382,
+            "episodes": 106,
+            "recent_return_mean": 10.67,
+            "recent_collect_reward": 13.05,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 21824,
+            "episodes": 108,
+            "recent_return_mean": 10.45,
+            "recent_collect_reward": 12.82,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 22264,
+            "episodes": 110,
+            "recent_return_mean": 9.63,
+            "recent_collect_reward": 13.5,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 22708,
+            "episodes": 112,
+            "recent_return_mean": 9.52,
+            "recent_collect_reward": 13.43,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 23152,
+            "episodes": 114,
+            "recent_return_mean": 9.23,
+            "recent_collect_reward": 13.12,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 23598,
+            "episodes": 118,
+            "recent_return_mean": 9.02,
+            "recent_collect_reward": 12.9,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 24034,
+            "episodes": 120,
+            "recent_return_mean": 8.57,
+            "recent_collect_reward": 12.45,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 24448,
+            "episodes": 122,
+            "recent_return_mean": 8.64,
+            "recent_collect_reward": 12.53,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 24866,
+            "episodes": 124,
+            "recent_return_mean": 9.79,
+            "recent_collect_reward": 12.68,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 25286,
+            "episodes": 126,
+            "recent_return_mean": 9.64,
+            "recent_collect_reward": 12.53,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 25698,
+            "episodes": 128,
+            "recent_return_mean": 10.65,
+            "recent_collect_reward": 13.5,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 26114,
+            "episodes": 130,
+            "recent_return_mean": 10.66,
+            "recent_collect_reward": 13.5,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 26524,
+            "episodes": 132,
+            "recent_return_mean": 11.5,
+            "recent_collect_reward": 14.32,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 26938,
+            "episodes": 134,
+            "recent_return_mean": 14.36,
+            "recent_collect_reward": 15.68,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 27356,
+            "episodes": 136,
+            "recent_return_mean": 14.08,
+            "recent_collect_reward": 15.38,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 27774,
+            "episodes": 138,
+            "recent_return_mean": 14.07,
+            "recent_collect_reward": 15.38,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 28200,
+            "episodes": 140,
+            "recent_return_mean": 15.04,
+            "recent_collect_reward": 15.82,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 28630,
+            "episodes": 142,
+            "recent_return_mean": 15.63,
+            "recent_collect_reward": 16.43,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 29042,
+            "episodes": 144,
+            "recent_return_mean": 15.08,
+            "recent_collect_reward": 16.88,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 29464,
+            "episodes": 146,
+            "recent_return_mean": 15.98,
+            "recent_collect_reward": 17.77,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 29896,
+            "episodes": 148,
+            "recent_return_mean": 16.02,
+            "recent_collect_reward": 17.85,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 30340,
+            "episodes": 150,
+            "recent_return_mean": 16.44,
+            "recent_collect_reward": 18.3,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 30768,
+            "episodes": 152,
+            "recent_return_mean": 15.48,
+            "recent_collect_reward": 17.32,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 31188,
+            "episodes": 154,
+            "recent_return_mean": 12.77,
+            "recent_collect_reward": 16.12,
+            "recent_score_reward": 0.5
+          },
+          {
+            "transitions": 31612,
+            "episodes": 158,
+            "recent_return_mean": 13.79,
+            "recent_collect_reward": 17.18,
+            "recent_score_reward": 0.5
+          },
+          {
+            "transitions": 32056,
+            "episodes": 160,
+            "recent_return_mean": 12.83,
+            "recent_collect_reward": 16.73,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 32508,
+            "episodes": 162,
+            "recent_return_mean": 13.12,
+            "recent_collect_reward": 17.02,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 32964,
+            "episodes": 164,
+            "recent_return_mean": 12.67,
+            "recent_collect_reward": 16.57,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 33400,
+            "episodes": 166,
+            "recent_return_mean": 13.04,
+            "recent_collect_reward": 16.95,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 33840,
+            "episodes": 168,
+            "recent_return_mean": 12.08,
+            "recent_collect_reward": 15.97,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 34258,
+            "episodes": 170,
+            "recent_return_mean": 13.07,
+            "recent_collect_reward": 16.95,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 34700,
+            "episodes": 172,
+            "recent_return_mean": 12.61,
+            "recent_collect_reward": 16.5,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 35128,
+            "episodes": 174,
+            "recent_return_mean": 13.8,
+            "recent_collect_reward": 17.7,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 35552,
+            "episodes": 176,
+            "recent_return_mean": 13.22,
+            "recent_collect_reward": 17.1,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 35978,
+            "episodes": 178,
+            "recent_return_mean": 12.79,
+            "recent_collect_reward": 16.65,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 36394,
+            "episodes": 180,
+            "recent_return_mean": 14.37,
+            "recent_collect_reward": 18.23,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 36816,
+            "episodes": 184,
+            "recent_return_mean": 15.5,
+            "recent_collect_reward": 19.35,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 37234,
+            "episodes": 186,
+            "recent_return_mean": 15.29,
+            "recent_collect_reward": 19.12,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 37656,
+            "episodes": 188,
+            "recent_return_mean": 15.75,
+            "recent_collect_reward": 19.57,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 38108,
+            "episodes": 190,
+            "recent_return_mean": 14.55,
+            "recent_collect_reward": 18.38,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 38530,
+            "episodes": 192,
+            "recent_return_mean": 15.98,
+            "recent_collect_reward": 19.8,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 38954,
+            "episodes": 194,
+            "recent_return_mean": 15.15,
+            "recent_collect_reward": 18.98,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 39366,
+            "episodes": 196,
+            "recent_return_mean": 16.21,
+            "recent_collect_reward": 20.02,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 39794,
+            "episodes": 198,
+            "recent_return_mean": 17.4,
+            "recent_collect_reward": 21.23,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 40222,
+            "episodes": 200,
+            "recent_return_mean": 17.68,
+            "recent_collect_reward": 21.0,
+            "recent_score_reward": 0.5
+          },
+          {
+            "transitions": 40660,
+            "episodes": 202,
+            "recent_return_mean": 20.51,
+            "recent_collect_reward": 20.32,
+            "recent_score_reward": 4.0
+          },
+          {
+            "transitions": 41116,
+            "episodes": 204,
+            "recent_return_mean": 23.32,
+            "recent_collect_reward": 19.65,
+            "recent_score_reward": 7.5
+          },
+          {
+            "transitions": 41562,
+            "episodes": 206,
+            "recent_return_mean": 22.26,
+            "recent_collect_reward": 18.6,
+            "recent_score_reward": 7.5
+          },
+          {
+            "transitions": 42010,
+            "episodes": 210,
+            "recent_return_mean": 22.25,
+            "recent_collect_reward": 18.6,
+            "recent_score_reward": 7.5
+          },
+          {
+            "transitions": 42446,
+            "episodes": 212,
+            "recent_return_mean": 22.63,
+            "recent_collect_reward": 18.98,
+            "recent_score_reward": 7.5
+          },
+          {
+            "transitions": 42872,
+            "episodes": 214,
+            "recent_return_mean": 23.57,
+            "recent_collect_reward": 18.9,
+            "recent_score_reward": 8.5
+          },
+          {
+            "transitions": 43288,
+            "episodes": 216,
+            "recent_return_mean": 23.18,
+            "recent_collect_reward": 18.52,
+            "recent_score_reward": 8.5
+          },
+          {
+            "transitions": 43740,
+            "episodes": 218,
+            "recent_return_mean": 22.91,
+            "recent_collect_reward": 17.25,
+            "recent_score_reward": 9.5
+          },
+          {
+            "transitions": 44198,
+            "episodes": 220,
+            "recent_return_mean": 22.03,
+            "recent_collect_reward": 16.88,
+            "recent_score_reward": 9.0
+          },
+          {
+            "transitions": 44630,
+            "episodes": 222,
+            "recent_return_mean": 18.47,
+            "recent_collect_reward": 16.8,
+            "recent_score_reward": 5.5
+          },
+          {
+            "transitions": 45052,
+            "episodes": 224,
+            "recent_return_mean": 16.48,
+            "recent_collect_reward": 18.3,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 45488,
+            "episodes": 226,
+            "recent_return_mean": 17.23,
+            "recent_collect_reward": 19.05,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 45934,
+            "episodes": 228,
+            "recent_return_mean": 18.05,
+            "recent_collect_reward": 19.88,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 46382,
+            "episodes": 230,
+            "recent_return_mean": 18.35,
+            "recent_collect_reward": 20.18,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 46832,
+            "episodes": 234,
+            "recent_return_mean": 17.87,
+            "recent_collect_reward": 20.7,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 47262,
+            "episodes": 236,
+            "recent_return_mean": 17.86,
+            "recent_collect_reward": 20.7,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 47688,
+            "episodes": 238,
+            "recent_return_mean": 17.54,
+            "recent_collect_reward": 21.38,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 48118,
+            "episodes": 240,
+            "recent_return_mean": 16.64,
+            "recent_collect_reward": 20.48,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 48544,
+            "episodes": 242,
+            "recent_return_mean": 18.2,
+            "recent_collect_reward": 22.05,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 48970,
+            "episodes": 244,
+            "recent_return_mean": 18.9,
+            "recent_collect_reward": 21.75,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 49390,
+            "episodes": 246,
+            "recent_return_mean": 19.11,
+            "recent_collect_reward": 21.98,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 49812,
+            "episodes": 248,
+            "recent_return_mean": 18.52,
+            "recent_collect_reward": 21.38,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 50226,
+            "episodes": 250,
+            "recent_return_mean": 18.15,
+            "recent_collect_reward": 21.0,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 50652,
+            "episodes": 252,
+            "recent_return_mean": 18.7,
+            "recent_collect_reward": 21.52,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 51098,
+            "episodes": 254,
+            "recent_return_mean": 18.78,
+            "recent_collect_reward": 21.6,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 51546,
+            "episodes": 256,
+            "recent_return_mean": 19.08,
+            "recent_collect_reward": 21.9,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 51998,
+            "episodes": 260,
+            "recent_return_mean": 20.81,
+            "recent_collect_reward": 23.62,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 52444,
+            "episodes": 262,
+            "recent_return_mean": 20.6,
+            "recent_collect_reward": 23.4,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 52890,
+            "episodes": 264,
+            "recent_return_mean": 20.44,
+            "recent_collect_reward": 24.23,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 53346,
+            "episodes": 266,
+            "recent_return_mean": 20.83,
+            "recent_collect_reward": 24.6,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 53800,
+            "episodes": 268,
+            "recent_return_mean": 21.78,
+            "recent_collect_reward": 25.57,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 54230,
+            "episodes": 270,
+            "recent_return_mean": 21.85,
+            "recent_collect_reward": 25.65,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 54686,
+            "episodes": 272,
+            "recent_return_mean": 21.01,
+            "recent_collect_reward": 24.82,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 55144,
+            "episodes": 274,
+            "recent_return_mean": 20.54,
+            "recent_collect_reward": 24.38,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 55602,
+            "episodes": 278,
+            "recent_return_mean": 20.86,
+            "recent_collect_reward": 24.68,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 56060,
+            "episodes": 280,
+            "recent_return_mean": 21.53,
+            "recent_collect_reward": 25.35,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 56518,
+            "episodes": 282,
+            "recent_return_mean": 21.82,
+            "recent_collect_reward": 25.65,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 56976,
+            "episodes": 284,
+            "recent_return_mean": 21.28,
+            "recent_collect_reward": 25.12,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 57436,
+            "episodes": 286,
+            "recent_return_mean": 21.28,
+            "recent_collect_reward": 25.12,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 57892,
+            "episodes": 288,
+            "recent_return_mean": 21.44,
+            "recent_collect_reward": 25.27,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 58352,
+            "episodes": 290,
+            "recent_return_mean": 21.89,
+            "recent_collect_reward": 25.73,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 58812,
+            "episodes": 294,
+            "recent_return_mean": 23.31,
+            "recent_collect_reward": 27.15,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 59262,
+            "episodes": 296,
+            "recent_return_mean": 23.98,
+            "recent_collect_reward": 27.82,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 59692,
+            "episodes": 298,
+            "recent_return_mean": 23.67,
+            "recent_collect_reward": 27.52,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 60120,
+            "episodes": 300,
+            "recent_return_mean": 23.38,
+            "recent_collect_reward": 27.23,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 60552,
+            "episodes": 302,
+            "recent_return_mean": 23.07,
+            "recent_collect_reward": 26.93,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 60984,
+            "episodes": 304,
+            "recent_return_mean": 24.85,
+            "recent_collect_reward": 26.7,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 61414,
+            "episodes": 306,
+            "recent_return_mean": 24.78,
+            "recent_collect_reward": 26.62,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 61842,
+            "episodes": 308,
+            "recent_return_mean": 25.51,
+            "recent_collect_reward": 26.85,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 62276,
+            "episodes": 310,
+            "recent_return_mean": 25.43,
+            "recent_collect_reward": 26.77,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 62708,
+            "episodes": 312,
+            "recent_return_mean": 24.98,
+            "recent_collect_reward": 26.32,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 63138,
+            "episodes": 314,
+            "recent_return_mean": 24.31,
+            "recent_collect_reward": 25.65,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 63574,
+            "episodes": 316,
+            "recent_return_mean": 23.9,
+            "recent_collect_reward": 25.27,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 64006,
+            "episodes": 320,
+            "recent_return_mean": 24.59,
+            "recent_collect_reward": 24.98,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 64442,
+            "episodes": 322,
+            "recent_return_mean": 24.36,
+            "recent_collect_reward": 24.75,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 64870,
+            "episodes": 324,
+            "recent_return_mean": 22.35,
+            "recent_collect_reward": 24.75,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 65300,
+            "episodes": 326,
+            "recent_return_mean": 21.95,
+            "recent_collect_reward": 24.38,
+            "recent_score_reward": 1.5
+          },
+          {
+            "transitions": 65732,
+            "episodes": 328,
+            "recent_return_mean": 21.82,
+            "recent_collect_reward": 24.75,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 66162,
+            "episodes": 330,
+            "recent_return_mean": 22.03,
+            "recent_collect_reward": 24.98,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 66596,
+            "episodes": 332,
+            "recent_return_mean": 21.72,
+            "recent_collect_reward": 24.68,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 67024,
+            "episodes": 334,
+            "recent_return_mean": 22.81,
+            "recent_collect_reward": 23.77,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 67454,
+            "episodes": 336,
+            "recent_return_mean": 21.53,
+            "recent_collect_reward": 22.5,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 67880,
+            "episodes": 338,
+            "recent_return_mean": 20.88,
+            "recent_collect_reward": 22.88,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 68308,
+            "episodes": 340,
+            "recent_return_mean": 21.55,
+            "recent_collect_reward": 23.55,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 68742,
+            "episodes": 342,
+            "recent_return_mean": 21.69,
+            "recent_collect_reward": 23.7,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 69174,
+            "episodes": 344,
+            "recent_return_mean": 22.35,
+            "recent_collect_reward": 24.38,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 69606,
+            "episodes": 348,
+            "recent_return_mean": 22.43,
+            "recent_collect_reward": 23.4,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 70036,
+            "episodes": 350,
+            "recent_return_mean": 22.42,
+            "recent_collect_reward": 23.4,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 70466,
+            "episodes": 352,
+            "recent_return_mean": 22.94,
+            "recent_collect_reward": 23.93,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 70900,
+            "episodes": 354,
+            "recent_return_mean": 21.5,
+            "recent_collect_reward": 24.45,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 71324,
+            "episodes": 356,
+            "recent_return_mean": 23.09,
+            "recent_collect_reward": 26.02,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 71754,
+            "episodes": 358,
+            "recent_return_mean": 22.37,
+            "recent_collect_reward": 25.27,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 72186,
+            "episodes": 360,
+            "recent_return_mean": 24.03,
+            "recent_collect_reward": 25.43,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 72640,
+            "episodes": 362,
+            "recent_return_mean": 24.32,
+            "recent_collect_reward": 25.73,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 73098,
+            "episodes": 364,
+            "recent_return_mean": 25.54,
+            "recent_collect_reward": 25.43,
+            "recent_score_reward": 4.0
+          },
+          {
+            "transitions": 73560,
+            "episodes": 366,
+            "recent_return_mean": 24.71,
+            "recent_collect_reward": 24.6,
+            "recent_score_reward": 4.0
+          },
+          {
+            "transitions": 74016,
+            "episodes": 370,
+            "recent_return_mean": 24.29,
+            "recent_collect_reward": 25.2,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 74476,
+            "episodes": 372,
+            "recent_return_mean": 24.82,
+            "recent_collect_reward": 25.73,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 74938,
+            "episodes": 374,
+            "recent_return_mean": 23.81,
+            "recent_collect_reward": 24.75,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 75388,
+            "episodes": 376,
+            "recent_return_mean": 23.19,
+            "recent_collect_reward": 24.15,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 75832,
+            "episodes": 378,
+            "recent_return_mean": 24.28,
+            "recent_collect_reward": 24.75,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 76282,
+            "episodes": 380,
+            "recent_return_mean": 22.55,
+            "recent_collect_reward": 24.52,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 76718,
+            "episodes": 382,
+            "recent_return_mean": 21.36,
+            "recent_collect_reward": 23.32,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 77150,
+            "episodes": 384,
+            "recent_return_mean": 19.54,
+            "recent_collect_reward": 23.02,
+            "recent_score_reward": 0.5
+          },
+          {
+            "transitions": 77578,
+            "episodes": 386,
+            "recent_return_mean": 20.65,
+            "recent_collect_reward": 24.15,
+            "recent_score_reward": 0.5
+          },
+          {
+            "transitions": 78036,
+            "episodes": 390,
+            "recent_return_mean": 20.54,
+            "recent_collect_reward": 24.07,
+            "recent_score_reward": 0.5
+          },
+          {
+            "transitions": 78490,
+            "episodes": 392,
+            "recent_return_mean": 20.43,
+            "recent_collect_reward": 24.0,
+            "recent_score_reward": 0.5
+          },
+          {
+            "transitions": 78942,
+            "episodes": 394,
+            "recent_return_mean": 22.02,
+            "recent_collect_reward": 25.57,
+            "recent_score_reward": 0.5
+          },
+          {
+            "transitions": 79390,
+            "episodes": 396,
+            "recent_return_mean": 24.9,
+            "recent_collect_reward": 25.95,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 79838,
+            "episodes": 398,
+            "recent_return_mean": 24.62,
+            "recent_collect_reward": 26.18,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 80282,
+            "episodes": 400,
+            "recent_return_mean": 25.17,
+            "recent_collect_reward": 26.25,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 80724,
+            "episodes": 402,
+            "recent_return_mean": 26.13,
+            "recent_collect_reward": 27.23,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 81174,
+            "episodes": 404,
+            "recent_return_mean": 25.54,
+            "recent_collect_reward": 26.62,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 81616,
+            "episodes": 408,
+            "recent_return_mean": 25.8,
+            "recent_collect_reward": 26.93,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 82052,
+            "episodes": 410,
+            "recent_return_mean": 25.73,
+            "recent_collect_reward": 26.85,
+            "recent_score_reward": 3.0
+          },
+          {
+            "transitions": 82490,
+            "episodes": 412,
+            "recent_return_mean": 29.92,
+            "recent_collect_reward": 27.52,
+            "recent_score_reward": 6.5
+          },
+          {
+            "transitions": 82946,
+            "episodes": 414,
+            "recent_return_mean": 31.17,
+            "recent_collect_reward": 27.3,
+            "recent_score_reward": 8.0
+          },
+          {
+            "transitions": 83404,
+            "episodes": 416,
+            "recent_return_mean": 28.93,
+            "recent_collect_reward": 27.07,
+            "recent_score_reward": 6.0
+          },
+          {
+            "transitions": 83862,
+            "episodes": 418,
+            "recent_return_mean": 28.23,
+            "recent_collect_reward": 26.4,
+            "recent_score_reward": 6.0
+          },
+          {
+            "transitions": 84324,
+            "episodes": 420,
+            "recent_return_mean": 27.43,
+            "recent_collect_reward": 26.1,
+            "recent_score_reward": 5.5
+          },
+          {
+            "transitions": 84778,
+            "episodes": 422,
+            "recent_return_mean": 25.83,
+            "recent_collect_reward": 24.52,
+            "recent_score_reward": 5.5
+          },
+          {
+            "transitions": 85242,
+            "episodes": 426,
+            "recent_return_mean": 24.34,
+            "recent_collect_reward": 22.57,
+            "recent_score_reward": 6.0
+          },
+          {
+            "transitions": 85692,
+            "episodes": 428,
+            "recent_return_mean": 23.82,
+            "recent_collect_reward": 22.05,
+            "recent_score_reward": 6.0
+          },
+          {
+            "transitions": 86138,
+            "episodes": 430,
+            "recent_return_mean": 23.82,
+            "recent_collect_reward": 22.05,
+            "recent_score_reward": 6.0
+          },
+          {
+            "transitions": 86586,
+            "episodes": 432,
+            "recent_return_mean": 19.26,
+            "recent_collect_reward": 21.0,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 87030,
+            "episodes": 434,
+            "recent_return_mean": 18.12,
+            "recent_collect_reward": 21.38,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 87470,
+            "episodes": 436,
+            "recent_return_mean": 17.81,
+            "recent_collect_reward": 21.6,
+            "recent_score_reward": 0.5
+          },
+          {
+            "transitions": 87902,
+            "episodes": 438,
+            "recent_return_mean": 18.25,
+            "recent_collect_reward": 22.05,
+            "recent_score_reward": 0.5
+          },
+          {
+            "transitions": 88328,
+            "episodes": 440,
+            "recent_return_mean": 19.66,
+            "recent_collect_reward": 21.98,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 88758,
+            "episodes": 442,
+            "recent_return_mean": 21.32,
+            "recent_collect_reward": 23.62,
+            "recent_score_reward": 2.0
+          },
+          {
+            "transitions": 89186,
+            "episodes": 444,
+            "recent_return_mean": 26.45,
+            "recent_collect_reward": 24.75,
+            "recent_score_reward": 6.0
+          },
+          {
+            "transitions": 89620,
+            "episodes": 448,
+            "recent_return_mean": 29.27,
+            "recent_collect_reward": 25.57,
+            "recent_score_reward": 8.0
+          },
+          {
+            "transitions": 90048,
+            "episodes": 450,
+            "recent_return_mean": 29.55,
+            "recent_collect_reward": 25.88,
+            "recent_score_reward": 8.0
+          },
+          {
+            "transitions": 90482,
+            "episodes": 452,
+            "recent_return_mean": 30.99,
+            "recent_collect_reward": 26.32,
+            "recent_score_reward": 9.0
+          },
+          {
+            "transitions": 90916,
+            "episodes": 454,
+            "recent_return_mean": 34.58,
+            "recent_collect_reward": 26.4,
+            "recent_score_reward": 12.5
+          },
+          {
+            "transitions": 91348,
+            "episodes": 456,
+            "recent_return_mean": 34.73,
+            "recent_collect_reward": 26.55,
+            "recent_score_reward": 12.5
+          },
+          {
+            "transitions": 91808,
+            "episodes": 458,
+            "recent_return_mean": 34.14,
+            "recent_collect_reward": 25.95,
+            "recent_score_reward": 12.5
+          },
+          {
+            "transitions": 92274,
+            "episodes": 460,
+            "recent_return_mean": 31.95,
+            "recent_collect_reward": 25.27,
+            "recent_score_reward": 11.0
+          },
+          {
+            "transitions": 92736,
+            "episodes": 462,
+            "recent_return_mean": 30.13,
+            "recent_collect_reward": 23.48,
+            "recent_score_reward": 11.0
+          },
+          {
+            "transitions": 93182,
+            "episodes": 464,
+            "recent_return_mean": 24.52,
+            "recent_collect_reward": 21.9,
+            "recent_score_reward": 7.0
+          },
+          {
+            "transitions": 93642,
+            "episodes": 468,
+            "recent_return_mean": 25.4,
+            "recent_collect_reward": 21.82,
+            "recent_score_reward": 8.0
+          },
+          {
+            "transitions": 94092,
+            "episodes": 470,
+            "recent_return_mean": 23.86,
+            "recent_collect_reward": 20.25,
+            "recent_score_reward": 8.0
+          },
+          {
+            "transitions": 94554,
+            "episodes": 472,
+            "recent_return_mean": 21.95,
+            "recent_collect_reward": 19.35,
+            "recent_score_reward": 7.0
+          },
+          {
+            "transitions": 95018,
+            "episodes": 474,
+            "recent_return_mean": 17.3,
+            "recent_collect_reward": 18.23,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 95472,
+            "episodes": 476,
+            "recent_return_mean": 17.34,
+            "recent_collect_reward": 18.3,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 95930,
+            "episodes": 478,
+            "recent_return_mean": 17.18,
+            "recent_collect_reward": 18.15,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 96388,
+            "episodes": 480,
+            "recent_return_mean": 17.04,
+            "recent_collect_reward": 18.0,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 96844,
+            "episodes": 484,
+            "recent_return_mean": 20.64,
+            "recent_collect_reward": 20.55,
+            "recent_score_reward": 4.5
+          },
+          {
+            "transitions": 97288,
+            "episodes": 486,
+            "recent_return_mean": 23.08,
+            "recent_collect_reward": 20.48,
+            "recent_score_reward": 7.0
+          },
+          {
+            "transitions": 97728,
+            "episodes": 488,
+            "recent_return_mean": 21.23,
+            "recent_collect_reward": 22.12,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 98174,
+            "episodes": 490,
+            "recent_return_mean": 22.44,
+            "recent_collect_reward": 23.4,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 98622,
+            "episodes": 492,
+            "recent_return_mean": 23.93,
+            "recent_collect_reward": 24.9,
+            "recent_score_reward": 3.5
+          },
+          {
+            "transitions": 99076,
+            "episodes": 494,
+            "recent_return_mean": 27.5,
+            "recent_collect_reward": 25.95,
+            "recent_score_reward": 6.0
+          },
+          {
+            "transitions": 99534,
+            "episodes": 496,
+            "recent_return_mean": 26.92,
+            "recent_collect_reward": 25.35,
+            "recent_score_reward": 6.0
+          },
+          {
+            "transitions": 99988,
+            "episodes": 498,
+            "recent_return_mean": 27.65,
+            "recent_collect_reward": 26.1,
+            "recent_score_reward": 6.0
+          },
+          {
+            "transitions": 100444,
+            "episodes": 502,
+            "recent_return_mean": 29.81,
+            "recent_collect_reward": 28.27,
+            "recent_score_reward": 6.0
+          },
+          {
+            "transitions": 100900,
+            "episodes": 504,
+            "recent_return_mean": 29.0,
+            "recent_collect_reward": 28.57,
+            "recent_score_reward": 5.0
+          },
+          {
+            "transitions": 101358,
+            "episodes": 506,
+            "recent_return_mean": 26.08,
+            "recent_collect_reward": 28.2,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 101816,
+            "episodes": 508,
+            "recent_return_mean": 25.56,
+            "recent_collect_reward": 27.68,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 102274,
+            "episodes": 510,
+            "recent_return_mean": 25.66,
+            "recent_collect_reward": 27.75,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 102728,
+            "episodes": 512,
+            "recent_return_mean": 25.05,
+            "recent_collect_reward": 27.15,
+            "recent_score_reward": 2.5
+          },
+          {
+            "transitions": 103180,
+            "episodes": 514,
+            "recent_return_mean": 22.51,
+            "recent_collect_reward": 27.15,
+            "recent_score_reward": 0.0
+          },
+          {
+            "transitions": 103628,
+            "episodes": 518,
+            "recent_return_mean": 23.04,
+            "recent_collect_reward": 26.62,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 104072,
+            "episodes": 520,
+            "recent_return_mean": 22.3,
+            "recent_collect_reward": 25.88,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 104502,
+            "episodes": 522,
+            "recent_return_mean": 21.98,
+            "recent_collect_reward": 25.57,
+            "recent_score_reward": 1.0
+          },
+          {
+            "transitions": 104928,
+            "episodes": 524,
+            "recent_return_mean": 25.11,
+            "recent_collect_reward": 25.65,
+            "recent_score_reward": 4.0
+          },
+          {
+            "transitions": 105350,
+            "episodes": 526,
+            "recent_return_mean": 25.11,
+            "recent_collect_reward": 25.65,
+            "recent_score_reward": 4.0
+          },
+          {
+            "transitions": 105778,
+            "episodes": 528,
+            "recent_return_mean": 24.81,
+            "recent_collect_reward": 25.35,
+            "recent_score_reward": 4.0
+          }
+        ],
+        "evidence_tier": "directional"
+      },
+      "fixed_diagnostic": {
+        "checkpoint_sha256": "94627ce74e30f96a378bb25288ffb69bb7122b687100d49c73a5c3ffd0b83c65",
+        "checkpoint_identity_note": "Recovered from the contemporaneous repository commit; the evaluation JSON did not embed the checkpoint hash.",
+        "policies": {
+          "checkpoint": {
+            "episodes": [
+              {
+                "return": 27.0,
+                "scored": 0,
+                "collected": 21,
+                "shots_fired": 0
+              },
+              {
+                "return": 14.57,
+                "scored": 0,
+                "collected": 13,
+                "shots_fired": 0
+              },
+              {
+                "return": 19.06,
+                "scored": 0,
+                "collected": 16,
+                "shots_fired": 0
+              },
+              {
+                "return": 89.39,
+                "scored": 7,
+                "collected": 16,
+                "shots_fired": 14
+              },
+              {
+                "return": 20.75,
+                "scored": 0,
+                "collected": 17,
+                "shots_fired": 0
+              },
+              {
+                "return": 19.15,
+                "scored": 0,
+                "collected": 16,
+                "shots_fired": 0
+              }
+            ],
+            "return": {
+              "n": 6,
+              "mean": 31.653333,
+              "median": 19.95,
+              "min": 14.57,
+              "max": 89.39,
+              "sample_stddev": 28.5686
+            },
+            "collected_fuel": {
+              "n": 6,
+              "mean": 16.5,
+              "median": 16.0,
+              "min": 13.0,
+              "max": 21.0,
+              "sample_stddev": 2.588436
+            },
+            "scored_fuel": {
+              "n": 6,
+              "mean": 1.166667,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 7.0,
+              "sample_stddev": 2.857738
+            },
+            "shots_fired": {
+              "n": 6,
+              "mean": 2.333333,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 14.0,
+              "sample_stddev": 5.715476
+            }
+          },
+          "random": {
+            "episodes": [
+              {
+                "return": -0.49,
+                "scored": 0,
+                "collected": 1,
+                "shots_fired": 0
+              },
+              {
+                "return": -0.55,
+                "scored": 0,
+                "collected": 1,
+                "shots_fired": 0
+              },
+              {
+                "return": 2.5,
+                "scored": 0,
+                "collected": 3,
+                "shots_fired": 0
+              },
+              {
+                "return": 15.93,
+                "scored": 0,
+                "collected": 12,
+                "shots_fired": 2
+              },
+              {
+                "return": -0.48,
+                "scored": 0,
+                "collected": 1,
+                "shots_fired": 0
+              },
+              {
+                "return": 14.49,
+                "scored": 0,
+                "collected": 11,
+                "shots_fired": 0
+              }
+            ],
+            "return": {
+              "n": 6,
+              "mean": 5.233333,
+              "median": 1.01,
+              "min": -0.55,
+              "max": 15.93,
+              "sample_stddev": 7.828427
+            },
+            "collected_fuel": {
+              "n": 6,
+              "mean": 4.833333,
+              "median": 2.0,
+              "min": 1.0,
+              "max": 12.0,
+              "sample_stddev": 5.231316
+            },
+            "scored_fuel": {
+              "n": 6,
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "sample_stddev": 0.0
+            },
+            "shots_fired": {
+              "n": 6,
+              "mean": 0.333333,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 2.0,
+              "sample_stddev": 0.816497
+            }
+          },
+          "zero": {
+            "episodes": [
+              {
+                "return": 0.0,
+                "scored": 0,
+                "collected": 0,
+                "shots_fired": 0
+              },
+              {
+                "return": 0.0,
+                "scored": 0,
+                "collected": 0,
+                "shots_fired": 0
+              },
+              {
+                "return": 0.0,
+                "scored": 0,
+                "collected": 0,
+                "shots_fired": 0
+              },
+              {
+                "return": 0.0,
+                "scored": 0,
+                "collected": 0,
+                "shots_fired": 0
+              },
+              {
+                "return": 0.0,
+                "scored": 0,
+                "collected": 0,
+                "shots_fired": 0
+              },
+              {
+                "return": 0.0,
+                "scored": 0,
+                "collected": 0,
+                "shots_fired": 0
+              }
+            ],
+            "return": {
+              "n": 6,
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "sample_stddev": 0.0
+            },
+            "collected_fuel": {
+              "n": 6,
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "sample_stddev": 0.0
+            },
+            "scored_fuel": {
+              "n": 6,
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "sample_stddev": 0.0
+            },
+            "shots_fired": {
+              "n": 6,
+              "mean": 0.0,
+              "median": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "sample_stddev": 0.0
+            }
+          }
+        }
+      },
+      "sources": [
+        {
+          "path": "runs/drqv2_stageA_clean/summary.json",
+          "sha256": "03d86af187861c5853d8536704ae10d7635d7574b41564f9be6360692abd9489"
+        },
+        {
+          "path": "runs/drqv2_stageA_clean/metrics.jsonl",
+          "sha256": "b3b5dcc619e1e3d78b347091fff37f8302e66577c6ade93178600614d37d445e"
+        },
+        {
+          "path": "runs/eval_stageA_clean.json",
+          "sha256": "8c24f7c95eb4ef3150e14d53109846168e4bb1a9e4ebf4213964a3dff0a44b25",
+          "note": "Historical file omits evaluator revision and embedded checkpoint hash."
+        }
+      ],
+      "caveats": [
+        "The checkpoint score mean is driven by one seven-score episode; five of six scored zero.",
+        "Acquisition, not scoring, was the intended Stage-A outcome.",
+        "This is one small evaluator-seed block, not independent training-seed replication."
+      ]
+    },
+    "B": {
+      "evidence_tier": "smoke",
+      "contract": {
+        "horizon_seconds": 36.0,
+        "fuel_template_count": 96,
+        "environment_count": 2,
+        "preloaded_start_probability": 0.5,
+        "collection_weight_schedule": [
+          1.5,
+          0.3
+        ]
+      },
+      "smoke_run": {
+        "elapsed_seconds": 369.2,
+        "transitions": 2450,
+        "updates": 1452,
+        "episodes": 6,
+        "transitions_per_second": 6.636,
+        "episode_returns": [
+          5.2,
+          38.13,
+          19.24,
+          28.86,
+          40.33,
+          28.97
+        ],
+        "return": {
+          "n": 6,
+          "mean": 26.788333,
+          "median": 28.915,
+          "min": 5.2,
+          "max": 40.33,
+          "sample_stddev": 12.993037
+        },
+        "recent_score_reward": 0.0,
+        "recent_collection_reward": 33.0
+      },
+      "sources": [
+        {
+          "path": "runs/drqv2_stageB_smoke/summary.json",
+          "sha256": "15e44a4da99b1d756c0845f336d09144cb65810b3acbaf7d41fd82c5bd8e613c"
+        },
+        {
+          "path": "runs/drqv2_stageB_smoke/run_config.json",
+          "sha256": "967959805f09ad72571d2cf1a8da8682c119ba42f24d6b868ed7e5ff62f07686",
+          "note": "The public dataset copies only sanitized contract fields."
+        }
+      ],
+      "caveats": [
+        "No fixed Stage-B checkpoint evaluation is available.",
+        "The six-minute run validates resume/training throughput, not acquire-and-score competence.",
+        "Collection reward is shaped reward and is not a raw FUEL count."
+      ]
+    },
+    "C": {
+      "evidence_tier": "fixed_diagnostic",
+      "legacy_90_second": {
+        "contract": {
+          "horizon_seconds": 90,
+          "fuel_template_count": 200,
+          "seed": 424242,
+          "deterministic": true,
+          "spawn_under_trench": true,
+          "dump_on_press": false,
+          "action_semantics": "one ball per press"
+        },
+        "models": {
+          "champion_998753": {
+            "checkpoint_sha256": "a4778ad54995ab76bc5258cc6f2e17cb4d7c8e29c6c0fdcbfbbb4c57c203a182",
+            "train_steps": 998753,
+            "episodes": [
+              {
+                "episode_index": 0,
+                "scored": 41,
+                "collected": 53,
+                "shots_fired": 47
+              },
+              {
+                "episode_index": 1,
+                "scored": 48,
+                "collected": 63,
+                "shots_fired": 63
+              },
+              {
+                "episode_index": 2,
+                "scored": 50,
+                "collected": 58,
+                "shots_fired": 59
+              },
+              {
+                "episode_index": 3,
+                "scored": 50,
+                "collected": 59,
+                "shots_fired": 60
+              },
+              {
+                "episode_index": 4,
+                "scored": 43,
+                "collected": 53,
+                "shots_fired": 53
+              },
+              {
+                "episode_index": 5,
+                "scored": 48,
+                "collected": 65,
+                "shots_fired": 60
+              },
+              {
+                "episode_index": 6,
+                "scored": 50,
+                "collected": 58,
+                "shots_fired": 61
+              },
+              {
+                "episode_index": 7,
+                "scored": 2,
+                "collected": 57,
+                "shots_fired": 10
+              }
+            ],
+            "scored_fuel": {
+              "n": 8,
+              "mean": 41.5,
+              "median": 48.0,
+              "min": 2.0,
+              "max": 50.0,
+              "sample_stddev": 16.318263
+            },
+            "collected_fuel": {
+              "n": 8,
+              "mean": 58.25,
+              "median": 58.0,
+              "min": 53.0,
+              "max": 65.0,
+              "sample_stddev": 4.234214
+            },
+            "shots_fired": {
+              "n": 8,
+              "mean": 51.625,
+              "median": 59.5,
+              "min": 10.0,
+              "max": 63.0,
+              "sample_stddev": 17.598194
+            },
+            "aggregate_score_per_shot": 0.804
+          },
+          "retest_1019053": {
+            "checkpoint_sha256": "acce25a2b0db8593b00910591d95f43f0373a03cf706bbfe48818a05e9744951",
+            "train_steps": 1019053,
+            "episodes": [
+              {
+                "episode_index": 0,
+                "scored": 45,
+                "collected": 58,
+                "shots_fired": 51
+              },
+              {
+                "episode_index": 1,
+                "scored": 42,
+                "collected": 53,
+                "shots_fired": 53
+              },
+              {
+                "episode_index": 2,
+                "scored": 46,
+                "collected": 62,
+                "shots_fired": 59
+              },
+              {
+                "episode_index": 3,
+                "scored": 48,
+                "collected": 58,
+                "shots_fired": 58
+              },
+              {
+                "episode_index": 4,
+                "scored": 43,
+                "collected": 53,
+                "shots_fired": 53
+              },
+              {
+                "episode_index": 5,
+                "scored": 36,
+                "collected": 44,
+                "shots_fired": 44
+              },
+              {
+                "episode_index": 6,
+                "scored": 0,
+                "collected": 52,
+                "shots_fired": 10
+              },
+              {
+                "episode_index": 7,
+                "scored": 2,
+                "collected": 61,
+                "shots_fired": 15
+              }
+            ],
+            "scored_fuel": {
+              "n": 8,
+              "mean": 32.75,
+              "median": 42.5,
+              "min": 0.0,
+              "max": 48.0,
+              "sample_stddev": 19.919481
+            },
+            "collected_fuel": {
+              "n": 8,
+              "mean": 55.125,
+              "median": 55.5,
+              "min": 44.0,
+              "max": 62.0,
+              "sample_stddev": 5.866065
+            },
+            "shots_fired": {
+              "n": 8,
+              "mean": 42.875,
+              "median": 52.0,
+              "min": 10.0,
+              "max": 59.0,
+              "sample_stddev": 19.342311
+            },
+            "aggregate_score_per_shot": 0.7638
+          }
+        },
+        "decision": "Retain champion 998753; do not promote retest 1019053."
+      },
+      "v2_120_second_single_block": {
+        "contract": {
+          "horizon_seconds": 120,
+          "fuel_template_count": 200,
+          "environment_count": 2,
+          "environment_seed": 270001,
+          "action_seed": 270001,
+          "deterministic": true,
+          "dump_on_press": true
+        },
+        "checkpoint_sha256": "9f401501da13da8ad6d4cba22b99bc03eefcd4cdbb9256a948df7f90d25f4689",
+        "checkpoint_train_steps": 1629177,
+        "checkpoint_v2_updates": 465424,
+        "episodes": [
+          {
+            "episode_index": 0,
+            "env_index": 0,
+            "scored": 52,
+            "collected": 81,
+            "shots_fired": 63,
+            "cycles_completed": 0,
+            "success": false,
+            "terminal_reason": "horizon"
+          },
+          {
+            "episode_index": 1,
+            "env_index": 1,
+            "scored": 75,
+            "collected": 85,
+            "shots_fired": 85,
+            "cycles_completed": 1,
+            "success": true,
+            "terminal_reason": "horizon"
+          },
+          {
+            "episode_index": 2,
+            "env_index": 0,
+            "scored": 58,
+            "collected": 85,
+            "shots_fired": 69,
+            "cycles_completed": 0,
+            "success": false,
+            "terminal_reason": "horizon"
+          },
+          {
+            "episode_index": 3,
+            "env_index": 1,
+            "scored": 57,
+            "collected": 70,
+            "shots_fired": 70,
+            "cycles_completed": 0,
+            "success": false,
+            "terminal_reason": "horizon"
+          },
+          {
+            "episode_index": 4,
+            "env_index": 0,
+            "scored": 74,
+            "collected": 85,
+            "shots_fired": 85,
+            "cycles_completed": 1,
+            "success": true,
+            "terminal_reason": "horizon"
+          },
+          {
+            "episode_index": 5,
+            "env_index": 1,
+            "scored": 67,
+            "collected": 90,
+            "shots_fired": 77,
+            "cycles_completed": 1,
+            "success": true,
+            "terminal_reason": "horizon"
+          },
+          {
+            "episode_index": 6,
+            "env_index": 0,
+            "scored": 72,
+            "collected": 85,
+            "shots_fired": 85,
+            "cycles_completed": 1,
+            "success": true,
+            "terminal_reason": "horizon"
+          },
+          {
+            "episode_index": 7,
+            "env_index": 1,
+            "scored": 73,
+            "collected": 91,
+            "shots_fired": 83,
+            "cycles_completed": 1,
+            "success": true,
+            "terminal_reason": "horizon"
+          },
+          {
+            "episode_index": 8,
+            "env_index": 0,
+            "scored": 74,
+            "collected": 94,
+            "shots_fired": 84,
+            "cycles_completed": 1,
+            "success": true,
+            "terminal_reason": "horizon"
+          },
+          {
+            "episode_index": 9,
+            "env_index": 1,
+            "scored": 86,
+            "collected": 96,
+            "shots_fired": 98,
+            "cycles_completed": 2,
+            "success": true,
+            "terminal_reason": "horizon"
+          }
+        ],
+        "scored_fuel": {
+          "n": 10,
+          "mean": 68.8,
+          "median": 72.5,
+          "min": 52.0,
+          "max": 86.0,
+          "sample_stddev": 10.315038
+        },
+        "collected_fuel": {
+          "n": 10,
+          "mean": 86.2,
+          "median": 85.0,
+          "min": 70.0,
+          "max": 96.0,
+          "sample_stddev": 7.375636
+        },
+        "shots_fired": {
+          "n": 10,
+          "mean": 79.9,
+          "median": 83.5,
+          "min": 63.0,
+          "max": 98.0,
+          "sample_stddev": 10.235559
+        },
+        "cycles_completed_total": 8,
+        "successes": 7,
+        "success_rate": 0.7,
+        "row_bundle_sha256": "7d572d0b882d5d3dd7f0b861ce8d2b8b0461b60325f8b3a9b153c0e9bf9af4d1",
+        "summary_artifact_sha256": "86f13b73e3e95cdcf96899204422c3a1f4ad4fcc44f06ef7d05cadfadec134c7"
+      },
+      "v2_120_second_matched_progression": {
+        "contract": {
+          "horizon_seconds": 120,
+          "environment_count": 2,
+          "rows_per_checkpoint": 12,
+          "seed_blocks": [
+            7192026,
+            7192027
+          ],
+          "deterministic": true
+        },
+        "models": [
+          {
+            "model_id": "835k",
+            "checkpoint_sha256": "47d14ebbc41f2232fade22b41670f210affe2a7e61fb31310795911d57db5ba7",
+            "row_bundle_sha256": "6cb8713112344f328d60acf6e27314ed84a163063c1db79cdf4feb2eec727898",
+            "scores": [
+              79,
+              78,
+              77,
+              62,
+              73,
+              62,
+              3,
+              77,
+              59,
+              62,
+              77,
+              69
+            ],
+            "collected": [
+              92,
+              107,
+              89,
+              71,
+              88,
+              72,
+              74,
+              90,
+              76,
+              87,
+              102,
+              88
+            ],
+            "scored_fuel": {
+              "n": 12,
+              "mean": 64.833333,
+              "median": 71.0,
+              "min": 3.0,
+              "max": 79.0,
+              "sample_stddev": 20.853748
+            },
+            "collected_fuel": {
+              "n": 12,
+              "mean": 86.333333,
+              "median": 88.0,
+              "min": 71.0,
+              "max": 107.0,
+              "sample_stddev": 11.404412
+            }
+          },
+          {
+            "model_id": "840k",
+            "checkpoint_sha256": "1113accf3c2968420d14e44a6e3e0950e866dcba707eb4f6871bcb8fcc4dd797",
+            "row_bundle_sha256": "fe4eda9135b37613589506782cf25d06f51be379b18d38a5c4b43c8224559b18",
+            "scores": [
+              59,
+              75,
+              65,
+              62,
+              57,
+              76,
+              60,
+              58,
+              71,
+              61,
+              72,
+              77
+            ],
+            "collected": [
+              92,
+              88,
+              90,
+              88,
+              72,
+              90,
+              89,
+              89,
+              95,
+              72,
+              88,
+              89
+            ],
+            "scored_fuel": {
+              "n": 12,
+              "mean": 66.083333,
+              "median": 63.5,
+              "min": 57.0,
+              "max": 77.0,
+              "sample_stddev": 7.597348
+            },
+            "collected_fuel": {
+              "n": 12,
+              "mean": 86.833333,
+              "median": 89.0,
+              "min": 72.0,
+              "max": 95.0,
+              "sample_stddev": 7.209001
+            }
+          },
+          {
+            "model_id": "845k",
+            "checkpoint_sha256": "3f2a5d64e88c1e012087cbf32b27aa3dce0fae8180e64912fbefad5f2f319f6a",
+            "row_bundle_sha256": "ab420fd224451c33731a398df197ea593d95ce6fd74a4ee18993a4c2fac7a940",
+            "scores": [
+              77,
+              79,
+              76,
+              64,
+              81,
+              76,
+              76,
+              63,
+              75,
+              1,
+              78,
+              80
+            ],
+            "collected": [
+              88,
+              90,
+              89,
+              86,
+              91,
+              89,
+              88,
+              86,
+              89,
+              74,
+              87,
+              90
+            ],
+            "scored_fuel": {
+              "n": 12,
+              "mean": 68.833333,
+              "median": 76.0,
+              "min": 1.0,
+              "max": 81.0,
+              "sample_stddev": 22.110604
+            },
+            "collected_fuel": {
+              "n": 12,
+              "mean": 87.25,
+              "median": 88.5,
+              "min": 74.0,
+              "max": 91.0,
+              "sample_stddev": 4.454314
+            }
+          },
+          {
+            "model_id": "latest-2014905",
+            "checkpoint_sha256": "94d27d391392d7929ba9a577f9a9e5532abe7453c31d8ddfd9abc238e461692a",
+            "row_bundle_sha256": "83ededec89434b0b57dbef6f55259f235b86471eb5e4ed0bde4146901db62888",
+            "scores": [
+              0,
+              79,
+              80,
+              95,
+              78,
+              61,
+              62,
+              91,
+              76,
+              76,
+              78,
+              80
+            ],
+            "collected": [
+              74,
+              97,
+              90,
+              106,
+              90,
+              75,
+              90,
+              112,
+              88,
+              88,
+              91,
+              90
+            ],
+            "scored_fuel": {
+              "n": 12,
+              "mean": 71.333333,
+              "median": 78.0,
+              "min": 0.0,
+              "max": 95.0,
+              "sample_stddev": 24.440404
+            },
+            "collected_fuel": {
+              "n": 12,
+              "mean": 90.916667,
+              "median": 90.0,
+              "min": 74.0,
+              "max": 112.0,
+              "sample_stddev": 10.740394
+            }
+          }
+        ],
+        "custody": {
+          "archive_summary_sha256": "e5228e1a45b85f76bf780c769043bdeef18bdc82f63bd64e02195ddf1beb2a0f",
+          "checkpoint_manifest_sha256": "1779708b32d2a8169e12da3b37003222081bb297491a8990fa1c9a29fd253160",
+          "prefix_checkpoint_sha256": "96dffb4361ee6229005b1d4a286bad875efb11ec312ab00f3eea132d1a0a45cd"
+        },
+        "caveat": "One PhysX-corrupt raw record was excluded before the selected matched-12 block; the archive summary records the exclusion."
+      },
+      "v4_multiseed_90_second_bank": {
+        "contract": {
+          "horizon_seconds": 90,
+          "seeds": [
+            72020,
+            73020,
+            74020,
+            75020
+          ],
+          "environment_indices": [
+            0,
+            1
+          ],
+          "deterministic": true
+        },
+        "checkpoint_sha256": "d49677004c12831f99965ae7a1f8a82b5ae8350924c56b77e0405aa70b696a59",
+        "rows": [
+          {
+            "seed": 72020,
+            "env_index": 0,
+            "scored": 77,
+            "collected": 99,
+            "cycles_completed": 1,
+            "terminal_reason": "horizon"
+          },
+          {
+            "seed": 72020,
+            "env_index": 1,
+            "scored": 76,
+            "collected": 102,
+            "cycles_completed": 1,
+            "terminal_reason": "horizon"
+          },
+          {
+            "seed": 73020,
+            "env_index": 0,
+            "scored": 93,
+            "collected": 108,
+            "cycles_completed": 2,
+            "terminal_reason": "horizon"
+          },
+          {
+            "seed": 73020,
+            "env_index": 1,
+            "scored": 78,
+            "collected": 90,
+            "cycles_completed": 1,
+            "terminal_reason": "horizon"
+          },
+          {
+            "seed": 74020,
+            "env_index": 0,
+            "scored": 60,
+            "collected": 92,
+            "cycles_completed": 0,
+            "terminal_reason": "unhealthy"
+          },
+          {
+            "seed": 74020,
+            "env_index": 1,
+            "scored": 80,
+            "collected": 105,
+            "cycles_completed": 1,
+            "terminal_reason": "horizon"
+          },
+          {
+            "seed": 75020,
+            "env_index": 0,
+            "scored": 78,
+            "collected": 93,
+            "cycles_completed": 1,
+            "terminal_reason": "horizon"
+          },
+          {
+            "seed": 75020,
+            "env_index": 1,
+            "scored": 76,
+            "collected": 106,
+            "cycles_completed": 1,
+            "terminal_reason": "unhealthy"
+          }
+        ],
+        "all_rows": {
+          "scored_fuel": {
+            "n": 8,
+            "mean": 77.25,
+            "median": 77.5,
+            "min": 60.0,
+            "max": 93.0,
+            "sample_stddev": 8.924285
+          },
+          "collected_fuel": {
+            "n": 8,
+            "mean": 99.375,
+            "median": 100.5,
+            "min": 90.0,
+            "max": 108.0,
+            "sample_stddev": 6.968039
+          },
+          "cycles_completed_total": 8
+        },
+        "healthy_rows": {
+          "n": 6,
+          "scored_fuel": {
+            "n": 6,
+            "mean": 80.333333,
+            "median": 78.0,
+            "min": 76.0,
+            "max": 93.0,
+            "sample_stddev": 6.345602
+          },
+          "collected_fuel": {
+            "n": 6,
+            "mean": 99.5,
+            "median": 100.5,
+            "min": 90.0,
+            "max": 108.0,
+            "sample_stddev": 6.94982
+          },
+          "cycles_completed": {
+            "n": 6,
+            "mean": 1.166667,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 2.0,
+            "sample_stddev": 0.408248
+          }
+        },
+        "capture_manifest_sha256": "4748410af2d37f7bd1594c9a03db936118d44f85d46e80dddbf0504b949d31db",
+        "qualified_capture_manifest_sha256": "5a4eef2781ded0dda275abd397d5e46e662a237429a2bc982d003a7aaa4d3447",
+        "caveat": "Two of eight rows terminated unhealthy; all-row and healthy-only summaries are both retained."
+      },
+      "matched_two_row_gate": {
+        "contract": {
+          "horizon_seconds": 90,
+          "environment_seed": 72020,
+          "environment_count": 2,
+          "deterministic": true
+        },
+        "models": {
+          "v4_985k": {
+            "checkpoint_reference": "stagec_rampout_v4_best_v2_000985000",
+            "scores": [
+              96,
+              94
+            ],
+            "mean_collected": 112.5,
+            "cycles_completed_total": 4,
+            "ramp_out_successes": 4,
+            "ramp_out_attempts": 6,
+            "outer_rail_fraction_raw": 0.1857
+          },
+          "v7_1331": {
+            "checkpoint_reference": "stagec_v7_eval_20260720_1331",
+            "scores": [
+              62,
+              71
+            ],
+            "mean_collected": 91.5,
+            "cycles_completed_total": 0,
+            "ramp_out_successes": 1,
+            "ramp_out_attempts": 1,
+            "outer_rail_fraction_raw": 0.0267
+          }
+        },
+        "decision": "Stop v7; retain v4 for the next design step.",
+        "evidence_note": "Fixed engineering gate only; n=2 per model.",
+        "source_artifact_sha256": "ee710ed7c357edf8ccd959710817ca9aa602f3b2af366dbcc64a9ecbb24a362d"
+      },
+      "sources": [
+        {
+          "path": "results/stage_c_archival_evidence.json",
+          "sha256": "215cd6017703b2e64c74f62a0444d3b54fa6454b873fe54aab0ec13ead789720",
+          "note": "Sanitized publication layer; origin artifact hashes are embedded."
+        }
+      ],
+      "caveats": [
+        "The 90-second and 120-second blocks use different action semantics and must not be pooled.",
+        "The repeated seed-424242 rows are evaluator episodes, not independent training seeds.",
+        "The n=2 checkpoint gate is an engineering diagnostic, not a statistical comparison."
+      ]
+    },
+    "D": {
+      "evidence_tier": "fixed_paired",
+      "shared_protocol": {
+        "environment": "Stage-D full match",
+        "action_mode": "deterministic actor mean",
+        "horizon_seconds": 160,
+        "speed_scale": 1.0,
+        "same_seed_pairing": true,
+        "rows_per_model": 64,
+        "auxiliary_mechanics_enabled": false,
+        "healthy_definition": {
+          "terminal_reason": "horizon",
+          "exact_checkpoint_and_contract_required": true,
+          "healthy_zero_scores_included": true
+        },
+        "standard_deviation": "sample standard deviation across the stated healthy population"
+      },
+      "comparisons": [
+        {
+          "id": "stage-d-v8-vs-source-3185",
+          "decision": "promote",
+          "candidate": {
+            "model_id": "stage-d-v8-3215",
+            "checkpoint_sha256": "6dd37c60b8e516554b2d3ef3103082b0cf465a12823f63974939e426a4a76339"
+          },
+          "baseline": {
+            "model_id": "stage-d-source-3185",
+            "checkpoint_sha256": "02c3ec961dbdba4c014ace7276cf19da9b6c4245ba01ae9035455f21ad3199bf"
+          },
+          "integrity": {
+            "source_report_sha256": "59e83f79cd9d16206ffed1f64198b0e1905d50c4f332d3d54e3aa3ce843ed02a"
+          },
+          "samples": {
+            "candidate_healthy": 51,
+            "candidate_unhealthy": 13,
+            "baseline_healthy": 55,
+            "baseline_unhealthy": 9,
+            "common_healthy_pairs": 44
+          },
+          "paired_scores": {
+            "candidate": {
+              "mean": 121.159091,
+              "sample_stddev": 48.051302,
+              "median": 120.5,
+              "max": 202.0
+            },
+            "baseline": {
+              "mean": 100.75,
+              "sample_stddev": 49.832335,
+              "median": 99.5,
+              "max": 182.0
+            },
+            "candidate_minus_baseline_mean": 20.409091,
+            "paired_delta_sample_stddev": 68.10946,
+            "wins": 28,
+            "losses": 16,
+            "ties": 0,
+            "candidate_minus_baseline_95pct_t_interval": [
+              -0.298075,
+              41.116257
+            ],
+            "interval_note": "Descriptive two-sided Student-t interval from the published paired delta aggregate; not adjusted for checkpoint screening."
+          },
+          "all_healthy_scores": {
+            "candidate": {
+              "mean": 120.019608,
+              "sample_stddev": 48.959367,
+              "median": 120.0,
+              "max": 202.0
+            },
+            "baseline": {
+              "mean": 100.890909,
+              "sample_stddev": 49.279127,
+              "median": 102.0,
+              "max": 182.0
+            }
+          }
+        },
+        {
+          "id": "stage-d-v9-vs-v8",
+          "decision": "promote",
+          "candidate": {
+            "model_id": "stage-d-v9-3230",
+            "checkpoint_sha256": "62bef28553b799005ebca29a59c41574046da2e3485d8d23ce98b9b5f89b2b12"
+          },
+          "baseline": {
+            "model_id": "stage-d-v8-3215",
+            "checkpoint_sha256": "6dd37c60b8e516554b2d3ef3103082b0cf465a12823f63974939e426a4a76339"
+          },
+          "integrity": {
+            "source_report_sha256": "46888da5119bbf595bd4d88cefdf1e239f797de3ea24a55f209e888b776ddaff"
+          },
+          "samples": {
+            "candidate_healthy": 55,
+            "candidate_unhealthy": 9,
+            "baseline_healthy": 52,
+            "baseline_unhealthy": 12,
+            "common_healthy_pairs": 46
+          },
+          "paired_scores": {
+            "candidate": {
+              "mean": 122.782609,
+              "sample_stddev": 41.349412,
+              "median": 130.0,
+              "max": 194.0
+            },
+            "baseline": {
+              "mean": 113.586957,
+              "sample_stddev": 49.488753,
+              "median": 123.5,
+              "max": 197.0
+            },
+            "candidate_minus_baseline_mean": 9.195652,
+            "paired_delta_sample_stddev": 66.526392,
+            "wins": 26,
+            "losses": 20,
+            "ties": 0,
+            "candidate_minus_baseline_95pct_t_interval": [
+              -10.560244,
+              28.951548
+            ],
+            "interval_note": "Descriptive two-sided Student-t interval from the published paired delta aggregate; not adjusted for checkpoint screening."
+          },
+          "all_healthy_scores": {
+            "candidate": {
+              "mean": 124.254545,
+              "sample_stddev": 39.957022,
+              "median": 130.0,
+              "max": 194.0
+            },
+            "baseline": {
+              "mean": 114.019231,
+              "sample_stddev": 46.782136,
+              "median": 122.0,
+              "max": 197.0
+            }
+          }
+        },
+        {
+          "id": "stage-d-v10-candidate-3270-vs-v9",
+          "decision": "reject",
+          "candidate": {
+            "model_id": "stage-d-v10-candidate-3270",
+            "checkpoint_sha256": "46818174970724eae4c1370ea5dda90047c55247283475947312d86a3840822f"
+          },
+          "baseline": {
+            "model_id": "stage-d-v9-3230",
+            "checkpoint_sha256": "62bef28553b799005ebca29a59c41574046da2e3485d8d23ce98b9b5f89b2b12"
+          },
+          "integrity": {
+            "source_report_sha256": "71e9bfffc1a9da4930deab31530ee0827435eefb21ce5556ad446d548dc4787b"
+          },
+          "samples": {
+            "candidate_healthy": 53,
+            "candidate_unhealthy": 11,
+            "baseline_healthy": 46,
+            "baseline_unhealthy": 18,
+            "common_healthy_pairs": 41
+          },
+          "paired_scores": {
+            "candidate": {
+              "mean": 117.731707,
+              "sample_stddev": 35.542949,
+              "median": 122.0,
+              "max": 173.0
+            },
+            "baseline": {
+              "mean": 129.073171,
+              "sample_stddev": 43.38052,
+              "median": 135.0,
+              "max": 188.0
+            },
+            "candidate_minus_baseline_mean": -11.341463,
+            "paired_delta_sample_stddev": 61.304001,
+            "wins": 13,
+            "losses": 28,
+            "ties": 0,
+            "candidate_minus_baseline_95pct_t_interval": [
+              -30.69139,
+              8.008464
+            ],
+            "interval_note": "Descriptive two-sided Student-t interval from the published paired delta aggregate; not adjusted for checkpoint screening."
+          },
+          "all_healthy_scores": {
+            "candidate": {
+              "mean": 118.90566,
+              "sample_stddev": 34.141259,
+              "median": 127.0,
+              "max": 183.0
+            },
+            "baseline": {
+              "mean": 130.130435,
+              "sample_stddev": 41.906567,
+              "median": 137.5,
+              "max": 188.0
+            }
+          },
+          "infrastructure_note": "One of 32 baseline arms used a successful in-contract retry; the final exact 64-row bundle passed custody checks."
+        }
+      ],
+      "directional_training_telemetry": [
+        {
+          "cycle": "v8",
+          "healthy_deterministic_horizons": 94,
+          "mean": 107.95,
+          "median": null,
+          "max": 189,
+          "best_rolling_20": 133.65
+        },
+        {
+          "cycle": "v9",
+          "healthy_deterministic_horizons": 89,
+          "mean": 116.235955,
+          "median": 123.0,
+          "max": 208,
+          "best_rolling_20": 137.35
+        },
+        {
+          "cycle": "v10",
+          "healthy_deterministic_horizons": 103,
+          "mean": 119.271845,
+          "median": 125.0,
+          "max": 194,
+          "best_rolling_20": 138.75
+        }
+      ],
+      "sources": [
+        {
+          "path": "results/stage_d_checkpoint_evaluations.json",
+          "sha256": "f853875180cfa6f16b384518ca253027a257a83266a80904e0c3886f6904792f"
+        }
+      ],
+      "caveats": [
+        "Matched analysis includes only keys healthy for both models; health counts are reported beside paired sample sizes.",
+        "The three comparisons use independent seed blocks and must not be pooled as one experiment.",
+        "Observed deltas are not claims of statistical significance or out-of-distribution generalization.",
+        "Directional training telemetry uses moving policies and is not fixed-checkpoint promotion evidence.",
+        "Evaluator source revisions were not embedded in the historical reports and are therefore not claimed retroactively.",
+        "All derived 95% intervals span zero and do not account for checkpoint-selection multiplicity."
+      ]
+    }
+  },
+  "engineering": {
+    "vectorized_throughput": [
+      {
+        "num_envs": 1,
+        "fuel_bodies": 32,
+        "aggregate_policy_transitions_per_second": 40.52,
+        "aggregate_environment_steps_per_second": 243.13,
+        "peak_vram_mb": 2366,
+        "throughput_gate_8_tx_per_s": true,
+        "source": {
+          "path": "runs/vec_throughput_n1.json",
+          "sha256": "7c8a1ea7d17c6435a932e8c8e8aa3d4fae69f48df669a319993ecd27d61869c2"
+        }
+      },
+      {
+        "num_envs": 2,
+        "fuel_bodies": 912,
+        "aggregate_policy_transitions_per_second": 3.93,
+        "aggregate_environment_steps_per_second": 23.59,
+        "peak_vram_mb": 2605,
+        "throughput_gate_8_tx_per_s": false,
+        "source": {
+          "path": "runs/vec_throughput_n2.json",
+          "sha256": "9ca4c9d1fc09910f9da4df808287dac67468343273037923502cfea6afaa049f"
+        }
+      },
+      {
+        "num_envs": 4,
+        "fuel_bodies": 128,
+        "aggregate_policy_transitions_per_second": 49.22,
+        "aggregate_environment_steps_per_second": 295.35,
+        "peak_vram_mb": 2517,
+        "throughput_gate_8_tx_per_s": true,
+        "source": {
+          "path": "runs/vec_throughput_n4.json",
+          "sha256": "94408bef29dd3ca85695e30346c39607d25d89d749736799babb55f9b63bc26a"
+        }
+      },
+      {
+        "num_envs": 8,
+        "fuel_bodies": 256,
+        "aggregate_policy_transitions_per_second": 46.91,
+        "aggregate_environment_steps_per_second": 281.48,
+        "peak_vram_mb": 2655,
+        "throughput_gate_8_tx_per_s": true,
+        "source": {
+          "path": "runs/vec_throughput_n8.json",
+          "sha256": "0872d9d7ce8df3a6692e01dccb13f56f76c520619b6259f55e7a3310265233d5"
+        }
+      }
+    ],
+    "interpretation": "The two-environment row accidentally instantiated 912 FUEL bodies and is a documented overload case, not evidence that two environments are intrinsically slower."
+  },
+  "report_wide_limitations": [
+    "No 3-5 independent training-seed replication.",
+    "No consistent random or rule-based baseline after Stage A.",
+    "Historical evaluator revisions were not embedded in every artifact.",
+    "Checkpoint screening introduces selection bias.",
+    "Healthy-pair filtering can be missing-not-at-random; all-healthy counts are reported separately.",
+    "No physical-robot or sim-to-real evaluation is claimed."
+  ]
+}

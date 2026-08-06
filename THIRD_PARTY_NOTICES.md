@@ -46,9 +46,10 @@ source asset before redistribution.
 
 ## Documentation media and trademarks
 
-`docs/images/rebuilt-isaac-sim.jpg` and `docs/media/onboard-policy-rollout.gif`
-are documentation captures. The project MIT license does not grant rights in
-the depicted interfaces, third-party assets, names, logos, or trademarks.
+`docs/images/rebuilt-isaac-sim.jpg`, `docs/media/onboard-policy-rollout.gif`,
+and the `docs/media/fsg9-3230-seed1040101-score188-*` rollout media are
+documentation captures. The project MIT license does not grant rights in the
+depicted interfaces, third-party assets, names, logos, or trademarks.
 
 FIRST®, FIRST® Robotics Competition, and FRC® are registered trademarks of
 FIRST®. This independent project is not overseen, involved with, or endorsed by

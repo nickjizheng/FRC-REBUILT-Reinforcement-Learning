@@ -1,4 +1,4 @@
-"""Static field occupancy map + A* path planner (assistant_NEXT_PLAN Phase D4).
+"""Static field occupancy map + A* path planner (implementation phase D4).
 
 Builds a 2-D occupancy grid from the exact extracted field colliders so the
 drive-to-shoot planner never routes a straight line through structures.  Only

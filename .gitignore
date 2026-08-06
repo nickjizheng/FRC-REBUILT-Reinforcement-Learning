@@ -23,6 +23,9 @@ artifacts/
 # Curated documentation media
 !docs/images/
 !docs/images/rebuilt-isaac-sim.jpg
+!docs/media/
+!docs/media/README.md
+!docs/media/onboard-policy-rollout.gif
 
 # Compiled launcher (rebuilt from tools/LaunchSimulator.cs)
 *.exe

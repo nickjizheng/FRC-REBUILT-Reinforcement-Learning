@@ -12,10 +12,7 @@ import numpy as np
 import trimesh
 
 PROJECT = Path(__file__).resolve().parents[1]
-DEFAULT_SCRATCH = (
-    Path.home() / "$LOCAL_TEMP/project-assets"
-    / "44cbb605-f319-4ed0-8722-92dc466c60e6/scratchpad"
-)
+DEFAULT_SCRATCH = PROJECT / "artifacts" / "robot_mechanism_exports"
 OUT = PROJECT / "assets/robot_runtime/mechanisms"
 OX, OY, GROUND_Z = 0.14102080464363098, -0.0027344077825546265, 0.025993309915065765
 

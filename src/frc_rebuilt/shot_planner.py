@@ -1,6 +1,6 @@
 """Direct-shot solver + global drive-to-shoot planner (Phase D1/D2/D4).
 
-Two public APIs, per assistant_NEXT_PLAN Phase D1:
+Two public APIs, from implementation phase D1:
 
     solve_direct_shot(robot_state, hub, field_state) -> ShotPlan | BlockedReason
     plan_global_score(robot_state, hub, field_state) -> DriveAndShootPlan

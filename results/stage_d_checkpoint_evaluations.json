@@ -1,0 +1,140 @@
+{
+  "schema": "public_stage_d_checkpoint_evaluations_v1",
+  "snapshot_date": "2026-08-06",
+  "scope": "Completed immutable-checkpoint evaluations only",
+  "shared_protocol": {
+    "environment": "Stage-D full match",
+    "action_mode": "deterministic actor mean",
+    "horizon_seconds": 160,
+    "speed_scale": 1.0,
+    "same_seed_pairing": true,
+    "rows_per_model": 64,
+    "auxiliary_mechanics_enabled": false,
+    "healthy_definition": {
+      "terminal_reason": "horizon",
+      "exact_checkpoint_and_contract_required": true,
+      "healthy_zero_scores_included": true
+    },
+    "standard_deviation": "sample standard deviation across the stated healthy population"
+  },
+  "comparisons": [
+    {
+      "id": "stage-d-v8-vs-source-3185",
+      "decision": "promote",
+      "candidate": {
+        "model_id": "stage-d-v8-3215",
+        "checkpoint_sha256": "6dd37c60b8e516554b2d3ef3103082b0cf465a12823f63974939e426a4a76339"
+      },
+      "baseline": {
+        "model_id": "stage-d-source-3185",
+        "checkpoint_sha256": "02c3ec961dbdba4c014ace7276cf19da9b6c4245ba01ae9035455f21ad3199bf"
+      },
+      "integrity": {
+        "source_report_sha256": "59e83f79cd9d16206ffed1f64198b0e1905d50c4f332d3d54e3aa3ce843ed02a"
+      },
+      "samples": {
+        "candidate_healthy": 51,
+        "candidate_unhealthy": 13,
+        "baseline_healthy": 55,
+        "baseline_unhealthy": 9,
+        "common_healthy_pairs": 44
+      },
+      "paired_scores": {
+        "candidate": {"mean": 121.159091, "sample_stddev": 48.051302, "median": 120.5, "max": 202.0},
+        "baseline": {"mean": 100.75, "sample_stddev": 49.832335, "median": 99.5, "max": 182.0},
+        "candidate_minus_baseline_mean": 20.409091,
+        "paired_delta_sample_stddev": 68.10946,
+        "wins": 28,
+        "losses": 16,
+        "ties": 0
+      },
+      "all_healthy_scores": {
+        "candidate": {"mean": 120.019608, "sample_stddev": 48.959367, "median": 120.0, "max": 202.0},
+        "baseline": {"mean": 100.890909, "sample_stddev": 49.279127, "median": 102.0, "max": 182.0}
+      }
+    },
+    {
+      "id": "stage-d-v9-vs-v8",
+      "decision": "promote",
+      "candidate": {
+        "model_id": "stage-d-v9-3230",
+        "checkpoint_sha256": "62bef28553b799005ebca29a59c41574046da2e3485d8d23ce98b9b5f89b2b12"
+      },
+      "baseline": {
+        "model_id": "stage-d-v8-3215",
+        "checkpoint_sha256": "6dd37c60b8e516554b2d3ef3103082b0cf465a12823f63974939e426a4a76339"
+      },
+      "integrity": {
+        "source_report_sha256": "46888da5119bbf595bd4d88cefdf1e239f797de3ea24a55f209e888b776ddaff"
+      },
+      "samples": {
+        "candidate_healthy": 55,
+        "candidate_unhealthy": 9,
+        "baseline_healthy": 52,
+        "baseline_unhealthy": 12,
+        "common_healthy_pairs": 46
+      },
+      "paired_scores": {
+        "candidate": {"mean": 122.782609, "sample_stddev": 41.349412, "median": 130.0, "max": 194.0},
+        "baseline": {"mean": 113.586957, "sample_stddev": 49.488753, "median": 123.5, "max": 197.0},
+        "candidate_minus_baseline_mean": 9.195652,
+        "paired_delta_sample_stddev": 66.526392,
+        "wins": 26,
+        "losses": 20,
+        "ties": 0
+      },
+      "all_healthy_scores": {
+        "candidate": {"mean": 124.254545, "sample_stddev": 39.957022, "median": 130.0, "max": 194.0},
+        "baseline": {"mean": 114.019231, "sample_stddev": 46.782136, "median": 122.0, "max": 197.0}
+      }
+    },
+    {
+      "id": "stage-d-v10-candidate-3270-vs-v9",
+      "decision": "reject",
+      "candidate": {
+        "model_id": "stage-d-v10-candidate-3270",
+        "checkpoint_sha256": "46818174970724eae4c1370ea5dda90047c55247283475947312d86a3840822f"
+      },
+      "baseline": {
+        "model_id": "stage-d-v9-3230",
+        "checkpoint_sha256": "62bef28553b799005ebca29a59c41574046da2e3485d8d23ce98b9b5f89b2b12"
+      },
+      "integrity": {
+        "source_report_sha256": "71e9bfffc1a9da4930deab31530ee0827435eefb21ce5556ad446d548dc4787b"
+      },
+      "samples": {
+        "candidate_healthy": 53,
+        "candidate_unhealthy": 11,
+        "baseline_healthy": 46,
+        "baseline_unhealthy": 18,
+        "common_healthy_pairs": 41
+      },
+      "paired_scores": {
+        "candidate": {"mean": 117.731707, "sample_stddev": 35.542949, "median": 122.0, "max": 173.0},
+        "baseline": {"mean": 129.073171, "sample_stddev": 43.38052, "median": 135.0, "max": 188.0},
+        "candidate_minus_baseline_mean": -11.341463,
+        "paired_delta_sample_stddev": 61.304001,
+        "wins": 13,
+        "losses": 28,
+        "ties": 0
+      },
+      "all_healthy_scores": {
+        "candidate": {"mean": 118.90566, "sample_stddev": 34.141259, "median": 127.0, "max": 183.0},
+        "baseline": {"mean": 130.130435, "sample_stddev": 41.906567, "median": 137.5, "max": 188.0}
+      },
+      "infrastructure_note": "One of 32 baseline arms used a successful in-contract retry; the final exact 64-row bundle passed custody checks."
+    }
+  ],
+  "directional_training_telemetry": [
+    {"cycle": "v8", "healthy_deterministic_horizons": 94, "mean": 107.95, "median": null, "max": 189, "best_rolling_20": 133.65},
+    {"cycle": "v9", "healthy_deterministic_horizons": 89, "mean": 116.235955, "median": 123.0, "max": 208, "best_rolling_20": 137.35},
+    {"cycle": "v10", "healthy_deterministic_horizons": 103, "mean": 119.271845, "median": 125.0, "max": 194, "best_rolling_20": 138.75}
+  ],
+  "caveats": [
+    "Matched analysis includes only keys healthy for both models; health counts are reported beside paired sample sizes.",
+    "The three comparisons use independent seed blocks and must not be pooled as one experiment.",
+    "Observed deltas are not claims of statistical significance or out-of-distribution generalization.",
+    "Directional training telemetry uses moving policies and is not fixed-checkpoint promotion evidence.",
+    "Evaluator source revisions were not embedded in the historical reports and are therefore not claimed retroactively."
+  ]
+}

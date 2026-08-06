@@ -84,13 +84,13 @@ CALIBRATED_RANGE_MIN_M = 2.3
 CALIBRATED_RANGE_MAX_M = 4.0
 
 # Phase B fire gates.  These are FRC-derived physical minimums for a clean shot;
-# they are never inflated to slow the demo (assistant_NEXT_PLAN Phase B2).
+# they are never inflated to slow the demo (implementation phase B2).
 FIRE_MAX_SPEED_MPS = 0.08     # chassis horizontal speed at the instant of feed
 FIRE_MAX_YAW_RATE_DPS = 3.0   # chassis yaw rate at the instant of feed
 
 
 class ShooterState(str, Enum):
-    """Explicit shooter/indexer states (assistant_NEXT_PLAN Phase B2).
+    """Explicit shooter/indexer states (implementation phase B2).
 
     ``str`` mixin so the value serialises directly into GUI/JSON status.
     """
@@ -609,7 +609,7 @@ class ShooterInputs:
 
 
 class ShooterStateMachine:
-    """Explicit shooter/indexer state machine (assistant_NEXT_PLAN Phase B).
+    """Explicit shooter/indexer state machine (implementation phase B).
 
     Transitions::
 

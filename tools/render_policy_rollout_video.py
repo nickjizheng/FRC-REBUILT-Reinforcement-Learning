@@ -63,13 +63,31 @@ def camera_panel(
     label: str,
     width: int,
     height: int,
+    resampling: str,
+    sharpen_amount: float,
 ) -> np.ndarray:
     rgb = np.transpose(frame[camera_index * 3 : (camera_index + 1) * 3], (1, 2, 0))
+    interpolation = {
+        "cubic": cv2.INTER_CUBIC,
+        "lanczos": cv2.INTER_LANCZOS4,
+        "nearest": cv2.INTER_NEAREST,
+    }[resampling]
     panel = cv2.resize(
         cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR),
         (width, height),
-        interpolation=cv2.INTER_CUBIC,
+        interpolation=interpolation,
     )
+    if sharpen_amount:
+        # A restrained, deterministic unsharp mask applied only to the recorded
+        # camera pixels. This does not synthesize or interpolate new frames.
+        blurred = cv2.GaussianBlur(panel, (0, 0), 0.8)
+        panel = cv2.addWeighted(
+            panel,
+            1.0 + sharpen_amount,
+            blurred,
+            -sharpen_amount,
+            0,
+        )
     bar_height = max(30, height // 10)
     cv2.rectangle(panel, (0, 0), (width, bar_height), (10, 14, 20), -1)
     cv2.rectangle(panel, (0, 0), (max(5, width // 100), height), (45, 156, 219), -1)
@@ -94,6 +112,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fps", type=float, default=10.0, help="Playback FPS; capture is 10 Hz")
     parser.add_argument("--width", type=int, default=1280)
     parser.add_argument("--height", type=int, default=720)
+    parser.add_argument(
+        "--camera-resampling",
+        choices=("cubic", "lanczos", "nearest"),
+        default="cubic",
+        help="Deterministic camera-pixel resize filter",
+    )
+    parser.add_argument(
+        "--sharpen-amount",
+        type=float,
+        default=0.0,
+        help="Restrained unsharp-mask amount applied after camera resize (0 to disable)",
+    )
     parser.add_argument("--poster-second", type=float, default=60.0)
     parser.add_argument("--policy-label", default="Promoted policy")
     return parser.parse_args()
@@ -105,6 +135,8 @@ def main() -> None:
         raise ValueError("Width and height must be even for the 2x2 layout")
     if len(args.codec) != 4:
         raise ValueError("Codec must be a four-character OpenCV fourcc")
+    if not 0.0 <= args.sharpen_amount <= 0.5:
+        raise ValueError("Sharpen amount must be between 0.0 and 0.5")
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with np.load(args.capture, allow_pickle=False) as archive:
@@ -130,13 +162,31 @@ def main() -> None:
         for index, frame in enumerate(observations):
             canvas = np.full((args.height, args.width, 3), (14, 18, 24), np.uint8)
             canvas[:half_height, :half_width] = camera_panel(
-                frame, 0, "Intake camera", half_width, half_height
+                frame,
+                0,
+                "Intake camera",
+                half_width,
+                half_height,
+                args.camera_resampling,
+                args.sharpen_amount,
             )
             canvas[:half_height, half_width:] = camera_panel(
-                frame, 1, "Shooter camera", half_width, half_height
+                frame,
+                1,
+                "Shooter camera",
+                half_width,
+                half_height,
+                args.camera_resampling,
+                args.sharpen_amount,
             )
             canvas[half_height:, :half_width] = camera_panel(
-                frame, 2, "Navigation camera", half_width, half_height
+                frame,
+                2,
+                "Navigation camera",
+                half_width,
+                half_height,
+                args.camera_resampling,
+                args.sharpen_amount,
             )
 
             panel = canvas[half_height:, half_width:]
@@ -152,32 +202,67 @@ def main() -> None:
             )
             accent = PHASE_COLORS[phase]
             final_seconds = float(metadata["episode_len_s"])
-            x = max(30, half_width // 22)
-            put_text(panel, "FIXED-CHECKPOINT ROLLOUT", (x, 38), 0.75, (255, 255, 255), 2)
-            put_text(panel, args.policy_label, (x, 72), 0.72, (79, 195, 247), 2)
+            ui_scale = min(half_width / 640.0, half_height / 360.0)
+            scaled_y = lambda value: int(round(value * ui_scale))
+            x = max(20, int(round(30 * ui_scale)), half_width // 22)
+            put_text(
+                panel,
+                "FIXED-CHECKPOINT ROLLOUT",
+                (x, scaled_y(38)),
+                0.75 * ui_scale,
+                (255, 255, 255),
+                2,
+            )
+            put_text(
+                panel,
+                args.policy_label,
+                (x, scaled_y(72)),
+                0.72 * ui_scale,
+                (79, 195, 247),
+                2,
+            )
             put_text(
                 panel,
                 f"MATCH  {int(elapsed) // 60:02d}:{elapsed % 60:04.1f} / "
                 f"{int(final_seconds) // 60:02d}:{final_seconds % 60:04.1f}",
-                (x, 120),
-                0.78,
+                (x, scaled_y(120)),
+                0.78 * ui_scale,
                 (245, 248, 250),
                 2,
             )
-            put_text(panel, f"PHASE  {phase}", (x, 158), 0.78, accent, 2)
+            put_text(
+                panel,
+                f"PHASE  {phase}",
+                (x, scaled_y(158)),
+                0.78 * ui_scale,
+                accent,
+                2,
+            )
 
-            x0, y0, x1, y1 = x, 178, half_width - x - 4, 198
+            x0, y0, x1, y1 = (
+                x,
+                scaled_y(178),
+                half_width - x - 4,
+                scaled_y(198),
+            )
             cv2.rectangle(panel, (x0, y0), (x1, y1), (55, 64, 75), -1)
             progress_x = x0 + int((x1 - x0) * min(1.0, elapsed / final_seconds))
             cv2.rectangle(panel, (x0, y0), (progress_x, y1), accent, -1)
             cv2.rectangle(panel, (x0, y0), (x1, y1), (100, 112, 126), 1)
 
-            put_text(panel, "VERIFIED FINAL OUTCOME", (x, 236), 0.62, (176, 190, 203), 1)
+            put_text(
+                panel,
+                "VERIFIED FINAL OUTCOME",
+                (x, scaled_y(236)),
+                0.62 * ui_scale,
+                (176, 190, 203),
+                1,
+            )
             put_text(
                 panel,
                 f"{metadata['scored']} scored  |  {metadata['collected']} collected",
-                (x, 270),
-                0.68,
+                (x, scaled_y(270)),
+                0.68 * ui_scale,
                 (255, 255, 255),
                 2,
             )
@@ -185,8 +270,8 @@ def main() -> None:
                 panel,
                 f"{metadata['cycles_completed']} completed cycles  |  "
                 f"repeat load {metadata['repeat_scored_load_max']}",
-                (x, 302),
-                0.58,
+                (x, scaled_y(302)),
+                0.58 * ui_scale,
                 (225, 230, 235),
                 1,
             )
@@ -194,8 +279,8 @@ def main() -> None:
                 panel,
                 f"checkpoint {metadata['checkpoint_sha256'][:12]}  |  "
                 f"seed {metadata['env_seed']}  |  env {metadata['env_index']}",
-                (x, 335),
-                0.43,
+                (x, scaled_y(335)),
+                0.43 * ui_scale,
                 (156, 168, 180),
                 1,
             )
@@ -218,6 +303,8 @@ def main() -> None:
         "fps": args.fps,
         "resolution": [args.width, args.height],
         "codec_fourcc": args.codec,
+        "camera_resampling": args.camera_resampling,
+        "sharpen_amount": args.sharpen_amount,
         "audio": False,
         "source_capture": args.capture.name,
         "source_capture_sha256": sha256(args.capture),
@@ -245,8 +332,9 @@ def main() -> None:
             "no frames omitted"
         ),
         "render_note": (
-            "Source camera tensors are native 160x90 RGB at 10 Hz and are cubic-upscaled "
-            "for presentation."
+            "Source camera tensors are native 160x90 RGB at 10 Hz and are "
+            f"{args.camera_resampling}-upscaled for presentation; camera-only "
+            f"unsharp-mask amount is {args.sharpen_amount}."
         ),
     }
     provenance_path = args.provenance or args.output.with_suffix(".provenance.json")

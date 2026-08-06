@@ -5,159 +5,434 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>REBUILT Training Monitor</title>
   <style>
-    :root {
-      color-scheme: dark;
-      --bg: #080b11; --panel: #111722; --panel2: #171f2c; --line: #293448;
-      --text: #eef4ff; --muted: #8f9bb0; --blue: #55a7ff; --cyan: #45e0d0;
-      --yellow: #ffd05a; --red: #ff6477; --green: #57e28f;
+    :root{
+      --bg:#0e1420; --surface:#161f2c; --surface2:#1d2836; --line:#2a3644;
+      --ink:#eaf0f7; --muted:#93a1b3; --faint:#6d7c8f;
+      --score:#f2b23e; --collect:#46b3bf; --good:#5fca8b; --warn:#e56b60;
+      --blue:#5aa0e6; --purple:#a98bff;
+      --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
+      --sans:-apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      --shadow:0 1px 0 #ffffff0a inset,0 14px 34px -22px #000000d0;
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: radial-gradient(circle at 50% -20%, #17243a 0, var(--bg) 42%);
-      color: var(--text); font: 14px/1.45 Inter, ui-sans-serif, system-ui, sans-serif; }
-    .shell { max-width: 1500px; margin: auto; padding: 22px; }
-    header { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:18px; }
-    h1 { font-size:22px; margin:0; letter-spacing:.04em; }
-    h1 span { color:var(--yellow); }
-    .live { display:flex; align-items:center; gap:9px; color:var(--muted); }
-    .dot { width:10px; height:10px; border-radius:50%; background:var(--red); box-shadow:0 0 14px currentColor; }
-    .dot.running { background:var(--green); color:var(--green); animation:pulse 1.4s infinite; }
-    @keyframes pulse { 50% { opacity:.4; } }
-    select { background:var(--panel2); border:1px solid var(--line); color:var(--text); padding:8px 12px; border-radius:8px; }
-    .panel { background:linear-gradient(145deg,rgba(23,31,44,.96),rgba(14,19,29,.96));
-      border:1px solid var(--line); border-radius:14px; padding:17px; box-shadow:0 14px 50px rgba(0,0,0,.2); }
-    .hero { display:grid; grid-template-columns:1.4fr 1fr; gap:14px; margin-bottom:14px; }
-    .statusline { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
-    .eyebrow { color:var(--muted); text-transform:uppercase; letter-spacing:.13em; font-size:11px; }
-    .big { font-size:34px; font-weight:750; margin:2px 0 4px; }
-    .badge { padding:6px 10px; border-radius:99px; background:#2b1720; color:var(--red); font-weight:700; text-transform:uppercase; font-size:11px; }
-    .badge.running { background:#142b22; color:var(--green); }
-    .badge.complete { background:#14273c; color:var(--blue); }
-    .progress { height:12px; background:#090d14; border:1px solid var(--line); border-radius:99px; overflow:hidden; margin:17px 0 8px; }
-    .progress div { height:100%; background:linear-gradient(90deg,var(--blue),var(--cyan)); border-radius:inherit; transition:width .4s; }
-    .progressmeta { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; }
-    .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:14px; }
-    .metric .value { font-size:27px; font-weight:740; margin-top:4px; white-space:nowrap; }
-    .metric .sub { color:var(--muted); font-size:12px; margin-top:4px; }
-    .grid { display:grid; grid-template-columns:2fr 1fr; gap:14px; }
-    .charts { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-    .chart-title { display:flex; justify-content:space-between; margin-bottom:8px; }
-    canvas { width:100%; height:220px; display:block; }
-    .resources { display:grid; gap:13px; }
-    .resource-head { display:flex; justify-content:space-between; }
-    .bar { height:7px; background:#090d14; border-radius:10px; overflow:hidden; margin-top:7px; }
-    .bar div { height:100%; background:var(--blue); }
-    .bar.gpu div { background:var(--cyan); } .bar.ram div { background:var(--yellow); }
-    .alerts { margin-top:14px; display:grid; gap:8px; }
-    .alert { border-left:3px solid var(--blue); background:#121c2a; padding:9px 11px; border-radius:5px; color:#c8d5e8; }
-    .alert.error { border-color:var(--red); background:#25151b; }
-    .alert.success { border-color:var(--green); background:#12251d; }
-    .footer { color:var(--muted); margin-top:14px; font-size:12px; display:flex; justify-content:space-between; }
-    @media(max-width:1000px) { .hero,.grid {grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr} }
-    @media(max-width:650px) { .shell{padding:12px}.charts{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.big{font-size:27px} }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#eef1f5; --surface:#ffffff; --surface2:#f3f6f9; --line:#dce2ea;
+        --ink:#16202c; --muted:#556474; --faint:#8493a3;
+        --score:#c07f0b; --collect:#238792; --good:#2f9e63; --warn:#c8483d;
+        --blue:#2f6fbf; --purple:#7658d6; --shadow:0 1px 0 #fff inset,0 10px 26px -20px #4a5a6b66;
+      }
+    }
+    :root[data-theme="dark"]{
+      --bg:#0e1420; --surface:#161f2c; --surface2:#1d2836; --line:#2a3644;
+      --ink:#eaf0f7; --muted:#93a1b3; --faint:#6d7c8f;
+      --score:#f2b23e; --collect:#46b3bf; --good:#5fca8b; --warn:#e56b60;
+      --blue:#5aa0e6; --purple:#a98bff; --shadow:0 1px 0 #ffffff0a inset,0 14px 34px -22px #000000d0;
+    }
+    :root[data-theme="light"]{
+      --bg:#eef1f5; --surface:#ffffff; --surface2:#f3f6f9; --line:#dce2ea;
+      --ink:#16202c; --muted:#556474; --faint:#8493a3;
+      --score:#c07f0b; --collect:#238792; --good:#2f9e63; --warn:#c8483d;
+      --blue:#2f6fbf; --purple:#7658d6; --shadow:0 1px 0 #fff inset,0 10px 26px -20px #4a5a6b66;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.45; -webkit-font-smoothing:antialiased}
+    .mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
+    .shell{max-width:1320px; margin:auto; padding:clamp(16px,3vw,26px)}
+    .eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint)}
+
+    header{display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:18px; flex-wrap:wrap}
+    h1{font-size:20px; margin:2px 0 0; letter-spacing:-.01em; font-weight:750}
+    h1 b{color:var(--score); font-weight:750}
+    .controls{display:flex; align-items:center; gap:14px}
+    select{background:var(--surface2); border:1px solid var(--line); color:var(--ink); padding:8px 12px; border-radius:9px; font-family:var(--mono); font-size:13px}
+    .live{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:13px}
+    .dot{width:9px; height:9px; border-radius:50%; background:var(--warn)}
+    .dot.running{background:var(--good); animation:pulse 1.5s infinite}
+    @keyframes pulse{50%{opacity:.35}}
+    @media (prefers-reduced-motion: reduce){.dot.running{animation:none}}
+
+    .card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px; box-shadow:var(--shadow)}
+    .hero{display:grid; grid-template-columns:1.5fr 1fr; gap:14px; margin-bottom:14px}
+    .statusline{display:flex; align-items:flex-start; justify-content:space-between; gap:12px}
+    .runname{font-size:22px; font-weight:750; letter-spacing:-.01em; margin:3px 0 0; font-family:var(--mono)}
+    .pill{padding:5px 11px; border-radius:99px; font-family:var(--mono); font-weight:600; text-transform:uppercase; font-size:10.5px; letter-spacing:.06em; background:var(--surface2); color:var(--muted)}
+    .pill.running{background:color-mix(in srgb,var(--good) 16%,transparent); color:var(--good)}
+    .pill.stopped{background:color-mix(in srgb,var(--warn) 16%,transparent); color:var(--warn)}
+    .pill.complete{background:color-mix(in srgb,var(--blue) 16%,transparent); color:var(--blue)}
+
+    .heronum{display:flex; align-items:baseline; gap:12px; margin:18px 0 2px; flex-wrap:wrap}
+    .heronum .n{font-family:var(--mono); font-size:clamp(34px,6vw,50px); font-weight:600; letter-spacing:-.03em; line-height:1; color:var(--score)}
+    .heronum .u{color:var(--muted); font-size:14px}
+    .heronum .c{margin-left:auto; text-align:right}
+    .heronum .c .n2{font-family:var(--mono); font-size:22px; font-weight:600; color:var(--collect)}
+    .heronum .c .l{font-size:11px; color:var(--faint); font-family:var(--mono); letter-spacing:.08em; text-transform:uppercase}
+
+    .progress{height:9px; background:var(--surface2); border:1px solid var(--line); border-radius:99px; overflow:hidden; margin:16px 0 7px}
+    .progress>div{height:100%; background:linear-gradient(90deg,var(--collect),var(--score)); border-radius:inherit; transition:width .5s}
+    .pmeta{display:flex; justify-content:space-between; color:var(--muted); font-size:12px; font-family:var(--mono)}
+    .alerts{margin-top:14px; display:grid; gap:8px}
+    .alert{border-left:3px solid var(--blue); background:var(--surface2); padding:9px 12px; border-radius:6px; color:var(--muted); font-size:13px}
+    .alert.error{border-color:var(--warn)} .alert.success{border-color:var(--good)} .alert.info{border-color:var(--collect)}
+
+    .cfg{display:grid; grid-template-columns:1fr 1fr; gap:16px 20px; margin-top:14px}
+    .cfg .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint)}
+    .cfg .v{font-family:var(--mono); font-size:17px; font-weight:600; margin-top:5px}
+
+    .tiles{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:14px}
+    .tile .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint)}
+    .tile .v{font-family:var(--mono); font-size:25px; font-weight:600; letter-spacing:-.02em; margin-top:7px}
+    .tile .s{font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:4px}
+
+    .main{display:grid; grid-template-columns:2.1fr 1fr; gap:14px}
+    .charts{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+    .chead{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px}
+    .chead b{font-size:14px; letter-spacing:-.01em}
+    canvas{width:100%; height:180px; display:block}
+    .res{display:grid; gap:14px}
+    .reshead{display:flex; justify-content:space-between; font-size:13px; color:var(--muted)}
+    .reshead b{color:var(--ink); font-family:var(--mono); font-variant-numeric:tabular-nums}
+    .rbar{height:6px; background:var(--surface2); border-radius:10px; overflow:hidden; margin-top:7px}
+    .rbar>div{height:100%; background:var(--collect); transition:width .4s}
+    .rbar.ram>div{background:var(--score)} .rbar.cpu>div{background:var(--blue)}
+    footer{color:var(--faint); margin-top:16px; font-size:12px; font-family:var(--mono); display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap}
+
+    .cyc{margin-bottom:14px}
+    .funnel{display:grid; gap:9px; margin-top:14px}
+    .frow{display:grid; grid-template-columns:104px 1fr auto; align-items:center; gap:12px}
+    .flabel{font-size:13px; font-weight:600}
+    .fbar{height:18px; background:var(--surface2); border:1px solid var(--line); border-radius:6px; overflow:hidden}
+    .fbar>div{height:100%; border-radius:inherit; transition:width .5s; min-width:2px}
+    .fval{font-family:var(--mono); font-size:13px; font-weight:600; white-space:nowrap; font-variant-numeric:tabular-nums}
+    .fval .fmut{color:var(--faint); font-weight:400; font-size:11px}
+    .cyctimes{display:flex; gap:22px; flex-wrap:wrap; margin-top:15px; padding-top:13px; border-top:1px solid var(--line); font-family:var(--mono)}
+    .cyctimes span.t{display:flex; flex-direction:column; gap:3px}
+    .cyctimes .tk{color:var(--faint); text-transform:uppercase; letter-spacing:.09em; font-size:10px}
+    .cyctimes .tv{color:var(--ink); font-size:15px; font-weight:600}
+    .cyctimes .tv.none{color:var(--faint); font-weight:400}
+    .skillgrid{display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin-top:14px}
+    .skill{background:var(--surface2); border:1px solid var(--line); border-radius:8px; padding:10px 12px}
+    .skill .sk{font-family:var(--mono); color:var(--faint); text-transform:uppercase; letter-spacing:.08em; font-size:9.5px}
+    .skill .sv{font-family:var(--mono); font-size:17px; font-weight:600; margin-top:4px}
+    .skill .ss{font-family:var(--mono); color:var(--muted); font-size:10.5px; margin-top:2px}
+
+    @media (max-width:1000px){.hero,.main{grid-template-columns:1fr}.tiles{grid-template-columns:1fr 1fr}}
+    @media (max-width:600px){.charts{grid-template-columns:1fr}.cfg{grid-template-columns:1fr 1fr}.skillgrid{grid-template-columns:1fr 1fr}}
   </style>
 </head>
 <body>
 <div class="shell">
   <header>
-    <div><div class="eyebrow">FULL-PHYSICS RL</div><h1><span>REBUILT</span> Training Monitor</h1></div>
-    <div style="display:flex;align-items:center;gap:14px">
-      <select id="runSelect"></select>
-      <div class="live"><span id="liveDot" class="dot"></span><span id="liveText">Connecting</span></div>
+    <div><div class="eyebrow">Full-physics RL · <span id="stageLabel">Stage B</span></div><h1><b>REBUILT</b> Training Monitor</h1></div>
+    <div class="controls">
+      <select id="runSelect" aria-label="Select run"></select>
+      <div class="live"><span id="liveDot" class="dot"></span><span id="liveText">Connecting…</span></div>
     </div>
   </header>
+
   <section class="hero">
-    <div class="panel">
+    <div class="card">
       <div class="statusline">
-        <div><div class="eyebrow">Selected run</div><div id="runName" class="big">—</div><div id="runPath" style="color:var(--muted)">—</div></div>
-        <div id="statusBadge" class="badge">unknown</div>
+        <div><div class="eyebrow">Selected run</div><div id="runName" class="runname">—</div></div>
+        <div id="statusPill" class="pill">—</div>
+      </div>
+      <div class="heronum">
+        <span id="ballsScored" class="n">—</span>
+        <span class="u">balls&nbsp;scored / episode<br><span id="scoreRaw" class="mono" style="color:var(--faint)">—</span></span>
+        <div class="c"><div id="collectReward" class="n2">—</div><div id="collectMetricLabel" class="l">collect reward / ep</div></div>
       </div>
       <div class="progress"><div id="progressBar" style="width:0%"></div></div>
-      <div class="progressmeta"><span id="elapsed">Elapsed —</span><span id="eta">ETA —</span></div>
+      <div class="pmeta"><span id="elapsed">—</span><span id="eta">—</span></div>
       <div id="alerts" class="alerts"></div>
     </div>
-    <div class="panel">
+    <div class="card">
       <div class="eyebrow">Run configuration</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:13px">
-        <div><div class="eyebrow">Environments</div><div id="envs" class="big">—</div></div>
-        <div><div class="eyebrow">Target</div><div id="target" class="big">—</div></div>
-        <div><div class="eyebrow">Checkpoint</div><div id="checkpoint" style="font-size:18px;font-weight:650">—</div></div>
-        <div><div class="eyebrow">Last update</div><div id="lastUpdate" style="font-size:18px;font-weight:650">—</div></div>
+      <div class="cfg">
+        <div><div class="k">Envs</div><div id="cEnvs" class="v">—</div></div>
+        <div><div class="k">Episode</div><div id="cEplen" class="v">—</div></div>
+        <div><div class="k">Preload</div><div id="cPreload" class="v">—</div></div>
+        <div><div class="k">Collect wt</div><div id="cCollect" class="v">—</div></div>
+        <div><div class="k">Checkpoint</div><div id="cCkpt" class="v">—</div></div>
+        <div><div class="k">Last update</div><div id="cUpdate" class="v">—</div></div>
       </div>
     </div>
   </section>
-  <section class="metrics">
-    <div class="panel metric"><div class="eyebrow">Transitions</div><div id="transitions" class="value">—</div><div id="throughput" class="sub">— tx/s</div></div>
-    <div class="panel metric"><div class="eyebrow">Updates</div><div id="updates" class="value">—</div><div id="replay" class="sub">— replay</div></div>
-    <div class="panel metric"><div class="eyebrow">Recent return</div><div id="return" class="value">—</div><div id="returnMax" class="sub">max —</div></div>
-    <div class="panel metric"><div class="eyebrow">Episodes</div><div id="episodes" class="value">—</div><div id="rewardSplit" class="sub">score — · collect —</div></div>
+
+  <section class="tiles">
+    <div class="card tile"><div class="k">Transitions</div><div id="tTx" class="v">—</div><div id="tTps" class="s">— tx/s</div></div>
+    <div class="card tile"><div class="k">Updates</div><div id="tUpd" class="v">—</div><div id="tReplay" class="s">— replay</div></div>
+    <div class="card tile"><div id="tRetLabel" class="k">Recent return</div><div id="tRet" class="v">—</div><div id="tRetMax" class="s">max —</div></div>
+    <div class="card tile"><div class="k">Episodes</div><div id="tEp" class="v">—</div><div id="tCloss" class="s">critic —</div></div>
   </section>
-  <main class="grid">
+
+  <main class="main">
     <div class="charts">
-      <div class="panel"><div class="chart-title"><b>Return</b><span class="eyebrow">recent mean / max</span></div><canvas id="returnChart"></canvas></div>
-      <div class="panel"><div class="chart-title"><b>Reward components</b><span class="eyebrow">score / collect</span></div><canvas id="rewardChart"></canvas></div>
-      <div class="panel"><div class="chart-title"><b>Learning signals</b><span class="eyebrow">Q / critic loss</span></div><canvas id="learningChart"></canvas></div>
-      <div class="panel"><div class="chart-title"><b>Exploration</b><span class="eyebrow">stddev schedule</span></div><canvas id="exploreChart"></canvas></div>
+      <div class="card"><div class="chead"><b>Scoring</b><span id="scoreChartUnit" class="eyebrow" style="color:var(--score)">balls / ep</span></div><canvas id="scoreChart"></canvas></div>
+      <div class="card"><div class="chead"><b id="collectChartTitle">Collect reward</b><span id="collectChartUnit" class="eyebrow" style="color:var(--collect)">per ep</span></div><canvas id="collectChart"></canvas></div>
+      <div class="card"><div class="chead"><b id="returnChartTitle">Return</b><span id="returnChartUnit" class="eyebrow">mean / max</span></div><canvas id="returnChart"></canvas></div>
+      <div class="card"><div class="chead"><b>Learning</b><span class="eyebrow">critic loss / Q</span></div><canvas id="learnChart"></canvas></div>
+      <div class="card" style="grid-column:1/-1" id="sectionCard" hidden><div class="chead"><b>Section training</b><span class="eyebrow">each lane judged on its own goal &middot; windows are not equal length</span></div><div id="sectionBody" style="font-size:12px;color:var(--muted)"></div></div>
+      <div class="card" style="grid-column:1/-1"><div class="chead"><b>Match-time profile</b><span id="profUnit" class="eyebrow">balls / ep across the 160 s match</span></div><div id="profLegend" style="display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin:2px 0 4px"></div><canvas id="profChart" style="height:210px"></canvas></div>
     </div>
-    <aside class="panel">
-      <div class="chart-title"><b>Laptop resources</b><span class="eyebrow">live</span></div>
-      <div class="resources">
-        <div><div class="resource-head"><span>CPU</span><b id="cpu">—</b></div><div class="bar"><div id="cpuBar"></div></div></div>
-        <div><div class="resource-head"><span>System RAM</span><b id="ram">—</b></div><div class="bar ram"><div id="ramBar"></div></div></div>
-        <div><div class="resource-head"><span>RTX 5080</span><b id="gpu">—</b></div><div class="bar gpu"><div id="gpuBar"></div></div></div>
-        <div><div class="resource-head"><span>GPU VRAM</span><b id="vram">—</b></div><div class="bar gpu"><div id="vramBar"></div></div></div>
-        <div><div class="resource-head"><span>GPU temperature</span><b id="temp">—</b></div></div>
-        <div><div class="resource-head"><span>GPU power</span><b id="power">—</b></div></div>
+    <aside class="card">
+      <div class="chead"><b>Server resources</b><span class="eyebrow">live</span></div>
+      <div class="res">
+        <div><div class="reshead"><span>CPU</span><b id="cpu">—</b></div><div class="rbar cpu"><div id="cpuBar"></div></div></div>
+        <div><div class="reshead"><span>System RAM</span><b id="ram">—</b></div><div class="rbar ram"><div id="ramBar"></div></div></div>
+        <div><div class="reshead"><span id="gpuName">GPU</span><b id="gpu">—</b></div><div class="rbar"><div id="gpuBar"></div></div></div>
+        <div><div class="reshead"><span>GPU VRAM</span><b id="vram">—</b></div><div class="rbar"><div id="vramBar"></div></div></div>
+        <div class="reshead"><span>GPU temp</span><b id="temp">—</b></div>
+        <div class="reshead"><span>GPU power</span><b id="power">—</b></div>
       </div>
-      <div style="margin-top:25px"><div class="chart-title"><b>Resource history</b><span class="eyebrow">GPU / RAM</span></div><canvas id="resourceChart" style="height:190px"></canvas></div>
+      <div style="margin-top:22px"><div class="chead"><b>Resource history</b><span class="eyebrow">GPU / RAM</span></div><canvas id="resChart" style="height:150px"></canvas></div>
     </aside>
   </main>
-  <div class="footer"><span>Refreshes every 3 seconds · localhost only</span><span id="generated">—</span></div>
+
+  <footer><span id="metricNote">Refreshes every 3 s · balls = score reward ÷ 10</span><span id="generated">—</span></footer>
 </div>
+
 <script>
 const $=id=>document.getElementById(id); let selectedRun=null;
-const fmt=n=>n==null?'—':Number(n).toLocaleString(undefined,{maximumFractionDigits:2});
-const duration=s=>{if(s==null)return '—';s=Math.max(0,s);let h=Math.floor(s/3600),m=Math.floor((s%3600)/60),q=Math.floor(s%60);return h?`${h}h ${m}m`:`${m}m ${q}s`};
-function chart(id, series){
-  const c=$(id), dpr=devicePixelRatio||1, rect=c.getBoundingClientRect(); c.width=rect.width*dpr;c.height=rect.height*dpr;
-  const x=c.getContext('2d');x.scale(dpr,dpr);let w=rect.width,h=rect.height,p=26;
-  x.clearRect(0,0,w,h);x.strokeStyle='#263248';x.lineWidth=1;
-  for(let i=0;i<4;i++){let y=p+(h-2*p)*i/3;x.beginPath();x.moveTo(p,y);x.lineTo(w-p,y);x.stroke()}
-  let vals=series.flatMap(s=>s.values).filter(Number.isFinite);if(!vals.length){x.fillStyle='#738099';x.fillText('Waiting for metrics',p,h/2);return}
-  let lo=Math.min(...vals),hi=Math.max(...vals);if(hi===lo){hi+=1;lo-=1}let count=Math.max(...series.map(s=>s.values.length));
-  series.forEach(s=>{x.strokeStyle=s.color;x.lineWidth=2;x.beginPath();s.values.forEach((v,i)=>{if(!Number.isFinite(v))return;let px=p+(w-2*p)*(count<=1?0:i/(count-1)),py=h-p-(h-2*p)*(v-lo)/(hi-lo);i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke()});
-  x.fillStyle='#8f9bb0';x.font='11px system-ui';x.fillText(hi.toFixed(2),3,p);x.fillText(lo.toFixed(2),3,h-p);
-  let lx=p;series.forEach(s=>{x.fillStyle=s.color;x.fillRect(lx,h-10,12,2);x.fillStyle='#a9b4c8';x.fillText(s.name,lx+16,h-5);lx+=80});
+const fmt=(n,d=2)=>n==null||!isFinite(n)?'—':Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
+const dur=s=>{if(s==null)return '—';s=Math.max(0,s);const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),q=Math.floor(s%60);return h?`${h}h ${m}m`:`${m}m ${q}s`};
+function cvar(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim()||'#888'}
+
+function chart(id, series, opts={}){
+  const c=$(id); if(!c) return;
+  const dpr=devicePixelRatio||1, rect=c.getBoundingClientRect();
+  if(!rect.width) return;
+  c.width=rect.width*dpr; c.height=rect.height*dpr;
+  const x=c.getContext('2d'); x.scale(dpr,dpr);
+  const w=rect.width,h=rect.height,pl=34,pr=12,pt=12,pb=18;
+  x.clearRect(0,0,w,h);
+  const grid=cvar('--line'), faint=cvar('--faint');
+  x.strokeStyle=grid; x.lineWidth=1;
+  for(let i=0;i<4;i++){const y=pt+(h-pt-pb)*i/3; x.beginPath(); x.moveTo(pl,y); x.lineTo(w-pr,y); x.stroke();}
+  const all=series.flatMap(s=>s.values).filter(Number.isFinite);
+  if(!all.length){x.fillStyle=faint; x.font='12px '+cvar('--mono'); x.fillText('waiting for metrics…',pl,h/2); return;}
+  let lo=Math.min(0,...all), hi=Math.max(...all); if(hi===lo){hi+=1;} if(opts.min0) lo=0;
+  const cnt=Math.max(...series.map(s=>s.values.length));
+  const X=i=>pl+(w-pl-pr)*(cnt<=1?0:i/(cnt-1));
+  const Y=v=>h-pb-(h-pt-pb)*(v-lo)/(hi-lo);
+  series.forEach(s=>{
+    const pts=s.values.map((v,i)=>[X(i),v]).filter(p=>Number.isFinite(p[1]));
+    if(!pts.length) return;
+    if(s.fill){
+      const g=x.createLinearGradient(0,pt,0,h-pb);
+      g.addColorStop(0,s.color+'44'); g.addColorStop(1,s.color+'00');
+      x.fillStyle=g; x.beginPath(); x.moveTo(pts[0][0],h-pb);
+      pts.forEach(p=>x.lineTo(p[0],Y(p[1]))); x.lineTo(pts[pts.length-1][0],h-pb); x.closePath(); x.fill();
+    }
+    x.strokeStyle=s.color; x.lineWidth=2; x.beginPath();
+    pts.forEach((p,i)=>{const py=Y(p[1]); i?x.lineTo(p[0],py):x.moveTo(p[0],py);}); x.stroke();
+    const last=pts[pts.length-1]; x.fillStyle=s.color; x.beginPath(); x.arc(last[0],Y(last[1]),3,0,7); x.fill();
+  });
+  x.fillStyle=faint; x.font='10px '+cvar('--mono'); x.textAlign='right';
+  x.fillText(hi.toFixed(1),pl-5,pt+8); x.fillText(lo.toFixed(1),pl-5,h-pb); x.textAlign='left';
+  let lx=pl; series.forEach(s=>{x.fillStyle=s.color; x.fillRect(lx,h-8,10,2); x.fillStyle=cvar('--muted'); x.fillText(s.name,lx+14,h-4); lx+=Math.max(58,s.name.length*7+24);});
 }
-function setBar(id,value){$(id).style.width=Math.max(0,Math.min(100,value||0))+'%'}
+const setBar=(id,v)=>{const e=$(id); if(e) e.style.width=Math.max(0,Math.min(100,v||0))+'%';};
+
+function barchart(id, edges, series, opts={}){
+  const c=$(id); if(!c) return;
+  const dpr=devicePixelRatio||1, rect=c.getBoundingClientRect(); if(!rect.width) return;
+  c.width=rect.width*dpr; c.height=rect.height*dpr;
+  const x=c.getContext('2d'); x.scale(dpr,dpr);
+  const w=rect.width,h=rect.height,pl=34,pr=8,pt=18,pb=22;
+  x.clearRect(0,0,w,h);
+  const grid=cvar('--line'), faint=cvar('--faint');
+  x.strokeStyle=grid; x.lineWidth=1;
+  for(let i=0;i<4;i++){const y=pt+(h-pt-pb)*i/3; x.beginPath(); x.moveTo(pl,y); x.lineTo(w-pr,y); x.stroke();}
+  const all=series.flatMap(s=>s.values);
+  if(!all.some(v=>v>0)){x.fillStyle=faint; x.font='12px '+cvar('--mono'); x.fillText('waiting for episodes…',pl,h/2); return;}
+  // Shade the windows where our HUB is dark (ferry windows) so the profile is
+  // readable at a glance: bars inside a shaded band are blackout activity.
+  const binw0=(edges[1]-edges[0])||10, gwB=(w-pl-pr)/edges.length;
+  (opts.bands||[]).forEach(b=>{
+    const x0=pl+(b[0]/binw0)*gwB, x1=pl+(b[1]/binw0)*gwB;
+    x.save(); x.fillStyle=opts.bandColor||'rgba(229,107,96,0.10)';
+    x.fillRect(x0,pt,Math.max(1,x1-x0),h-pt-pb); x.restore();
+    x.save(); x.fillStyle=faint; x.font='10px '+cvar('--mono'); x.textAlign='center';
+    x.fillText('hub dark',(x0+x1)/2,pt+11); x.restore();
+  });
+  // Round the top of the scale so gridlines land on readable values.
+  const rawHi=Math.max(...all), step=opts.percent?10:1;
+  const hi=Math.max(step,Math.ceil(rawHi/step)*step);
+  const n=edges.length, binw=(edges[1]-edges[0])||10, gw=(w-pl-pr)/n;
+  const gap=2, bw=Math.max(4,(gw-gap*2)/series.length);
+  series.forEach((s,si)=>{
+    x.fillStyle=s.color;
+    s.values.forEach((v,i)=>{
+      const bh=(h-pt-pb)*v/hi;
+      if(bh>0.5) x.fillRect(pl+i*gw+gap+si*bw, h-pb-bh, Math.max(3,bw-1), bh);
+    });
+  });
+  // Mean markers: dashed line only.  The numeric value lives in the HTML
+  // legend above the canvas, so nothing can collide inside the plot.
+  (opts.markers||[]).forEach(m=>{
+    if(m.value==null||!isFinite(m.value)) return;
+    const mx=Math.min(w-pr,pl+(m.value/binw)*gw+gw/2);
+    x.save(); x.strokeStyle=m.color; x.setLineDash([4,3]); x.lineWidth=1.5;
+    x.beginPath(); x.moveTo(mx,pt); x.lineTo(mx,h-pb); x.stroke(); x.restore();
+  });
+  x.fillStyle=faint; x.font='10px '+cvar('--mono'); x.textAlign='center';
+  const every=opts.labelEvery||2;
+  edges.forEach((e,i)=>{if(i%every===0) x.fillText(String(e),pl+i*gw+gw/2,h-8);});
+  x.textAlign='right';
+  for(let i=0;i<4;i++){
+    const val=hi*(3-i)/3, y=pt+(h-pt-pb)*i/3;
+    x.fillText(opts.percent?Math.round(val)+'%':String(Math.round(val)),pl-5,y+3);
+  }
+  x.textAlign='left';
+  x.fillStyle=faint; x.fillText('balls scored',pl,h-0.5);
+}
+
 async function refresh(){
   try{
-    let u='/api/status'+(selectedRun?`?run=${encodeURIComponent(selectedRun)}`:'');let data=await fetch(u,{cache:'no-store'}).then(r=>r.json());
-    let select=$('runSelect'), names=data.runs.map(r=>r.name);if(select.options.length!==names.length||[...select.options].some((o,i)=>o.value!==names[i])){select.innerHTML=names.map(n=>`<option>${n}</option>`).join('')}
-    let r=data.selected;if(!r){$('runName').textContent='No training runs';return}selectedRun=r.name;select.value=r.name;
-    $('runName').textContent=r.name;$('runPath').textContent=r.path;
-    $('statusBadge').textContent=r.status;$('statusBadge').className='badge '+r.status;
-    $('liveDot').className='dot '+(r.running?'running':'');$('liveText').textContent=r.running?'Training live':'Not running';
-    $('progressBar').style.width=((r.progress||0)*100).toFixed(1)+'%';$('elapsed').textContent='Elapsed '+duration(r.elapsed_s);$('eta').textContent=r.running?'ETA '+duration(r.eta_s):'Last activity '+new Date(r.updated_at).toLocaleTimeString();
-    let l=r.latest||{},p=r.processes?.[0]||{},cfg=r.config||{};
-    $('envs').textContent=p.num_envs||cfg.num_envs||'—';$('target').textContent=r.target_minutes?duration(r.target_minutes*60):'—';
-    $('checkpoint').textContent=r.checkpoint.final?'Final saved':r.checkpoint.latest?'Latest saved':'None';$('lastUpdate').textContent=Math.round(r.metrics_age_s)+'s ago';
-    $('transitions').textContent=fmt(l.transitions||r.summary?.transitions);$('throughput').textContent=fmt(r.overall_transitions_per_s)+' tx/s · expected '+fmt(r.expected_transitions);
-    $('updates').textContent=fmt(l.updates||r.summary?.updates);$('replay').textContent=fmt(l.replay)+' replay';
-    $('return').textContent=fmt(l.recent_return_mean||r.summary?.mean_return_last20);$('returnMax').textContent='max '+fmt(l.recent_return_max);
-    $('episodes').textContent=fmt(l.episodes||r.summary?.episodes);$('rewardSplit').textContent='score '+fmt(l.recent_score_reward)+' · collect '+fmt(l.recent_collect_reward);
-    $('alerts').innerHTML=r.alerts.map(a=>`<div class="alert ${a.level}">${a.text}</div>`).join('');
-    let h=r.history||[];chart('returnChart',[{name:'mean',color:'#55a7ff',values:h.map(v=>+v.recent_return_mean)},{name:'max',color:'#ffd05a',values:h.map(v=>+v.recent_return_max)}]);
-    chart('rewardChart',[{name:'score',color:'#57e28f',values:h.map(v=>+v.recent_score_reward)},{name:'collect',color:'#45e0d0',values:h.map(v=>+v.recent_collect_reward)}]);
-    chart('learningChart',[{name:'Q1',color:'#a58cff',values:h.map(v=>+v.q1)},{name:'loss',color:'#ff6477',values:h.map(v=>+v.critic_loss)}]);
-    chart('exploreChart',[{name:'stddev',color:'#ffd05a',values:h.map(v=>+v.stddev)}]);
-    let s=data.resources||{};$('cpu').textContent=fmt(s.cpu_percent)+'%';setBar('cpuBar',s.cpu_percent);$('ram').textContent=fmt(s.ram_percent)+'%';setBar('ramBar',s.ram_percent);
-    $('gpu').textContent=fmt(s.gpu_percent)+'%';setBar('gpuBar',s.gpu_percent);let vp=s.gpu_memory_total_mb?100*s.gpu_memory_used_mb/s.gpu_memory_total_mb:0;$('vram').textContent=fmt(s.gpu_memory_used_mb)+' / '+fmt(s.gpu_memory_total_mb)+' MB';setBar('vramBar',vp);
-    $('temp').textContent=fmt(s.gpu_temperature_c)+' °C';$('power').textContent=fmt(s.gpu_power_w)+' W';
-    let rh=data.resource_history||[];chart('resourceChart',[{name:'GPU',color:'#45e0d0',values:rh.map(v=>+v.gpu_percent)},{name:'RAM',color:'#ffd05a',values:rh.map(v=>+v.ram_percent)}]);
+    const u='/api/status'+(selectedRun?`?run=${encodeURIComponent(selectedRun)}`:'');
+    const data=await fetch(u,{cache:'no-store'}).then(r=>r.json());
+    const sel=$('runSelect'), names=data.runs.map(r=>r.name);
+    if(sel.options.length!==names.length||[...sel.options].some((o,i)=>o.value!==names[i])) sel.innerHTML=names.map(n=>`<option>${n}</option>`).join('');
+    const r=data.selected; if(!r){$('runName').textContent='No runs found'; return;}
+    selectedRun=r.name; sel.value=r.name;
+    const l=r.latest||{}, cfg=r.config||{}, p=(r.processes||[])[0]||{};
+    const v2=!!cfg.stagec_v2, cy=r.cycle_funnel;
+
+    $('runName').textContent=r.name;
+    $('statusPill').textContent=r.status; $('statusPill').className='pill '+r.status;
+    $('liveDot').className='dot '+(r.running?'running':''); $('liveText').textContent=r.running?'Training live':'Not running';
+    $('stageLabel').textContent=v2?'Stage C':'Stage B';
+    $('metricNote').textContent=v2?'Refreshes every 3 s · FULL = physical balls scored':'Refreshes every 3 s · balls = score reward ÷ 10';
+
+    const scoreR=l.recent_score_reward;
+    const balls=v2?(l.recent_scored_balls??l.recent_full_score_mean):(scoreR==null?null:scoreR/10);
+    $('ballsScored').textContent=fmt(balls,2);
+    $('scoreRaw').textContent=v2
+      ?`max ${fmt(l.recent_scored_max??l.recent_full_score_max,0)} · ${fmt(l.full_episodes,0)} FULL eps`
+      :(scoreR==null?'—':fmt(scoreR,1)+' score reward');
+    const collectRate=l.by_mode?.collect?.success_rate;
+    $('collectReward').textContent=v2?(collectRate==null?'—':fmt(100*collectRate,1)+'%'):fmt(l.recent_collect_reward,1);
+    $('collectMetricLabel').textContent=v2?'collect skill success':'collect reward / ep';
+
+    $('progressBar').style.width=((r.progress||0)*100).toFixed(1)+'%';
+    $('elapsed').textContent='Elapsed '+dur(r.elapsed_s);
+    $('eta').textContent=r.running?'ETA '+dur(r.eta_s):'Last '+new Date(r.updated_at).toLocaleTimeString();
+    $('alerts').innerHTML=(r.alerts||[]).map(a=>`<div class="alert ${a.level}">${a.text}</div>`).join('');
+
+    $('cEnvs').textContent=p.num_envs||cfg.num_envs||cfg.streams||'—';
+    $('cEplen').textContent=cfg.episode_len_display||(cfg.episode_len_s?cfg.episode_len_s+' s':'—');
+    $('cPreload').textContent=cfg.preload_display||(cfg.preload_prob!=null?(cfg.preload_prob*100).toFixed(0)+'%':'—');
+    $('cCollect').textContent=cfg.collect_weight_start??cfg.collect_weight??'—';
+    $('cCkpt').textContent=r.checkpoint&&r.checkpoint.final?'final':r.checkpoint&&r.checkpoint.latest?'latest':'none';
+    $('cUpdate').textContent=Math.round(r.metrics_age_s)+'s ago';
+
+    $('tTx').textContent=fmt(l.transitions||(r.summary&&r.summary.transitions),0);
+    $('tTps').textContent=fmt(r.overall_transitions_per_s)+' tx/s';
+    $('tUpd').textContent=fmt(l.updates,0);
+    $('tReplay').textContent=v2
+      ?`${fmt(l.replay,0)} replay · ${l.phase||'—'} · σ ${fmt(l.stddev,3)}`
+      :fmt(l.replay,0)+' replay';
+    if(v2){
+      // Bank-lane conversion success is the metric the curriculum now targets
+      // (the lane succeeds only when entitled own-court balls are SCORED).
+      const bank=l.by_mode?.bank, ret=l.by_mode?.return?.success_rate;
+      $('tRetLabel').textContent='Bank convert';
+      $('tRet').textContent=bank?.success_rate==null?'—':fmt(100*bank.success_rate,1)+'%';
+      $('tRetMax').textContent=`${bank?bank.episodes+' bank eps':'no bank eps'} · return ${ret==null?'—':fmt(100*ret,0)+'%'}`;
+    }else{
+      $('tRetLabel').textContent='Recent return';
+      $('tRet').textContent=fmt(l.recent_return_mean);
+      $('tRetMax').textContent='max '+fmt(l.recent_return_max);
+    }
+    $('tEp').textContent=fmt(l.episodes,0);
+    $('tCloss').textContent=v2
+      ?`critic ${fmt(l.critic_loss)} · β ${fmt(l.beta,3)} · restarts ${fmt(l.collector_restart_boundaries,0)}`
+      :'critic '+fmt(l.critic_loss);
+
+    // 2nd-cycle funnel section removed 2026-07-25 (user request).
+
+    const h=r.history||[], eh=r.episode_history||[];
+    const scoreValues=v2
+      ?eh.map(v=>v.rolling_scored_mean==null?NaN:+v.rolling_scored_mean)
+      :h.map(v=>v.recent_score_reward==null?NaN:+v.recent_score_reward/10);
+    $('scoreChartUnit').textContent=v2?'20-FULL rolling avg':'balls / ep';
+    chart('scoreChart',[{name:v2?'20-ep avg':'balls/ep',color:cvar('--score'),fill:true,values:scoreValues}],{min0:true});
+    if(v2){
+      $('collectChartTitle').textContent='Leave / collect skills'; $('collectChartUnit').textContent='% success';
+      $('returnChartTitle').textContent='Ferry / banking'; $('returnChartUnit').textContent='balls / ep · rolling 20';
+      chart('collectChart',[
+        {name:'leave',color:cvar('--blue'),values:h.map(v=>100*Number(v.by_mode?.postdump?.success_rate))},
+        {name:'collect',color:cvar('--collect'),values:h.map(v=>100*Number(v.by_mode?.collect?.success_rate))}
+      ],{min0:true});
+      const roll=(arr,w=20)=>arr.map((_,i)=>{const s=arr.slice(Math.max(0,i-w+1),i+1).filter(Number.isFinite); return s.length?s.reduce((a,b)=>a+b,0)/s.length:NaN;});
+      chart('returnChart',[
+        {name:'ferried home',color:cvar('--good'),fill:true,values:roll(eh.map(v=>v.ferried_balls==null?NaN:+v.ferried_balls))},
+        {name:'own-court scored',color:cvar('--score'),values:roll(eh.map(v=>v.owncourt_scored==null?NaN:+v.owncourt_scored))}
+      ],{min0:true});
+    }else{
+      $('collectChartTitle').textContent='Collect reward'; $('collectChartUnit').textContent='per ep';
+      $('returnChartTitle').textContent='Return'; $('returnChartUnit').textContent='mean / max';
+      chart('collectChart',[{name:'collect',color:cvar('--collect'),fill:true,values:h.map(v=>+v.recent_collect_reward)}],{min0:true});
+      chart('returnChart',[{name:'mean',color:cvar('--blue'),values:h.map(v=>+v.recent_return_mean)},{name:'max',color:cvar('--score'),values:h.map(v=>+v.recent_return_max)}]);
+    }
+    chart('learnChart',[{name:'loss',color:cvar('--warn'),values:h.map(v=>+v.critic_loss)},{name:'Q',color:cvar('--purple'),values:h.map(v=>+(v.q_pi??v.q1))}]);
+    // ---- section training: opener / bank / live, each on its own goal ------
+    const sec=r.section_lanes;
+    const secCard=$('sectionCard');
+    if(sec&&Object.keys(sec).length){
+      secCard.hidden=false;
+      const GOAL={opener:'goal: 2 complete cycles in 30 s',
+                  bank:'goal: ferry 30-40 home, arrive chambered (no shooting)',
+                  live:'goal: dump now, then work the local pile'};
+      const rows=[];
+      for(const lane of ['opener','bank','live']){
+        const d=sec[lane]; if(!d) continue;
+        let head='';
+        if(lane==='opener') head=`scored <b>${d.scored}</b> (max ${d.scored_max}) &middot; dumps ${d.dumps} &middot; chamber left ${d.chamber} &middot; cycles ${d.cycles}`;
+        else if(lane==='bank') head=`ferried <b>${d.ferried}</b> &middot; chamber home <b>${d.chamber}</b> &middot; floor ${d.stockpile}`;
+        else head=`scored <b>${d.scored}</b> (max ${d.scored_max}) &middot; dumps ${d.dumps} (${d.dumped_eps}/${d.n} eps) &middot; chamber ${d.chamber} &middot; floor ${d.stockpile} &middot; conversions ${d.conversions} (${d.conv_eps}/${d.n})`;
+        let wins='';
+        const wk=Object.keys(d.windows||{}).filter(k=>k!=='unknown');
+        if(wk.length){
+          wins='<div style="margin:3px 0 0 14px;color:var(--faint)">'+wk.map(k=>{
+            const w=d.windows[k];
+            return `t=${k}s${w.span_s?` (${w.span_s}s)`:''}: n=${w.n}, scored ${w.scored}, dumps ${w.dumps}`;
+          }).join(' &nbsp;|&nbsp; ')+'</div>';
+        }
+        rows.push(`<div style="margin:6px 0"><b style="color:var(--fg)">${lane}</b> <span style="color:var(--faint)">n=${d.n} &middot; ${GOAL[lane]}</span><br>${head}${wins}</div>`);
+      }
+      $('sectionBody').innerHTML=rows.join('');
+    } else if(secCard){ secCard.hidden=true; }
+    const prof=r.match_profile;
+    if(prof){
+      $('profUnit').textContent=`balls / ep · last ${prof.n} FULL eps · 5 s bins`;
+      $('profLegend').innerHTML=prof.n
+        ? `<span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:${cvar('--score')}"></span>shot (legal) · ${fmt(prof.total_scored,1)}/ep</span>`
+          +`<span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:${cvar('--good')}"></span>ferried home · ${fmt(prof.total_ferried,1)}/ep</span>`
+          +`<span style="color:var(--faint)">shaded = our hub dark${prof.parity?' ('+prof.parity+'-first)':''}</span>`
+        : '<span style="color:var(--faint)">waiting for FULL episodes…</span>';
+      barchart('profChart',prof.edges,[
+        {name:'shot',color:cvar('--score'),values:prof.scored},
+        {name:'ferried',color:cvar('--good'),values:prof.ferried}],
+        {labelEvery:4,bands:prof.dark||[]});
+    }
+
+    const s=data.resources||{};
+    $('cpu').textContent=fmt(s.cpu_percent)+'%'; setBar('cpuBar',s.cpu_percent);
+    $('ram').textContent=fmt(s.ram_percent)+'%'; setBar('ramBar',s.ram_percent);
+    if(s.gpu_name) $('gpuName').textContent=s.gpu_name;
+    $('gpu').textContent=fmt(s.gpu_percent)+'%'; setBar('gpuBar',s.gpu_percent);
+    const vp=s.gpu_memory_total_mb?100*s.gpu_memory_used_mb/s.gpu_memory_total_mb:0;
+    $('vram').textContent=fmt(s.gpu_memory_used_mb,0)+' / '+fmt(s.gpu_memory_total_mb,0)+' MB'; setBar('vramBar',vp);
+    $('temp').textContent=fmt(s.gpu_temperature_c)+' °C'; $('power').textContent=fmt(s.gpu_power_w)+' W';
+    const rh=data.resource_history||[];
+    chart('resChart',[{name:'GPU',color:cvar('--collect'),values:rh.map(v=>+v.gpu_percent)},{name:'RAM',color:cvar('--score'),values:rh.map(v=>+v.ram_percent)}],{min0:true});
+
     $('generated').textContent='Updated '+new Date(data.generated_at).toLocaleTimeString();
-  }catch(e){$('liveText').textContent='Dashboard error';console.error(e)}
+  }catch(e){$('liveText').textContent='Dashboard error'; console.error(e);}
 }
-$('runSelect').addEventListener('change',e=>{selectedRun=e.target.value;refresh()});window.addEventListener('resize',refresh);refresh();setInterval(refresh,3000);
+$('runSelect').addEventListener('change',e=>{selectedRun=e.target.value; refresh();});
+let rt; addEventListener('resize',()=>{clearTimeout(rt); rt=setTimeout(refresh,150);});
+refresh(); setInterval(refresh,3000);
 </script>
 </body>
 </html>

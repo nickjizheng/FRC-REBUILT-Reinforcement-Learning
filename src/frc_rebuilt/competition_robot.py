@@ -135,6 +135,16 @@ HUB_AIM_SHORT_BIAS_M = 0.18
 # lob must clear a hub box or use a side lane; the solver samples the
 # parabola across both hub footprints and refuses blocked lanes.
 NEUTRAL_ZONE_HALF_Y_M = 2.775        # own zone starts past the hub band edge
+# A legal HUB shot must be taken from a stable spot clearly INSIDE the own court -
+# not from a ramp/trench crossing right at the neutral-zone edge. Late Stage-C
+# policies learned to fire while still ON a bump ramp (tilted) or from the trench
+# mouth a few cm past the board; both are marginal/illegitimate firing platforms.
+# Two independent gates below fix it (calibrate on-server against real shot poses):
+FIRE_OWN_COURT_MARGIN_M = 0.35       # HUB shot legal only past y = board + this margin
+                                     # (blue: y < -3.125), so a trench-edge shot at the
+                                     # line is refused; deeper court shots are unaffected.
+FIRE_MAX_TILT_DEG = 7.0              # refuse a HUB shot while the chassis is tilted on a
+                                     # ramp (~0 deg flat, ~15 deg on a bump ramp).
 FERRY_HUB_BLOCK_X_HALF_M = 0.95      # hub footprint + FUEL clearance
 FERRY_HUB_BLOCK_Y_M = (2.775, 4.259)
 FERRY_HUB_BLOCK_TOP_M = 3.26         # rim 3.059 + FUEL diameter margin
@@ -1817,12 +1827,29 @@ class CompetitionRobotController:
             ArticulationAction(joint_positions=positions, joint_velocities=velocities)
         )
 
-    def drive(self, forward: float, turn: float, strafe: float = 0.0) -> None:
-        """robot default teleop: field-centric closed-loop swerve request."""
+    def drive(
+        self,
+        forward: float,
+        turn: float,
+        strafe: float = 0.0,
+        *,
+        keyboard_scale: bool = True,
+    ) -> None:
+        """robot default teleop: field-centric closed-loop swerve request.
+
+        ``keyboard_scale`` applies KEYBOARD_TRANSLATION_SCALE / KEYBOARD_TURN_SCALE,
+        which exist ONLY to damp binary key presses into a controllable equivalent
+        of partial joystick deflection.  An RL policy already emits continuous
+        [-1, 1] deflection, so scaling it again throttles the robot to 49 % of its
+        CAD top speed (4.59 m/s -> 2.25 m/s).  RL callers pass False to get the
+        robot's real limits; keyboard teleop keeps the damping unchanged.
+        """
+        translation_scale = KEYBOARD_TRANSLATION_SCALE if keyboard_scale else 1.0
+        turn_scale = KEYBOARD_TURN_SCALE if keyboard_scale else 1.0
         target_field = np.array(
             [np.clip(forward, -1.0, 1.0), np.clip(strafe, -1.0, 1.0)],
             dtype=np.float32,
-        ) * (MAX_WHEEL_SPEED_MPS * DRIVER_SPEED_RATE * KEYBOARD_TRANSLATION_SCALE)
+        ) * (MAX_WHEEL_SPEED_MPS * DRIVER_SPEED_RATE * translation_scale)
         delta = target_field - self._driver_field_velocity
         limit = (
             DRIVER_DECEL_LIMIT_MPS2
@@ -1838,7 +1865,7 @@ class CompetitionRobotController:
             float(np.clip(turn, -1.0, 1.0))
             * MAX_ANGULAR_RATE_RAD_S
             * DRIVER_ANGULAR_RATE
-            * KEYBOARD_TURN_SCALE
+            * turn_scale
         )
         omega_delta = float(np.clip(
             target_omega - self._driver_omega,
@@ -2233,7 +2260,7 @@ class CompetitionRobotController:
 
     def solve_auto_aim(self, alliance: str | None = None) -> dict[str, Any]:
         selected, target = self._hub_target(alliance)
-        position, _ = self.chassis_pose()
+        position, orientation = self.chassis_pose()
         linear, _ = self.chassis_velocity()
         # Land at the funnel centre, not the deep sensor point: the raw FRC
         # target sits ~0.17 m outboard of the funnel middle, which read as a
@@ -2250,7 +2277,27 @@ class CompetitionRobotController:
             position[:2], linear[:2], target[:2], compensate_motion=True
         )
         yaw_error = wrap_angle(setpoint.chassis_yaw_rad - self.chassis_yaw())
-        valid = not setpoint.clamped and 1.4 <= setpoint.distance_m <= 5.7
+        # The alliance board on the neutral-zone line physically blocks a hub shot
+        # taken from the neutral/opponent side: the robot must be PAST the board, in
+        # its OWN court, to score. The parabolic solver would otherwise lob the ball
+        # over the board (a sim gap the GUI physics catches but this solver did not).
+        # Gate it out explicitly, mirroring solve_ferry's own-court test (~line 2309).
+        own_sign = 1.0 if selected == "red" else -1.0
+        court_depth_m = float(position[1]) * own_sign      # + = deeper into our own court
+        in_own_court = court_depth_m > NEUTRAL_ZONE_HALF_Y_M + FIRE_OWN_COURT_MARGIN_M
+        # On-ramp guard: reject shots taken while the chassis is tilted climbing a bump ramp.
+        # orientation is Isaac WXYZ; the body up-axis' world-z component is 1 - 2*(x^2 + y^2),
+        # so tilt from vertical = acos(that).  ~0 deg on flat floor, ~15 deg on a bump ramp.
+        qw, qx, qy, qz = (float(v) for v in orientation)
+        up_cos = max(-1.0, min(1.0, 1.0 - 2.0 * (qx * qx + qy * qy)))
+        tilt_deg = math.degrees(math.acos(up_cos))
+        on_flat = tilt_deg <= FIRE_MAX_TILT_DEG
+        valid = (
+            not setpoint.clamped
+            and 1.4 <= setpoint.distance_m <= 5.7
+            and in_own_court
+            and on_flat
+        )
         result = {
             "alliance": selected,
             "distance_m": setpoint.distance_m,
@@ -2263,7 +2310,16 @@ class CompetitionRobotController:
             "yaw_error_deg": math.degrees(yaw_error),
             "aligned": abs(math.degrees(yaw_error)) <= AUTO_ALIGN_TOLERANCE_DEG,
             "valid": valid,
-            "blocked_reason": "" if valid else "outside robot calibrated range 1.4-5.7 m",
+            "blocked_reason": (
+                "" if valid
+                else "on a ramp / chassis tilted - not a legal firing platform"
+                if not on_flat
+                else "at the neutral-zone edge - drive deeper into own court to fire"
+                if not in_own_court
+                else "outside robot calibrated range 1.4-5.7 m"
+            ),
+            "court_depth_m": court_depth_m,
+            "tilt_deg": tilt_deg,
             "setpoint": setpoint,
         }
         self.last_aim_solution = result

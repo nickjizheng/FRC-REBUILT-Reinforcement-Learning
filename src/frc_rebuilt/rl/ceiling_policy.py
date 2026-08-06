@@ -2,7 +2,7 @@
 
 A hand-coded greedy match-player used ONLY to measure the achievable legal-score
 ceiling and to validate (or lower) the >=200 target *before* any RL training
-(Converged decision #1 in ``design notes``).  It is **not** a teacher and
+(A fixed safety-policy requirement). It is **not** a teacher and
 produces **no** training data.  It consumes privileged state (true FUEL
 positions) and emits the SAME 7-D action vector the RL policy will
 (see :data:`frc_rebuilt.rl.spec.ACTION_NAMES`), so it also exercises the

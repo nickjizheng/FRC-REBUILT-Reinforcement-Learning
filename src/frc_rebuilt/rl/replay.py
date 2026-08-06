@@ -3,7 +3,7 @@
 Stage-A scale: policy-resolution frames (C,H,W uint8) + proprio + privileged
 vectors in a RAM ring (~130 KB/transition at 9x90x160).  The converged plan's
 D:-NVMe episode-chunk store with an empirically chosen codec replaces the RAM
-ring when capacity demands it (design notes Converged #7/#11) - the
+ring when capacity demands it, preserving the replay contract - the
 sampling interface here is already chunk-friendly (contiguous, index-based).
 """
 from __future__ import annotations
@@ -61,6 +61,13 @@ class ReplayRing:
         self.done[i] = bool(done)
         self.cursor = (i + 1) % self.capacity
         self.size = min(self.size + 1, self.capacity)
+
+    def mark_last_terminal(self) -> None:
+        """Force a terminal boundary at the most recently written transition so
+        an n-step chain cannot bridge a gap left by a dropped/rejected step.
+        Idempotent, and a no-op when the ring is empty."""
+        if self.size > 0:
+            self.done[(self.cursor - 1) % self.capacity] = True
 
     def __len__(self) -> int:
         return self.size
@@ -121,14 +128,21 @@ class PerEnvReplay:
     def add(self, env_index: int, *args, **kwargs) -> None:
         self.rings[env_index].add(*args, **kwargs)
 
+    def mark_boundary(self, env_index: int) -> None:
+        """Terminal-boundary the given stream's last transition (dropped step)."""
+        self.rings[env_index].mark_last_terminal()
+
     def __len__(self) -> int:
         return sum(len(ring) for ring in self.rings)
 
-    def ready(self, min_per_env: int) -> bool:
-        need = min_per_env
-        return all(len(ring) > ring.n_step + 1 for ring in self.rings) and (
-            len(self) >= need
-        )
+    def ready(self, min_total: int, min_live_fraction: float = 1.0) -> bool:
+        # Quorum readiness: learn as soon as a live fraction of streams is warm
+        # instead of requiring EVERY ring (one dead/stalled stream would else
+        # block all learning forever). sample() already zero-weights empty rings.
+        # Default min_live_fraction=1.0 reproduces the old all-rings behaviour.
+        warm = sum(len(ring) > ring.n_step + 1 for ring in self.rings)
+        need_warm = max(1, int(np.ceil(min_live_fraction * len(self.rings))))
+        return warm >= need_warm and len(self) >= min_total
 
     def sample(self, batch_size: int) -> Batch:
         sizes = np.asarray([max(0, len(r) - r.n_step - 1) for r in self.rings], float)

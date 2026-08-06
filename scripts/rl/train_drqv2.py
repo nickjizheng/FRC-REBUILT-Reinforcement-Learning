@@ -1,6 +1,6 @@
 """Stage-A DrQ-v2 training on the vectorized full-physics competition env.
 
-The converged first baseline (design notes): off-policy DrQ-v2, pixel+
+The converged first baseline uses off-policy DrQ-v2 with pixel and
 proprio actor, asymmetric privileged critic, n-step returns, curriculum
 stage A (short acquisition episodes, 32-FUEL template).  Prints one JSON
 metrics line per interval and checkpoints the agent + a rolling metrics log
@@ -26,6 +26,23 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 import numpy as np
+
+
+# One named, versioned contract per curriculum stage. Stage C is reproducible
+# from `--stage C` alone -> run_config.json records "C", not "B + hand flags".
+STAGE_C_CONFIG = {
+    "version": "C.v1-2026-07-12",
+    "episode_len_s": 90.0,        # 90 s continuous HUB (sandbox scoring kept)
+    "sandbox_scoring": True,      # KEPT for Stage C (both hubs always eligible)
+    "spawn_under_trench": True,   # source-faithful compact-under-trench start
+    "unlock_storage": True,       # storage active: policy drives compact/extend
+    "preload_prob": 0.0,          # no shooting starts: full escape->collect->score
+    "spawn_ramp_prob": 0.0,       # ramp-teaching is a Stage-B device; off in C
+    "collect_weight_start": 0.3,  # constant 0.3 -- matches the resumed champion's
+    "collect_weight_end": 0.3,    # weight (the 1.5 anneal poisons a resumed replay)
+    "action_penalty": 0.001,      # drive energy penalty (<< collect reward)
+    "stddev_end": 0.2,            # trench escape is exploration-hard
+}
 
 
 def to_policy_frames(rgb: np.ndarray) -> np.ndarray:
@@ -62,12 +79,54 @@ def main() -> None:
     ap.add_argument("--episode-len-s", type=float, default=20.0)
     ap.add_argument(
         "--stage",
-        choices=("A", "B"),
+        choices=("A", "B", "C"),
         default="A",
-        help="B = acquire-and-score: 36 s episodes, preloaded shooting starts "
-        "on half the episodes, collection reward annealed 1.5 -> 0.3",
+        help="B = acquire-and-score (36 s, preloaded shooting starts, collect "
+        "annealed 1.5->0.3). C = trench start: compact-under-trench, 90 s "
+        "continuous HUB (sandbox scoring kept), storage active, constant 0.3 "
+        "collect weight -- the reproducible Stage C contract (see STAGE_C_CONFIG).",
     )
     ap.add_argument("--preload-prob", type=float, default=None)
+    ap.add_argument(
+        "--spawn-ramp-prob",
+        type=float,
+        default=None,
+        help="stage B ramp-teaching: fraction of COLD (non-preloaded) episodes that "
+        "start in the neutral zone aligned to a hub ramp lane, facing the hub, "
+        "preloaded, so the shortest path to a legal shot runs over the drive-over "
+        "ramp instead of the compact-only trench lanes (0.0 = off)",
+    )
+    ap.add_argument(
+        "--mask-illegal-fire",
+        action="store_true",
+        help="stage B: gate firing on a legal HUB shot THIS tick (and mask ferry "
+        "off) so an illegal fire is a no-op instead of auto-stopping the chassis - "
+        "prevents the always-fire freeze/collapse",
+    )
+    ap.add_argument(
+        "--action-penalty",
+        type=float,
+        default=None,
+        help="drive action-penalty weight (stage B default 0.0 so it does not tax "
+        "the navigation we teach; otherwise 0.001)",
+    )
+    ap.add_argument(
+        "--stddev-end",
+        type=float,
+        default=None,
+        help="exploration stddev floor (stage B default 0.2; otherwise 0.1)",
+    )
+    ap.add_argument(
+        "--spawn-under-trench",
+        action="store_true",
+        help="stage C: begin every episode compact, fully beneath the blue "
+        "trench (the source-faithful match start); implies --unlock-storage",
+    )
+    ap.add_argument(
+        "--unlock-storage",
+        action="store_true",
+        help="let the policy drive the compact/extend (dim-4 storage) action",
+    )
     ap.add_argument("--collect-weight-start", type=float, default=1.5)
     ap.add_argument("--collect-weight-end", type=float, default=None)
     ap.add_argument("--collect-anneal-tx", type=int, default=30_000)
@@ -85,16 +144,60 @@ def main() -> None:
         help="master seed (env resets, replay sampling, torch, exploration) - "
         "vary per parallel run so seeds are real replications",
     )
+    ap.add_argument(
+        "--watchdog-stall-s",
+        type=float,
+        default=180.0,
+        help="exit(3) if no finite transition is accepted for this many seconds "
+        "(supervisor then restarts from latest.pt with a fresh sim)",
+    )
+    ap.add_argument(
+        "--explore-restart",
+        action="store_true",
+        help="re-warm the exploration-noise schedule for this stage on --resume "
+        "(a resumed agent past stddev_steps is otherwise pinned at the floor)",
+    )
     ap.add_argument("--out", type=Path, default=PROJECT_ROOT / "runs" / "drqv2_stageA")
     args = ap.parse_args()
     if args.stage == "B":
         if args.episode_len_s == 20.0:
             args.episode_len_s = 36.0
         if args.preload_prob is None:
-            args.preload_prob = 0.5
+            args.preload_prob = 0.3  # rebalanced from 0.5: less shoot-heavy start mix
+        if args.spawn_ramp_prob is None:
+            args.spawn_ramp_prob = 0.4  # rebalanced from 0.6 (still teaches the ramp)
         if args.collect_weight_end is None:
             args.collect_weight_end = 0.3
+        if args.action_penalty is None:
+            args.action_penalty = 0.0  # do not tax the driving we are teaching
+        if args.stddev_end is None:
+            args.stddev_end = 0.2  # keep exploring so it can discover the crossing
+    elif args.stage == "C":
+        c = STAGE_C_CONFIG
+        if args.episode_len_s == 20.0:       # only if left at the parser default
+            args.episode_len_s = c["episode_len_s"]
+        args.spawn_under_trench = True        # force the contract regardless of flag
+        args.unlock_storage = True
+        if args.preload_prob is None:
+            args.preload_prob = c["preload_prob"]
+        if args.spawn_ramp_prob is None:
+            args.spawn_ramp_prob = c["spawn_ramp_prob"]
+        # Stage C resumes a champion -> constant 0.3 collect weight (the 1.5 anneal
+        # is a fresh-agent teaching device that poisons a resumed replay; audit).
+        if args.collect_weight_start == 1.5:  # only if left at the parser default
+            args.collect_weight_start = c["collect_weight_start"]
+        if args.collect_weight_end is None:
+            args.collect_weight_end = c["collect_weight_end"]
+        if args.action_penalty is None:
+            args.action_penalty = c["action_penalty"]
+        if args.stddev_end is None:
+            args.stddev_end = c["stddev_end"]
     args.preload_prob = args.preload_prob or 0.0
+    args.spawn_ramp_prob = args.spawn_ramp_prob or 0.0
+    if args.action_penalty is None:
+        args.action_penalty = 0.001
+    if args.stddev_end is None:
+        args.stddev_end = 0.1
     args.collect_weight_end = (
         args.collect_weight_start
         if args.collect_weight_end is None
@@ -112,7 +215,11 @@ def main() -> None:
 
         from frc_rebuilt.rl.drqv2 import DrQConfig, DrQV2Agent
         from frc_rebuilt.rl.replay import PerEnvReplay
-        from frc_rebuilt.rl.vec_env import VecCompetitionEnv, VecEnvCfg
+        from frc_rebuilt.rl.vec_env import (
+            SimulationUnstable,
+            VecCompetitionEnv,
+            VecEnvCfg,
+        )
 
         args.out.mkdir(parents=True, exist_ok=True)
         run_started_at = time.time()
@@ -122,6 +229,7 @@ def main() -> None:
             "template": str(Path(args.template).resolve()),
             "started_at_unix": run_started_at,
             "started_at": datetime.fromtimestamp(run_started_at).astimezone().isoformat(),
+            "stage_config_version": STAGE_C_CONFIG["version"] if args.stage == "C" else None,
             "pid": os.getpid(),
         }
         (args.out / "run_config.json").write_text(
@@ -134,8 +242,15 @@ def main() -> None:
                 cameras=True,
                 episode_len_s=args.episode_len_s,
                 preload_prob=float(args.preload_prob),
+                spawn_ramp_prob=float(args.spawn_ramp_prob),
+                mask_illegal_fire=bool(args.mask_illegal_fire),
+                action_penalty=float(args.action_penalty),
                 collect_reward_weight=float(args.collect_weight_start),
                 seed=args.seed,
+                spawn_under_trench=bool(args.spawn_under_trench),
+                lock_storage_extended=not (
+                    args.unlock_storage or args.spawn_under_trench
+                ),
             )
         )
         n = args.num_envs
@@ -156,11 +271,34 @@ def main() -> None:
                 frame_w=frames.shape[3],
                 proprio_dim=obs["proprio"].shape[1],
                 privileged_dim=obs["privileged"].shape[1],
+                stddev_end=float(args.stddev_end),
             )
         )
         if args.resume:
             agent.load(args.resume)
             print(f"TRAIN_RESUMED {args.resume} steps={agent.train_steps}", flush=True)
+            if args.explore_restart:
+                # One-shot re-warm: skip when auto-restarting from our OWN latest.pt
+                # (the supervisor passes --explore-restart on every relaunch, but the
+                # anchor is already saved in latest.pt, so re-firing would reset
+                # exploration to the start on every crash-recovery; audit).
+                resuming_own_latest = (
+                    Path(args.resume).resolve() == (args.out / "latest.pt").resolve()
+                )
+                if resuming_own_latest:
+                    print(
+                        "TRAIN_EXPLORE_RESTART skipped (auto-restart from own "
+                        f"latest.pt; schedule anchor offset={agent.explore_offset} "
+                        "preserved)",
+                        flush=True,
+                    )
+                else:
+                    agent.explore_offset = agent.train_steps
+                    print(
+                        f"TRAIN_EXPLORE_RESTART offset={agent.explore_offset} "
+                        "(exploration noise re-warmed for this stage)",
+                        flush=True,
+                    )
         replay = PerEnvReplay(
             num_envs=n,
             capacity_per_env=max(1000, args.replay_capacity // n),
@@ -187,8 +325,9 @@ def main() -> None:
         report_every_s = 60.0
         update_debt = 0.0
         train_metrics: dict[str, float] = {}
-        best_return = float("-inf")
+        best_metric = float("-inf")
         rejected_transitions = 0
+        last_accept_time = time.time()
         next_numbered_ckpt = args.checkpoint_every_tx
 
         current = {
@@ -197,14 +336,27 @@ def main() -> None:
             "privileged": obs["privileged"].copy(),
         }
         while time.time() < deadline:
-            if transitions < args.seed_transitions:
+            if transitions < args.seed_transitions and not args.resume:
+                # random seeding is only for FRESH training; a resumed (already
+                # trained) agent should act from step 0 so a supervisor restart
+                # doesn't dump ~1000 random steps into replay and stall recovery.
                 actions = np.random.uniform(-1, 1, (n, 7)).astype(np.float32)
                 actions[:, 3] = 1.0  # keep intake on while seeding
             else:
                 actions = agent.act(
                     current["frames"], current["proprio"], explore=True
                 ).astype(np.float32)
-            obs, rewards, dones, info = env.step(actions)
+            try:
+                obs, rewards, dones, info = env.step(actions)
+            except SimulationUnstable as exc:
+                print(
+                    f"TRAIN_SIM_UNSTABLE {exc}; saving latest.pt + exit(4) for "
+                    "supervisor restart",
+                    flush=True,
+                )
+                if agent.weights_finite():
+                    agent.save(str(args.out / "latest.pt"))
+                sys.exit(4)
             next_frames = to_policy_frames(obs["rgb"])
             # reject non-finite inputs at the boundary: a corrupted sim step
             # must never enter the replay buffer or the running statistics
@@ -217,6 +369,7 @@ def main() -> None:
                 ]
             )
             corrupt = ~(finite_rewards & finite_obs)
+            accepted = int((~corrupt).sum())
             if corrupt.any():
                 rejected_transitions += int(corrupt.sum())
                 rewards = np.where(finite_rewards, rewards, 0.0).astype(np.float32)
@@ -244,12 +397,29 @@ def main() -> None:
                 episode_return[i] = 0.0
                 episode_score[i] = 0.0
                 episode_collect[i] = 0.0
+            # defensive: never carry a non-finite obs into the next act() call
+            # (the env force-resets poisoned slots, so this is a backstop only).
             current = {
                 "frames": next_frames,
-                "proprio": obs["proprio"].copy(),
-                "privileged": obs["privileged"].copy(),
+                "proprio": np.nan_to_num(obs["proprio"], copy=True).astype(np.float32),
+                "privileged": np.nan_to_num(obs["privileged"], copy=True).astype(np.float32),
             }
-            transitions += n
+            transitions += accepted
+            # watchdog: if the sim is stuck emitting only rejected transitions,
+            # exit(3) so the supervisor restarts from latest.pt - a globally
+            # poisoned PhysX scene never recovers in-process.
+            if accepted > 0:
+                last_accept_time = time.time()
+            elif time.time() - last_accept_time > args.watchdog_stall_s:
+                print(
+                    "TRAIN_WATCHDOG_STALL no accepted transitions for "
+                    f"{args.watchdog_stall_s:.0f}s; saving latest.pt + exit(3) "
+                    "for supervisor restart",
+                    flush=True,
+                )
+                if agent.weights_finite():
+                    agent.save(str(args.out / "latest.pt"))
+                sys.exit(3)
             # collection-weight anneal (stage B): 1.5 -> 0.3 over the window
             if args.collect_weight_end != args.collect_weight_start:
                 mix = min(1.0, transitions / max(1, args.collect_anneal_tx))
@@ -260,10 +430,16 @@ def main() -> None:
             if transitions >= next_numbered_ckpt:
                 next_numbered_ckpt += args.checkpoint_every_tx
                 if agent.weights_finite():
-                    agent.save(str(args.out / f"ckpt_{transitions:09d}.pt"))
+                    # key on the monotonic gradient-step counter (survives restarts),
+                    # not the per-process transition counter (resets to 0 each life ->
+                    # numbered checkpoints would collide/overwrite across crash-restarts)
+                    agent.save(str(args.out / f"ckpt_{agent.train_steps:09d}.pt"))
 
-            if replay.ready(max(args.batch_size, args.seed_transitions)):
-                update_debt += args.updates_per_tx * n
+            if replay.ready(max(args.batch_size, args.seed_transitions)) and accepted > 0:
+                update_debt += args.updates_per_tx * accepted
+                # anti-runaway: never let debt balloon (e.g. after a stall) into a
+                # burst of updates on a stale buffer
+                update_debt = min(update_debt, args.updates_per_tx * n * 4.0)
                 while update_debt >= 1.0:
                     train_metrics = agent.update(replay.sample(args.batch_size))
                     updates += 1
@@ -301,8 +477,18 @@ def main() -> None:
                 # and keep the best-return checkpoint separately.
                 if agent.weights_finite():
                     agent.save(str(args.out / "latest.pt"))
-                    if recent and float(np.mean(recent)) > best_return:
-                        best_return = float(np.mean(recent))
+                    # rank by recent SCORE reward in stage B (total return is
+                    # confounded by the collect-weight anneal that inflates early
+                    # episodes); stage A has no scoring, so fall back to return.
+                    recent_scores = finished_scores[-20:]
+                    if args.stage in ("B", "C") and recent_scores:
+                        metric = float(np.mean(recent_scores))
+                    elif recent:
+                        metric = float(np.mean(recent))
+                    else:
+                        metric = None
+                    if metric is not None and metric > best_metric:
+                        best_metric = metric
                         agent.save(str(args.out / "best.pt"))
                 else:
                     print("TRAIN_WEIGHTS_NONFINITE latest.pt NOT overwritten", flush=True)

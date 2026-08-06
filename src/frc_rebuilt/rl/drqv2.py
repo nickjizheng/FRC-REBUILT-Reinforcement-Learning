@@ -1,4 +1,4 @@
-"""DrQ-v2 with an asymmetric privileged critic (converged baseline, Turn 2-4).
+"""DrQ-v2 with an asymmetric privileged critic (converged baseline, design note).
 
 Pixel actor (multi-camera frames + proprio), twin critic that additionally
 receives the privileged vector (training-time only - never an actor input,
@@ -16,21 +16,88 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-def random_shift(images: torch.Tensor, pad: int = 4) -> torch.Tensor:
-    """DrQ-v2 random shift augmentation on (B, C, H, W) float images."""
-    b, _, h, w = images.shape
-    padded = F.pad(images, (pad, pad, pad, pad), mode="replicate")
-    eps_h = 2.0 * pad / (h + 2 * pad)
-    eps_w = 2.0 * pad / (w + 2 * pad)
-    arange_h = torch.linspace(-1.0 + eps_h, 1.0 - eps_h, h, device=images.device)
-    arange_w = torch.linspace(-1.0 + eps_w, 1.0 - eps_w, w, device=images.device)
-    grid_y, grid_x = torch.meshgrid(arange_h, arange_w, indexing="ij")
-    base = torch.stack([grid_x, grid_y], dim=-1).unsqueeze(0).repeat(b, 1, 1, 1)
-    shift = torch.randint(0, 2 * pad + 1, (b, 1, 1, 2), device=images.device).float()
-    shift = (shift - pad) * 2.0 / torch.tensor(
-        [w + 2 * pad, h + 2 * pad], device=images.device
+_STAGEC_V2_PROPRIO_DIM = 30
+_STAGEC_V2_PHASE_OFFSET = 22
+_STAGEC_V2_FIRST = 0
+_STAGEC_V2_COLLECT = 2
+_STAGEC_V2_RETURN = 3
+_STAGEC_V2_SCORE = 4
+
+
+def _stagec_v2_executed_action_policy_torch(
+    actions: torch.Tensor,
+    proprio: torch.Tensor,
+    *,
+    intake_during_return: bool = False,
+) -> torch.Tensor:
+    """Apply the collector's Stage-C v2 action contract inside learning.
+
+    Replay stores actions after the NumPy execution mask, so Bellman targets and
+    actor-Q queries must use the same legal action manifold.  Otherwise the
+    critic is trained on fixed intake/storage/fire/ferry values but bootstraps
+    and optimizes against combinations that can never reach the simulator.
+
+    Legacy 22-wide agents are returned unchanged; ``update_suffix`` remains
+    backwards compatible with its CPU unit tests and older experiments.
+    """
+
+    if proprio.ndim != 2 or actions.ndim != 2:
+        raise ValueError("actions and proprio must both be rank-2 batches")
+    if actions.shape[0] != proprio.shape[0]:
+        raise ValueError("actions and proprio must contain the same number of rows")
+    if proprio.shape[1] != _STAGEC_V2_PROPRIO_DIM:
+        return actions
+    if actions.shape[1] != 7:
+        raise ValueError("Stage-C v2 actions must have width 7")
+
+    phases = torch.argmax(
+        proprio[:, _STAGEC_V2_PHASE_OFFSET : _STAGEC_V2_PHASE_OFFSET + 5], dim=1
     )
-    return F.grid_sample(padded, base + shift, padding_mode="zeros", align_corners=False)
+    post_first = phases.ne(_STAGEC_V2_FIRST)
+    intake_on = phases.eq(_STAGEC_V2_COLLECT)
+    if intake_during_return:
+        intake_on = intake_on | phases.eq(_STAGEC_V2_RETURN)
+    not_score = post_first & phases.ne(_STAGEC_V2_SCORE)
+
+    executed = actions.clone()
+    executed[:, 6] = torch.where(
+        post_first, torch.full_like(executed[:, 6], -1.0), executed[:, 6]
+    )
+    executed[:, 4] = torch.where(
+        post_first, torch.ones_like(executed[:, 4]), executed[:, 4]
+    )
+    executed[:, 3] = torch.where(
+        post_first,
+        torch.where(
+            intake_on,
+            torch.ones_like(executed[:, 3]),
+            torch.full_like(executed[:, 3], -1.0),
+        ),
+        executed[:, 3],
+    )
+    executed[:, 5] = torch.where(
+        not_score, torch.full_like(executed[:, 5], -1.0), executed[:, 5]
+    )
+    return executed
+
+
+def random_shift(images: torch.Tensor, pad: int = 4) -> torch.Tensor:
+    """DrQ-v2 random shift: replicate-pad, then take a random integer-pixel crop
+    back to (H, W).  The base grid lands on exact pixel centres (align_corners
+    False: output pixel k -> padded pixel k), and the shift is an integer number
+    of pixels, so grid_sample returns exact pixel values with NO interpolation
+    blur.  This keeps the encoder's training distribution identical (up to an
+    integer translation) to the sharp frames act() feeds it at inference.
+    """
+    b, _, h, w = images.shape
+    x = F.pad(images, (pad, pad, pad, pad), mode="replicate")
+    ys = (2.0 * torch.arange(h, device=x.device, dtype=x.dtype) + 1.0) / (h + 2 * pad) - 1.0
+    xs = (2.0 * torch.arange(w, device=x.device, dtype=x.dtype) + 1.0) / (w + 2 * pad) - 1.0
+    grid_y, grid_x = torch.meshgrid(ys, xs, indexing="ij")
+    base = torch.stack([grid_x, grid_y], dim=-1).unsqueeze(0).repeat(b, 1, 1, 1)
+    shift = torch.randint(0, 2 * pad + 1, (b, 1, 1, 2), device=x.device, dtype=x.dtype)
+    shift = shift * 2.0 / torch.tensor([w + 2 * pad, h + 2 * pad], device=x.device, dtype=x.dtype)
+    return F.grid_sample(x, base + shift, padding_mode="zeros", align_corners=False)
 
 
 class Encoder(nn.Module):
@@ -105,7 +172,7 @@ class DrQConfig:
     frame_w: int = 160
     lr: float = 1e-4
     critic_tau: float = 0.01
-    grad_clip_norm: float = 1.0   # converged plan; prevents late-run Q blow-ups
+    grad_clip_norm: float = 10.0  # loose safety net vs Q blow-ups; 1.0 throttled learning (audit)
     stddev_start: float = 1.0
     stddev_end: float = 0.1
     stddev_steps: int = 100_000
@@ -134,11 +201,36 @@ class DrQV2Agent:
         self.critic_opt = torch.optim.Adam(self.critic.parameters(), lr=cfg.lr)
         self.train_steps = 0
         self.skipped_updates = 0
+        # subtracted from train_steps in the stddev schedule; setting it to the
+        # current train_steps on --resume re-warms exploration for a new stage
+        # (a resumed agent past stddev_steps would otherwise be pinned at floor).
+        self.explore_offset = 0
+
+    def reset_optimizers(self, lr: float | None = None) -> None:
+        """Discard all Adam momentum while preserving network tensors exactly.
+
+        A reward-contract migration must not inherit first/second moments from
+        the previous objective.  Recreating the optimizers is stronger and less
+        error-prone than clearing selected state entries in-place.
+        """
+
+        learning_rate = float(self.cfg.lr if lr is None else lr)
+        if not np.isfinite(learning_rate) or learning_rate <= 0.0:
+            raise ValueError("optimizer learning rate must be finite and positive")
+        self.cfg.lr = learning_rate
+        self.encoder_opt = torch.optim.Adam(
+            self.encoder.parameters(), lr=learning_rate
+        )
+        self.actor_opt = torch.optim.Adam(self.actor.parameters(), lr=learning_rate)
+        self.critic_opt = torch.optim.Adam(
+            self.critic.parameters(), lr=learning_rate
+        )
 
     # -- exploration schedule ----------------------------------------------
     def stddev(self) -> float:
         cfg = self.cfg
-        mix = min(1.0, self.train_steps / cfg.stddev_steps)
+        step = max(0, self.train_steps - self.explore_offset)
+        mix = min(1.0, step / cfg.stddev_steps)
         return cfg.stddev_start + (cfg.stddev_end - cfg.stddev_start) * mix
 
     @torch.no_grad()
@@ -149,8 +241,11 @@ class DrQV2Agent:
         mean = self.actor(feat, pro)
         if explore:
             noise = torch.randn_like(mean) * self.stddev()
-            mean = torch.clamp(mean + noise, -1.0, 1.0)
-        return mean.cpu().numpy()
+            mean = mean + noise
+        # never emit a non-finite action: a poisoned network would otherwise
+        # drive PhysX with NaN and detonate the shared scene (audit finding).
+        mean = torch.nan_to_num(mean, nan=0.0, posinf=1.0, neginf=-1.0)
+        return torch.clamp(mean, -1.0, 1.0).cpu().numpy()
 
     # -- one gradient update -------------------------------------------------
     def update(self, batch) -> dict[str, float]:
@@ -191,8 +286,19 @@ class DrQV2Agent:
         self.encoder_opt.zero_grad(set_to_none=True)
         self.critic_opt.zero_grad(set_to_none=True)
         critic_loss.backward()
-        torch.nn.utils.clip_grad_norm_(self.encoder.parameters(), cfg.grad_clip_norm)
-        torch.nn.utils.clip_grad_norm_(self.critic.parameters(), cfg.grad_clip_norm)
+        gn_e = torch.nn.utils.clip_grad_norm_(self.encoder.parameters(), cfg.grad_clip_norm)
+        gn_c = torch.nn.utils.clip_grad_norm_(self.critic.parameters(), cfg.grad_clip_norm)
+        # clip_grad_norm_ does NOT stop a non-finite grad norm from writing NaN
+        # into the weights (clip_coef = max/inf = 0, then inf*0 = NaN); the
+        # loss-finite check above cannot catch this. Guard the optimizer step.
+        if not (torch.isfinite(gn_e) and torch.isfinite(gn_c)):
+            self.encoder_opt.zero_grad(set_to_none=True)
+            self.critic_opt.zero_grad(set_to_none=True)
+            self.skipped_updates += 1
+            return {
+                "critic_loss": float(critic_loss.item()),
+                "skipped": float(self.skipped_updates),
+            }
         self.encoder_opt.step()
         self.critic_opt.step()
 
@@ -205,14 +311,21 @@ class DrQV2Agent:
         sampled = torch.clamp(mean + noise, -1.0, 1.0)
         aq1, aq2 = self.critic(feat_detached, proprio, privileged, sampled)
         actor_loss = -torch.min(aq1, aq2).mean()
-        if not torch.isfinite(actor_loss):
+        actor_applied = False
+        if torch.isfinite(actor_loss):
+            self.actor_opt.zero_grad(set_to_none=True)
+            actor_loss.backward()
+            gn_a = torch.nn.utils.clip_grad_norm_(self.actor.parameters(), cfg.grad_clip_norm)
+            if torch.isfinite(gn_a):
+                self.actor_opt.step()
+                actor_applied = True
+            else:
+                self.actor_opt.zero_grad(set_to_none=True)
+        if not actor_applied:
             self.skipped_updates += 1
-            return {"actor_loss": float("nan"), "skipped": float(self.skipped_updates)}
-        self.actor_opt.zero_grad(set_to_none=True)
-        actor_loss.backward()
-        torch.nn.utils.clip_grad_norm_(self.actor.parameters(), cfg.grad_clip_norm)
-        self.actor_opt.step()
 
+        # target EMA + schedule advance ALWAYS run: the critic already stepped,
+        # so a skipped actor step must never leave a half-applied update (audit).
         with torch.no_grad():
             for p, tp in zip(self.critic.parameters(), self.critic_target.parameters()):
                 tp.data.lerp_(p.data, cfg.critic_tau)
@@ -220,18 +333,390 @@ class DrQV2Agent:
         self.train_steps += 1
         return {
             "critic_loss": float(critic_loss.item()),
-            "actor_loss": float(actor_loss.item()),
+            "actor_loss": float(actor_loss.item()) if torch.isfinite(actor_loss) else float("nan"),
             "q1": float(q1.mean().item()),
             "stddev": float(self.stddev()),
+            "skipped": float(self.skipped_updates),
         }
+
+    # -- prefix-takeover suffix update -------------------------------------
+    def update_suffix(self, batch, anchor_obs, anchor_proprio, anchor_action,
+                      alpha: float, freeze_encoder: bool = True,
+                      actor_mask=None, critic_mask=None, actor_update: bool = True,
+                      elite_behavior_batch=None,
+                      elite_behavior_weight: float = 0.0,
+                      anchor_weight: float = 1.0,
+                      intake_during_return: bool = False) -> dict[str, float]:
+        """One prefix-takeover suffix gradient step (candidate learns cycle 2 only).
+
+        OPT-IN; the audited ``update()`` above is untouched.  Differs from it in
+        exactly the three spec-mandated ways:
+
+          * ENCODER FROZEN.  The champion's visual features are preserved: when
+            ``freeze_encoder`` the suffix obs are encoded under ``no_grad`` so the
+            critic loss cannot move the encoder, and the encoder optimizer never
+            steps.  (Actor already trains on detached features, as in DrQ-v2.)
+          * ACTOR anchored with correctly-normalized TD3+BC on the DETERMINISTIC
+            policy action (the normalization bug once had this reversed):
+                lambda_q   = alpha / mean(|Q(s, pi(s))|).detach()
+                actor_loss = -lambda_q * Q(s, pi(s)).mean()
+                             + anchor_weight * MSE(pi(s_a), a_a)
+            The RL term is thus scaled to ~alpha while the champion-action anchor
+            term is O(1). ``actor_mask`` optionally selects the replay rows used
+            by the actor-Q term. ``critic_mask`` independently restricts critic
+            fitting (V9 uses only non-FIRST rows); when omitted, the critic uses
+            the full batch.  An explicitly empty critic mask is a safe no-op.
+          * The anchor minibatch (champion lossless frames + champion mean actions)
+            is UNAUGMENTED and never enters the critic -- it only pins the actor.
+
+        Critic / EMA target / every NaN guard match ``update()`` so a diverged
+        suffix batch can never poison the immutable champion.
+        """
+        cfg = self.cfg
+        if not np.isfinite(anchor_weight) or float(anchor_weight) < 0.0:
+            raise ValueError("anchor_weight must be finite and non-negative")
+        dev = self.device
+        obs = random_shift(torch.as_tensor(batch.obs, device=dev).float())
+        next_obs = random_shift(torch.as_tensor(batch.next_obs, device=dev).float())
+        proprio = torch.as_tensor(batch.proprio, device=dev)
+        next_proprio = torch.as_tensor(batch.next_proprio, device=dev)
+        privileged = torch.as_tensor(batch.privileged, device=dev)
+        next_privileged = torch.as_tensor(batch.next_privileged, device=dev)
+        action = torch.as_tensor(batch.action, device=dev)
+        reward = torch.as_tensor(batch.reward, device=dev).unsqueeze(-1)
+        discount = torch.as_tensor(batch.discount, device=dev).unsqueeze(-1)
+
+        batch_rows = int(proprio.shape[0])
+        if actor_mask is None:
+            actor_rows_mask = torch.ones(batch_rows, dtype=torch.bool, device=dev)
+        else:
+            actor_rows_mask = torch.as_tensor(
+                actor_mask, device=dev, dtype=torch.bool
+            ).reshape(-1)
+            if int(actor_rows_mask.numel()) != batch_rows:
+                raise ValueError(
+                    f"actor_mask has {actor_rows_mask.numel()} rows; batch has {batch_rows}"
+                )
+        critic_mask_supplied = critic_mask is not None
+        if critic_mask is None:
+            critic_rows_mask = torch.ones(
+                batch_rows, dtype=torch.bool, device=dev
+            )
+        else:
+            critic_rows_mask = torch.as_tensor(
+                critic_mask, device=dev, dtype=torch.bool
+            ).reshape(-1)
+            if int(critic_rows_mask.numel()) != batch_rows:
+                raise ValueError(
+                    f"critic_mask has {critic_rows_mask.numel()} rows; batch has {batch_rows}"
+                )
+        selected_actor_rows = int(actor_rows_mask.sum().item())
+        actor_rows = selected_actor_rows if bool(actor_update) else 0
+        critic_rows = int(critic_rows_mask.sum().item())
+        if critic_mask_supplied and critic_rows == 0:
+            return {
+                "critic_loss": 0.0,
+                "actor_rows": 0.0,
+                "critic_rows": 0.0,
+                "no_critic_rows": 1.0,
+                "skipped": float(self.skipped_updates),
+            }
+
+        # ---- critic (identical TD to update(); encoder frozen => no_grad feat) ----
+        if freeze_encoder:
+            with torch.no_grad():
+                feat = self.encoder(obs)
+        else:
+            feat = self.encoder(obs)
+        with torch.no_grad():
+            next_feat = self.encoder(next_obs)
+            next_mean = self.actor(next_feat, next_proprio)
+            noise = torch.clamp(torch.randn_like(next_mean) * self.stddev(),
+                                -cfg.stddev_clip, cfg.stddev_clip)
+            next_action = torch.clamp(next_mean + noise, -1.0, 1.0)
+            next_action = _stagec_v2_executed_action_policy_torch(
+                next_action,
+                next_proprio,
+                intake_during_return=intake_during_return,
+            )
+            tq1, tq2 = self.critic_target(next_feat, next_proprio, next_privileged, next_action)
+            target_q = reward + discount * torch.min(tq1, tq2)
+        q1, q2 = self.critic(feat, proprio, privileged, action)
+        # R3: train the critic ONLY on the explicitly selected (non-FIRST/suffix)
+        # rows when a mask is supplied. FIRST-phase rows carry the frozen
+        # prefix's large cycle-1 reward
+        # and their n-step target queries actor(next_feat) at FIRST next-states the
+        # actor is never trained on -> off-distribution bootstrap that pulls the shared
+        # critic upward. Episodes are ordered FIRST->suffix, so a non-FIRST row's
+        # n-step next-state is never FIRST; masking is therefore safe.
+        critic_loss = (
+            F.mse_loss(q1[critic_rows_mask], target_q[critic_rows_mask])
+            + F.mse_loss(q2[critic_rows_mask], target_q[critic_rows_mask])
+        )
+        if not torch.isfinite(critic_loss):
+            self.skipped_updates += 1
+            return {
+                "critic_loss": float("nan"),
+                "actor_rows": float(actor_rows),
+                "critic_rows": float(critic_rows),
+                "skipped": float(self.skipped_updates),
+            }
+        if not freeze_encoder:
+            self.encoder_opt.zero_grad(set_to_none=True)
+        self.critic_opt.zero_grad(set_to_none=True)
+        critic_loss.backward()
+        gn_c = torch.nn.utils.clip_grad_norm_(self.critic.parameters(), cfg.grad_clip_norm)
+        gn_e = None
+        if not freeze_encoder:
+            gn_e = torch.nn.utils.clip_grad_norm_(self.encoder.parameters(), cfg.grad_clip_norm)
+        if not torch.isfinite(gn_c) or (gn_e is not None and not torch.isfinite(gn_e)):
+            self.critic_opt.zero_grad(set_to_none=True)
+            if not freeze_encoder:
+                self.encoder_opt.zero_grad(set_to_none=True)
+            self.skipped_updates += 1
+            return {
+                "critic_loss": float(critic_loss.item()),
+                "actor_rows": float(actor_rows),
+                "critic_rows": float(critic_rows),
+                "skipped": float(self.skipped_updates),
+            }
+        self.critic_opt.step()
+        if not freeze_encoder:            # frozen: champion encoder never moves
+            self.encoder_opt.step()
+
+        # ---- actor: TD3+BC anchor on detached features ----
+        actor_metrics: dict[str, float] = {
+            "actor_rows": float(actor_rows),
+            "critic_rows": float(critic_rows),
+        }
+        if actor_rows:
+            feat_det = feat.detach()[actor_rows_mask]
+            actor_proprio = proprio[actor_rows_mask]
+            actor_privileged = privileged[actor_rows_mask]
+            pi_s = self.actor(feat_det, actor_proprio)             # deterministic policy action
+            # Target-policy smoothing on the actor-Q action, matching the proven base
+            # update() (drqv2.py:222-228). Optimizing Q of the BARE deterministic
+            # action lets the actor exploit critic error at the exact deployed point:
+            # the critic is only trained on noisy (exploration) actions, so its value
+            # at the un-sampled deterministic action is unreliable, the actor climbs
+            # that unreliable ridge, and the deterministic policy rots while noisy
+            # exploration still completes cycles (the observed mirage + monotonic
+            # deterministic decline). Evaluating Q over a small noise ball around pi_s
+            # keeps the optimized quantity on the distribution the critic actually saw.
+            pi_noise = torch.clamp(
+                torch.randn_like(pi_s) * self.stddev(), -cfg.stddev_clip, cfg.stddev_clip
+            )
+            pi_sampled = torch.clamp(pi_s + pi_noise, -1.0, 1.0)
+            pi_sampled = _stagec_v2_executed_action_policy_torch(
+                pi_sampled,
+                actor_proprio,
+                intake_during_return=intake_during_return,
+            )
+            q1_pi, q2_pi = self.critic(
+                feat_det, actor_proprio, actor_privileged, pi_sampled
+            )
+            q_pi = torch.min(q1_pi, q2_pi)
+            lam = alpha / q_pi.abs().mean().detach().clamp_min(1e-6)
+            # champion anchor: lossless, UNAUGMENTED, encoder frozen (no_grad feat)
+            a_obs = torch.as_tensor(anchor_obs, device=dev)
+            a_pro = torch.as_tensor(anchor_proprio, device=dev, dtype=torch.float32)
+            a_act = torch.as_tensor(anchor_action, device=dev, dtype=torch.float32)
+            with torch.no_grad():
+                a_feat = self.encoder(a_obs)
+            pi_a = self.actor(a_feat, a_pro)
+            bc = F.mse_loss(pi_a, a_act)
+            elite_bc = torch.zeros((), device=dev)
+            elite_rows = 0
+            if elite_behavior_batch is not None and float(elite_behavior_weight) > 0.0:
+                elite_obs = torch.as_tensor(elite_behavior_batch.obs, device=dev)
+                elite_proprio = torch.as_tensor(
+                    elite_behavior_batch.proprio, device=dev, dtype=torch.float32
+                )
+                elite_action = torch.as_tensor(
+                    elite_behavior_batch.action, device=dev, dtype=torch.float32
+                )
+                with torch.no_grad():
+                    elite_feat = self.encoder(elite_obs)
+                elite_pi = self.actor(elite_feat, elite_proprio)
+                elite_pi = _stagec_v2_executed_action_policy_torch(
+                    elite_pi,
+                    elite_proprio,
+                    intake_during_return=intake_during_return,
+                )
+                elite_bc = F.mse_loss(elite_pi, elite_action)
+                elite_rows = int(elite_proprio.shape[0])
+            actor_loss = (
+                -lam * q_pi.mean()
+                + float(anchor_weight) * bc
+                + float(elite_behavior_weight) * elite_bc
+            )
+            actor_applied = False
+            if torch.isfinite(actor_loss):
+                self.actor_opt.zero_grad(set_to_none=True)
+                actor_loss.backward()
+                gn_a = torch.nn.utils.clip_grad_norm_(self.actor.parameters(), cfg.grad_clip_norm)
+                if torch.isfinite(gn_a):
+                    self.actor_opt.step()
+                    actor_applied = True
+                else:
+                    self.actor_opt.zero_grad(set_to_none=True)
+            if not actor_applied:
+                self.skipped_updates += 1
+            actor_metrics.update({
+                "actor_loss": (
+                    float(actor_loss.item()) if torch.isfinite(actor_loss) else float("nan")
+                ),
+                "bc_anchor": float(bc.item()),
+                "anchor_weight": float(anchor_weight),
+                "elite_behavior_bc": float(elite_bc.item()),
+                "elite_behavior_rows": float(elite_rows),
+                "elite_behavior_weight": float(elite_behavior_weight),
+                "lambda_q": float(lam.item()),
+                "q_pi": float(q_pi.mean().item()),
+            })
+
+        with torch.no_grad():             # EMA target ALWAYS advances (critic already stepped)
+            for p, tp in zip(self.critic.parameters(), self.critic_target.parameters()):
+                tp.data.lerp_(p.data, cfg.critic_tau)
+        self.train_steps += 1
+        return {
+            "critic_loss": float(critic_loss.item()),
+            "alpha": float(alpha),
+            "skipped": float(self.skipped_updates),
+            **actor_metrics,
+        }
+
+    # -- reward-first warm-start fine-tune --------------------------------
+    def update_finetune(self, batch, anchor_obs, anchor_proprio, anchor_action,
+                        beta: float, critic_only: bool) -> dict[str, float]:
+        """One reward-first fine-tune step. OPT-IN; the audited ``update()`` is untouched.
+
+        Two phases (the learner picks ``critic_only`` by update count):
+          * ``critic_only=True`` (phase 1, updates 0..N): freeze ACTOR **and** ENCODER —
+            the standard critic step trains the encoder (``encoder_opt.step()``) and
+            ``act()`` shares it, so a naive actor-only skip would drift the deterministic
+            policy un-anchored (design note). Encode under ``no_grad`` and never step the
+            encoder; fit the critic head + EMA on FIXED champion features. The policy is
+            bit-identical to the champion -> a phase-1 snapshot must give drive-L2 p50 == 0.
+          * ``critic_only=False`` (phase 2): standard DrQ-v2 critic (encoder learns from
+            the critic) PLUS an END-TO-END champion BC anchor ``beta*MSE(pi(enc(f_a)),
+            a_champ)`` whose gradient flows through actor AND encoder (a second encoder
+            step from the anchor); ``beta`` is annealed 0.3 -> 0 by the learner.
+        Every update() NaN guard is reproduced so a diverged batch can't poison weights.
+        """
+        cfg = self.cfg
+        dev = self.device
+        obs = random_shift(torch.as_tensor(batch.obs, device=dev).float())
+        next_obs = random_shift(torch.as_tensor(batch.next_obs, device=dev).float())
+        proprio = torch.as_tensor(batch.proprio, device=dev)
+        next_proprio = torch.as_tensor(batch.next_proprio, device=dev)
+        privileged = torch.as_tensor(batch.privileged, device=dev)
+        next_privileged = torch.as_tensor(batch.next_privileged, device=dev)
+        action = torch.as_tensor(batch.action, device=dev)
+        reward = torch.as_tensor(batch.reward, device=dev).unsqueeze(-1)
+        discount = torch.as_tensor(batch.discount, device=dev).unsqueeze(-1)
+
+        # ---- critic (encoder FROZEN iff critic_only) ----
+        if critic_only:
+            with torch.no_grad():
+                feat = self.encoder(obs)
+        else:
+            feat = self.encoder(obs)
+        with torch.no_grad():
+            next_feat = self.encoder(next_obs)
+            next_mean = self.actor(next_feat, next_proprio)
+            noise = torch.clamp(torch.randn_like(next_mean) * self.stddev(),
+                                -cfg.stddev_clip, cfg.stddev_clip)
+            next_action = torch.clamp(next_mean + noise, -1.0, 1.0)
+            tq1, tq2 = self.critic_target(next_feat, next_proprio, next_privileged, next_action)
+            target_q = reward + discount * torch.min(tq1, tq2)
+        q1, q2 = self.critic(feat, proprio, privileged, action)
+        critic_loss = F.mse_loss(q1, target_q) + F.mse_loss(q2, target_q)
+        if not torch.isfinite(critic_loss):
+            self.skipped_updates += 1
+            return {"critic_loss": float("nan"), "skipped": float(self.skipped_updates)}
+        self.critic_opt.zero_grad(set_to_none=True)
+        if not critic_only:
+            self.encoder_opt.zero_grad(set_to_none=True)
+        critic_loss.backward()
+        gn_c = torch.nn.utils.clip_grad_norm_(self.critic.parameters(), cfg.grad_clip_norm)
+        gn_e = torch.nn.utils.clip_grad_norm_(self.encoder.parameters(), cfg.grad_clip_norm) \
+            if not critic_only else None
+        if not (torch.isfinite(gn_c) and (gn_e is None or torch.isfinite(gn_e))):
+            self.critic_opt.zero_grad(set_to_none=True)
+            if not critic_only:
+                self.encoder_opt.zero_grad(set_to_none=True)
+            self.skipped_updates += 1
+            return {"critic_loss": float(critic_loss.item()), "skipped": float(self.skipped_updates)}
+        self.critic_opt.step()
+        if not critic_only:
+            self.encoder_opt.step()          # encoder adapts to the new reward, via the critic
+
+        metrics = {"critic_loss": float(critic_loss.item()), "q1": float(q1.mean().item()),
+                   "stddev": float(self.stddev()), "critic_only": float(critic_only),
+                   "beta": float(beta)}
+
+        # ---- actor + end-to-end champion anchor (phase 2 only) ----
+        if not critic_only:
+            feat_det = feat.detach()
+            aq1, aq2 = self.critic(feat_det, proprio, privileged, self.actor(feat_det, proprio))
+            actor_q_loss = -torch.min(aq1, aq2).mean()
+            a_obs = torch.as_tensor(anchor_obs, device=dev)
+            a_pro = torch.as_tensor(anchor_proprio, device=dev, dtype=torch.float32)
+            a_act = torch.as_tensor(anchor_action, device=dev, dtype=torch.float32)
+            a_feat = self.encoder(a_obs)     # WITH grad -> anchor pins actor AND encoder
+            bc = F.mse_loss(self.actor(a_feat, a_pro), a_act)
+            actor_loss = actor_q_loss + float(beta) * bc
+            actor_applied = False
+            if torch.isfinite(actor_loss):
+                self.actor_opt.zero_grad(set_to_none=True)
+                self.encoder_opt.zero_grad(set_to_none=True)   # 2nd encoder grad: the anchor only
+                actor_loss.backward()                          # q term uses detached feat -> actor only
+                gn_a = torch.nn.utils.clip_grad_norm_(self.actor.parameters(), cfg.grad_clip_norm)
+                gn_ea = torch.nn.utils.clip_grad_norm_(self.encoder.parameters(), cfg.grad_clip_norm)
+                if torch.isfinite(gn_a) and torch.isfinite(gn_ea):
+                    self.actor_opt.step()
+                    self.encoder_opt.step()    # encoder pulled toward champion on anchor states
+                    actor_applied = True
+                else:
+                    self.actor_opt.zero_grad(set_to_none=True)
+                    self.encoder_opt.zero_grad(set_to_none=True)
+            if not actor_applied:
+                self.skipped_updates += 1
+            metrics.update({
+                "actor_loss": float(actor_loss.item()) if torch.isfinite(actor_loss) else float("nan"),
+                "bc_anchor": float(bc.item()), "actor_q_loss": float(actor_q_loss.item()),
+            })
+
+        with torch.no_grad():                 # EMA target + schedule always advance
+            for p, tp in zip(self.critic.parameters(), self.critic_target.parameters()):
+                tp.data.lerp_(p.data, cfg.critic_tau)
+        self.train_steps += 1
+        metrics["skipped"] = float(self.skipped_updates)
+        return metrics
 
     # -- persistence ---------------------------------------------------------
     def weights_finite(self) -> bool:
-        return all(
-            bool(torch.isfinite(p).all())
-            for module in (self.encoder, self.actor, self.critic)
-            for p in module.parameters()
-        )
+        # Every persisted tensor must be finite. save() writes the live modules,
+        # the EMA target critic (updated in-place by lerp_ every step, even on
+        # steps where the optimizer step was skipped for a non-finite grad), and
+        # the three Adam optimizer states -- so all of them are checked here, not
+        # just encoder/actor/critic. A poisoned target critic or momentum buffer
+        # would otherwise pass this gate and be saved/published (audit).
+        for module in (self.encoder, self.actor, self.critic, self.critic_target):
+            for p in module.parameters():
+                if not bool(torch.isfinite(p).all()):
+                    return False
+        for optimizer in (self.encoder_opt, self.actor_opt, self.critic_opt):
+            for state in optimizer.state.values():
+                for v in state.values():
+                    # Adam state holds exp_avg/exp_avg_sq (float tensors) and a
+                    # `step` counter (int or 0-dim tensor); only finiteness-check
+                    # floating-point tensors so the int step never false-rejects.
+                    if torch.is_tensor(v) and v.is_floating_point():
+                        if not bool(torch.isfinite(v).all()):
+                            return False
+        return True
 
     def save(self, path: str) -> None:
         torch.save(
@@ -245,6 +730,10 @@ class DrQV2Agent:
                 "critic_opt": self.critic_opt.state_dict(),
                 "train_steps": self.train_steps,
                 "skipped_updates": self.skipped_updates,
+                # persist the exploration-schedule anchor so a resume (or a
+                # crash-restart) cannot silently re-warm stddev back to stddev_start
+                # - the confirmed Stage-C champion-degradation cause.
+                "explore_offset": self.explore_offset,
             },
             path,
         )
@@ -266,3 +755,6 @@ class DrQV2Agent:
                 optimizer.load_state_dict(payload[name])
         self.train_steps = int(payload.get("train_steps", 0))
         self.skipped_updates = int(payload.get("skipped_updates", 0))
+        # older checkpoints predate explore_offset -> default 0 (schedule anchored
+        # at the start, i.e. stddev follows train_steps directly).
+        self.explore_offset = int(payload.get("explore_offset", 0))

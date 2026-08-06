@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import random
 import sys
 from collections import defaultdict
@@ -105,6 +106,10 @@ class HubRouter:
         # "FUEL scored in an inactive HUB will not earn any points").
         self.active = {"red": True, "blue": True}
         self.scored = {"red": 0, "blue": 0}
+        # Per-ball score telemetry for custody-weighted reward:
+        # (alliance, ball_index) appended each time a ball is credited. Behavior-neutral —
+        # the env consumes/clears it; nothing here changes scoring, physics, or the GUI.
+        self.score_events: list[tuple[str, int]] = []
         # Funnel-entry gate: a FUEL is only capturable after it plausibly
         # entered through the TOP funnel (seen high over the hub footprint or
         # inside the core sensor box), never by being bulldozed underneath the
@@ -208,6 +213,7 @@ class HubRouter:
                     self.detected += 1
                     if self._score_eligible(alliance, elapsed_s):
                         self.scored[alliance] += 1
+                        self.score_events.append((alliance, int(index)))
                     holding = np.asarray([[9.0 + index * 0.002, 0.0, -2.0]], dtype=np.float32)
                     indices = np.asarray([index], dtype=np.int32)
                     self.view.set_world_poses(positions=holding, indices=indices)
@@ -904,15 +910,536 @@ class SceneBuilder:
         return self.stats
 
 
+def _stage_d_mod():
+    """Lazy import of the Stage-D clock helpers (no Isaac dependency)."""
+    from frc_rebuilt.rl import stage_d
+
+    return stage_d
+
+
+class _RLPolicyDriver:
+    """Drive the Competition Robot from a trained DrQ-v2 checkpoint inside the
+    NORMAL interactive GUI.  ACTIVE ONLY when main() is launched with --policy;
+    every line of this class and its call sites in main() is gated behind that
+    flag, so the manual-teleop experience is byte-for-byte unchanged without it.
+
+    Reproduces the vec_env observation + control pipeline VERBATIM (prototyped
+    and validated in scripts/rl/play_full_gui.py) so the policy receives
+    byte-identical inputs to training:
+      * observation = 3-camera 640x360 RGB rig -> stride-4 (N,9,90,160) uint8
+        (to_policy_frames) + the 22-D proprio vector (vec_env._observe);
+      * action = the frozen 7-D contract decoded by decode_policy_actions and
+        applied through the same drive + shooter-FSM block as vec_env.step.
+    """
+
+    def __init__(self, checkpoint, episode_len_s, mask_illegal_fire,
+                 dump_on_press, start_extended, prefix_checkpoint=None,
+                 stage_d_first_inactive=None):
+        # STAGE-D COMPOSITE: with a prefix checkpoint the driver runs the same
+        # split the trainer does -- frozen Stage-C prefix in the protected FIRST
+        # cycle, trainable 30-D suffix afterwards -- using the trainer's own
+        # cycle_v2 FSM, policy_v2 composition, and the real Stage-D hub clock.
+        self.prefix_checkpoint = str(prefix_checkpoint) if prefix_checkpoint else None
+        self.stage_d_first_inactive = stage_d_first_inactive
+        self.prefix_agent = None
+        self.cycle = None
+        self._sd_dumping = False
+        self._sd_dump_mode = "score"
+        self._sd_dump_ticks = 0
+        self._sd_last_phase = None
+        self._sd_dumps = 0
+        self.checkpoint = str(checkpoint)
+        self.episode_len_s = float(episode_len_s)
+        self.mask_illegal_fire = bool(mask_illegal_fire)
+        self.dump_on_press = bool(dump_on_press)
+        self.start_extended = bool(start_extended)
+        # A locked-extended (Stage-B) policy keeps the posture it started in and
+        # never drives the storage bit; a trench/storage (Stage-C) policy owns it.
+        self.lock_storage_extended = bool(start_extended)
+        self.agent = None
+        self.spec = None
+        self._decode = None
+        self.cameras: dict[str, Any] = {}
+        self.camera_order: tuple[str, ...] = ()
+        self.resolution = (640, 360)
+        self.ready = False
+        self.calls = 0            # counts step() invocations (30 Hz control rate)
+        self.black_calls = 0      # consecutive not-ready frames
+        self.warned_black = False
+        self.cached_action = np.zeros((1, 7), np.float32)
+        self.prev_action = np.zeros(7, np.float32)
+
+    # -- one-time attach (after the scene's sim.reset(), like vec_env) --------
+    def attach(self, controller) -> None:
+        """Attach the 3 readback RGB camera annotators to the robot's existing
+        camera prims and load the checkpoint.  Called ONCE from main()."""
+        from isaacsim.sensors.camera import Camera
+        from frc_rebuilt.competition_robot import (
+            CAMERA_BASELINE_NAMES,
+            CAMERA_PRIM_PATHS,
+            CAMERA_RESOLUTION,
+        )
+        from frc_rebuilt.rl.drqv2 import DrQConfig, DrQV2Agent
+        from frc_rebuilt.rl.spec import CompetitionRLSpec, decode_policy_actions
+
+        self.spec = CompetitionRLSpec()
+        self.spec.validate()
+        self._decode = decode_policy_actions
+        self.camera_order = tuple(CAMERA_BASELINE_NAMES)  # (intake, shooter, navigation)
+        self.resolution = CAMERA_RESOLUTION
+        # isaac_scene builds a SINGLE robot at ROBOT_ROOT_PATH, so CAMERA_PRIM_PATHS
+        # are the exact prim paths of its cameras (no env_i prefix, unlike vec_env).
+        for name in self.camera_order:
+            cam = Camera(prim_path=CAMERA_PRIM_PATHS[name], resolution=CAMERA_RESOLUTION)
+            cam.initialize()
+            self.cameras[name] = cam
+        # Fixed baseline obs shapes (3 cams x 3 ch = 9, 360/4 x 640/4, proprio 22,
+        # privileged 26): deriving from constants is safe because isaac_scene uses
+        # the identical baseline rig the policy trained on.
+        self.agent = DrQV2Agent(
+            DrQConfig(
+                frame_channels=3 * len(self.camera_order),
+                frame_h=CAMERA_RESOLUTION[1] // 4,
+                frame_w=CAMERA_RESOLUTION[0] // 4,
+                proprio_dim=30 if self.prefix_checkpoint else 22,
+                privileged_dim=26,
+            )
+        )
+        self.agent.load(self.checkpoint)
+        if self.prefix_checkpoint:
+            from frc_rebuilt.rl.cycle_v2 import CycleV2Config, CycleV2State
+
+            self.prefix_agent = DrQV2Agent(
+                DrQConfig(
+                    frame_channels=3 * len(self.camera_order),
+                    frame_h=CAMERA_RESOLUTION[1] // 4,
+                    frame_w=CAMERA_RESOLUTION[0] // 4,
+                    proprio_dim=22,
+                    privileged_dim=26,
+                )
+            )
+            self.prefix_agent.load(self.prefix_checkpoint)
+            self.cycle = CycleV2State(
+                config=CycleV2Config(target_load=15, chamber_capacity=60)
+            )
+            self.cycle.reset(
+                initial_magazine_ids=tuple(int(i) for i in controller.magazine)
+            )
+            print(
+                f"STAGE_D_COMPOSITE prefix={self.prefix_checkpoint} "
+                f"steps={self.prefix_agent.train_steps} "
+                f"first_inactive={self.stage_d_first_inactive} "
+                f"episode={self.episode_len_s}s",
+                flush=True,
+            )
+        print(
+            f"POLICY_READY {self.checkpoint} steps={self.agent.train_steps} "
+            f"device={self.agent.device} cams={self.camera_order} "
+            f"mask_fire={self.mask_illegal_fire} dump={self.dump_on_press} "
+            f"start_extended={self.start_extended}",
+            flush=True,
+        )
+        # Stage-B locked-extended policies train starting EXTENDED, but the GUI
+        # otherwise starts the robot COMPACT; snap once so the policy sees the
+        # posture it expects.  Trench/storage policies leave this off.
+        if self.start_extended:
+            controller.snap_storage_state(True)
+
+    # -- obs helpers (verbatim from scripts/rl/play_full_gui.py) --------------
+    @staticmethod
+    def _to_policy_frames(rgb: np.ndarray) -> np.ndarray:
+        """(N, C_cam, 360, 640, 3) uint8 -> (N, 9, 90, 160) uint8 (4x downsample);
+        byte-identical to train_drqv2.to_policy_frames."""
+        small = rgb[:, :, ::4, ::4, :]
+        n, cams, h, w, c = small.shape
+        return small.transpose(0, 1, 4, 2, 3).reshape(n, cams * c, h, w).copy()
+
+    def _read_frames(self) -> tuple[np.ndarray, float]:
+        """Stack the 3 cameras into (1, 3, 360, 640, 3) uint8 in training order
+        and return (frames, min per-camera colour std) -- the readiness signal,
+        same >1.0 threshold vec_env uses to gate its first observation."""
+        tiles = []
+        min_std = np.inf
+        for name in self.camera_order:
+            rgba = np.asarray(self.cameras[name].get_rgba())
+            if rgba.size and rgba.ndim == 3:
+                rgb = rgba[..., :3].astype(np.uint8)
+                min_std = min(min_std, float(rgb.std()))
+            else:
+                rgb = np.zeros((self.resolution[1], self.resolution[0], 3), np.uint8)
+                min_std = 0.0
+            tiles.append(rgb)
+        frames = np.stack(tiles, axis=0)[None, ...]  # (1, 3, 360, 640, 3)
+        return frames, (0.0 if not np.isfinite(min_std) else min_std)
+
+    def _build_proprio(self, controller, now_s: float) -> np.ndarray:
+        """Reconstruct the 22-D non-privileged proprio EXACTLY as vec_env._observe,
+        from controller state.  Noise is omitted (deterministic eval) and blue
+        score is 0.0 (the HubRouter that owns it is a main() local, unreachable
+        from the controller -- a documented, minor fidelity gap)."""
+        position, _quat = controller.chassis_pose()
+        yaw = controller.chassis_yaw()
+        linear, yaw_rate = controller.chassis_velocity()
+        mag = len(controller.magazine)
+        state = controller.state_machine.state.value
+        ep_len = max(1.0, self.episode_len_s)
+        proprio = np.concatenate(
+            [
+                np.asarray(
+                    [
+                        position[0] / 8.0,
+                        position[1] / 8.0,
+                        math.sin(yaw),
+                        math.cos(yaw),
+                        float(linear[0]) / 4.0,
+                        float(linear[1]) / 4.0,
+                        float(yaw_rate) / 6.0,
+                        float(now_s) / ep_len,
+                        mag / 8.0,
+                        1.0 if controller.intake_on else 0.0,
+                        controller.storage_position,
+                        1.0 if state in ("READY", "FEEDING") else 0.0,
+                        (
+                            # STAGE-D: real blue-hub eligibility (blackouts);
+                            # otherwise the constant the prefix trained on.
+                            _stage_d_mod().blue_hub_obs(
+                                float(now_s), self.stage_d_first_inactive
+                            )
+                            if self.prefix_checkpoint
+                            else 1.0
+                        ),
+                        float(controller.shots_fired) / 20.0,
+                        0.0,  # blue score / 20 -- unreachable (see docstring)
+                    ],
+                    np.float32,
+                ),
+                self.prev_action.astype(np.float32),
+            ]
+        )
+        if self.cycle is not None:
+            remaining = 1.0 - min(1.0, float(now_s) / ep_len)
+            phase = np.asarray(
+                self.cycle.feature_vector(controller.magazine, time_remaining=remaining),
+                np.float32,
+            )
+            proprio = np.concatenate([proprio, phase])
+        return proprio[None, :]
+
+    def _advance_cycle(self, controller, now_s, started, completed, mode) -> None:
+        """Advance the trainer's cycle FSM one control tick from controller state.
+        Score events are unreachable here (HubRouter is a main() local) and are
+        not needed: every PHASE transition is driven by dump start/completion,
+        chamber contents, and field region."""
+        sd = _stage_d_mod()
+        ep_len = max(1.0, self.episode_len_s)
+        remaining = 1.0 - min(1.0, float(now_s) / ep_len)
+        position, _q = controller.chassis_pose()
+        self.cycle.update(
+            magazine_ids=tuple(int(i) for i in controller.magazine),
+            score_event_ids=(),
+            position=(float(position[0]), float(position[1])),
+            score=0,
+            done=False,
+            time_remaining=remaining,
+            score_dump_started=bool(started and mode == "score"),
+            score_dump_completed=bool(completed and mode == "score"),
+            owncourt_score_ready=False,
+            hub_live=bool(
+                sd.blue_hub_eligible(float(now_s), self.stage_d_first_inactive)
+            ),
+        )
+
+    # -- per-control-frame step (replaces controller.update in policy mode) ---
+    def step(self, controller, fuel_view, now_s: float) -> dict[str, Any]:
+        """Read cameras -> build obs -> act (10 Hz, cached between) -> apply the
+        drive + shooter-FSM control block -> delegate to controller.update.
+        Returns the same status dict controller.update returns (for the HUD)."""
+        self.calls += 1
+        frames, min_std = self._read_frames()
+        # Gate on real camera content before acting (same >1.0 std as vec_env).
+        # With the --policy render fix (sim.step(render=True)) the annotators warm
+        # within a few frames; until then the robot idles (never acts on black).
+        if not self.ready:
+            if min_std > 1.0:
+                self.ready = True
+                print(f"POLICY_CAMERAS_READY call={self.calls} std={min_std:.1f}", flush=True)
+            else:
+                self.black_calls += 1
+                if self.black_calls > 300 and not self.warned_black:
+                    self.warned_black = True
+                    print(
+                        "POLICY_CAMERAS_BLACK: RGB annotators still black after "
+                        f"{self.black_calls} frames (render fix not taking effect?) "
+                        "-- policy idling",
+                        flush=True,
+                    )
+                return controller.update(
+                    fuel_view, now_s=now_s, alliance="blue",
+                    hub_active=True, allow_drive=True, fire_mode="score",
+                )
+        # 10 Hz policy: main() calls this at 30 Hz, so recompute every 3rd call
+        # and reuse the cached action in between (the vec_env action-repeat).
+        if self.calls % 3 == 1:
+            pf = self._to_policy_frames(frames)
+            proprio = self._build_proprio(controller, now_s)
+            if self.prefix_agent is not None:
+                from frc_rebuilt.rl.policy_v2 import (
+                    LEGACY_PROPRIO_DIM,
+                    apply_executed_action_policy,
+                    compose_phase_actions,
+                )
+
+                sd = _stage_d_mod()
+                prefix_view = sd.pin_prefix_view(
+                    proprio,
+                    episode_len_s=float(self.episode_len_s),
+                    legacy_dim=int(LEGACY_PROPRIO_DIM),
+                )
+                prefix_a = self.prefix_agent.act(
+                    pf, prefix_view, explore=False
+                ).astype(np.float32)
+                suffix_a = self.agent.act(pf, proprio, explore=False).astype(np.float32)
+                composed = compose_phase_actions(prefix_a, suffix_a, proprio)
+                self.cached_action = apply_executed_action_policy(
+                    composed, proprio, intake_during_return=False, stage_d_ferry=True
+                ).astype(np.float32)
+                phase = self.cycle.phase.value
+                if phase != self._sd_last_phase:
+                    self._sd_last_phase = phase
+                    live = sd.blue_hub_eligible(
+                        float(now_s), self.stage_d_first_inactive
+                    )
+                    print(
+                        f"[t={now_s:6.1f}] phase={phase:<12s} "
+                        f"mag={len(controller.magazine):2d} "
+                        f"hub={'LIVE' if live else 'dark'} dumps={self._sd_dumps}",
+                        flush=True,
+                    )
+            else:
+                self.cached_action = self.agent.act(
+                    pf, proprio, explore=False
+                ).astype(np.float32)
+            self.prev_action[:] = np.clip(self.cached_action[0], -1.0, 1.0)
+        decoded = self._decode(self.cached_action, self.spec)
+
+        # ---- control block: mirrors vec_env.step's inner loop VERBATIM --------
+        controller.intake_on = bool(decoded.intake_on[0])
+        if not self.lock_storage_extended:
+            controller.set_storage_extended(bool(decoded.storage_extended[0]))
+        sm = controller.state_machine
+        sm.set_continuous(False)
+        # Illegal fire is ALWAYS a no-op that keeps the chassis driving (unconditional
+        # now; mirrors vec_env.step). A press only "counts" when a legal shot exists
+        # this tick, so pressing fire outside the alliance zone never freezes the robot.
+        has_ammo = bool(controller.magazine)
+        aim_ok = has_ammo and bool(
+            controller.solve_auto_aim("blue").get("valid", False)
+        )
+        ferry_valid = has_ammo and bool(
+            controller.solve_ferry("blue").get("valid", False)
+        )
+        shoot_ok = bool(decoded.shoot_blue[0]) and aim_ok
+        ferry_ok = bool(decoded.ferry[0]) and ferry_valid
+        fire = shoot_ok or ferry_ok
+        legal_shot_exists = aim_ok or ferry_valid
+        fire_mode = "ferry" if (ferry_ok and not shoot_ok) else "score"
+        driver = decoded.driver[0]
+        if self.dump_on_press:
+            _sd_started = _sd_completed = False
+            if not getattr(self, "_dumping", False) and fire:
+                self._dumping = True
+                self._dump_mode = fire_mode
+                self._dump_ticks = 0
+                _sd_started = True
+            if getattr(self, "_dumping", False):
+                self._dump_ticks = getattr(self, "_dump_ticks", 0) + 1
+                if not controller.magazine:
+                    _sd_completed = True
+                    if self._dump_mode == "score":
+                        self._sd_dumps += 1
+                # release the dump lock the moment the chamber empties, no legal
+                # shot exists (drifted/tilted/lost aim), or it runs past the cap --
+                # a stuck dump can never deadlock the chassis with balls left (audit).
+                if (not controller.magazine or not legal_shot_exists
+                        or self._dump_ticks > 90):
+                    self._dumping = False
+            firing = bool(getattr(self, "_dumping", False))
+            if firing:
+                fire_mode = self._dump_mode
+            sm.set_continuous(firing)
+            sm.set_emergency_stop(False)
+            sm.auto_align = firing
+            moving = (not firing) and bool(np.any(np.abs(driver) > 0.03))
+            if self.cycle is not None:
+                self._advance_cycle(
+                    controller, now_s, _sd_started, _sd_completed,
+                    getattr(self, "_dump_mode", "score"),
+                )
+        else:
+            if fire:
+                sm.request_single()
+            sm.set_emergency_stop(False)
+            sm.auto_align = fire
+            moving = bool(np.any(np.abs(driver) > 0.03)) and not fire
+        if moving:
+            controller.drive(float(driver[0]), float(driver[2]), strafe=float(driver[1]))
+        # allow_drive=not moving so update()'s idle/auto-align branch does not
+        # stomp the policy's drive (vec_env.py:739-746).
+        return controller.update(
+            fuel_view, now_s=now_s, alliance="blue",
+            hub_active=True, allow_drive=not moving, fire_mode=fire_mode,
+        )
+
+
+def _parse_gui_intake_substeps(value: str) -> int:
+    """Validate the local full-match GUI's opt-in intake speedup."""
+    substeps = int(value)
+    if not 1 <= substeps <= 3:
+        raise argparse.ArgumentTypeError("must be between 1 and 3")
+    return substeps
+
+
+def _parse_gui_camera_views(value: str) -> int:
+    views = int(value)
+    if not 0 <= views <= 3:
+        raise argparse.ArgumentTypeError("must be between 0 and 3")
+    return views
+
+
+def _parse_gui_render_hz(value: str) -> int:
+    render_hz = int(value)
+    if render_hz not in (15, 20, 30, 60):
+        raise argparse.ArgumentTypeError("must be one of 15, 20, 30, or 60")
+    return render_hz
+
+
+def _sleep_until_realtime(
+    deadline_s: float,
+    *,
+    now_fn: Any,
+    sleep_fn: Any,
+) -> None:
+    """Sleep to an absolute wall-clock deadline without accumulating drift."""
+    remaining = float(deadline_s) - float(now_fn())
+    if remaining <= 0.0:
+        return
+    if remaining > 0.0015:
+        sleep_fn(remaining - 0.00075)
+    while float(now_fn()) < float(deadline_s):
+        sleep_fn(0)
+
+
+def _step_gui_intake(
+    controller: Any,
+    fuel_view: Any,
+    hub_pending: set[int],
+    *,
+    dt_s: float,
+    substeps: int,
+) -> int:
+    """Advance the existing intake more often without changing training physics.
+
+    This helper is used only by the monolithic local full-match GUI.  Each
+    substep retains the controller's normal three-lane, clearance, jamming, and
+    60-ball pressure guards; it simply lets a captured ball traverse more than
+    one conveyor waypoint during a 30 Hz GUI control tick.
+    """
+    if not 1 <= int(substeps) <= 3:
+        raise ValueError("GUI intake substeps must be between 1 and 3")
+    return sum(
+        int(controller.step_intake(fuel_view, hub_pending, dt_s=dt_s))
+        for _ in range(int(substeps))
+    )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the pristine-FRC REBUILT Isaac scene")
     parser.add_argument("--headless", action="store_true")
     parser.add_argument("--frames", type=int, default=0, help="0 keeps the interactive viewer open")
     parser.add_argument("--max-fuel", type=int, default=456, help="dynamic field FUEL bodies (full field = 456)")
+    parser.add_argument(
+        "--gui-intake-substeps",
+        type=_parse_gui_intake_substeps,
+        default=1,
+        metavar="N",
+        help="local full-match GUI only: advance the unchanged intake N times "
+        "per 30 Hz control tick (1 = training-physics parity, 2 = recommended "
+        "faster intake, maximum 3)",
+    )
+    parser.add_argument(
+        "--gui-camera-views",
+        type=_parse_gui_camera_views,
+        default=3,
+        metavar="N",
+        help="number of onboard camera windows (default 3: intake, shooter, "
+        "and navigation)",
+    )
+    parser.add_argument(
+        "--gui-render-hz",
+        type=_parse_gui_render_hz,
+        default=60,
+        metavar="HZ",
+        help="GUI display target: 15, 20, 30, or 60 FPS; physics always "
+        "remains fixed at 60 Hz (default 60)",
+    )
+    parser.add_argument(
+        "--no-realtime",
+        action="store_true",
+        help="disable wall-clock pacing and adaptive render-frame dropping",
+    )
+    parser.add_argument("--render-width", type=int, default=1600)
+    parser.add_argument("--render-height", type=int, default=900)
     parser.add_argument("--debug-colliders", action="store_true")
     parser.add_argument("--no-panels", action="store_true", help="legacy fallback option")
     parser.add_argument("--no-turret", action="store_true", help="legacy fallback option")
     parser.add_argument("--no-autopilot", action="store_true", help="leave Competition Robot stationary for manual inspection")
+    # ---- RL policy playback (all no-ops unless --policy is given; the normal
+    # manual GUI is 100% unchanged when --policy is omitted) ----
+    parser.add_argument(
+        "--policy",
+        type=Path,
+        default=None,
+        help="drive the robot with a trained DrQ-v2 checkpoint instead of manual "
+        "teleop (still opens the normal interactive GUI); omit for the unchanged sim",
+    )
+    parser.add_argument(
+        "--policy-prefix",
+        type=Path,
+        default=None,
+        help="STAGE-D composite: frozen Stage-C prefix checkpoint (22-D). When "
+        "given, --policy is treated as the 30-D Stage-D suffix and the trainer's "
+        "cycle FSM + phase split + real hub blackout clock are used",
+    )
+    parser.add_argument(
+        "--stage-d-first-inactive",
+        default="blue",
+        choices=("blue", "red"),
+        help="which alliance's hub goes inactive first (composite mode only)",
+    )
+    parser.add_argument(
+        "--mask-illegal-fire",
+        action="store_true",
+        help="policy only: a fire press is a no-op unless a legal HUB shot / ferry "
+        "exists this tick (matches Stage-B masked training)",
+    )
+    parser.add_argument(
+        "--dump-on-press",
+        action="store_true",
+        help="policy only: one fire press empties the whole magazine (only for "
+        "models trained with that mechanic)",
+    )
+    parser.add_argument(
+        "--start-extended",
+        action="store_true",
+        help="policy only: snap storage EXTENDED at start and keep it locked "
+        "(Stage-B locked-extended policies; the GUI otherwise starts compact)",
+    )
+    parser.add_argument(
+        "--policy-episode-len-s",
+        type=float,
+        default=90.0,
+        help="policy only: normalises the proprio match-clock feature",
+    )
     parser.add_argument(
         "--hub-demo",
         action="store_true",
@@ -937,7 +1464,12 @@ def main() -> None:
     from isaacsim import SimulationApp
 
     app = SimulationApp(
-        {"headless": args.headless, "width": 1600, "height": 900, "multi_gpu": False}
+        {
+            "headless": args.headless,
+            "width": args.render_width,
+            "height": args.render_height,
+            "multi_gpu": False,
+        }
     )
     print("FRC_REBUILT_APP_READY", app.is_running(), flush=True)
     # Fabric keeps all 456 moving FUEL transforms on the fast scene delegate.
@@ -954,6 +1486,10 @@ def main() -> None:
             _fab.set_bool("/physics/updateToUsd", False)
             _fab.set_bool("/physics/updateVelocitiesToUsd", False)
             _fab.set_bool("/physics/fabricUpdateTransformations", True)
+            # Prefer crisp DLSS output for the interactive high-quality preset.
+            # The renderer may still drop display frames to protect the exact
+            # 60 Hz wall-clock physics contract.
+            _fab.set_int("/rtx/post/dlss/execMode", 2)  # Quality
             print("FRC_REBUILT_FABRIC on (GPU camera viewports)", flush=True)
         except Exception as _fab_err:  # noqa: BLE001
             print("FRC_REBUILT_FABRIC_FAILED", repr(_fab_err), flush=True)
@@ -1037,7 +1573,7 @@ def main() -> None:
         gui_camera_viewports: dict[str, Any] = {}
         # Live inspection viewports are deliberately smaller than the policy
         # observations. Training still receives full 640x360 frames.
-        GUI_CAMERA_RENDER = (320, 180)
+        GUI_CAMERA_RENDER = (480, 270)
         if not args.headless:
             import omni.ui as ui
 
@@ -1131,6 +1667,11 @@ def main() -> None:
                     )
                     ui.Spacer(height=6)
                     status_labels["robot"] = ui.Label("Robot COMPACT | intake OFF | hopper 8")
+                    status_labels["performance"] = ui.Label(
+                        f"REALTIME LOCK {'OFF' if args.no_realtime else 'ON'} | "
+                        f"render target {args.gui_render_hz} FPS | "
+                        f"camera views {args.gui_camera_views}"
+                    )
                     status_labels["aim"] = ui.Label("Auto aim idle - hold SPACE to aim & shoot")
                     ui.Spacer(height=6)
                     ui.Label("CONTROLS", style={"color": ACCENT, "font_size": 16})
@@ -1166,6 +1707,10 @@ def main() -> None:
         sim.reset()
         fuel_view.initialize()
         controller = None
+        policy = None  # _RLPolicyDriver, set below only when --policy is given
+        # Feed the onboard RGB annotators (full Kit update) for an EXTERNAL
+        # driver that monkeypatches controller.update instead of using --policy.
+        _feed_cameras = os.environ.get("FRC_FEED_CAMERAS") == "1"
         if articulated:
             from isaacsim.core.prims import SingleArticulation
             from frc_rebuilt.competition_robot import (
@@ -1179,6 +1724,12 @@ def main() -> None:
             robot.initialize()
             controller = CompetitionRobotController(alliance_lock="blue")
             controller.initialize(robot)
+            print(
+                f"FRC_REBUILT_GUI_INTAKE substeps={args.gui_intake_substeps} "
+                f"effective_rate={30 * args.gui_intake_substeps}Hz "
+                "(server training remains 30Hz)",
+                flush=True,
+            )
             # G303 STARTING CONFIGURATION: begin compact (mechanisms stowed
             # inside the frame) with the intake off; deploy after the start.
             controller.snap_storage_state(False)
@@ -1188,6 +1739,20 @@ def main() -> None:
                 count=FRC_PRELOAD_COUNT,
                 indices=getattr(builder, "preload_fuel_indices", None),
             )
+            if args.policy is not None:
+                # RL playback: attach the readback camera annotators + load the
+                # checkpoint ONCE, now that the scene + controller exist (the same
+                # point vec_env builds its cameras -- after sim.reset()).
+                policy = _RLPolicyDriver(
+                    args.policy,
+                    args.policy_episode_len_s,
+                    args.mask_illegal_fire,
+                    args.dump_on_press,
+                    args.start_extended,
+                    prefix_checkpoint=args.policy_prefix,
+                    stage_d_first_inactive=args.stage_d_first_inactive,
+                )
+                policy.attach(controller)
         else:
             robot_view.initialize()
         # Separate GPU-backed viewport windows avoid Replicator's host readback
@@ -1214,7 +1779,9 @@ def main() -> None:
                 except Exception:
                     pass
 
-            for _index, _cam_name in enumerate(_CAM_NAMES):
+            for _index, _cam_name in enumerate(
+                _CAM_NAMES[: args.gui_camera_views]
+            ):
                 try:
                     _title = f"Viewport {_cam_name.title()}"
                     _x = 440 + _index * (GUI_CAMERA_RENDER[0] + 12)
@@ -1323,6 +1890,17 @@ def main() -> None:
         _perf_wall0 = _time.perf_counter()
         _perf_sim0 = sim.current_time
         _perf = {"step": 0.0, "render": 0.0, "control": 0.0}
+        _render_interval = max(1, round(60 / args.gui_render_hz))
+        _rendered_frames = 0
+        _skipped_render_frames = 0
+        _realtime = not args.no_realtime
+        print(
+            f"FRC_REBUILT_REALTIME enabled={_realtime} physics_hz=60 "
+            f"render_target_hz={args.gui_render_hz} "
+            f"camera_views={args.gui_camera_views} "
+            f"resolution={args.render_width}x{args.render_height}",
+            flush=True,
+        )
         while app.is_running() and (args.frames <= 0 or frame < args.frames):
             if not args.no_autopilot and not articulated and frame % 2 == 0:
                 # legacy single-rigid-body fallback (--compound-robot)
@@ -1344,24 +1922,59 @@ def main() -> None:
             # Always advance physics by exactly one dt and refresh the viewport with
             # sim.render(), which steps zero physics.
             _t = _time.perf_counter()
-            sim.step(render=False)
+            # KEY POLICY FIX: the onboard RGB camera annotators are fed ONLY by a
+            # full-Kit update (render=True); the manual GUI's bare sim.render()
+            # (below) leaves them black (vec_env.py:461).  The PhysX scene is 60 Hz
+            # (CreateTimeStepsPerSecondAttr(60)) == rendering_dt=1/60, so render=True
+            # still advances EXACTLY one 1/60 physics step -- no clock skew here.
+            # Gated on --policy; the manual sim keeps its untouched render path.
+            # FRC_FEED_CAMERAS=1 takes the same full-Kit-update path without
+            # --policy, for external drivers that patch controller.update and
+            # need the onboard RGB annotators fed (scripts/rl/play_stage_d_gui.py).
+            sim.step(render=(policy is not None or _feed_cameras))
             _perf["step"] += _time.perf_counter() - _t
-            if not args.headless and frame % 2 == 0:
-                _t = _time.perf_counter()
-                sim.render()
-                _perf["render"] += _time.perf_counter() - _t
+            if (
+                policy is None
+                and not _feed_cameras
+                and not args.headless
+                and frame % _render_interval == 0
+            ):
+                # Drop only display frames when RTX rendering falls behind.
+                # Physics and controls still execute at every fixed 60 Hz step.
+                _wall_elapsed = _time.perf_counter() - _perf_wall0
+                _sim_elapsed = sim.current_time - _perf_sim0
+                _behind_s = _wall_elapsed - _sim_elapsed
+                if not _realtime or _behind_s <= (1.0 / 60.0):
+                    _t = _time.perf_counter()
+                    sim.render()
+                    _perf["render"] += _time.perf_counter() - _t
+                    _rendered_frames += 1
+                else:
+                    _skipped_render_frames += 1
             frame += 1
             if frame % 120 == 0:  # PERF report
                 _wall = _time.perf_counter() - _perf_wall0
                 _rtf = (sim.current_time - _perf_sim0) / _wall if _wall > 0 else 0.0
+                _display_fps = _rendered_frames / _wall if _wall > 0 else 0.0
                 print(
                     f"PERF rtf={_rtf:.2f} iters/s={frame/_wall:.0f} "
+                    f"display_fps={_display_fps:.1f} "
+                    f"dropped={_skipped_render_frames} "
                     f"step={_perf['step']/_wall*100:.0f}% render={_perf['render']/_wall*100:.0f}% "
                     f"control={_perf['control']/_wall*100:.0f}%",
                     flush=True,
                 )
+                if status_labels:
+                    status_labels["performance"].text = (
+                        f"REALTIME {_rtf:.2f}x | display {_display_fps:.1f} FPS | "
+                        f"camera views {args.gui_camera_views}"
+                    )
             if frame % 2 == 0:
-                elapsed_sim = sim.current_time - match_ref["t0"]
+                # Clamp to >= 0: reset_match() sets t0 from a UI-thread read of
+                # sim.current_time that can be a hair ahead of this loop's read,
+                # yielding a tiny negative that phase_at() rejects (same guard the
+                # status-label path already uses ~110 lines below).
+                elapsed_sim = max(0.0, sim.current_time - match_ref["t0"])
                 # ---- REBUILT match flow (2026 manual): AUTO (both active) ->
                 # TRANSITION (both active) -> SHIFT 1..4 alternating -> ENDGAME
                 # (both active).  At AUTO end the higher AUTO scorer goes
@@ -1401,19 +2014,29 @@ def main() -> None:
                 if articulated and not args.no_autopilot:
                     position, _ = controller.chassis_pose()
                     max_robot_height = max(max_robot_height, float(position[2]))
-                    controller.intake_on = bool(controls["intake"])
-                    controller.set_storage_extended(bool(controls["storage_extended"]))
+                    if policy is None:
+                        # manual mode only; in policy mode the policy owns intake/storage
+                        controller.intake_on = bool(controls["intake"])
+                        controller.set_storage_extended(bool(controls["storage_extended"]))
                     controller.step_mechanisms(dt_s=2.0 / 60.0)
-                    controller.step_intake(fuel_view, set(router.pending), dt_s=2.0 / 60.0)
+                    _step_gui_intake(
+                        controller,
+                        fuel_view,
+                        set(router.pending),
+                        dt_s=2.0 / 60.0,
+                        substeps=args.gui_intake_substeps,
+                    )
                     # No scripted AUTO routine: the sim never drives or shoots
                     # by itself, but manual controls retain normal permissions.
                     auto_phase = (not sandbox) and elapsed_sim < AUTO_DURATION_S
                     sm = controller.state_machine
-                    sm.set_continuous(False)
-                    fire_request = bool(controls["hold"] or controls["ferry"])
-                    sm.press_hold() if fire_request else sm.release_hold()
-                    sm.set_emergency_stop(False)
-                    sm.auto_align = fire_request
+                    if policy is None:
+                        # manual mode only; in policy mode the policy owns the shooter FSM
+                        sm.set_continuous(False)
+                        fire_request = bool(controls["hold"] or controls["ferry"])
+                        sm.press_hold() if fire_request else sm.release_hold()
+                        sm.set_emergency_stop(False)
+                        sm.auto_align = fire_request
                     # ---- match-aware target selection (always automatic) ----
                     if controls["auto_target"] and frame % 250 == 0:
                         pos, _ = controller.chassis_pose()
@@ -1431,25 +2054,31 @@ def main() -> None:
                             if picked is not None:
                                 controls["hub"] = picked
                     hub_active = True if sandbox else match_state.hub_active(str(controls["hub"]))
-                    # Human teleop overrides autopilot driving; the shooter FSM
-                    # still auto-aims/fires (its speed gate holds fire until you
-                    # stop), so you drive anywhere and it scores when in range.
-                    manual = manual_drive_command()
-                    if manual is not None:
-                        controller.drive(manual[0], manual[2], strafe=manual[1])
                     _tc = _time.perf_counter()
-                    last_status = controller.update(
-                        fuel_view,
-                        now_s=elapsed_sim,
-                        alliance=str(controls["hub"]),
-                        hub_active=hub_active,
-                        allow_drive=(manual is None),
-                        fire_mode=(
-                            "ferry"
-                            if controls["ferry"] and not controls["hold"]
-                            else "score"
-                        ),
-                    )
+                    if policy is not None:
+                        # POLICY MODE: read cameras -> build obs -> act (10 Hz) ->
+                        # apply drive/shooter -> delegate to controller.update.
+                        # Bypasses manual teleop entirely.
+                        last_status = policy.step(controller, fuel_view, elapsed_sim)
+                    else:
+                        # Human teleop overrides autopilot driving; the shooter FSM
+                        # still auto-aims/fires (its speed gate holds fire until you
+                        # stop), so you drive anywhere and it scores when in range.
+                        manual = manual_drive_command()
+                        if manual is not None:
+                            controller.drive(manual[0], manual[2], strafe=manual[1])
+                        last_status = controller.update(
+                            fuel_view,
+                            now_s=elapsed_sim,
+                            alliance=str(controls["hub"]),
+                            hub_active=hub_active,
+                            allow_drive=(manual is None),
+                            fire_mode=(
+                                "ferry"
+                                if controls["ferry"] and not controls["hold"]
+                                else "score"
+                            ),
+                        )
                     _perf["control"] += _time.perf_counter() - _tc
             if not args.headless and frame == 30:
                 declutter_isaac_ui()  # catch panels that appear after startup
@@ -1519,6 +2148,7 @@ def main() -> None:
                     mode = "EXTENDED" if controls["storage_extended"] else "COMPACT"
                     status_labels["robot"].text = (
                         f"Robot {mode} | intake {'ON' if controls['intake'] else 'OFF'} | "
+                        f"intake rate {args.gui_intake_substeps}x | "
                         f"hopper {len(controller.magazine)} | fired {controller.shots_fired} | "
                         f"target {str(controls['hub']).upper()}"
                     )
@@ -1549,6 +2179,16 @@ def main() -> None:
                         status_labels["aim"].text = (
                             "Idle - SPACE: aim & shoot | F: ferry to our zone"
                         )
+            if _realtime:
+                # Absolute deadlines prevent per-frame sleep jitter from
+                # accumulating into a slow match clock.  When computation is
+                # late there is no sleep; adaptive rendering above lets the
+                # fixed-step simulation catch up to wall time.
+                _sleep_until_realtime(
+                    _perf_wall0 + (sim.current_time - _perf_sim0),
+                    now_fn=_time.perf_counter,
+                    sleep_fn=_time.sleep,
+                )
         fuel_end, _ = fuel_view.get_world_poses()
         if articulated:
             robot_end = controller.chassis_pose()[0][None, :]

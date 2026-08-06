@@ -20,6 +20,10 @@ assets/rl/
 *.mp4
 artifacts/
 
+# Curated documentation media
+!docs/images/
+!docs/images/rebuilt-isaac-sim.jpg
+
 # Compiled launcher (rebuilt from tools/LaunchSimulator.cs)
 *.exe
 
@@ -31,6 +35,25 @@ checkpoints/
 runs/**/checkpoints/
 logs/
 wandb/
+
+# Local experiment output and machine-specific recovery material
+runs/**
+server_backup_*/
+setup_render_env.sh.frombackup
+*.bak
+*.bak_*
+*.frombackup
+~$*
+
+# Private working notes, dated experiment records, and local tool state
+docs/*_BRIEF_*.md
+docs/*_SPEC.md
+docs/STAGE*.md
+*_review/
+/.??*
+!/.gitignore
+!/.github/
+!/.github/**
 
 # OS / editor
 Thumbs.db

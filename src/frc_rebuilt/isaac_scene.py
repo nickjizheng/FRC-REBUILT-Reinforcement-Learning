@@ -8,6 +8,7 @@ import os
 import random
 import sys
 from collections import defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -1389,6 +1390,13 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--render-width", type=int, default=1600)
     parser.add_argument("--render-height", type=int, default=900)
+    parser.add_argument(
+        "--gui-camera-state-out",
+        type=Path,
+        default=PROJECT_ROOT / "runs" / "gui_camera_pose.json",
+        help="interactive GUI only: press P to atomically save the exact main "
+        "viewport camera pose and lens state (default: %(default)s)",
+    )
     parser.add_argument("--debug-colliders", action="store_true")
     parser.add_argument("--no-panels", action="store_true", help="legacy fallback option")
     parser.add_argument("--no-turret", action="store_true", help="legacy fallback option")
@@ -1524,6 +1532,7 @@ def main() -> None:
         # selected with click, drag-box, or the viewport context menu.
         viewport_selection_guard = None
         viewport_context_menu_guard = None
+        viewport_api = None
         if not args.headless:
             try:
                 from omni.kit.viewport.utility import (
@@ -1823,6 +1832,86 @@ def main() -> None:
         planner_field = FieldState()
         planner_field.occupancy()
 
+        def _save_main_camera_pose() -> None:
+            """Save the manually adjusted main GUI camera without approximation."""
+            if args.headless:
+                raise RuntimeError("main GUI camera is unavailable in headless mode")
+            if viewport_api is None:
+                raise RuntimeError("main Viewport API is unavailable")
+
+            from omni.kit.viewport.utility.camera_state import ViewportCameraState
+            from pxr import Gf, Usd
+
+            camera_path = "/OmniverseKit_Persp"
+            state = ViewportCameraState(
+                camera_path=camera_path,
+                viewport=viewport_api,
+            )
+            camera = state.usd_camera
+            transform = camera.ComputeLocalToWorldTransform(Usd.TimeCode.Default())
+
+            def _vector(value: Any) -> list[float]:
+                return [float(component) for component in value]
+
+            rotation = transform.ExtractRotationQuat()
+            payload = {
+                "schema": "frc-rebuilt-gui-camera-v1",
+                "saved_at_utc": datetime.now(timezone.utc).isoformat(),
+                "camera_path": camera_path,
+                "eye_xyz": _vector(state.position_world),
+                "target_xyz": _vector(state.target_world),
+                "up_xyz": _vector(
+                    transform.TransformDir(Gf.Vec3d(0.0, 1.0, 0.0)).GetNormalized()
+                ),
+                "forward_xyz": _vector(
+                    transform.TransformDir(Gf.Vec3d(0.0, 0.0, -1.0)).GetNormalized()
+                ),
+                "rotation_quaternion_real_imag": [
+                    float(rotation.GetReal()),
+                    *_vector(rotation.GetImaginary()),
+                ],
+                "world_transform_row_major": [
+                    [float(transform[row][column]) for column in range(4)]
+                    for row in range(4)
+                ],
+                "focal_length_mm": float(camera.GetFocalLengthAttr().Get()),
+                "horizontal_aperture_mm": float(
+                    camera.GetHorizontalApertureAttr().Get()
+                ),
+                "vertical_aperture_mm": float(
+                    camera.GetVerticalApertureAttr().Get()
+                ),
+                "horizontal_aperture_offset_mm": float(
+                    camera.GetHorizontalApertureOffsetAttr().Get()
+                ),
+                "vertical_aperture_offset_mm": float(
+                    camera.GetVerticalApertureOffsetAttr().Get()
+                ),
+                "focus_distance": float(camera.GetFocusDistanceAttr().Get()),
+                "f_stop": float(camera.GetFStopAttr().Get()),
+                "exposure": float(camera.GetExposureAttr().Get()),
+                "clipping_range": _vector(camera.GetClippingRangeAttr().Get()),
+                "projection": str(camera.GetProjectionAttr().Get()),
+                "viewport_resolution": [
+                    int(component) for component in viewport_api.resolution
+                ],
+                "fuel_template_count": int(args.max_fuel),
+            }
+            output = args.gui_camera_state_out.resolve()
+            output.parent.mkdir(parents=True, exist_ok=True)
+            temporary = output.with_suffix(output.suffix + ".tmp")
+            temporary.write_text(
+                json.dumps(payload, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            os.replace(temporary, output)
+            print(
+                "FRC_CAMERA_POSE_SAVED",
+                str(output),
+                json.dumps(payload, separators=(",", ":")),
+                flush=True,
+            )
+
         # ---- manual keyboard teleop: WASD/arrows drive; Space=continuous; E=e-stop ----
         pressed_keys: set[Any] = set()
         kbd_sub = None
@@ -1847,6 +1936,15 @@ def main() -> None:
                             controls["intake"] = not controls["intake"]
                         elif event.input in (keyboard_input.N, keyboard_input.C):
                             toggle_storage()
+                        elif event.input == keyboard_input.P:
+                            try:
+                                _save_main_camera_pose()
+                            except Exception as camera_pose_error:  # noqa: BLE001
+                                print(
+                                    "FRC_CAMERA_POSE_SAVE_FAILED",
+                                    repr(camera_pose_error),
+                                    flush=True,
+                                )
                 elif event.type == carb.input.KeyboardEventType.KEY_RELEASE:
                     pressed_keys.discard(event.input)
                     if event.input == keyboard_input.SPACE:

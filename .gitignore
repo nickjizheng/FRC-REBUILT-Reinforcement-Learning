@@ -26,9 +26,9 @@ artifacts/
 !docs/media/
 !docs/media/README.md
 !docs/media/onboard-policy-rollout.gif
-!docs/media/fsg9-3230-seed1040101-score188-full-match-preview.mp4
-!docs/media/fsg9-3230-seed1040101-score188-preview-poster.png
-!docs/media/fsg9-3230-seed1040101-score188-preview.provenance.json
+!docs/media/f4-interp-3202000-seed9211-score201-full-match-preview.mp4
+!docs/media/f4-interp-3202000-seed9211-score201-poster.png
+!docs/media/score201-public-provenance.json
 
 # Compiled launcher (rebuilt from tools/LaunchSimulator.cs)
 *.exe

@@ -8,14 +8,6 @@
       --a:#2563eb; --a-soft:#e8f0ff; --b:#e25518; --b-soft:#fff0e8;
       --c:#16803f; --c-soft:#e6f6ec; --d:#7540dc; --d-soft:#f0eafe;
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg:#0f172a; --card:#172033; --fg:#f1f5f9; --muted:#b7c0cf;
-        --border:#344157; --connector:#7d899a; --on-accent:#ffffff;
-        --a:#60a5fa; --a-soft:#172b50; --b:#fb923c; --b-soft:#442716;
-        --c:#4ade80; --c-soft:#173b29; --d:#c4b5fd; --d-soft:#302650;
-      }
-    }
     text{font-family:Inter,"Segoe UI",Arial,sans-serif;fill:var(--fg)}
     .bg{fill:var(--bg)} .card{fill:var(--card);stroke:var(--border);stroke-width:1}
     .title{font-size:28px;font-weight:650;letter-spacing:-.25px}

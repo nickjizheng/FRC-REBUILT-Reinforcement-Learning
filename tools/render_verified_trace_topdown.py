@@ -76,12 +76,13 @@ FIELD_WIDTH_M = 8.06958
 # Presentation-only intake view.  The policy's physical intake camera is
 # mounted at z=0.055 m inside the folding CAD assembly; that is a valid policy
 # sensor but the mechanism can occlude nearly the entire public video pane.
-# This additional camera remains a rigid child of the chassis and looks over
-# the actual intake mouth.  It is never used by the policy or simulator.
-PRESENTATION_INTAKE_EYE_LOCAL = (0.35, 0.0, 0.35)
-PRESENTATION_INTAKE_TARGET_LOCAL = (2.35, 0.0, -0.075)
+# Keep this extra camera forward of and above the complete intake envelope so
+# compact/deploy motion cannot pass between the lens and the field.  It remains
+# a rigid child of the chassis and is never used by the policy or simulator.
+PRESENTATION_INTAKE_EYE_LOCAL = (0.58, 0.0, 0.62)
+PRESENTATION_INTAKE_TARGET_LOCAL = (1.30, 0.0, 0.02)
 PRESENTATION_INTAKE_UP_LOCAL = (0.0, 0.0, 1.0)
-PRESENTATION_INTAKE_FOCAL_LENGTH_MM = 12.0
+PRESENTATION_INTAKE_FOCAL_LENGTH_MM = 9.5
 PRESENTATION_INTAKE_RESOLUTION = (640, 360)
 
 

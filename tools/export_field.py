@@ -1,4 +1,4 @@
-"""Export the pristine FRC REBUILT scenes into an Isaac-friendly archive.
+"""Export pristine REBUILT scenes into an Isaac-friendly archive.
 
 The exporter reads the original Unity player data directly.  It preserves the
 rendered triangle geometry, static-batch slices, world-space colliders, rigid

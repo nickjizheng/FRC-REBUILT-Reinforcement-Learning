@@ -24,9 +24,10 @@ calibrated uncertainty, `calibrated` flag, validity + reason.
 `DriveAndShootPlan`: chosen firing pose, collision-free path, arrival
 orientation, braking segment index, the final `ShotPlan`, and a replan policy.
 
-## Direct-shot equations (exact FRC)
+## Direct-shot equations (source-simulator calibration)
 
-The shooter has **one** control parameter `aim ∈ [0,1]` (FRC `DisAim/100`):
+The shooter has **one** control parameter `aim ∈ [0,1]` (the source
+simulator's `DisAim/100`):
 
 - exit speed `v(aim) = 6 + 5·aim` m/s
 - BS Outtake (3) pitch `= 70.355276 − 20·aim` deg
@@ -105,11 +106,12 @@ paths; the current grid A* is the collision-safe baseline.
 Established from the serialized `drive_params` in `robot_spec.json`, not
 assumed:
 
-- `is_FRC = 1`, `use_new_algorithm = 1`
+- simulator-mode flag `= 1`, `use_new_algorithm = 1`
 - `SixWheelMotorScaler = 1.25`, `TankMotorScaler = 1.25`, `turn_priority = 1.0`
 - **no mecanum/omni scaler is present**; six driven wheel links.
 
-Conclusion: legacy is an **FRC six-wheel / tank differential (skid-steer)** drive.
+Conclusion: the legacy source uses a **six-wheel / tank differential
+(skid-steer)** drive.
 It is **not holonomic** — there is no lateral strafe. The live model's
 differential arcade drive (`RobotController.drive`, six velocity-driven
 revolute wheels) matches this, and the baseline PhysX measurements (top speed

@@ -2,7 +2,7 @@
 """Measure the real PhysX scoring envelope for both HUBs (Phase D2/D3).
 
 For each HUB we sweep open-side poses over range x lateral angle, aim with the
-exact FRC solver (no artificial range gate), fire one ball through the full
+source-calibrated solver (no artificial range gate), fire one ball through the full
 field/HUB geometry, and record whether it scored.  The measured min/max
 scoring range then replaces the conservative 2.45-3.05 m gate so the robot
 shoots wherever a shot actually scores.

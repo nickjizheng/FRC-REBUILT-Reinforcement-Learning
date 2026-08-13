@@ -3,8 +3,8 @@
 Clones the exported env template (``assets/rl/env_template.usd``) with
 ``GridCloner`` across N envs on ONE shared GPU PhysicsScene, then measures
 aggregate physics-steps/s, env-steps/s, and policy-transitions/s (action-repeat
-6) plus VRAM.  This is the go/no-go for the >=8 policy-tx/s throughput gate
-(see vectorized environment design).  Physics only for now; tiled cameras next.
+6) plus VRAM. This is the go/no-go for the >=8 policy-tx/s throughput gate.
+Physics only for now; tiled cameras next.
 """
 from __future__ import annotations
 

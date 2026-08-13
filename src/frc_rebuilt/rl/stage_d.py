@@ -9,8 +9,7 @@ RL env merely bypasses it via ``router.sandbox=True`` and by never setting
 pieces that connect ``vec_env`` / the collectors / eval to that model.
 
 Everything here is importable without Isaac; NumPy is only needed by
-``pin_prefix_view``. See ``vectorized environment design`` for the environment
-architecture.
+``pin_prefix_view``.
 """
 
 from __future__ import annotations

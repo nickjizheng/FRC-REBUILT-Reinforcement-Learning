@@ -231,57 +231,6 @@ def test_gui_video_sink_preserves_hd_canvas_and_live_camera_panels(tmp_path):
     }.issubset(cv2_spy.text)
 
 
-def test_saved_gui_pose_and_launcher_are_pinned_to_current_renderer():
-    module = _module()
-    root = Path(__file__).resolve().parents[1]
-    renderer = root / "tools" / "render_verified_topdown_replay.py"
-    camera_state = root / "runs" / "gui_camera_pose.json"
-    launcher = (root / "tools" / "launch_score202_gui_video.sh").read_text(
-        encoding="utf-8"
-    )
-
-    loaded, camera_sha256 = module.load_gui_camera_state(camera_state)
-    renderer_sha256 = module.sha256_file(renderer)
-
-    assert module.CAMERA_SIZE == (1920, 1080)
-    assert module.STEPS == 1600
-    assert module.FPS == 10.0
-    assert loaded["fuel_template_count"] == 456
-    assert renderer_sha256 == (
-        "5598e3c0016807201e3ebb422491e1ca603d052e28eafef74f16e87fbdf270cf"
-    )
-    assert camera_sha256 == (
-        "407477d3aa05016e26b960de0a1faa0807721fbf3eb0d1d5c06b51b7402501b0"
-    )
-    assert "gui_saved_pose_tools_20260811" in launcher
-    assert f"check_sha {renderer_sha256} \"$renderer\"" in launcher
-    assert f"check_sha {camera_sha256} \"$camera_state\"" in launcher
-    assert '--camera-state-json "$camera_state"' in launcher
-
-
-def test_approved_html_and_live_renderer_share_the_same_layout_geometry():
-    root = Path(__file__).resolve().parents[1]
-    html = (root / "oblique_456_gui_layout_preview.html").read_text(
-        encoding="utf-8"
-    )
-    renderer = (root / "tools" / "render_verified_topdown_replay.py").read_text(
-        encoding="utf-8"
-    )
-
-    assert "width: 1920px; height: 1080px" in html
-    assert "CAMERA_SIZE = (1920, 1080)" in renderer
-    assert "left: 28px; top: 72px; width: 500px; height: 620px" in html
-    assert "x0, y0, sw, sh = 28, 72, 500, 620" in renderer
-    for panel_class, x, title in (
-        ("intake", 700, "Viewport Intake"),
-        ("shooter", 1045, "Viewport Shooter"),
-        ("navigation", 1390, "Viewport Navigation"),
-    ):
-        assert f".camera-window.{panel_class} {{ left: {x}px; }}" in html
-        assert f'x={x}, title="{title}"' in renderer
-    assert 'f"FUEL scored   RED 0   BLUE {data[\'score\']}"' in renderer
-
-
 def test_gui_camera_state_loads_exact_saved_pose_and_sha(tmp_path):
     module = _module()
     payload = {

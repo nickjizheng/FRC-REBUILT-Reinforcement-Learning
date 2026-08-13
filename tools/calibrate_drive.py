@@ -2,7 +2,7 @@
 """Empirical drive calibration for the articulated legacy.
 
 Sweeps wheel friction x turn scale x drive torque and measures full-stick
-forward speed and turn-in-place yaw rate, targeting the FRC-measured
+forward speed and turn-in-place yaw rate, targeting the source-simulator
 ~3.5 m/s and ~100 deg/s.  Prints CALIB lines and writes
 runs/drive_calibration.json.
 """

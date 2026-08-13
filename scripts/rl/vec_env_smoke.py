@@ -2,8 +2,7 @@
 
 Runs N envs with random 7-D actions for a fixed number of policy steps,
 verifies observation/reward/done plumbing, saves sample camera frames, and
-reports aggregate policy-transitions/s INCLUDING camera rendering - the number
-that decides the DrQ-v2 collection budget (vectorized environment design).
+reports aggregate policy-transitions/s INCLUDING camera rendering.
 """
 from __future__ import annotations
 

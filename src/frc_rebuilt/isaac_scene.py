@@ -43,7 +43,7 @@ PALETTE = {
     "robot": (0.025, 0.028, 0.034, 1.0),
 }
 
-# Extracted directly from FRC level74.  The source scene has four overlapping
+# Extracted directly from source-simulator level74.  The source scene has four overlapping
 # Lit/Unlit rectangular DMX bars around each HUB's top angles.  Keeping these
 # values here makes the runtime switch materials without approximating either
 # the original mesh or its colors.
@@ -58,7 +58,7 @@ HUB_WHITE_CHASE_HZ = 2.0
 
 
 class HubRouter:
-    """Runtime equivalent of FRC's scorer + four ``bs_out`` accelerators."""
+    """Runtime equivalent of the source scorer + four ``bs_out`` accelerators."""
 
     HUBS = {
         "red": {"sensor_y": 3.269, "exit_y": 3.4706, "direction_y": -1.0},
@@ -281,7 +281,7 @@ class HubRouter:
             ]],
             dtype=np.float32,
         )
-        # The FRC trigger drives local -X at 1 m/s; in field coordinates the
+        # The source trigger drives local -X at 1 m/s; in field coordinates the
         # dominant component points toward the neutral zone.  Real chute contact
         # adds small lateral, speed and drop variation.
         velocity = np.asarray(
@@ -471,7 +471,7 @@ class SceneBuilder:
         *,
         emissive: bool,
     ) -> tuple[Any, Any]:
-        """Create one independently animated FRC DMX-bar material."""
+        """Create one independently animated source-style DMX-bar material."""
 
         UsdShade, Sdf, Gf = self.UsdShade, self.Sdf, self.Gf
         path = f"/World/Looks/{key}"
@@ -506,7 +506,7 @@ class SceneBuilder:
     def build_hub_lights(
         self, triangles: np.ndarray, visuals: list[dict[str, Any]]
     ) -> None:
-        """Author FRC's exact four Lit and four Unlit meshes per HUB."""
+        """Author the source's exact four Lit and four Unlit meshes per HUB."""
 
         total_triangles = 0
         for alliance in ("red", "blue"):
@@ -725,8 +725,8 @@ class SceneBuilder:
         preload_pool.sort(key=lambda pair: -float(pair[1]["center"][0]))
         self.preload_fuel_indices = [index for index, _ in preload_pool[:8]]
         self.stats["fuel_preload_pool"] = len(preload_pool)
-        # FRC level75 contributes 408 field bodies and level76 contributes 48
-        # preload bodies.  Loading eight into this robot moves existing bodies;
+        # Source levels 75 and 76 contribute 408 field and 48 preload bodies.
+        # Loading eight into this robot moves existing bodies;
         # it does not create or delete FUEL.
         self.stats["fuel_total_frc"] = len(self.ball_prims)
         staged_robot_count = min(8, len(self.ball_prims))
@@ -1354,7 +1354,7 @@ def _step_gui_intake(
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run the pristine-FRC REBUILT Isaac scene")
+    parser = argparse.ArgumentParser(description="Run the high-fidelity FRC REBUILT Isaac scene")
     parser.add_argument("--headless", action="store_true")
     parser.add_argument("--frames", type=int, default=0, help="0 keeps the interactive viewer open")
     parser.add_argument("--max-fuel", type=int, default=456, help="dynamic field FUEL bodies (full field = 456)")
@@ -2016,7 +2016,7 @@ def main() -> None:
                 robot_view.set_linear_velocities(velocity_np)
             # step(render=True) runs a full Kit update: with rendering_dt=1/60 and
             # TimeStepsPerSecond=250 it advances FOUR 0.004 s physics steps (16 ms),
-            # not one -- a 1.75x clock skew in GUI mode (timing validation notes BUG 1).
+            # not one, which would create a 1.75x clock skew in GUI mode.
             # Always advance physics by exactly one dt and refresh the viewport with
             # sim.render(), which steps zero physics.
             _t = _time.perf_counter()

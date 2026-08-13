@@ -3,8 +3,7 @@
 Isaac Lab clones env templates from USD; our scene is built procedurally by
 SceneBuilder.  This bridges the two: build once, export to USD, and verify the
 exported layer reloads with the robot articulation, FUEL, colliders, and camera
-rig intact.  The exported asset is the input for the vectorized DirectRLEnv
-(see vectorized environment design).
+rig intact. The exported asset is the input for the vectorized DirectRLEnv.
 """
 from __future__ import annotations
 

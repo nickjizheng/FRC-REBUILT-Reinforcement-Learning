@@ -283,9 +283,12 @@ def main() -> None:
         "SixWheelMotorScaler",
         "turn_priority",
         "rot_inertia_scaler",
-        "is_FRC",
+        # This is the upstream serialized field name; expose it under the
+        # project-facing FRC name below.
+        "is_xRC",
     )
     spec["drive_params"] = {key: rapid.get(key) for key in keep}
+    spec["drive_params"]["is_FRC"] = spec["drive_params"].pop("is_xRC")
     spec["drive_params"]["center_of_mass_unity_local"] = [
         rapid["centerOfMass"]["x"],
         rapid["centerOfMass"]["y"],

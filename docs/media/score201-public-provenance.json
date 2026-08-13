@@ -1,0 +1,46 @@
+{
+  "schema": "frc_rebuilt_public_demo_provenance_v1",
+  "match": {
+    "contract": "Stage D",
+    "duration_s": 160.0,
+    "frames": 1600,
+    "fps": 10.0,
+    "fuel_count": 456,
+    "start_score": 0,
+    "final_score": 201,
+    "collected": 207,
+    "cycles_completed": 5,
+    "terminal_reason": "horizon"
+  },
+  "policy": {
+    "mode": "mean",
+    "checkpoint_sha256": "771018457138638ee0988bcaa7ee97f5b3939f4e82e0e6f11e9b05418497f271",
+    "prefix_checkpoint_sha256": "96dffb4361ee6229005b1d4a286bad875efb11ec312ab00f3eea132d1a0a45cd",
+    "template_sha256": "285da719770c58c2593de6dd98a4bdee03fd4a64c7bfb6ae175b54ad3dfe8104",
+    "trace_sha256": "66638a3d03cdc876426be14e5f2a00bcad581515949b8308a49f6308a14068df"
+  },
+  "publication": {
+    "preview": {
+      "file": "f4-interp-3202000-seed9211-score201-full-match-preview.mp4",
+      "bytes": 8047394,
+      "sha256": "32e7629f529b75a09aa6acb599c42440f56d278604aebc619a6c2edde0c5a27e",
+      "resolution": [1920, 1080],
+      "codec": "H.264"
+    },
+    "poster": {
+      "file": "f4-interp-3202000-seed9211-score201-poster.png",
+      "bytes": 1648820,
+      "sha256": "077ad29a4ccc3f47e2f192c7327efb6853a0f97419bd2dfaee0304ea4bd0bff4"
+    },
+    "github_attachment": "https://github.com/user-attachments/assets/518c0220-82ed-45f1-b8d7-8007a5b0ea4c"
+  },
+  "verification": {
+    "full_decode_passed": true,
+    "audio_streams": 0,
+    "pixel_format": "yuv420p",
+    "native_simulator_pixels": true,
+    "offline_render_used_recorded_world_state": true,
+    "extra_physics_steps_for_capture": 0,
+    "policy_inputs_changed_for_presentation": false
+  }
+}

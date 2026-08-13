@@ -25,7 +25,8 @@ The alliance that scores more FUEL in AUTO has its own HUB inactive in shift
 selects the order. `select_first_inactive_alliance(..., seed=...)` preserves
 that random behavior while making RL episodes reproducible.
 
-HUB lighting uses the four exact Lit/Unlit bar meshes extracted from FRC
+HUB lighting uses the four exact Lit/Unlit bar meshes extracted from the source
+simulator's
 `level74`, at their original positions and colors. During a MATCH, active HUBS
 show their ALLIANCE color at full brightness; the HUB that will rest first gets
 an ALLIANCE-color/white chase during the TRANSITION SHIFT; lights pulse for the
@@ -76,7 +77,7 @@ Source: FIRST, [2026 REBUILT Game Manual](https://firstfrc.blob.core.windows.net
 
 The official rule is that processed FUEL is randomly distributed into the
 neutral zone through one of four HUB exits. FIRST does not publish an internal
-travel-time distribution. For FRC fidelity, this simulator therefore uses the
+travel-time distribution. For source-simulator fidelity, this simulator therefore uses the
 project calibration target of 1.32 seconds mean travel time, bounded to the
 official 3-second processing window. `sample_hub_routing_delay` uses a bounded
 triangular distribution on [0, 3] seconds with mode 0.96 seconds, whose expected

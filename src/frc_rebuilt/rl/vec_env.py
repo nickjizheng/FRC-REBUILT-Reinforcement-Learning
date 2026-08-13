@@ -1,6 +1,6 @@
 """Vectorized full-physics competition environment (Isaac Sim, N cloned fields).
 
-Implements the converged plan in ``design notes`` / ``vectorized environment design``:
+The environment provides:
 
 - N complete fields (robot + FUEL + hub) cloned from the exported USD template
   onto one shared GPU PhysX scene (throughput is FUEL-count-bound; stages A-C
@@ -132,7 +132,7 @@ class VecEnvCfg:
     # env.collect_weight; score weight stays fixed per the converged plan)
     score_reward_weight: float = 10.0
     collect_reward_weight: float = 1.5
-    # Custody-weighted reward (design notes Turn 29-32): a ball's FIRST legal score/collect
+    # Custody-weighted reward: a ball's FIRST legal score/collect
     # earns full weight; re-scoring or re-collecting the SAME ball (the recycling exploit)
     # earns rho x weight. rho_*=1.0 reproduces the original raw-score reward exactly, so
     # existing runs are unaffected unless the trainer sets these below 1.0.

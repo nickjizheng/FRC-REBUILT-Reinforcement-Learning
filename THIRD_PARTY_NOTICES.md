@@ -22,9 +22,9 @@ reviewing the applicable [Isaac Sim license files](https://docs.isaacsim.omniver
 [additional software and materials terms](https://docs.isaacsim.omniverse.nvidia.com/5.0.0/common/license-isaac-sim-additional.html),
 and the [Isaac Lab license](https://github.com/isaac-sim/IsaacLab/blob/main/LICENSE).
 
-## FRC-derived material
+## xRC-derived material
 
-`assets/fresh_frc/**` contains interoperability data extracted from an FRC
+`assets/fresh_frc/**` contains interoperability data extracted from an xRC
 Simulator installation. It is excluded from this project's MIT license. No
 open redistribution grant for that material is asserted here. Verify the
 original owner's terms and obtain any required permission before copying or

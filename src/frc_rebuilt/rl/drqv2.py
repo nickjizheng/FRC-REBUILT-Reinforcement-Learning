@@ -348,7 +348,7 @@ class DrQV2Agent:
             "skipped": float(self.skipped_updates),
         }
 
-    # -- prefix-takeover suffix update (design notes Turn 12 + PREFIX_TAKEOVER_SPEC) --
+    # -- prefix-takeover suffix update ---------------------------------------
     def update_suffix(self, batch, anchor_obs, anchor_proprio, anchor_action,
                       alpha: float, freeze_encoder: bool = True,
                       actor_mask=None, critic_mask=None, actor_update: bool = True,
@@ -664,7 +664,7 @@ class DrQV2Agent:
             **actor_metrics,
         }
 
-    # -- reward-first warm-start fine-tune (design notes Turns 29-32) --------
+    # -- reward-first warm-start fine-tune -----------------------------------
     def update_finetune(self, batch, anchor_obs, anchor_proprio, anchor_action,
                         beta: float, critic_only: bool) -> dict[str, float]:
         """One reward-first fine-tune step. OPT-IN; the audited ``update()`` is untouched.

@@ -22,8 +22,7 @@ reproducibility, honest reporting, and the willingness to repeatedly diagnose
 and improve an interconnected system.
 
 The highest recorded Stage-D full-match rollout scored **218 FUEL** in 160
-seconds. The public video below documents a separate, provenance-verified
-**201-point** match.
+seconds. 
 
 ![FRC REBUILT field and competition robot running in NVIDIA Isaac Sim](docs/images/rebuilt-isaac-sim.jpg)
 

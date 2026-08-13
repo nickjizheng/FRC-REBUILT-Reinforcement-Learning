@@ -189,6 +189,10 @@ Development prerequisites:
 - Isaac Lab
 - Python 3.11 and a CUDA-enabled PyTorch build
 
+For CPU-only development (regression tests and published-statistics
+verification), no Isaac Sim or GPU is needed; see the [Verification](#verification)
+section.
+
 Launch the interactive simulator:
 
 ```powershell
@@ -253,6 +257,15 @@ CPU regression suite:
 ```powershell
 & C:\il\venv\Scripts\python.exe -m pytest -q
 ```
+
+> **CPU-only verification (no Isaac Sim required):** the regression suite runs
+> with Python 3.11 and the test dependencies on standard CPU machines. Optional
+> runtime packages and frozen local artifacts may change the number of skipped
+> tests; the badge at the top of this page reports the current Linux CI result.
+> Full Stage A-D training and evaluation uses NVIDIA Isaac Sim 5.1 and an
+> NVIDIA GPU; this project's simulator workflow does not run on macOS. See
+> [docs/CPU_REPRO.md](docs/CPU_REPRO.md) for details and the published Stage-A
+> evaluation-statistics consistency check.
 
 Isaac Sim validation tools:
 

@@ -162,6 +162,7 @@
     <div class="card tile"><div class="k">Updates</div><div id="tUpd" class="v">—</div><div id="tReplay" class="s">— replay</div></div>
     <div class="card tile"><div id="tRetLabel" class="k">Recent return</div><div id="tRet" class="v">—</div><div id="tRetMax" class="s">max —</div></div>
     <div class="card tile"><div class="k">Episodes</div><div id="tEp" class="v">—</div><div id="tCloss" class="s">critic —</div></div>
+    <div class="card tile"><div class="k">Drive speed</div><div id="tSpd" class="v">—</div><div id="tSpdSub" class="s">ramp —</div></div>
   </section>
 
   <main class="main">
@@ -344,6 +345,11 @@ async function refresh(){
       $('tRetMax').textContent='max '+fmt(l.recent_return_max);
     }
     $('tEp').textContent=fmt(l.episodes,0);
+    var ds=r.drive_speed||null;
+    if(ds){
+      $('tSpd').textContent=fmt(ds.suffix_mps,2)+' m/s';
+      $('tSpdSub').textContent='ramp '+fmt(ds.ramp_pct,1)+'% \u00b7 '+fmt(ds.pct_of_cap,0)+'% of cap '+fmt(ds.cap_mps,2)+' \u00b7 prefix '+fmt(ds.prefix_mps,2);
+    } else { $('tSpd').textContent='\u2014'; $('tSpdSub').textContent='ramp \u2014'; }
     $('tCloss').textContent=v2
       ?`critic ${fmt(l.critic_loss)} · β ${fmt(l.beta,3)} · restarts ${fmt(l.collector_restart_boundaries,0)}`
       :'critic '+fmt(l.critic_loss);

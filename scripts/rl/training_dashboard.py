@@ -732,6 +732,80 @@ def full_episode_history(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return history[-MAX_HISTORY:]
 
 
+# --- drive-speed curriculum (added 2026-07-31) ------------------------------
+MAX_WHEEL_SPEED_MPS = 4.59
+DRIVER_SPEED_RATE = 0.7
+DAMPED_SCALE = 0.70
+SPEED_ENV_FILE = Path("/root/blue2_env.sh")
+
+
+def _speed_env():
+    out = {}
+    try:
+        for line in SPEED_ENV_FILE.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line.startswith("export "):
+                continue
+            body = line[len("export "):]
+            if "=" not in body:
+                continue
+            key, _, value = body.partition("=")
+            out[key.strip()] = value.strip().strip('"').strip("'")
+    except OSError:
+        pass
+    return out
+
+
+def speed_payload(records):
+    """Suffix drive speed + ramp progress at the newest checkpoint step."""
+    env = _speed_env()
+    steps = 0.0
+    for record in reversed(records):
+        value = record.get("policy_train_steps")
+        if value:
+            try:
+                steps = float(value)
+                break
+            except (TypeError, ValueError):
+                continue
+    fixed = env.get("FRC_POLICY_SPEED_SCALE")
+    ramp = env.get("FRC_POLICY_SPEED_RAMP")
+    mode = "damped"
+    progress = 0.0
+    scale = DAMPED_SCALE
+    if fixed:
+        try:
+            scale = float(fixed)
+            mode = "fixed"
+            progress = 1.0 if scale >= 1.0 else 0.0
+        except ValueError:
+            pass
+    elif ramp and "," in ramp:
+        try:
+            a, b = (float(x) for x in ramp.split(",", 1))
+            if b > a:
+                progress = max(0.0, min(1.0, (steps - a) / (b - a)))
+                scale = DAMPED_SCALE + progress * (1.0 - DAMPED_SCALE)
+                mode = "ramp"
+        except ValueError:
+            pass
+    elif env.get("FRC_POLICY_FULL_SPEED") == "1":
+        scale = 1.0
+        mode = "full"
+        progress = 1.0
+    top = MAX_WHEEL_SPEED_MPS * DRIVER_SPEED_RATE
+    return {
+        "mode": mode,
+        "scale": round(scale, 4),
+        "suffix_mps": round(top * scale, 3),
+        "prefix_mps": round(top * DAMPED_SCALE, 3),
+        "cap_mps": round(top, 3),
+        "ramp_pct": round(100.0 * progress, 1),
+        "pct_of_cap": round(100.0 * scale, 1),
+        "train_steps": int(steps),
+    }
+
+
 def run_payload(run: Path, processes: list[TrainingProcess]) -> dict[str, Any]:
     metrics_path = run / "metrics.jsonl"
     metrics = current_run_only(read_jsonl(metrics_path))
@@ -742,6 +816,7 @@ def run_payload(run: Path, processes: list[TrainingProcess]) -> dict[str, Any]:
     stagec_v2 = config.get("stagec_v2")
     is_v2 = isinstance(stagec_v2, dict)
     telemetry = read_jsonl_all(run / "cycle_telemetry.jsonl")
+    speed_info = speed_payload(telemetry)
     full_records = [record for record in telemetry if _mode(record) == "full"]
     if is_v2:
         try:
@@ -901,6 +976,7 @@ def run_payload(run: Path, processes: list[TrainingProcess]) -> dict[str, Any]:
         "section_lanes": section_lanes(telemetry),
         "cycle_funnel": funnel,
         "telemetry_episodes": len(telemetry),
+        "drive_speed": speed_info,
         "summary": summary,
         "config": config,
         "processes": [asdict(process) for process in matches],

@@ -1,6 +1,6 @@
 """Vectorized full-physics competition environment (Isaac Sim, N cloned fields).
 
-Implements the converged plan in ``vectorized environment design``:
+Implements the converged plan in ``design notes`` / ``vectorized environment design``:
 
 - N complete fields (robot + FUEL + hub) cloned from the exported USD template
   onto one shared GPU PhysX scene (throughput is FUEL-count-bound; stages A-C
@@ -23,16 +23,57 @@ This module must be imported only after ``SimulationApp`` is created.
 from __future__ import annotations
 
 import math
-import os
+import os as _os_speed
+
+# Opt-in: drop the keyboard ergonomics damper from the policy drive path
+# (2.25 -> 3.21 m/s).  Off by default: checkpoints trained before
+# 2026-07-31 learned their motion timing under the damped mapping.
+_POLICY_FULL_SPEED = _os_speed.environ.get("FRC_POLICY_FULL_SPEED") == "1"
+_SPEED_RAMP = _os_speed.environ.get("FRC_POLICY_SPEED_RAMP")
+_SPEED_FIXED = _os_speed.environ.get("FRC_POLICY_SPEED_SCALE")
+_DAMPED_SCALE = 0.70  # KEYBOARD_TRANSLATION_SCALE
+_SPEED_PROGRESS = {"steps": 0.0}
+_SPEED_FILE = _os_speed.environ.get("FRC_POLICY_SPEED_FILE")
+_SPEED_FILE_CACHE = {"t": 0.0, "scale": None}
+
+
+def set_policy_train_steps(value) -> None:
+    """Collectors publish the loaded checkpoint step so the curriculum is
+    tied to LEARNING progress, not wall clock -- a respawned collector must
+    not reset the ramp."""
+    _SPEED_PROGRESS["steps"] = float(value)
+
+
+def _policy_speed_scale():
+    """Suffix translation scale: live file, fixed override, ramp, or None."""
+    if _SPEED_FILE:
+        import time as _t
+        now = _t.time()
+        if now - _SPEED_FILE_CACHE["t"] > 5.0:
+            _SPEED_FILE_CACHE["t"] = now
+            try:
+                with open(_SPEED_FILE, "r", encoding="utf-8") as fh:
+                    value = float(fh.read().strip())
+                if 0.3 <= value <= 1.0:
+                    _SPEED_FILE_CACHE["scale"] = value
+            except (OSError, ValueError):
+                pass
+        if _SPEED_FILE_CACHE["scale"] is not None:
+            return _SPEED_FILE_CACHE["scale"]
+    if _SPEED_FIXED:
+        return float(_SPEED_FIXED)
+    if _SPEED_RAMP:
+        a, b = (float(x) for x in _SPEED_RAMP.split(","))
+        if b <= a:
+            return 1.0
+        f = (_SPEED_PROGRESS["steps"] - a) / (b - a)
+        f = max(0.0, min(1.0, f))
+        return _DAMPED_SCALE + f * (1.0 - _DAMPED_SCALE)
+    return None
 from dataclasses import dataclass, field
 from typing import Any
 
 import numpy as np
-
-# Drop the keyboard-ergonomics damper from the POLICY drive path (see
-# CompetitionRobotController.drive).  Opt-in: every checkpoint trained before
-# 2026-07-31 learned its motion timing under the damped mapping.
-_POLICY_FULL_SPEED = os.environ.get("FRC_POLICY_FULL_SPEED") == "1"
 
 from frc_rebuilt.rl.spec import CompetitionRLSpec, decode_policy_actions
 from frc_rebuilt.rl.policy_v2 import RETURN_SKILL_PRELOAD
@@ -91,7 +132,7 @@ class VecEnvCfg:
     # env.collect_weight; score weight stays fixed per the converged plan)
     score_reward_weight: float = 10.0
     collect_reward_weight: float = 1.5
-    # Custody-weighted reward: a ball's FIRST legal score/collect
+    # Custody-weighted reward (design notes Turn 29-32): a ball's FIRST legal score/collect
     # earns full weight; re-scoring or re-collecting the SAME ball (the recycling exploit)
     # earns rho x weight. rho_*=1.0 reproduces the original raw-score reward exactly, so
     # existing runs are unaffected unless the trainer sets these below 1.0.
@@ -346,6 +387,21 @@ class VecEnvCfg:
     # as a ferry while the blue hub was LIVE -- the robot should shoot or
     # reposition, not fling fuel one-way for nothing).  0.0 = OFF (byte-identical).
     stage_d_active_ferry_penalty: float = 0.0
+    # STAGE-D2 (2026-07-26): heavy charge for sitting in RED's OWN court, i.e.
+    # past the red trench/ramp ring.  Blue's home begins at y <= -3.05 (its own
+    # ring sits at y=-3.269); the mirror y >= +3.05 is past red's ring.  The
+    # whole neutral collecting band (-2.50 .. +3.05) is deliberately left free,
+    # so the COLLECT phase is untouched and only over-extension is charged.
+    stage_d_deep_red_penalty: float = 0.0
+    stage_d_deep_red_y: float = 3.05
+    stage_d_deep_red_grace_steps: int = 5
+    stage_d_deep_red_penalty_cap: float = 60.0
+    # STAGE-D2: per-step charge for standing still -- the freeze/camp failure
+    # mode.  Suppressed in SCORE because a dump legitimately stops the chassis.
+    stage_d_idle_penalty: float = 0.0
+    stage_d_idle_speed_mps: float = 0.15
+    stage_d_idle_grace_steps: int = 20
+    stage_d_idle_penalty_cap: float = 40.0
     # STAGE-D1E: return-to-score as soon as target_load is met while the blue
     # hub is LIVE (breaks the collect-and-ferry dwell that idled the back-half
     # active windows A2/A3).  Default OFF (byte-identical).
@@ -400,10 +456,52 @@ class VecEnvCfg:
     # draws 50/50 from (a, b); the (b) start also seeds an entitled own-court
     # stockpile so conversion is practiced from step 0.  The parity decision is
     # pre-made at reset (the t=23 write-once site skips itself).
-    stage_d_bank_clock_a: float = 34.0
-    stage_d_bank_clock_b: float = 84.0
+    stage_d_bank_clock_a: float = 30.0
+    stage_d_bank_clock_b: float = 80.0
     stage_d_bank_span_s: float = 52.0
     stage_d_bank_stockpile: int = 8
+    stage_d_bank_fuel_jitter_m: float = 0.0
+    # Fraction of neutral-zone FUEL relocated into messy edge/corner clumps.
+    stage_d_bank_fuel_scatter: float = 0.0
+    stage_d_bank_fuel_clumps: int = 6
+    # Success gate for the blackout lane: come home with a FULL chamber.
+    stage_d_bank_success_chamber: int = 0
+    # SECTION 1 (user plan 2026-07-26): the opener lane.  A REAL match start
+    # (t=0, normal spawn, protected first cycle) simply cut short -- nothing
+    # about the opening is synthetic, only the horizon changes.  Succeeds on
+    # stage_d_opener_success_cycles complete cycles inside the window.
+    stage_d_opener_span_s: float = 30.0
+    stage_d_opener_success_cycles: int = 2
+    # SECTION 3 (user plan 2026-07-26): the live-window lane.  Starts at a hub
+    # reactivation (55 s / 105 s) HOME + CHAMBERED with the ferried stockpile
+    # already on the floor, so the drill is: dump now -> collect local -> dump
+    # again -> only then go back out for a full cycle.
+    stage_d_live_clock_a: float = 55.0
+    stage_d_live_clock_b: float = 105.0
+    stage_d_live_clock_c: float = 130.0
+    stage_d_live_span_s: float = 40.0
+    stage_d_live_stockpile: int = 16
+    stage_d_live_success_conversions: int = 6
+    # Hypothetical chamber load the live window opens with (section 2 is meant
+    # to deliver this for real once trained; until then it is assumed).
+    stage_d_live_chamber: int = 30
+    # One-shot reward for starting a score dump with a real load while the hub
+    # is live (section 3: makes the press discoverable).
+    stage_d_live_dump_reward: float = 0.0
+    stage_d_live_dump_min_load: int = 8
+    # Per-step time cost inside the opener window (section 1 time pressure).
+    stage_d_opener_time_penalty: float = 0.0
+    # Section 2's objective inside the full match: pay for arriving HOME with a
+    # real load while our hub is dark, scaled by the load actually carried.
+    # Paid at most once per blackout so it cannot be farmed by hovering.
+    stage_d_home_arrival_reward: float = 0.0
+    stage_d_home_arrival_min_load: int = 6
+    # Postdump lane clock starts under stage_d: the two hub reactivations.
+    # Stall-rescue: hand control to the suffix if the frozen prefix has not
+    # finished its first dump by this clock (0 disables).
+    stage_d_prefix_rescue_s: float = 0.0
+    stage_d_postdump_clock_a: float = 57.0
+    stage_d_postdump_clock_b: float = 110.0
     # Bank lane success = this many ENTITLED own-court balls converted to legal
     # score (0 = off, span timer only -- the old behavior that taught ferrying
     # and nothing after it).  Termination/success only; no scripted actions.
@@ -470,6 +568,13 @@ class EnvSlot:
     cycle_v2_outer_rail_active: bool = False
     cycle_v2_outer_rail_streak: int = 0
     cycle_v2_outer_rail_spent: float = 0.0
+    stage_d_deep_red_spent: float = 0.0
+    stage_d_deep_red_streak: int = 0
+    stage_d_idle_spent: float = 0.0
+    stage_d_idle_streak: int = 0
+    stage_d_live_dump_paid: bool = False
+    stage_d_rescued: bool = False
+    stage_d_arrival_paid: bool = False
     dump_started_this_step: bool = False
     dump_completed_this_step: bool = False
     dump_aborted_this_step: bool = False
@@ -719,6 +824,18 @@ class VecCompetitionEnv:
                 raise ValueError(
                     f"invalid stage_d_synthetic_red_auto range: {(lo, hi)!r}"
                 )
+            for _n in (
+                "stage_d_deep_red_penalty",
+                "stage_d_deep_red_penalty_cap",
+                "stage_d_idle_penalty",
+                "stage_d_idle_penalty_cap",
+                "stage_d_idle_speed_mps",
+            ):
+                if float(getattr(cfg, _n)) < 0.0:
+                    raise ValueError(f"{_n} must be >= 0, got {getattr(cfg, _n)!r}")
+            for _n in ("stage_d_deep_red_grace_steps", "stage_d_idle_grace_steps"):
+                if int(getattr(cfg, _n)) < 0:
+                    raise ValueError(f"{_n} must be non-negative")
             if float(cfg.stage_d_ferry_reward) < 0.0:  # STAGE-D1B
                 raise ValueError(
                     "stage_d_ferry_reward must be >= 0, got "
@@ -829,7 +946,7 @@ class VecCompetitionEnv:
         if not cfg.stagec_v2:
             return
         modes = tuple(cfg.cycle_v2_reset_modes) or ("full",)
-        allowed = {"full", "postdump", "collect", "return", "bank"}
+        allowed = {"full", "postdump", "collect", "return", "bank", "opener", "live"}
         if "bank" in set(cfg.cycle_v2_reset_modes or ()):  # stage_d_v1 wave-3
             if not cfg.stage_d:
                 raise ValueError("bank reset mode requires stage_d")
@@ -1361,7 +1478,23 @@ class VecCompetitionEnv:
             and self.rng.random() < cfg.neutral_loaded_prob
         )
         slot.episode_neutral_loaded = neutral_loaded
-        if cfg.stagec_v2 and v2_mode == "return":
+        if cfg.stagec_v2 and v2_mode == "live":
+            hx, hy = -0.0199, -3.6874
+            preloaded = True          # chamber filled below, as `return` does
+            x, y = hx, hy + 2.2       # fallback if rejection sampling fails
+            for _ in range(25):
+                ang = float(self.rng.uniform(-math.pi, math.pi))
+                rad = float(self.rng.uniform(1.8, 4.2))
+                cx = hx + rad * math.cos(ang)
+                cy = hy + rad * math.sin(ang)
+                if cy < -2.95 and abs(cx) < 3.6:   # our court, past the board
+                    x, y = cx, cy
+                    break
+            yaw = math.atan2(hy - y, hx - x) + math.radians(
+                float(self.rng.uniform(-15.0, 15.0))
+            )
+            z = 0.02
+        elif cfg.stagec_v2 and v2_mode == "return":
             # Return-skill stream: already across the ramp with a qualified
             # target load.  The reserved batch is preloaded below after the
             # FUEL bodies and controller have been reset.
@@ -1494,6 +1627,33 @@ class VecCompetitionEnv:
                     float(self.rng.uniform(cfg.spawn_yaw_range_deg[0], cfg.spawn_yaw_range_deg[1]))
                 )
             z = 0.02
+        # STAGE-D2 (user 2026-07-26): the blackout drill must start where the
+        # robot ACTUALLY is when a blackout hits mid-cycle -- on a hub RAMP lane
+        # in the neutral zone, nose toward our hub -- not at a synthetic pose.
+        # Reuses the validated ramp-lane geometry from the stage-B ramp
+        # curriculum above so the drive-over ramp (extended-legal) is the
+        # shortest way home, not the compact-only outer trench lanes.
+        if cfg.stagec_v2 and v2_mode == "bank":
+            _side = -1.0 if self.rng.random() < 0.5 else 1.0
+            x = _side * float(self.rng.uniform(0.9, 2.2))
+            y = float(self.rng.uniform(-1.6, 0.2))
+            _hx, _hy = -0.0199, -3.6874
+            yaw = math.atan2(_hy - y, _hx - x) + math.radians(
+                float(self.rng.uniform(-25.0, 25.0))
+            )
+            z = 0.02
+        if cfg.stage_d and cfg.stagec_v2 and v2_mode == "postdump":
+            # Warm-start (see module note): shallow neutral, nose at the near
+            # cluster -- the proven collect/bank spawn family.  The home-edge
+            # start was unlearnable in isolation (0/243 eps at stddev 0.45).
+            x = slot.cycle_v2_ramp_side * float(self.rng.uniform(1.30, 1.80))
+            y = float(self.rng.uniform(-1.75, -1.30))
+            _tx = slot.cycle_v2_ramp_side * float(cfg.cycle_v2_cluster_x)
+            _ty = -2.35
+            yaw = math.atan2(_ty - y, _tx - x) + math.radians(
+                float(self.rng.uniform(-15.0, 15.0))
+            )
+            z = 0.02
         half = yaw * 0.5
         slot.articulation.set_world_pose(
             np.asarray([x, y, z], np.float32),
@@ -1506,7 +1666,76 @@ class VecCompetitionEnv:
         fuel_pos = self._fuel_home.copy()
         if cfg.neutral_refill_count > 0 and self.rng.random() < cfg.neutral_refill_prob:
             fuel_pos = self._neutral_refill(fuel_pos)
+        # STAGE-D2: scatter the neutral/away FUEL for the blackout drill so the
+        # policy cannot memorise one template layout.  Our own court is left
+        # alone -- the seeded stockpile below depends on its exact grid.
+        _bj = float(getattr(cfg, "stage_d_bank_fuel_jitter_m", 0.0))
+        _bs = float(getattr(cfg, "stage_d_bank_fuel_scatter", 0.0))
+        if cfg.stagec_v2 and v2_mode == "bank" and (_bj > 0.0 or _bs > 0.0):
+            # The neutral zone in a real match is NOT the tidy template grid: it
+            # is messy, with FUEL piled along the side walls and in the corners
+            # where robots shove it.  Relocate a fraction of the neutral balls
+            # into a few edge/corner-biased clumps, then jitter the rest, so the
+            # blackout drill cannot memorise one layout.  Our own court is left
+            # untouched -- the seeded stockpile below needs its exact grid.
+            _m = fuel_pos[:, 1] > -2.775
+            _idx = np.flatnonzero(_m)
+            if _idx.size:
+                _NX, _NY = 3.90, 2.775   # neutral-zone half-width / half-depth
+                _nmove = int(_idx.size * min(1.0, max(0.0, _bs)))
+                if _nmove > 0:
+                    _pick = self.rng.choice(_idx, size=_nmove, replace=False)
+                    _nc = max(1, int(cfg.stage_d_bank_fuel_clumps))
+                    # clump centres pushed toward the perimeter: u**0.3 crowds
+                    # the sample against the wall, so corners get real weight.
+                    _cx = np.sign(self.rng.uniform(-1.0, 1.0, _nc)) * (
+                        _NX * self.rng.uniform(0.0, 1.0, _nc) ** 0.30
+                    )
+                    _cy = np.sign(self.rng.uniform(-1.0, 1.0, _nc)) * (
+                        _NY * self.rng.uniform(0.0, 1.0, _nc) ** 0.30
+                    )
+                    _own = self.rng.integers(0, _nc, size=_nmove)
+                    _rad = max(0.25, _bj if _bj > 0.0 else 0.45)
+                    fuel_pos[_pick, 0] = (
+                        _cx[_own] + self.rng.normal(0.0, _rad, _nmove)
+                    ).astype(fuel_pos.dtype)
+                    fuel_pos[_pick, 1] = (
+                        _cy[_own] + self.rng.normal(0.0, _rad, _nmove)
+                    ).astype(fuel_pos.dtype)
+                    fuel_pos[_pick, 2] = 0.075
+                if _bj > 0.0:
+                    _rest = np.setdiff1d(_idx, _pick if _nmove > 0 else np.array([], dtype=_idx.dtype))
+                    if _rest.size:
+                        fuel_pos[_rest, 0] += self.rng.uniform(-_bj, _bj, _rest.size).astype(fuel_pos.dtype)
+                        fuel_pos[_rest, 1] += self.rng.uniform(-_bj, _bj, _rest.size).astype(fuel_pos.dtype)
+                # keep everything inside the field and out of our own court
+                fuel_pos[_idx, 0] = np.clip(fuel_pos[_idx, 0], -_NX, _NX)
+                fuel_pos[_idx, 1] = np.clip(fuel_pos[_idx, 1], -2.70, _NY)
         slot.stage_d_bank_seed_ids = ()
+        if (
+            cfg.stagec_v2
+            and v2_mode == "live"
+            and int(cfg.stage_d_live_stockpile) > 0
+        ):
+            _n_seed = int(cfg.stage_d_live_stockpile)
+            _order = np.argsort(-fuel_pos[:, 1])
+            _seed_idx = [int(i) for i in _order[:_n_seed]]
+            # Six rows x ~10 columns = ~60 distinct spots, so a 60-ball floor
+            # pile does not stack balls on top of each other.  The hub approach
+            # lane (|x| < 0.85) stays clear so the robot can still reach it.
+            _spots = []
+            for _sy in (-4.10, -4.40, -4.70, -5.00, -5.30, -5.60):
+                for _k in range(11):
+                    _sx = -2.25 + 0.45 * _k
+                    if abs(_sx) < 0.85:
+                        continue
+                    _spots.append((_sx, _sy))
+            for _j, _fi in enumerate(_seed_idx):
+                _sx, _sy = _spots[_j % len(_spots)]
+                fuel_pos[_fi, 0] = _sx + float(self.rng.uniform(-0.10, 0.10))
+                fuel_pos[_fi, 1] = _sy + float(self.rng.uniform(-0.10, 0.10))
+                fuel_pos[_fi, 2] = 0.075
+            slot.stage_d_bank_seed_ids = tuple(_seed_idx)
         if (
             cfg.stagec_v2
             and v2_mode == "bank"
@@ -1569,23 +1798,97 @@ class VecCompetitionEnv:
         controller.intake_on = False
         v2_preload_ids: list[int] = []
         if preloaded:
-            if cfg.stagec_v2 and v2_mode == "return":
+            if cfg.stagec_v2 and v2_mode in ("return", "live"):
                 # Consume a whole reserved batch.  The competition reset helper
                 # has eight collision-safe physical preload slots (the chamber
                 # can grow to 60 through the real intake during play), so seed
                 # only what preload() actually accepted.  The true COLLECT ->
                 # The RETURN gate follows target_load; this skill start is already
                 # in RETURN and intentionally practices its back half safely.
-                batch = slot.cycle_v2_reserved_batches.pop(0)
+                # `live` (section 3) has no reserved batches -- those are built
+                # for the return micro-skill -- so fall back to the general pool
+                # rather than popping an empty list.
+                batch = (
+                    slot.cycle_v2_reserved_batches.pop(0)
+                    if slot.cycle_v2_reserved_batches
+                    else None
+                )
                 # The source robot exposes eight collision-safe physical
                 # preload anchors.  This stream is explicitly an eight-ball
                 # return/score micro-skill; FULL uses the configured collection gate.
                 count = min(
                     int(cfg.cycle_v2_target_load), int(RETURN_SKILL_PRELOAD)
                 )
-                controller.preload(
-                    slot.fuel, count=count, indices=list(batch[:count])
-                )
+                if batch is None:
+                    controller.preload(slot.fuel, count=count)
+                else:
+                    controller.preload(
+                        slot.fuel, count=count, indices=list(batch[:count])
+                    )
+                if v2_mode == "live" and int(cfg.stage_d_live_chamber) > len(
+                    controller.magazine
+                ):
+                    # Fill the chamber the way play does: drop the balls INSIDE
+                    # the hopper envelope and let the per-step geometric capture
+                    # detect them.  HOPPER_MIN/MAX_LOCAL are robot-local, so
+                    # convert through the chassis pose.  Inset by a ball radius
+                    # so nothing spawns intersecting a collider wall.
+                    from frc_rebuilt.competition_robot import (
+                        HOPPER_MAX_LOCAL,
+                        HOPPER_MIN_LOCAL,
+                        quat_wxyz_to_matrix,
+                    )
+
+                    _want = int(cfg.stage_d_live_chamber)
+                    _used = set(controller.magazine) | set(
+                        getattr(slot, "stage_d_bank_seed_ids", ()) or ()
+                    )
+                    _extra = [
+                        int(i)
+                        for i in range(int(slot.fuel.count) - 1, -1, -1)
+                        if int(i) not in _used
+                    ][: max(0, _want - len(controller.magazine))]
+                    if _extra:
+                        _pos, _quat = controller.chassis_pose()
+                        _rot = quat_wxyz_to_matrix(_quat)
+                        _lo = np.asarray(HOPPER_MIN_LOCAL, np.float32) + 0.075
+                        _hi = np.asarray(HOPPER_MAX_LOCAL, np.float32) - 0.075
+                        # FUEL is ~0.13 m across; use a 0.155 m pitch in all
+                        # three axes and derive how many actually fit.  Seeding
+                        # more than capacity used to clamp z and stack balls
+                        # inside one another, which NaN'd the sim.
+                        _pitch = 0.155
+                        _nx = max(1, int((_hi[0] - _lo[0]) / _pitch) + 1)
+                        _ny = max(1, int((_hi[1] - _lo[1]) / _pitch) + 1)
+                        _nz = max(1, int((_hi[2] - _lo[2]) / _pitch) + 1)
+                        _cap = _nx * _ny * _nz
+                        if len(_extra) > _cap:
+                            _extra = _extra[:_cap]
+                        _pts = []
+                        for _k in range(len(_extra)):
+                            _ix = _k % _nx
+                            _iy = (_k // _nx) % _ny
+                            _iz = _k // (_nx * _ny)
+                            _lx = _lo[0] + _pitch * _ix
+                            _ly = _lo[1] + _pitch * _iy
+                            _lz = _lo[2] + _pitch * _iz
+                            _pts.append([_lx, _ly, _lz])
+                        _local = np.asarray(_pts, np.float32)
+                        _world = _pos + _local @ _rot.T
+                        _ei = np.asarray(_extra, dtype=np.int32)
+                        slot.fuel.set_world_poses(
+                            positions=_world.astype(np.float32), indices=_ei
+                        )
+                        slot.fuel.set_linear_velocities(
+                            np.zeros((len(_extra), 3), dtype=np.float32), indices=_ei
+                        )
+                # NOTE 2026-07-26: do NOT extend the chamber past the 8
+                # physical preload slots.  Adding magazine entries whose bodies
+                # are stowed off-field creates PHANTOM ammunition: the shooter
+                # feeds a ball that is not really there, nothing reaches the hub,
+                # and the real 8 never fire either (measured: scored 8 -> 0 and
+                # chamber_end stuck at 30).  A genuinely full chamber has to come
+                # from section 2 delivering it through real intake.
                 v2_preload_ids = list(controller.magazine)
                 slot.cycle_v2_return_preload_count = len(v2_preload_ids)
                 slot.cycle_v2_reserved_ids.difference_update(v2_preload_ids)
@@ -1619,7 +1922,7 @@ class VecCompetitionEnv:
         router.exit_free_at.clear()
         router.funnel_entry.clear()
         router.scored = {"red": 0, "blue": 0}
-        router.score_events.clear()   # custody telemetry — must clear with scored (design note)
+        router.score_events.clear()   # custody telemetry — must clear with scored (Turn 32)
         router.detected = 0
         router.released = 0
         if cfg.stage_d:
@@ -1640,11 +1943,70 @@ class VecCompetitionEnv:
             # and return_time_guard keep FULL-match semantics.
             t0 = float(getattr(slot, "stage_d_bank_t0", cfg.stage_d_bank_clock_a))
             slot.clock_s = t0
+            # End when the BLACKOUT ends (30->55, 80->105), not span seconds
+            # later: running past the edge turns the drill into a scoring window.
+            slot.stage_d_lane_t0 = float(slot.clock_s)
             slot.stage_d_lane_end_s = min(
-                float(cfg.episode_len_s), t0 + float(cfg.stage_d_bank_span_s)
+                float(cfg.episode_len_s),
+                self._phase_end_after(t0, t0 + float(cfg.stage_d_bank_span_s)),
             )
             slot.stage_d_first_inactive = str(cfg.stage_d_first_inactive)
             router.match_first_inactive = str(cfg.stage_d_first_inactive)
+        if cfg.stagec_v2 and v2_mode == "live":
+            # Three live windows: SHIFT 2 (55-80), SHIFT 4 (105-130) and the
+            # 30 s ENDGAME (130-160).  Sampled uniformly so all three are drilled.
+            # Two live blocks for blue: SHIFT 2 (55-80, 25 s) and the
+            # contiguous SHIFT 4 + ENDGAME (105-160, 55 s).
+            _starts = (
+                float(cfg.stage_d_live_clock_a),
+                float(cfg.stage_d_live_clock_b),
+            )
+            slot.clock_s = float(_starts[int(self.rng.integers(0, len(_starts)))])
+            slot.stage_d_lane_t0 = float(slot.clock_s)
+            slot.stage_d_lane_end_s = min(
+                float(cfg.episode_len_s),
+                self._live_block_end(
+                    slot.clock_s,
+                    str(cfg.stage_d_first_inactive),
+                    float(cfg.episode_len_s),
+                ),
+            )
+            if cfg.stage_d:
+                slot.stage_d_first_inactive = str(cfg.stage_d_first_inactive)
+                router.match_first_inactive = str(cfg.stage_d_first_inactive)
+        if cfg.stage_d and cfg.stagec_v2 and v2_mode == "postdump":
+            # Start at a hub reactivation with the lane's own REAL post-dump
+            # state (home, chamber empty, LEAVE) and run to the end of that
+            # contiguous live block -- the exact repeat-cycle the top episodes
+            # execute and the typical ones skip.
+            _starts = (
+                float(cfg.stage_d_postdump_clock_a),
+                float(cfg.stage_d_postdump_clock_b),
+            )
+            slot.clock_s = float(_starts[int(self.rng.integers(0, len(_starts)))])
+            slot.stage_d_lane_t0 = float(slot.clock_s)
+            slot.stage_d_lane_end_s = min(
+                float(cfg.episode_len_s),
+                self._live_block_end(
+                    slot.clock_s,
+                    str(cfg.stage_d_first_inactive),
+                    float(cfg.episode_len_s),
+                ),
+            )
+            slot.stage_d_first_inactive = str(cfg.stage_d_first_inactive)
+            router.match_first_inactive = str(cfg.stage_d_first_inactive)
+        if cfg.stagec_v2 and v2_mode == "opener":
+            # episode_len_s stays the real 160 so proprio idx7/29 and
+            # return_time_guard keep FULL-match semantics; only the lane end
+            # moves.  The parity decision is pre-made when stage_d is on.
+            slot.clock_s = 0.0
+            slot.stage_d_lane_t0 = float(slot.clock_s)
+            slot.stage_d_lane_end_s = min(
+                float(cfg.episode_len_s), float(cfg.stage_d_opener_span_s)
+            )
+            if cfg.stage_d:
+                slot.stage_d_first_inactive = str(cfg.stage_d_first_inactive)
+                router.match_first_inactive = str(cfg.stage_d_first_inactive)
         slot.prev_action[:] = 0.0
         slot.score_seen = 0
         slot.collected_seen = 0
@@ -1663,6 +2025,8 @@ class VecCompetitionEnv:
                 "collect": CyclePhase.COLLECT,
                 "return": CyclePhase.RETURN,
                 "bank": CyclePhase.COLLECT,
+                "opener": CyclePhase.FIRST_CYCLE,
+                "live": CyclePhase.SCORE,
             }[v2_mode]
             cycle_cfg = CycleV2Config(
                 target_load=int(cfg.cycle_v2_target_load),
@@ -1791,6 +2155,13 @@ class VecCompetitionEnv:
             slot.cycle_v2_outer_rail_active = False
             slot.cycle_v2_outer_rail_streak = 0
             slot.cycle_v2_outer_rail_spent = 0.0
+            slot.stage_d_deep_red_spent = 0.0
+            slot.stage_d_deep_red_streak = 0
+            slot.stage_d_idle_spent = 0.0
+            slot.stage_d_idle_streak = 0
+            slot.stage_d_live_dump_paid = False
+            slot.stage_d_rescued = False
+            slot.stage_d_arrival_paid = False
             slot.cycle_v2_return_loads = {}
             slot.cycle_v2_phase_enter_step = 0
             slot.cycle_v2_terminal_reason = ""
@@ -1810,9 +2181,9 @@ class VecCompetitionEnv:
         slot.dump_start_mode = None
         slot.dump_remaining_count = 0
         slot.dump_lost_aim_ticks = 0
-        slot.ferry_fires = 0          # across the boundary (design note)
+        slot.ferry_fires = 0          # across the boundary (Turn 18)
         slot.ferried_ids = set()               # STAGE-D1B: distinct balls
-        if cfg.stagec_v2 and v2_mode == "bank":
+        if cfg.stagec_v2 and v2_mode in ("bank", "live"):
             # Seeds are already "ferried": custody-once means they can convert
             # (+10 via the oc loop) but never re-mint the ferry reward.
             slot.ferried_ids |= set(getattr(slot, "stage_d_bank_seed_ids", ()))
@@ -1826,7 +2197,7 @@ class VecCompetitionEnv:
         slot.stage_d_small_ferries = 0         # stage_d_v1 wave-2: under-min-load ferry no-ops
         slot.forced_reset_settle_s = 0.0  # hidden shared-scene physics time since this
         #                                   env last (re)started; accrues on the settle
-        #                                   of OTHER envs' forced resets (design note)
+        #                                   of OTHER envs' forced resets (Turn 20)
 
     def reset_all(self) -> np.ndarray:
         for slot in self.slots:
@@ -2416,13 +2787,41 @@ class VecCompetitionEnv:
         # CONVERTED to legal score, making conversion the thing being trained.
         # Pure termination/success logic: no scripted actions, no new reward.
         if (
-            slot.cycle_v2_mode == "bank"
-            and int(self.cfg.stage_d_bank_success_conversions) > 0
+            slot.cycle_v2_mode == "live"
+            and int(self.cfg.stage_d_live_success_conversions) > 0
         ):
-            converted = int(
+            return int(
                 (slot.cycle_v2_stats or {}).get("owncourt_ledger_scored", 0) or 0
+            ) >= int(self.cfg.stage_d_live_success_conversions)
+        if (
+            slot.cycle_v2_mode == "opener"
+            and int(self.cfg.stage_d_opener_success_cycles) > 0
+        ):
+            return int(
+                (slot.cycle_v2_stats or {}).get("cycles_completed", 0) or 0
+            ) >= int(self.cfg.stage_d_opener_success_cycles)
+        if (
+            slot.cycle_v2_mode == "bank"
+            and (
+                int(self.cfg.stage_d_bank_success_conversions) > 0
+                or int(self.cfg.stage_d_bank_success_chamber) > 0
             )
-            return converted >= int(self.cfg.stage_d_bank_success_conversions)
+        ):
+            _st = slot.cycle_v2_stats or {}
+            # STAGE-D2 (user 2026-07-26): the blackout drill succeeds when the
+            # robot comes HOME WITH A FULL CHAMBER -- it is not asked to shoot
+            # during a blackout.  Chamber gate and conversion gate are ANDed only
+            # over the ones actually enabled, so either can be used alone.
+            _ok = True
+            _needc = int(self.cfg.stage_d_bank_success_conversions)
+            if _needc > 0:
+                _ok = _ok and int(_st.get("owncourt_ledger_scored", 0) or 0) >= _needc
+            _needm = int(self.cfg.stage_d_bank_success_chamber)
+            if _needm > 0:
+                _load = int(len(slot.controller.magazine))
+                _home = float(slot.controller.chassis_pose()[0][1]) <= -3.05
+                _ok = _ok and _load >= _needm and _home
+            return _ok
         from frc_rebuilt.rl.cycle_v2 import Milestone
 
         wanted = {
@@ -2470,13 +2869,13 @@ class VecCompetitionEnv:
         """Force-reset a SUBSET of envs mid-run (prefix-takeover curriculum no-progress
         reset) and RETURN a fresh full observation batch that the caller MUST adopt as
         its next obs -- otherwise a reset env's next action is computed from stale
-        pre-reset state (design note). The CALLER must first mark the final candidate
+        pre-reset state (Turn 18). The CALLER must first mark the final candidate
         transition done/truncated so a 3-step n-step never bootstraps across the
-        discontinuity into the next champion-generated prefix (design note). Indices are
+        discontinuity into the next champion-generated prefix (Turns 16-18). Indices are
         the settle renders (like the normal auto-reset) so cameras refresh. Invalid
         indices FAIL FAST (IndexError) rather than being silently dropped -- a silently
         ignored curriculum index could leave a suffix running while the caller believes
-        it reset to PREFIX (design note); valid duplicates are de-duplicated. Batch all
+        it reset to PREFIX (Turn 20); valid duplicates are de-duplicated. Batch all
         simultaneous resets in ONE call so the shared-scene settle advances untouched
         envs only once."""
         req = [int(i) for i in indices]
@@ -2492,9 +2891,9 @@ class VecCompetitionEnv:
             self.sim.step(render=bool(self.cameras))  # render so camera products refresh
             # the shared PhysX settle advances EVERY untouched env one physics tick
             # without advancing its logical clock_s -> hidden time. Track it so the
-            # caller can hard-stop an episode that accrues > ~0.5 s of it (design note).
+            # caller can hard-stop an episode that accrues > ~0.5 s of it (Turn 20).
             settle_s = 1.0 / 60.0
-            # whole-run diagnostic total (design note): NOT a stop trigger -- the 0.5 s
+            # whole-run diagnostic total (Turn 22): NOT a stop trigger -- the 0.5 s
             # hard-stop is per untouched EPISODE via slot.forced_reset_settle_s below.
             self._forced_reset_settle_total_s = getattr(self, "_forced_reset_settle_total_s", 0.0) + settle_s
             reset = set(idx)
@@ -2870,15 +3269,30 @@ class VecCompetitionEnv:
                         driver = decoded.driver[i]
                         moving = bool(np.any(np.abs(driver) > 0.03)) and not fire
                     if moving:
-                        # FRC_POLICY_FULL_SPEED=1 drops the keyboard ergonomics
-                        # damper from the policy path (2.25 -> 3.21 m/s, the
-                        # robot's real limit at DRIVER_SPEED_RATE).  Default off
-                        # so every existing checkpoint keeps its trained mapping.
+                        # PHASE-GATED SPEED: the frozen prefix owns the FIRST
+                        # cycle and can never be retrained, so it keeps the
+                        # damped mapping it learned.  Only the trainable
+                        # suffix gets the robot's real 3.21 m/s.
+                        # PHASE-GATED SPEED CURRICULUM: the frozen prefix
+                        # owns the FIRST cycle and can never be retrained,
+                        # so it always keeps the damped mapping; only the
+                        # trainable suffix follows the ramp.
+                        _sc = _policy_speed_scale()
+                        _in_first = False
+                        if cfg.stagec_v2:
+                            _ph = getattr(
+                                getattr(slot, 'cycle_v2', None), 'phase', None
+                            )
+                            _in_first = getattr(_ph, 'value', '') == 'first_cycle'
+                        if _in_first:
+                            _sc = None
+                        _fs = _POLICY_FULL_SPEED and _sc is None and not _in_first
                         controller.drive(
                             float(driver[0]),
                             float(driver[2]),
                             strafe=float(driver[1]),
-                            keyboard_scale=not _POLICY_FULL_SPEED,
+                            keyboard_scale=not _fs,
+                            speed_scale=_sc,
                         )
                     controller.update(
                         slot.fuel,
@@ -2974,6 +3388,13 @@ class VecCompetitionEnv:
                     }
                     slot.cycle_v2_border_spent = 0.0
                     slot.cycle_v2_outer_rail_spent = 0.0
+                    slot.stage_d_deep_red_spent = 0.0
+                    slot.stage_d_deep_red_streak = 0
+                    slot.stage_d_idle_spent = 0.0
+                    slot.stage_d_idle_streak = 0
+                    slot.stage_d_live_dump_paid = False
+                    slot.stage_d_rescued = False
+                    slot.stage_d_arrival_paid = False
                     slot.cycle_v2_outer_rail_active = False
                     slot.cycle_v2_outer_rail_streak = 0
                 r_behavior = self._cycle_v2_delay_penalty(slot, cycle_step)
@@ -3082,6 +3503,167 @@ class VecCompetitionEnv:
                             "elig": bool(_stage_d.blue_hub_eligible(
                                 slot.clock_s, slot.stage_d_first_inactive)),
                         })
+                    # STALL-RESCUE (2026-07-30): the frozen prefix owns the
+                    # protected FIRST cycle; when it wedges (no dump by the
+                    # rescue clock) the episode is otherwise a guaranteed ~0.
+                    # Flipping the FSM to LEAVE hands the suffix control via
+                    # the phase one-hot; masks follow automatically.
+                    _prs = float(cfg.stage_d_prefix_rescue_s)
+                    if (
+                        _prs > 0.0
+                        and float(slot.clock_s) >= _prs
+                        and getattr(slot.cycle_v2, "phase", None) is not None
+                        and getattr(slot.cycle_v2.phase, "value", "") == "first_cycle"
+                        and not getattr(slot, "stage_d_rescued", False)
+                    ):
+                        from frc_rebuilt.rl.cycle_v2 import CyclePhase as _CP
+                        _cv = slot.cycle_v2
+                        # Mimic the natural first-dump latch transition
+                        # (cycle_v2.update lines ~645-657) minus the LATCHED
+                        # milestone (no unearned reward): without latched=True
+                        # every later phase advance is gated off and the FSM
+                        # wedges in LEAVE (proved by smoke A, 2026-07-30).
+                        _cv._score_dump_active = False
+                        _cv._score_dump_ledger = None
+                        _cv.latched = True
+                        _cv._set_phase(_CP.LEAVE)
+                        _cv.cycle_index = 2
+                        _cv.cycle_started_step = _cv.step_count
+                        _cv._milestones_this_cycle = set()
+                        slot.stage_d_rescued = True
+                        stats["prefix_rescues"] = int(stats.get("prefix_rescues", 0)) + 1
+                    # STAGE-D2: chamber load every step; the last value on the
+                    # episode is the end-of-window load the chamber gate reads.
+                    stats["chamber_load"] = int(len(slot.controller.magazine))
+                    # Which match window this episode drilled -- without this the
+                    # 105 s / 130 s live starts are invisible whenever they score
+                    # nothing, so the window split cannot be audited.
+                    # FULL mode leaves these as None (no lane window), and
+                    # getattr returns that None rather than the default -- so
+                    # float(None) crashed every full-match collector.  Coerce.
+                    _lt0 = getattr(slot, "stage_d_lane_t0", None)
+                    _len = getattr(slot, "stage_d_lane_end_s", None)
+                    stats["lane_t0"] = round(float(_lt0), 1) if _lt0 is not None else -1.0
+                    stats["lane_end"] = round(float(_len), 1) if _len is not None else -1.0
+                    # SECTION 3: pay for STARTING a score dump with a real
+                    # load while the hub is live.  Once per episode.
+                    _ldr = float(cfg.stage_d_live_dump_reward)
+                    if (
+                        _ldr > 0.0
+                        # PHASE-GATED (was: only in the "live" lane, so it never
+                        # fired in a full match).  Hub-live + real load are the
+                        # real conditions; the lane was never the point.
+                        and slot.dump_started_this_step
+                        and slot.dump_start_mode == "score"
+                        and not getattr(slot, "stage_d_live_dump_paid", False)
+                        and len(slot.controller.magazine)
+                        >= int(cfg.stage_d_live_dump_min_load)
+                        and _stage_d.blue_hub_eligible(
+                            slot.clock_s, slot.stage_d_first_inactive
+                        )
+                    ):
+                        slot.stage_d_live_dump_paid = True
+                        rewards[i] += _ldr
+                        stats["live_dump_reward"] = (
+                            float(stats.get("live_dump_reward", 0.0)) + _ldr
+                        )
+                    # SECTION 2 objective, in-phase: arriving HOME loaded while
+                    # the hub is dark is exactly what the blackout drill wanted.
+                    # Ferrying already pays per ball; nothing paid for the
+                    # ARRIVAL STATE, which is why chamber-home sat at 4.7 for
+                    # 1041 episodes.  Scaled by load, once per blackout.
+                    _har = float(cfg.stage_d_home_arrival_reward)
+                    if _har > 0.0 and not _stage_d.blue_hub_eligible(
+                        slot.clock_s, slot.stage_d_first_inactive
+                    ):
+                        _home = (
+                            getattr(getattr(cycle_step, "region", None), "value", "")
+                            == "home"
+                        )
+                        _load = int(len(slot.controller.magazine))
+                        if (
+                            _home
+                            and _load >= int(cfg.stage_d_home_arrival_min_load)
+                            and not getattr(slot, "stage_d_arrival_paid", False)
+                        ):
+                            slot.stage_d_arrival_paid = True
+                            _pay = _har * float(_load)
+                            rewards[i] += _pay
+                            stats["home_arrival_reward"] = (
+                                float(stats.get("home_arrival_reward", 0.0)) + _pay
+                            )
+                            stats["home_arrival_load"] = _load
+                    elif getattr(slot, "stage_d_arrival_paid", False):
+                        # hub came back live -> re-arm for the next blackout
+                        slot.stage_d_arrival_paid = False
+                    # SECTION 1: time pressure -- every step of the opener window
+                    # costs, so a faster second cycle is strictly better.
+                    _otp = float(cfg.stage_d_opener_time_penalty)
+                    if _otp > 0.0 and float(slot.clock_s) < float(
+                        cfg.stage_d_opener_span_s
+                    ):
+                        rewards[i] -= _otp
+                        stats["opener_time_penalty"] = (
+                            float(stats.get("opener_time_penalty", 0.0)) - _otp
+                        )
+                    # STAGE-D2 penalties.  Both are charged ONLY in the
+                    # trainable latched suffix: the frozen prefix owns FIRST and
+                    # its executed actions must stay exactly as trained.
+                    if bool(getattr(slot.cycle_v2, "latched", False)):
+                        _pos, _ = slot.controller.chassis_pose()
+                        _lin, _ = slot.controller.chassis_velocity()
+                        _y = float(_pos[1])
+                        _speed = math.hypot(float(_lin[0]), float(_lin[1]))
+                        _dr = float(cfg.stage_d_deep_red_penalty)
+                        if _dr > 0.0 and _y >= float(cfg.stage_d_deep_red_y):
+                            slot.stage_d_deep_red_streak += 1
+                            stats["deep_red_steps"] = (
+                                int(stats.get("deep_red_steps", 0)) + 1
+                            )
+                            if slot.stage_d_deep_red_streak > int(
+                                cfg.stage_d_deep_red_grace_steps
+                            ):
+                                _room = float(
+                                    cfg.stage_d_deep_red_penalty_cap
+                                ) - float(slot.stage_d_deep_red_spent)
+                                if _room > 0.0:
+                                    _p = min(_dr, _room)
+                                    rewards[i] -= _p
+                                    slot.stage_d_deep_red_spent += _p
+                                    stats["deep_red_penalty"] = (
+                                        float(stats.get("deep_red_penalty", 0.0)) - _p
+                                    )
+                        else:
+                            slot.stage_d_deep_red_streak = 0
+                        _ip = float(cfg.stage_d_idle_penalty)
+                        _in_score = (
+                            getattr(cycle_step.phase, "value", "") == "score"
+                        )
+                        if (
+                            _ip > 0.0
+                            and not _in_score
+                            and _speed < float(cfg.stage_d_idle_speed_mps)
+                        ):
+                            slot.stage_d_idle_streak += 1
+                            stats["idle_steps"] = int(stats.get("idle_steps", 0)) + 1
+                            if slot.stage_d_idle_streak > int(
+                                cfg.stage_d_idle_grace_steps
+                            ):
+                                _room = float(cfg.stage_d_idle_penalty_cap) - float(
+                                    slot.stage_d_idle_spent
+                                )
+                                if _room > 0.0:
+                                    _p = min(_ip, _room)
+                                    rewards[i] -= _p
+                                    slot.stage_d_idle_spent += _p
+                                    stats["idle_penalty"] = (
+                                        float(stats.get("idle_penalty", 0.0)) - _p
+                                    )
+                        else:
+                            slot.stage_d_idle_streak = 0
+                            slot.stage_d_live_dump_paid = False
+                            slot.stage_d_rescued = False
+                            slot.stage_d_arrival_paid = False
                 # FERRY repatriation shaping (STAGE-D1B): blackout-gated,
                 # custody-based, credited ONCE per ball.  A qualified ball
                 # ferried home keeps its +10 downstream score entitlement; this
@@ -3290,7 +3872,7 @@ class VecCompetitionEnv:
                 "scored": int(slot.router.scored["blue"]),
                 "collected": int(slot.controller.balls_collected),
                 "shots_fired": int(slot.controller.shots_fired),
-                # custody-bite telemetry (design note): fresh vs recycled credits
+                # custody-bite telemetry (Turn 31 §6): fresh vs recycled credits
                 "fresh_score": int(slot.custody.fresh_score),
                 "recycled_score": int(slot.custody.recycled_score),
                 "fresh_collect": int(slot.custody.fresh_collect),
@@ -3359,6 +3941,35 @@ class VecCompetitionEnv:
         return observations, rewards, dones, info
 
     # -- observations -------------------------------------------------------
+    # Official phase edges.  A section lane must stop when its phase stops --
+    # the endgame is 30 s while every shift is 25 s, so a single span cannot
+    # express all of them.
+    _PHASE_EDGES = (30.0, 55.0, 80.0, 105.0, 130.0, 160.0)
+
+    @staticmethod
+    def _live_block_end(t0: float, first_inactive, horizon: float) -> float:
+        """End of the CONTIGUOUS window in which our hub stays live.
+
+        For blue the hub comes up at 105 and stays up through 160 -- the ENDGAME
+        does not deactivate it, it only brings red's hub up as well.  So 105-160
+        is ONE 55 s live block, not a 25 s shift plus a 30 s endgame.  Walking
+        eligibility forward keeps this correct for either parity.
+        """
+        t = float(t0)
+        step = 0.5
+        while t + step < float(horizon):
+            if not _stage_d.blue_hub_eligible(t + step, first_inactive):
+                return t + step
+            t += step
+        return float(horizon)
+
+    @classmethod
+    def _phase_end_after(cls, t0: float, fallback: float) -> float:
+        for _e in cls._PHASE_EDGES:
+            if _e > float(t0) + 1e-6:
+                return float(_e)
+        return float(fallback)
+
     def _observe(self, decoded) -> dict[str, np.ndarray]:
         n = self.cfg.num_envs
         obs: dict[str, np.ndarray] = {}

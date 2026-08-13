@@ -1,4 +1,4 @@
-"""DrQ-v2 with an asymmetric privileged critic (converged baseline, design note).
+"""DrQ-v2 with an asymmetric privileged critic (converged baseline, Turn 2-4).
 
 Pixel actor (multi-camera frames + proprio), twin critic that additionally
 receives the privileged vector (training-time only - never an actor input,
@@ -29,6 +29,7 @@ def _stagec_v2_executed_action_policy_torch(
     proprio: torch.Tensor,
     *,
     intake_during_return: bool = False,
+    stage_d_ferry: bool = False,
 ) -> torch.Tensor:
     """Apply the collector's Stage-C v2 action contract inside learning.
 
@@ -60,8 +61,16 @@ def _stagec_v2_executed_action_policy_torch(
     not_score = post_first & phases.ne(_STAGEC_V2_SCORE)
 
     executed = actions.clone()
+    # GATE B (STAGE-D1B): mirror apply_executed_action_policy -- under
+    # stage_d_ferry ferry is forced off only in SCORE (post-first), else in
+    # every post-first phase, so Bellman/actor-Q targets match the executed
+    # action manifold.
+    if stage_d_ferry:
+        ferry_off = post_first & phases.eq(_STAGEC_V2_SCORE)
+    else:
+        ferry_off = post_first
     executed[:, 6] = torch.where(
-        post_first, torch.full_like(executed[:, 6], -1.0), executed[:, 6]
+        ferry_off, torch.full_like(executed[:, 6], -1.0), executed[:, 6]
     )
     executed[:, 4] = torch.where(
         post_first, torch.ones_like(executed[:, 4]), executed[:, 4]
@@ -339,14 +348,17 @@ class DrQV2Agent:
             "skipped": float(self.skipped_updates),
         }
 
-    # -- prefix-takeover suffix update -------------------------------------
+    # -- prefix-takeover suffix update (design notes Turn 12 + PREFIX_TAKEOVER_SPEC) --
     def update_suffix(self, batch, anchor_obs, anchor_proprio, anchor_action,
                       alpha: float, freeze_encoder: bool = True,
                       actor_mask=None, critic_mask=None, actor_update: bool = True,
                       elite_behavior_batch=None,
                       elite_behavior_weight: float = 0.0,
+                      elite_behavior_full_episode_s: float = 160.0,
                       anchor_weight: float = 1.0,
-                      intake_during_return: bool = False) -> dict[str, float]:
+                      intake_during_return: bool = False,
+                      stage_d_ferry: bool = False,
+                      actor_q_center_fraction: float = 0.0) -> dict[str, float]:
         """One prefix-takeover suffix gradient step (candidate learns cycle 2 only).
 
         OPT-IN; the audited ``update()`` above is untouched.  Differs from it in
@@ -356,10 +368,11 @@ class DrQV2Agent:
             ``freeze_encoder`` the suffix obs are encoded under ``no_grad`` so the
             critic loss cannot move the encoder, and the encoder optimizer never
             steps.  (Actor already trains on detached features, as in DrQ-v2.)
-          * ACTOR anchored with correctly-normalized TD3+BC on the DETERMINISTIC
-            policy action (the normalization bug once had this reversed):
-                lambda_q   = alpha / mean(|Q(s, pi(s))|).detach()
-                actor_loss = -lambda_q * Q(s, pi(s)).mean()
+          * ACTOR anchored with correctly-normalized TD3+BC on a configurable
+            blend of noisy and deterministic executed policy actions:
+                Q_actor    = (1-f) * Q(s, pi(s) + noise) + f * Q(s, pi(s))
+                lambda_q   = alpha / mean(|Q_actor|).detach()
+                actor_loss = -lambda_q * Q_actor.mean()
                              + anchor_weight * MSE(pi(s_a), a_a)
             The RL term is thus scaled to ~alpha while the champion-action anchor
             term is O(1). ``actor_mask`` optionally selects the replay rows used
@@ -375,6 +388,18 @@ class DrQV2Agent:
         cfg = self.cfg
         if not np.isfinite(anchor_weight) or float(anchor_weight) < 0.0:
             raise ValueError("anchor_weight must be finite and non-negative")
+        if (
+            not np.isfinite(actor_q_center_fraction)
+            or not 0.0 <= float(actor_q_center_fraction) <= 1.0
+        ):
+            raise ValueError("actor_q_center_fraction must be finite and in [0, 1]")
+        if (
+            not np.isfinite(elite_behavior_full_episode_s)
+            or float(elite_behavior_full_episode_s) <= 0.0
+        ):
+            raise ValueError(
+                "elite_behavior_full_episode_s must be finite and positive"
+            )
         dev = self.device
         obs = random_shift(torch.as_tensor(batch.obs, device=dev).float())
         next_obs = random_shift(torch.as_tensor(batch.next_obs, device=dev).float())
@@ -438,6 +463,7 @@ class DrQV2Agent:
                 next_action,
                 next_proprio,
                 intake_during_return=intake_during_return,
+                stage_d_ferry=stage_d_ferry,
             )
             tq1, tq2 = self.critic_target(next_feat, next_proprio, next_privileged, next_action)
             target_q = reward + discount * torch.min(tq1, tq2)
@@ -511,11 +537,32 @@ class DrQV2Agent:
                 pi_sampled,
                 actor_proprio,
                 intake_during_return=intake_during_return,
+                stage_d_ferry=stage_d_ferry,
             )
-            q1_pi, q2_pi = self.critic(
+            q1_pi_noisy, q2_pi_noisy = self.critic(
                 feat_det, actor_proprio, actor_privileged, pi_sampled
             )
-            q_pi = torch.min(q1_pi, q2_pi)
+            q_pi_noisy = torch.min(q1_pi_noisy, q2_pi_noisy)
+            q_pi = q_pi_noisy
+            q_pi_center = None
+            center_fraction = float(actor_q_center_fraction)
+            # Preserve the historical path exactly at f=0: no extra action-mask
+            # call or critic forward is executed unless the blend is opted in.
+            if center_fraction > 0.0:
+                pi_center = _stagec_v2_executed_action_policy_torch(
+                    pi_s,
+                    actor_proprio,
+                    intake_during_return=intake_during_return,
+                    stage_d_ferry=stage_d_ferry,
+                )
+                q1_pi_center, q2_pi_center = self.critic(
+                    feat_det, actor_proprio, actor_privileged, pi_center
+                )
+                q_pi_center = torch.min(q1_pi_center, q2_pi_center)
+                q_pi = (
+                    (1.0 - center_fraction) * q_pi_noisy
+                    + center_fraction * q_pi_center
+                )
             lam = alpha / q_pi.abs().mean().detach().clamp_min(1e-6)
             # champion anchor: lossless, UNAUGMENTED, encoder frozen (no_grad feat)
             a_obs = torch.as_tensor(anchor_obs, device=dev)
@@ -527,6 +574,7 @@ class DrQV2Agent:
             bc = F.mse_loss(pi_a, a_act)
             elite_bc = torch.zeros((), device=dev)
             elite_rows = 0
+            elite_window_metrics: dict[str, float] = {}
             if elite_behavior_batch is not None and float(elite_behavior_weight) > 0.0:
                 elite_obs = torch.as_tensor(elite_behavior_batch.obs, device=dev)
                 elite_proprio = torch.as_tensor(
@@ -542,9 +590,27 @@ class DrQV2Agent:
                     elite_pi,
                     elite_proprio,
                     intake_during_return=intake_during_return,
+                    stage_d_ferry=stage_d_ferry,
                 )
-                elite_bc = F.mse_loss(elite_pi, elite_action)
+                elite_row_bc = (elite_pi - elite_action).square().mean(dim=1)
+                elite_bc = elite_row_bc.mean()
                 elite_rows = int(elite_proprio.shape[0])
+                elite_clock_s = elite_proprio[:, 7].clamp(0.0, 1.0) * float(
+                    elite_behavior_full_episode_s
+                )
+                for name, start_s, end_s in (
+                    ("opener", 0.0, 33.0),
+                    ("live1", 55.0, 83.0),
+                    ("live2", 105.0, 130.0),
+                    ("endgame", 130.0, 160.000001),
+                ):
+                    mask = (elite_clock_s >= start_s) & (elite_clock_s < end_s)
+                    rows = int(mask.sum().item())
+                    elite_window_metrics[f"elite_behavior_rows_{name}"] = float(rows)
+                    if rows:
+                        elite_window_metrics[f"elite_behavior_bc_{name}"] = float(
+                            elite_row_bc[mask].mean().item()
+                        )
             actor_loss = (
                 -lam * q_pi.mean()
                 + float(anchor_weight) * bc
@@ -573,7 +639,19 @@ class DrQV2Agent:
                 "elite_behavior_weight": float(elite_behavior_weight),
                 "lambda_q": float(lam.item()),
                 "q_pi": float(q_pi.mean().item()),
+                "q_pi_noisy": float(q_pi_noisy.mean().item()),
+                "actor_q_center_fraction": center_fraction,
+                "actor_applied": float(actor_applied),
             })
+            actor_metrics.update(elite_window_metrics)
+            if q_pi_center is not None:
+                q_pi_center_mean = float(q_pi_center.mean().item())
+                actor_metrics.update({
+                    "q_pi_center": q_pi_center_mean,
+                    "q_pi_center_minus_noisy": (
+                        q_pi_center_mean - float(q_pi_noisy.mean().item())
+                    ),
+                })
 
         with torch.no_grad():             # EMA target ALWAYS advances (critic already stepped)
             for p, tp in zip(self.critic.parameters(), self.critic_target.parameters()):
@@ -586,7 +664,7 @@ class DrQV2Agent:
             **actor_metrics,
         }
 
-    # -- reward-first warm-start fine-tune --------------------------------
+    # -- reward-first warm-start fine-tune (design notes Turns 29-32) --------
     def update_finetune(self, batch, anchor_obs, anchor_proprio, anchor_action,
                         beta: float, critic_only: bool) -> dict[str, float]:
         """One reward-first fine-tune step. OPT-IN; the audited ``update()`` is untouched.
@@ -595,7 +673,7 @@ class DrQV2Agent:
           * ``critic_only=True`` (phase 1, updates 0..N): freeze ACTOR **and** ENCODER —
             the standard critic step trains the encoder (``encoder_opt.step()``) and
             ``act()`` shares it, so a naive actor-only skip would drift the deterministic
-            policy un-anchored (design note). Encode under ``no_grad`` and never step the
+            policy un-anchored (Turn 32). Encode under ``no_grad`` and never step the
             encoder; fit the critic head + EMA on FIXED champion features. The policy is
             bit-identical to the champion -> a phase-1 snapshot must give drive-L2 p50 == 0.
           * ``critic_only=False`` (phase 2): standard DrQ-v2 critic (encoder learns from

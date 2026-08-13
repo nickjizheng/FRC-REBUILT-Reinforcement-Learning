@@ -104,6 +104,94 @@ def test_td3bc_lambda_scales_with_alpha():
     assert abs(ratio - 2.5) < 1e-3, f"lambda_q ratio {ratio} != 2.5"
 
 
+def test_actor_q_center_default_is_bit_identical_to_explicit_zero():
+    default = _agent(seed=81)
+    explicit = _agent(seed=81)
+    cfg = default.cfg
+    batch = _batch(cfg, seed=82)
+    anchor = _anchor(cfg, seed=83)
+
+    torch.manual_seed(8484)
+    default_metrics = default.update_suffix(
+        copy.deepcopy(batch), *anchor, alpha=1.0
+    )
+    torch.manual_seed(8484)
+    explicit_metrics = explicit.update_suffix(
+        copy.deepcopy(batch),
+        *anchor,
+        alpha=1.0,
+        actor_q_center_fraction=0.0,
+    )
+
+    assert default_metrics == explicit_metrics
+    for default_module, explicit_module in (
+        (default.encoder, explicit.encoder),
+        (default.actor, explicit.actor),
+        (default.critic, explicit.critic),
+        (default.critic_target, explicit.critic_target),
+    ):
+        assert all(
+            torch.equal(left, right)
+            for left, right in zip(
+                default_module.parameters(), explicit_module.parameters()
+            )
+        )
+
+
+@pytest.mark.parametrize("fraction", [-0.01, 1.01, float("nan"), float("inf")])
+def test_actor_q_center_fraction_rejects_invalid_values(fraction):
+    agent = _agent(seed=85)
+    with pytest.raises(ValueError, match="actor_q_center_fraction"):
+        agent.update_suffix(
+            _batch(agent.cfg, seed=86),
+            *_anchor(agent.cfg, seed=87),
+            alpha=1.0,
+            actor_q_center_fraction=fraction,
+        )
+
+
+def test_actor_q_center_fraction_blends_noisy_and_center_q():
+    noisy = _agent(seed=88)
+    center = _agent(seed=88)
+    blended = _agent(seed=88)
+    cfg = noisy.cfg
+    batch = _batch(cfg, seed=89)
+    anchor = _anchor(cfg, seed=90)
+
+    torch.manual_seed(9191)
+    noisy_metrics = noisy.update_suffix(
+        copy.deepcopy(batch), *anchor, alpha=1.0, actor_q_center_fraction=0.0
+    )
+    torch.manual_seed(9191)
+    center_metrics = center.update_suffix(
+        copy.deepcopy(batch), *anchor, alpha=1.0, actor_q_center_fraction=1.0
+    )
+    torch.manual_seed(9191)
+    blended_metrics = blended.update_suffix(
+        copy.deepcopy(batch), *anchor, alpha=1.0, actor_q_center_fraction=0.5
+    )
+
+    assert noisy_metrics["q_pi"] == pytest.approx(noisy_metrics["q_pi_noisy"])
+    assert center_metrics["q_pi"] == pytest.approx(center_metrics["q_pi_center"])
+    assert blended_metrics["q_pi_noisy"] == pytest.approx(
+        noisy_metrics["q_pi_noisy"]
+    )
+    assert blended_metrics["q_pi_center"] == pytest.approx(
+        center_metrics["q_pi_center"]
+    )
+    assert blended_metrics["q_pi"] == pytest.approx(
+        0.5
+        * (
+            blended_metrics["q_pi_noisy"]
+            + blended_metrics["q_pi_center"]
+        )
+    )
+    assert any(
+        not torch.equal(left, right)
+        for left, right in zip(noisy.actor.parameters(), center.actor.parameters())
+    )
+
+
 def test_bc_anchor_pulls_actor_toward_champion_actions():
     # anchor-dominant (tiny alpha): pi(anchor_obs) should converge toward the
     # champion anchor actions -> the BC MSE drops.
@@ -220,15 +308,22 @@ def test_update_suffix_threads_return_intake_through_every_action_query(monkeypa
         proprio[:, 22:27] = 0.0
         proprio[:, 25] = 1.0  # RETURN
 
-    seen: list[bool] = []
+    seen: list[tuple[bool, bool]] = []
     original = drqv2_module._stagec_v2_executed_action_policy_torch
 
-    def recording_policy(actions, proprio, *, intake_during_return=False):
-        seen.append(bool(intake_during_return))
+    def recording_policy(
+        actions,
+        proprio,
+        *,
+        intake_during_return=False,
+        stage_d_ferry=False,
+    ):
+        seen.append((bool(intake_during_return), bool(stage_d_ferry)))
         return original(
             actions,
             proprio,
             intake_during_return=intake_during_return,
+            stage_d_ferry=stage_d_ferry,
         )
 
     monkeypatch.setattr(
@@ -243,11 +338,27 @@ def test_update_suffix_threads_return_intake_through_every_action_query(monkeypa
         elite_behavior_batch=elite,
         elite_behavior_weight=1.0,
         intake_during_return=True,
+        stage_d_ferry=True,
     )
 
     # Bellman target, actor-Q sample, and elite-BC proposal all use the same
-    # V10 legal-action manifold.
-    assert seen == [True, True, True]
+    # V10 legal-action manifold. The default objective remains exactly three
+    # calls; the opt-in blend adds only the deterministic-center actor-Q query.
+    assert seen == [(True, True)] * 3
+
+    seen.clear()
+    center_agent = DrQV2Agent(DrQConfig(device="cpu", proprio_dim=30))
+    center_agent.update_suffix(
+        copy.deepcopy(batch),
+        *anchor,
+        alpha=1.0,
+        elite_behavior_batch=copy.deepcopy(elite),
+        elite_behavior_weight=1.0,
+        intake_during_return=True,
+        stage_d_ferry=True,
+        actor_q_center_fraction=0.5,
+    )
+    assert seen == [(True, True)] * 4
 
 
 def test_elite_behavior_anchor_is_reported_and_changes_actor_step():

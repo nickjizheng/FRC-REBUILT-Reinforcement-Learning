@@ -24,8 +24,8 @@ from scripts.rl.learner_cycle_v2 import (
     _elite_behavior_eligible,
     _elite_capture_groups,
     _elite_classification,
-    _elite_tier,
     _elite_replay_rings_for_update,
+    _elite_tier,
     _exact_pool_quotas,
     _load_elite_archive,
     _load_elite_archive_record,
@@ -38,11 +38,13 @@ from scripts.rl.learner_cycle_v2 import (
     _sha256_file,
     _initial_explore_offset,
     _suffix_actor_mask,
+    _allow_actor_q_center_fraction_mismatch,
     _allow_target_load_mismatch,
     _allow_suffix_alpha_mismatch,
+    _summarize_actor_interval_metrics,
     _validate_resume_metadata,
-    _validate_seedmine_source_metadata,
     _validate_route_efficiency_resume,
+    _validate_seedmine_source_metadata,
     _validate_seedmine_options,
 )
 from frc_rebuilt.rl.replay import ReplayRing
@@ -116,27 +118,85 @@ def test_v23_resume_metadata_pins_prefix_and_action_policy():
         _validate_resume_metadata(wrong_policy, expected)
 
 
-def test_seedmine_source_ignores_training_schedules_but_pins_behavior():
-    expected = {
-        "schema_version": SCHEMA_VERSION,
-        "prefix_sha256": "a" * 64,
-        "action_policy": ACTION_POLICY,
-        "reward_revision": "stage_d_v1",
-        "schedule_origin_updates": 350_000,
-        "stddev_start": 1.0,
-        "stddev_end": 0.21,
-        "stddev_steps": 150_000,
-    }
-    source = dict(
-        expected,
-        schedule_origin_updates=100_000,
-        stddev_end=0.30,
+def test_actor_interval_summary_keeps_actor_steps_and_ignores_nonfinite_values():
+    summary = _summarize_actor_interval_metrics(
+        [
+            {
+                "actor_rows": 4.0,
+                "actor_applied": 1.0,
+                "actor_loss": 2.0,
+                "q_pi": 10.0,
+                "q_pi_noisy": 8.0,
+            },
+            {
+                "actor_rows": 0.0,
+                "actor_applied": 0.0,
+                "actor_loss": 999.0,
+                "q_pi": 999.0,
+            },
+            {
+                "actor_rows": 8.0,
+                "actor_applied": 0.0,
+                "actor_loss": float("nan"),
+                "q_pi": 14.0,
+                "q_pi_noisy": 12.0,
+                "q_pi_center": 16.0,
+            },
+        ]
     )
-    _validate_seedmine_source_metadata(source, expected)
 
-    wrong_reward = dict(source, reward_revision="different")
-    with pytest.raises(ValueError, match="reward_revision"):
-        _validate_seedmine_source_metadata(wrong_reward, expected)
+    assert summary["actor_interval_updates"] == 2
+    assert summary["actor_interval_applied"] == 1
+    assert summary["actor_rows_mean"] == pytest.approx(6.0)
+    assert summary["actor_loss_mean"] == pytest.approx(2.0)
+    assert summary["q_pi_mean"] == pytest.approx(12.0)
+    assert summary["q_pi_noisy_mean"] == pytest.approx(10.0)
+    assert summary["q_pi_center_mean"] == pytest.approx(16.0)
+    assert _summarize_actor_interval_metrics(
+        [{"actor_rows": 0.0, "actor_loss": 3.0}]
+    ) == {
+        "actor_interval_updates": 0,
+        "actor_interval_applied": 0,
+    }
+
+
+def test_actor_q_center_resume_migration_is_explicit_and_legacy_zero_is_safe():
+    assert _allow_actor_q_center_fraction_mismatch(
+        {}, 0.0, explicitly_allowed=False
+    )
+    assert not _allow_actor_q_center_fraction_mismatch(
+        {"actor_q_center_fraction": 0.5},
+        0.5,
+        explicitly_allowed=False,
+    )
+    with pytest.raises(ValueError, match="actor_q_center_fraction"):
+        _allow_actor_q_center_fraction_mismatch(
+            {}, 0.5, explicitly_allowed=False
+        )
+    assert _allow_actor_q_center_fraction_mismatch(
+        {}, 0.5, explicitly_allowed=True
+    )
+    with pytest.raises(ValueError, match="invalid"):
+        _allow_actor_q_center_fraction_mismatch(
+            {"actor_q_center_fraction": float("nan")},
+            0.5,
+            explicitly_allowed=True,
+        )
+
+
+def test_seedmine_teacher_validation_ignores_actor_q_training_fraction_only():
+    source = {
+        "schema_version": SCHEMA_VERSION,
+        "action_policy": ACTION_POLICY,
+        "field_strategy": FIELD_STRATEGY,
+    }
+    expected = dict(source, actor_q_center_fraction=0.5)
+
+    _validate_seedmine_source_metadata(source, expected)
+    with pytest.raises(ValueError, match="action_policy"):
+        _validate_seedmine_source_metadata(
+            dict(source, action_policy="wrong"), expected
+        )
 
 
 def test_route_efficiency_revision_requires_explicit_one_time_migration():

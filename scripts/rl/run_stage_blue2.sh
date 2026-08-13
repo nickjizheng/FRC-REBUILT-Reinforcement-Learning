@@ -53,12 +53,12 @@ RUN_ID=${STAGEC_V2_RUN_ID:-$(date +%Y%m%d_%H%M%S)}
 # Integration runs must be dominated by the real task: 8 full collectors
 # (16 envs, 75% replay), 2 bank (4 envs, 15%) to keep the blackout slice alive,
 # 1 collect + 1 return (2 envs each, 5% each) to retain those skills. ---
-export STAGEC_V2_NCOLL=16
-export STAGEC_V2_STREAM_GROUPS=full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,postdump,postdump,postdump,postdump
-export STAGEC_V2_GROUP_WEIGHTS=full=.92,postdump=.08
-export STAGEC_V2_COLLECTOR_MODES='full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;postdump,postdump;postdump,postdump'
-export STAGEC_V2_COLLECTOR_ACTION_MODES='mean;explore;mean;explore;mean;explore;mean;explore;mean;explore;mean;explore;mean;explore;mean;explore'
-export STAGEC_V2_COLLECTORS_PER_GPU=4
+export STAGEC_V2_NCOLL=${STAGEC_V2_NCOLL:-16}
+export STAGEC_V2_STREAM_GROUPS=${STAGEC_V2_STREAM_GROUPS:-full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,full,postdump,postdump,postdump,postdump}
+export STAGEC_V2_GROUP_WEIGHTS=${STAGEC_V2_GROUP_WEIGHTS:-full=.92,postdump=.08}
+export STAGEC_V2_COLLECTOR_MODES=${STAGEC_V2_COLLECTOR_MODES:-'full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;full,full;postdump,postdump;postdump,postdump'}
+export STAGEC_V2_COLLECTOR_ACTION_MODES=${STAGEC_V2_COLLECTOR_ACTION_MODES:-'mean;explore;mean;explore;mean;explore;mean;explore;mean;explore;mean;explore;mean;explore;mean;explore'}
+export STAGEC_V2_COLLECTORS_PER_GPU=${STAGEC_V2_COLLECTORS_PER_GPU:-4}
 # GUI inspection 2026-07-24: deterministic mid-field collection is the gating
 # weakness (stall-exit at ~15 balls -> nothing to ferry -> no stockpile ->
 # no nearby-shoot).  The dedicated `collect` skill lane (neutral spawn facing
@@ -122,7 +122,7 @@ export STAGEC_V2_POSTDUMP_EPISODE_S=160
 export STAGEC_V2_STAGE_D=1
 export STAGEC_V2_STAGE_D_FIRST_INACTIVE=${STAGEC_V2_STAGE_D_FIRST_INACTIVE:-blue}
 export STAGEC_V2_STAGE_D_SYNTHETIC_RED_AUTO_MAX=0
-export STAGEC_V2_STAGE_D_FERRY=1
+export STAGEC_V2_STAGE_D_FERRY=${STAGEC_V2_STAGE_D_FERRY:-1}
 # 2026-07-25: scripted commands REVERTED (no action substitution), so ferrying
 # must be learned again -- restore the 5.0/entitled-ball bootstrap that the
 # resumed 145155 lineage was trained with.
@@ -143,7 +143,7 @@ export STAGEC_V2_STAGE_D_FERRY_MIN_LOAD=${STAGEC_V2_STAGE_D_FERRY_MIN_LOAD:-10}
 export STAGEC_V2_STAGE_D_RETURN_WHEN_LIVE=1
 export STAGEC_V2_STAGE_D_LIVE_RETURN_LOAD=${STAGEC_V2_STAGE_D_LIVE_RETURN_LOAD:-26}
 export STAGEC_V2_STAGE_D_RETURN_LEAD_S=${STAGEC_V2_STAGE_D_RETURN_LEAD_S:-8}
-export STAGEC_V2_STAGE_D_OWNCOURT_LOOP=1
+export STAGEC_V2_STAGE_D_OWNCOURT_LOOP=${STAGEC_V2_STAGE_D_OWNCOURT_LOOP:-1}
 export STAGEC_V2_STAGE_D_OWNCOURT_MIN_BALLS=${STAGEC_V2_STAGE_D_OWNCOURT_MIN_BALLS:-2}
 export STAGEC_V2_STAGE_D_OWNCOURT_INTAKE_REWARD=${STAGEC_V2_STAGE_D_OWNCOURT_INTAKE_REWARD:-2.5}
 export STAGEC_V2_STAGE_D_OWNCOURT_REARM=1
@@ -205,8 +205,10 @@ export STAGEC_V2_POSTDUMP_DEPLETED_PROB=0.0
 # checkpoint (it let skill-lane gradients erode full-match behavior).  5e-6.
 export STAGEC_V2_LEARNING_RATE=${STAGEC_V2_LEARNING_RATE:-0.000005}
 export STAGEC_V2_GAMMA=0.9997
-export STAGEC_V2_CRITIC_ONLY_UPDATES=8000
-export STAGEC_V2_ACTOR_UPDATE_INTERVAL=1
+export STAGEC_V2_CRITIC_ONLY_UPDATES=${STAGEC_V2_CRITIC_ONLY_UPDATES:-8000}
+export STAGEC_V2_ACTOR_UPDATE_INTERVAL=${STAGEC_V2_ACTOR_UPDATE_INTERVAL:-1}
+export STAGEC_V2_ACTOR_Q_CENTER_FRACTION=${STAGEC_V2_ACTOR_Q_CENTER_FRACTION:-0.0}
+export STAGEC_V2_ALLOW_ACTOR_Q_CENTER_MIGRATION=${STAGEC_V2_ALLOW_ACTOR_Q_CENTER_MIGRATION:-0}
 export STAGEC_V2_ACTOR_PHASES=leave,collect,return,score
 export STAGEC_V2_SUFFIX_ALPHA=1.0
 export STAGEC_V2_INITIAL_STDDEV=${STAGEC_V2_INITIAL_STDDEV:-0.40}
@@ -221,7 +223,9 @@ export STAGEC_V2_ANCHOR_BETA_FLOOR=${STAGEC_V2_ANCHOR_BETA_FLOOR:-0.06}
 export STAGEC_V2_ANCHOR_DECAY_UPDATES=${STAGEC_V2_ANCHOR_DECAY_UPDATES:-80000}
 export STAGEC_V2_ELITE_BEHAVIOR_WEIGHT=${STAGEC_V2_ELITE_BEHAVIOR_WEIGHT:-0.0}
 export STAGEC_V2_ELITE_BEHAVIOR_SEEDMINE_ONLY=${STAGEC_V2_ELITE_BEHAVIOR_SEEDMINE_ONLY:-0}
-export STAGEC_V2_ELITE_BEHAVIOR_BATCH_SIZE=32
+export STAGEC_V2_ELITE_BEHAVIOR_BATCH_SIZE=${STAGEC_V2_ELITE_BEHAVIOR_BATCH_SIZE:-32}
+export STAGEC_V2_ELITE_BEHAVIOR_SCORE_CAPACITY=${STAGEC_V2_ELITE_BEHAVIOR_SCORE_CAPACITY:-2400}
+export STAGEC_V2_ELITE_BEHAVIOR_TRIGGER_CAPACITY=${STAGEC_V2_ELITE_BEHAVIOR_TRIGGER_CAPACITY:-300}
 
 # --- weight publishing ---
 export STAGEC_V2_WEIGHT_PUBLISH_UPDATES=400

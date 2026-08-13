@@ -139,6 +139,7 @@ def main() -> None:
         CAMERA_PRIM_PATHS,
         CAMERA_RESOLUTION,
         CAMERA_RIG,
+        CAMERA_RIG_REVISION,
         CompetitionRobotController,
         ROBOT_ROOT_PATH,
     )
@@ -158,6 +159,7 @@ def main() -> None:
     )
     manifest: dict[str, object] = {
         "rig": rig_name,
+        "camera_rig_revision": CAMERA_RIG_REVISION,
         "camera_names": list(camera_names),
         "resolution": list(CAMERA_RESOLUTION),
         "rate_hz": 10,

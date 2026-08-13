@@ -22,7 +22,9 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 import numpy as np
 
-from frc_rebuilt.rl.cycle_v2 import ROUTE_EFFICIENCY_REVISION
+from frc_rebuilt.competition_robot import CAMERA_RIG_REVISION
+from frc_rebuilt.rl.cycle_v2 import ROUTE_EFFICIENCY_REVISION, STAGE_D_REVISIONS
+from frc_rebuilt.rl import stage_d as _stage_d
 from frc_rebuilt.rl.policy_v2 import (
     ACTION_POLICY,
     FIELD_STRATEGY,
@@ -115,7 +117,9 @@ def _validate_weight_metadata(
         "action_policy": ACTION_POLICY,
         "field_strategy": FIELD_STRATEGY,
         "return_skill_preload": RETURN_SKILL_PRELOAD,
-        "encoder_frozen": True,
+        "encoder_frozen": not bool(args.train_encoder),
+        "camera_rig_revision": str(args.camera_rig_revision),
+        "template_sha256": str(args.template_sha256),
     }
     if args.route_efficiency_revision:
         expected.update(
@@ -188,6 +192,9 @@ def main() -> None:
         help="frozen legacy 22-proprio checkpoint used for the protected first cycle",
     )
     ap.add_argument("--template", default=str(PROJECT_ROOT / "assets/rl/env_template_200.usd"))
+    ap.add_argument("--camera-rig-revision", required=True)
+    ap.add_argument("--template-sha256", required=True)
+    ap.add_argument("--train-encoder", action="store_true")
     ap.add_argument("--episode-len-s", type=float, default=120.0)
     ap.add_argument("--chunk-steps", type=int, default=12)
     ap.add_argument("--weight-reload-steps", type=int, default=25)
@@ -219,6 +226,76 @@ def main() -> None:
     ap.add_argument("--collect-stall-steps", type=int, default=0)
     ap.add_argument("--return-time-guard", type=float, default=0.0)
     ap.add_argument("--intake-during-return", action="store_true")
+    # ---- Stage D official-match wiring (docs/STAGE_D_DESIGN.md); OFF = Stage C exact ----
+    ap.add_argument("--stage-d", action="store_true")
+    ap.add_argument(
+        "--stage-d-first-inactive",
+        default="red",
+        choices=("red", "blue", "random", "rules"),
+    )
+    ap.add_argument("--stage-d-preload", action="store_true")
+    ap.add_argument("--stage-d-synthetic-red-auto-max", type=int, default=0)
+    ap.add_argument("--stage-d-ferry", action="store_true")  # STAGE-D1B
+    ap.add_argument("--stage-d-ferry-reward", type=float, default=1.0)  # STAGE-D1B
+    ap.add_argument("--stage-d-active-ferry-penalty", type=float, default=0.0)  # STAGE-D1E
+    # STAGE-D2 (2026-07-26): over-extension into red's own court + standing still
+    ap.add_argument("--stage-d-bank-fuel-jitter-m", type=float, default=0.0)
+    ap.add_argument("--stage-d-bank-fuel-scatter", type=float, default=0.0)
+    ap.add_argument("--stage-d-bank-fuel-clumps", type=int, default=6)
+    ap.add_argument("--stage-d-bank-success-chamber", type=int, default=0)
+    # SECTION 1: opener lane
+    ap.add_argument("--stage-d-opener-span-s", type=float, default=30.0)
+    ap.add_argument("--stage-d-opener-success-cycles", type=int, default=2)
+    # SECTION 3: live-window lane
+    ap.add_argument("--stage-d-live-clock-a", type=float, default=55.0)
+    ap.add_argument("--stage-d-live-clock-b", type=float, default=105.0)
+    ap.add_argument("--stage-d-live-clock-c", type=float, default=130.0)
+    ap.add_argument("--stage-d-live-span-s", type=float, default=40.0)
+    ap.add_argument("--stage-d-live-stockpile", type=int, default=16)
+    ap.add_argument("--stage-d-live-success-conversions", type=int, default=6)
+    ap.add_argument("--stage-d-live-chamber", type=int, default=30)
+    ap.add_argument("--stage-d-live-dump-reward", type=float, default=0.0)
+    ap.add_argument("--stage-d-live-dump-min-load", type=int, default=8)
+    ap.add_argument("--stage-d-opener-time-penalty", type=float, default=0.0)
+    ap.add_argument("--stage-d-home-arrival-reward", type=float, default=0.0)
+    ap.add_argument("--stage-d-home-arrival-min-load", type=int, default=6)
+    ap.add_argument("--stage-d-prefix-rescue-s", type=float, default=0.0)
+    ap.add_argument("--stage-d-postdump-clock-a", type=float, default=57.0)
+    ap.add_argument("--stage-d-postdump-clock-b", type=float, default=110.0)
+    # MEASUREMENT ONLY: let the frozen 22-D prefix drive EVERY phase, so a
+    # Stage C champion can be evaluated inside a section lane's reset state.
+    ap.add_argument("--act-prefix-all", action="store_true")
+    ap.add_argument("--stage-d-deep-red-penalty", type=float, default=0.0)
+    ap.add_argument("--stage-d-deep-red-y", type=float, default=3.05)
+    ap.add_argument("--stage-d-deep-red-grace-steps", type=int, default=5)
+    ap.add_argument("--stage-d-deep-red-penalty-cap", type=float, default=60.0)
+    ap.add_argument("--stage-d-idle-penalty", type=float, default=0.0)
+    ap.add_argument("--stage-d-idle-speed-mps", type=float, default=0.15)
+    ap.add_argument("--stage-d-idle-grace-steps", type=int, default=20)
+    ap.add_argument("--stage-d-idle-penalty-cap", type=float, default=40.0)
+    ap.add_argument("--stage-d-return-when-live", action="store_true")  # STAGE-D1E
+    ap.add_argument("--stage-d-live-return-load", type=int, default=0)  # stage_d_v1 ferry-first
+    ap.add_argument("--stage-d-return-lead-s", type=float, default=0.0)  # stage_d_v1 wave-4
+    ap.add_argument("--stage-d-ferry-dump-on-press", action="store_true")  # STAGE-D1F
+    ap.add_argument("--stage-d-ferry-entitled-only", action="store_true")  # STAGE-D1F
+    ap.add_argument("--stage-d-ferry-blackout-only", action="store_true")  # STAGE-D1G
+    ap.add_argument("--stage-d-ferry-min-load", type=int, default=0)  # stage_d_v1 wave-2
+    ap.add_argument("--stage-d-bank-clock-a", type=float, default=34.0)  # stage_d_v1 wave-4
+    ap.add_argument("--stage-d-bank-clock-b", type=float, default=84.0)  # stage_d_v1 wave-4
+    ap.add_argument("--stage-d-bank-span", type=float, default=52.0)  # stage_d_v1 wave-4
+    ap.add_argument("--stage-d-bank-stockpile", type=int, default=8)  # stage_d_v1 wave-3
+    ap.add_argument("--stage-d-bank-success-conversions", type=int, default=0)  # conversion lane
+    ap.add_argument("--stage-d-auto-ferry-load", type=int, default=0)  # wave-5 commands
+    ap.add_argument("--stage-d-auto-ferry-hold-s", type=float, default=12.0)  # wave-5
+    ap.add_argument("--stage-d-auto-oc-intake", action="store_true")  # wave-5
+    ap.add_argument("--stage-d-auto-score-press", action="store_true")  # wave-5
+    ap.add_argument("--stage-d-ferry-target-y", type=float, default=0.0)  # wave-6 landing
+    ap.add_argument("--stage-d-ferry-lane-x", type=float, default=0.0)  # wave-6 landing
+    ap.add_argument("--stage-d-owncourt-intake-reward", type=float, default=0.0)  # STAGE-D1F
+    ap.add_argument("--stage-d-owncourt-rearm", action="store_true")  # STAGE-D1F
+    ap.add_argument("--stage-d-owncourt-loop", action="store_true")  # STAGE-D1C
+    ap.add_argument("--stage-d-owncourt-min-balls", type=int, default=2)  # STAGE-D1C
+    ap.add_argument("--stage-d-owncourt-blackout-intake", action="store_true")  # stage_d_v1 ferry-first
     ap.add_argument("--repeat-load-return-bonus", type=float, default=0.0)
     ap.add_argument("--repeat-load-score-bonus", type=float, default=0.0)
     ap.add_argument("--outer-rail-enter-x", type=float, default=2.85)
@@ -254,6 +331,17 @@ def main() -> None:
     )
     ap.add_argument("--telemetry", type=Path, default=None)
     args = ap.parse_args()
+    if str(args.camera_rig_revision) != CAMERA_RIG_REVISION:
+        ap.error(
+            "camera rig revision does not match this code tree: "
+            f"{args.camera_rig_revision!r} != {CAMERA_RIG_REVISION!r}"
+        )
+    actual_template_sha256 = _sha256_file(args.template)
+    if actual_template_sha256 != str(args.template_sha256):
+        ap.error(
+            "template SHA-256 mismatch: "
+            f"{actual_template_sha256} != {args.template_sha256}"
+        )
     if not args.dump_on_press:
         ap.error("Stage C v2 requires --dump-on-press for train/eval parity")
     if args.route_efficiency_revision:
@@ -286,7 +374,9 @@ def main() -> None:
                 "--preferred-repeat-load must exceed --target-load and be <= 60"
             )
         if (
-            ROUTE_EFFICIENCY_REVISION == "score_efficiency_v9"
+            ROUTE_EFFICIENCY_REVISION
+            in ("score_efficiency_v9", "score_efficiency_v11_rampfree")
+            + STAGE_D_REVISIONS
             and int(args.preferred_repeat_load)
             and (
                 int(args.collect_stall_steps) <= 0
@@ -416,6 +506,70 @@ def main() -> None:
                 dump_on_press=True,
                 max_dump_ticks=int(args.max_dump_ticks),
                 stagec_v2=True,
+                stage_d=bool(args.stage_d),
+                stage_d_first_inactive=str(args.stage_d_first_inactive),
+                stage_d_synthetic_red_auto=(
+                    0,
+                    int(args.stage_d_synthetic_red_auto_max),
+                ),
+                stage_d_preload=bool(args.stage_d_preload),
+                stage_d_ferry=bool(args.stage_d_ferry),                 # STAGE-D1B
+                stage_d_ferry_reward=float(args.stage_d_ferry_reward),  # STAGE-D1B
+                stage_d_active_ferry_penalty=float(args.stage_d_active_ferry_penalty),  # STAGE-D1E
+                stage_d_bank_fuel_jitter_m=float(args.stage_d_bank_fuel_jitter_m),  # STAGE-D2
+                stage_d_bank_fuel_scatter=float(args.stage_d_bank_fuel_scatter),
+                stage_d_bank_fuel_clumps=int(args.stage_d_bank_fuel_clumps),
+                stage_d_bank_success_chamber=int(args.stage_d_bank_success_chamber),
+                stage_d_opener_span_s=float(args.stage_d_opener_span_s),
+                stage_d_opener_success_cycles=int(args.stage_d_opener_success_cycles),
+                stage_d_live_clock_a=float(args.stage_d_live_clock_a),
+                stage_d_live_clock_b=float(args.stage_d_live_clock_b),
+                stage_d_live_clock_c=float(args.stage_d_live_clock_c),
+                stage_d_live_span_s=float(args.stage_d_live_span_s),
+                stage_d_live_stockpile=int(args.stage_d_live_stockpile),
+                stage_d_live_success_conversions=int(args.stage_d_live_success_conversions),
+                stage_d_live_chamber=int(args.stage_d_live_chamber),
+                stage_d_live_dump_reward=float(args.stage_d_live_dump_reward),
+                stage_d_live_dump_min_load=int(args.stage_d_live_dump_min_load),
+                stage_d_opener_time_penalty=float(args.stage_d_opener_time_penalty),
+                stage_d_home_arrival_reward=float(args.stage_d_home_arrival_reward),
+                stage_d_home_arrival_min_load=int(args.stage_d_home_arrival_min_load),
+                stage_d_prefix_rescue_s=float(args.stage_d_prefix_rescue_s),
+                stage_d_postdump_clock_a=float(args.stage_d_postdump_clock_a),
+                stage_d_postdump_clock_b=float(args.stage_d_postdump_clock_b),
+                stage_d_deep_red_penalty=float(args.stage_d_deep_red_penalty),  # STAGE-D2
+                stage_d_deep_red_y=float(args.stage_d_deep_red_y),
+                stage_d_deep_red_grace_steps=int(args.stage_d_deep_red_grace_steps),
+                stage_d_deep_red_penalty_cap=float(args.stage_d_deep_red_penalty_cap),
+                stage_d_idle_penalty=float(args.stage_d_idle_penalty),
+                stage_d_idle_speed_mps=float(args.stage_d_idle_speed_mps),
+                stage_d_idle_grace_steps=int(args.stage_d_idle_grace_steps),
+                stage_d_idle_penalty_cap=float(args.stage_d_idle_penalty_cap),
+                stage_d_return_when_live=bool(args.stage_d_return_when_live),  # STAGE-D1E
+                stage_d_live_return_load=int(args.stage_d_live_return_load),  # stage_d_v1 ferry-first
+                stage_d_return_lead_s=float(args.stage_d_return_lead_s),  # stage_d_v1 wave-4
+                stage_d_ferry_dump_on_press=bool(args.stage_d_ferry_dump_on_press),  # STAGE-D1F
+                stage_d_ferry_entitled_only=bool(args.stage_d_ferry_entitled_only),  # STAGE-D1F
+                stage_d_ferry_blackout_only=bool(args.stage_d_ferry_blackout_only),  # STAGE-D1G
+                stage_d_ferry_min_load=int(args.stage_d_ferry_min_load),  # stage_d_v1 wave-2
+                stage_d_bank_clock_a=float(args.stage_d_bank_clock_a),  # stage_d_v1 wave-3
+                stage_d_bank_clock_b=float(args.stage_d_bank_clock_b),  # stage_d_v1 wave-3
+                stage_d_bank_span_s=float(args.stage_d_bank_span),  # stage_d_v1 wave-3
+                stage_d_bank_stockpile=int(args.stage_d_bank_stockpile),  # stage_d_v1 wave-3
+                stage_d_bank_success_conversions=int(args.stage_d_bank_success_conversions),
+                stage_d_auto_ferry_load=int(args.stage_d_auto_ferry_load),  # wave-5
+                stage_d_auto_ferry_hold_s=float(args.stage_d_auto_ferry_hold_s),  # wave-5
+                stage_d_auto_oc_intake=bool(args.stage_d_auto_oc_intake),  # wave-5
+                stage_d_auto_score_press=bool(args.stage_d_auto_score_press),  # wave-5
+                stage_d_ferry_target_y=float(args.stage_d_ferry_target_y),  # wave-6
+                stage_d_ferry_lane_x=float(args.stage_d_ferry_lane_x),  # wave-6
+                stage_d_owncourt_loop=bool(args.stage_d_owncourt_loop),           # STAGE-D1C
+                stage_d_owncourt_min_balls=int(args.stage_d_owncourt_min_balls),  # STAGE-D1C
+                stage_d_owncourt_intake_reward=float(args.stage_d_owncourt_intake_reward),  # STAGE-D1F
+                stage_d_owncourt_rearm=bool(args.stage_d_owncourt_rearm),  # STAGE-D1F
+                stage_d_owncourt_blackout_intake=bool(
+                    args.stage_d_owncourt_blackout_intake
+                ),  # stage_d_v1 ferry-first
                 cycle_v2_reset_modes=modes,
                 cycle_v2_target_load=int(args.target_load),
                 cycle_v2_reserve_count=int(args.reserve_count),
@@ -451,7 +605,9 @@ def main() -> None:
                     args.preferred_repeat_load
                 ),
                 cycle_v2_collect_until_preferred=bool(
-                    ROUTE_EFFICIENCY_REVISION == "score_efficiency_v9"
+                    ROUTE_EFFICIENCY_REVISION
+                    in ("score_efficiency_v9", "score_efficiency_v11_rampfree")
+                    + STAGE_D_REVISIONS
                     and int(args.preferred_repeat_load)
                     and (
                         int(args.collect_stall_steps) > 0
@@ -563,6 +719,12 @@ def main() -> None:
             agent.encoder.load_state_dict(blob["encoder"], strict=True)
             agent.actor.load_state_dict(blob["actor"], strict=True)
             agent.train_steps = int(blob["train_steps"])
+            # publish learning progress for the speed curriculum
+            try:
+                from frc_rebuilt.rl import vec_env as _ve_speed
+                _ve_speed.set_policy_train_steps(agent.train_steps)
+            except Exception:
+                pass
             agent.explore_offset = int(blob["explore_offset"])
             loaded_step = int(step)
 
@@ -574,7 +736,10 @@ def main() -> None:
             f"modes={','.join(modes)} proprio={cfg.proprio_dim} stddev={agent.stddev():.3f} "
             f"schema={SCHEMA_VERSION} action_policy={ACTION_POLICY} "
             f"prefix_sha256={prefix_sha256} intake_substeps={args.intake_substeps} "
-            f"intake_during_return={bool(args.intake_during_return)}",
+            f"intake_during_return={bool(args.intake_during_return)} "
+            f"camera_rig={args.camera_rig_revision} "
+            f"template_sha256={args.template_sha256} "
+            f"encoder_frozen={not bool(args.train_encoder)}",
             f" suffix_action={'mean' if args.deterministic_suffix else 'explore'}",
             flush=True,
         )
@@ -601,18 +766,43 @@ def main() -> None:
                 obs["proprio"],
                 explore=not bool(args.deterministic_suffix),
             ).astype(np.float32)
+            # STAGE-D FIX (F1): the frozen prefix trained on a 90 s clock at
+            # idx 7, so the pinned view must engage whenever the episode clock
+            # differs from that scale (for example, a 160 s continuation
+            # --stage-d), not only under --stage-d — otherwise the prefix sees
+            # an OOD clock (idx7 = clock/episode_len_s instead of clock/90).
+            if bool(args.stage_d) or float(args.episode_len_s) != float(
+                _stage_d.PREFIX_EPISODE_LEN_S
+            ):
+                # Stage D pins the frozen prefix's 22-dim view: idx 12 back to
+                # the constant 1.0 and idx 7 back to the 90 s clock scale it
+                # trained on.  The suffix and the stored transitions keep the
+                # TRUE Stage-D values (real eligibility, 160 s clock).
+                prefix_view = _stage_d.pin_prefix_view(
+                    obs["proprio"],
+                    episode_len_s=float(args.episode_len_s),
+                    legacy_dim=int(LEGACY_PROPRIO_DIM),
+                )
+            else:
+                prefix_view = obs["proprio"][:, :LEGACY_PROPRIO_DIM]
             prefix_actions = prefix_agent.act(
                 frames,
-                obs["proprio"][:, :LEGACY_PROPRIO_DIM],
+                prefix_view,
                 explore=False,
             ).astype(np.float32)
-            actions = compose_phase_actions(
-                prefix_actions, candidate_actions, obs["proprio"]
-            )
+            if bool(args.act_prefix_all):
+                # measurement mode: the prefix plays every phase; the executed-
+                # action mask below still applies, so phase invariants hold.
+                actions = prefix_actions.copy()
+            else:
+                actions = compose_phase_actions(
+                    prefix_actions, candidate_actions, obs["proprio"]
+                )
             actions = apply_executed_action_policy(
                 actions,
                 obs["proprio"],
                 intake_during_return=bool(args.intake_during_return),
+                stage_d_ferry=bool(args.stage_d_ferry),  # STAGE-D1B
             )
             next_obs, rewards, dones, info = env.step(actions)
             next_frames = D.to_policy_frames(next_obs["rgb"])
@@ -669,6 +859,41 @@ def main() -> None:
 
             obs, frames = next_obs, next_frames
             step_count += 1
+            if step_count % 100 == 0:
+                # Read-only live telemetry makes long 160-second horizons
+                # auditable before their terminal row is available.  These
+                # fields come directly from simulator state and do not alter
+                # actions, observations, rewards, resets, or RNG state.
+                live_envs = []
+                for slot in env.slots:
+                    cycle = slot.cycle_v2
+                    live_envs.append(
+                        {
+                            "env_index": int(slot.index),
+                            "clock_s": round(float(slot.clock_s), 3),
+                            "scored": int(slot.router.scored["blue"]),
+                            "collected": int(slot.controller.balls_collected),
+                            "magazine": int(len(slot.controller.magazine)),
+                            "phase": str(cycle.phase.value),
+                            "cycles_attempted": int(
+                                getattr(cycle, "cycles_attempted", 0)
+                            ),
+                            "cycles_completed": int(cycle.cycles_completed),
+                        }
+                    )
+                print(
+                    "COLLECTOR_V2_PROGRESS "
+                    + json.dumps(
+                        {
+                            "collector": int(args.collector_id),
+                            "step": int(step_count),
+                            "policy_train_steps": int(agent.train_steps),
+                            "envs": live_envs,
+                        },
+                        sort_keys=True,
+                    ),
+                    flush=True,
+                )
             if step_count % args.weight_reload_steps == 0:
                 maybe_reload()
             if len(buf["reward"]) >= args.chunk_steps:

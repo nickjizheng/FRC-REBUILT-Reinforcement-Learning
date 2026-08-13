@@ -16,7 +16,8 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 import numpy as np
 
-from frc_rebuilt.rl.cycle_v2 import ROUTE_EFFICIENCY_REVISION
+from frc_rebuilt.competition_robot import CAMERA_RIG_REVISION
+from frc_rebuilt.rl.cycle_v2 import ROUTE_EFFICIENCY_REVISION, STAGE_D_REVISIONS
 from frc_rebuilt.rl.policy_v2 import (
     ACTION_POLICY,
     FIELD_STRATEGY,
@@ -121,7 +122,62 @@ ROUTE_EFFICIENCY_MIGRATIONS = {
     ("score_efficiency_v8", "score_efficiency_v9"),
     ("outer_rail_v4_ramp_out", "score_efficiency_v10_return_intake"),
     ("score_efficiency_v9", "score_efficiency_v10_return_intake"),
+    # v15 ramp-free (score_efficiency_v11_rampfree).  The v9 pair is the one
+    # exercised here: v14 checkpoints carry reward_revision=score_efficiency_v9.
+    # The v8 and outer_rail_v4 pairs mirror the v11 plumbing so an older
+    # champion could also be migrated onto the ramp-free contract.
+    ("outer_rail_v4_ramp_out", "score_efficiency_v11_rampfree"),
+    ("score_efficiency_v8", "score_efficiency_v11_rampfree"),
+    ("score_efficiency_v9", "score_efficiency_v11_rampfree"),
+    # Stage D official-match bring-up (docs/STAGE_D_DESIGN.md).  D0 keeps
+    # score_efficiency_v11_rampfree (no reward-contract change), so the first
+    # rename is D1's hub-gated revision; the v11 pair also allows a direct
+    # jump if D1 ever resumes straight from a Stage C champion.
+    ("score_efficiency_v11_rampfree", "stage_d_v1"),
+    ("stage_d_v1", "stage_d_v2"),
+    ("score_efficiency_v11_rampfree", "stage_d_v2"),
 }
+# The v11/v15 ramp-free experiment intentionally retires the ramp-out route
+# contract inherited from the V4 champion, so these four keys -- and ONLY these
+# four -- are allowed to differ across that one migration.  Every other key in
+# the parent reward contract is still enforced exactly as before.
+RAMPFREE_REVISION = "score_efficiency_v11_rampfree"
+RAMPFREE_RELAXED_KEYS = frozenset(
+    {
+        "require_ramp_out",
+        "ramp_out_half_width",
+        "ramp_out_bonus",
+        "off_ramp_exit_penalty",
+    }
+)
+# Stage D migrations (v11_rampfree -> stage_d_v1 -> stage_d_v2) intentionally
+# retune the keys below; every other parent-contract key is enforced exactly
+# as before.
+#   * return_time_guard is a FRACTION of the episode, so the 90 s -> 160 s
+#     horizon change alters its absolute meaning (0.20 = force-return at 18 s
+#     remaining on 90 s, 32 s remaining on 160 s).
+#   * preferred_repeat_load: the 160 s ferry-first strategy fills the chamber
+#     toward capacity during blackouts instead of stopping at the 90 s-era 30.
+#   * outer_rail_penalty_per_step/_cap + off_ramp_exit_penalty: the Stage C
+#     caps made a botched crossing cost up to 110+20 while LEAVE camping
+#     capped at 5 -- deterministic policies learned that NOT trying is the
+#     cheap action (leaveCamp 30-56%).  stage_d_v1 rebalances so an attempt
+#     is always cheaper than a freeze.
+STAGE_D_RELAXED_KEYS = frozenset(
+    {
+        "postdump_require_target_load",
+        "return_time_guard",
+        "preferred_repeat_load",
+        "outer_rail_penalty_per_step",
+        "outer_rail_penalty_cap",
+        "off_ramp_exit_penalty",
+    }
+)
+
+# Mirrors --require-ramp-out for this process.  When the ramp-out contract is
+# off, elite capture must not reject or down-credit ramp-free episodes: those
+# are precisely the behaviour the run exists to learn.  Set in main().
+_ROUTE_GATE_ENABLED = True
 
 
 @dataclass(frozen=True)
@@ -131,6 +187,14 @@ class EliteBehaviorBatch:
     obs: np.ndarray
     proprio: np.ndarray
     action: np.ndarray
+
+
+_ELITE_BEHAVIOR_WINDOWS = (
+    ("opener", 0.0, 33.0),
+    ("live1", 55.0, 83.0),
+    ("live2", 105.0, 130.0),
+    ("endgame", 130.0, 160.000001),
+)
 
 
 class EliteScoreBehaviorPool:
@@ -280,13 +344,119 @@ class EliteScoreBehaviorPool:
     def trigger_rows(self) -> int:
         return 0 if self._trigger is None else int(len(self._trigger.proprio))
 
+    @staticmethod
+    def _window_indices(
+        batch: EliteBehaviorBatch | None,
+        start_s: float,
+        end_s: float,
+        full_episode_s: float,
+    ) -> np.ndarray:
+        if batch is None:
+            return np.empty(0, dtype=np.int64)
+        clock_s = np.clip(np.asarray(batch.proprio[:, 7]), 0.0, 1.0) * float(
+            full_episode_s
+        )
+        return np.flatnonzero((clock_s >= float(start_s)) & (clock_s < float(end_s)))
+
+    def window_rows(self, full_episode_s: float) -> dict[str, dict[str, int]]:
+        if not np.isfinite(full_episode_s) or float(full_episode_s) <= 0.0:
+            raise ValueError("full_episode_s must be finite and positive")
+        rows: dict[str, dict[str, int]] = {}
+        for name, start_s, end_s in _ELITE_BEHAVIOR_WINDOWS:
+            score = int(
+                len(self._window_indices(self._score, start_s, end_s, full_episode_s))
+            )
+            trigger = int(
+                len(self._window_indices(self._trigger, start_s, end_s, full_episode_s))
+            )
+            rows[name] = {"score": score, "trigger": trigger, "total": score + trigger}
+        return rows
+
     def sample(
-        self, batch_size: int, trigger_fraction: float
+        self,
+        batch_size: int,
+        trigger_fraction: float,
+        *,
+        window_balanced: bool = False,
+        full_episode_s: float = 160.0,
     ) -> EliteBehaviorBatch | None:
         batch_size = int(batch_size)
         if batch_size <= 0 or (self.score_rows == 0 and self.trigger_rows == 0):
             return None
         trigger_fraction = float(np.clip(trigger_fraction, 0.0, 1.0))
+        if window_balanced:
+            if not np.isfinite(full_episode_s) or float(full_episode_s) <= 0.0:
+                raise ValueError("full_episode_s must be finite and positive")
+            window_count = len(_ELITE_BEHAVIOR_WINDOWS)
+            quotas = np.full(window_count, batch_size // window_count, dtype=np.int64)
+            quotas[: batch_size % window_count] += 1
+            candidates: list[tuple[np.ndarray, np.ndarray]] = []
+            for name, start_s, end_s in _ELITE_BEHAVIOR_WINDOWS:
+                score_indices = self._window_indices(
+                    self._score, start_s, end_s, full_episode_s
+                )
+                trigger_indices = self._window_indices(
+                    self._trigger, start_s, end_s, full_episode_s
+                )
+                if not len(score_indices) and not len(trigger_indices):
+                    raise ValueError(
+                        f"elite behavior window {name} contains no validated rows"
+                    )
+                candidates.append((score_indices, trigger_indices))
+
+            trigger_target = int(round(batch_size * trigger_fraction))
+            if self.trigger_rows and self.score_rows:
+                trigger_target = min(batch_size, max(1, trigger_target))
+            elif self.trigger_rows:
+                trigger_target = batch_size
+            else:
+                trigger_target = 0
+            trigger_quotas = np.zeros(window_count, dtype=np.int64)
+            eligible = [
+                index for index, (_, trigger_indices) in enumerate(candidates)
+                if len(trigger_indices) and quotas[index] > 0
+            ]
+            while int(trigger_quotas.sum()) < trigger_target:
+                progressed = False
+                for index in eligible:
+                    if trigger_quotas[index] < quotas[index]:
+                        trigger_quotas[index] += 1
+                        progressed = True
+                        if int(trigger_quotas.sum()) == trigger_target:
+                            break
+                if not progressed:
+                    raise ValueError(
+                        "window-balanced elite batch cannot preserve requested trigger coverage"
+                    )
+
+            parts: list[EliteBehaviorBatch] = []
+            for index, (score_indices, trigger_indices) in enumerate(candidates):
+                trigger_count = int(trigger_quotas[index])
+                score_count = int(quotas[index]) - trigger_count
+                if score_count and not len(score_indices):
+                    if not len(trigger_indices):
+                        raise ValueError("elite behavior window has no sampleable rows")
+                    trigger_count += score_count
+                    score_count = 0
+                for source, source_indices, count in (
+                    (self._score, score_indices, score_count),
+                    (self._trigger, trigger_indices, trigger_count),
+                ):
+                    if count:
+                        selected = source_indices[
+                            self.rng.integers(0, len(source_indices), size=count)
+                        ]
+                        part = self._take(source, selected)
+                        assert part is not None
+                        parts.append(part)
+            obs = np.concatenate([part.obs for part in parts], axis=0)
+            proprio = np.concatenate([part.proprio for part in parts], axis=0)
+            action = np.concatenate([part.action for part in parts], axis=0)
+            order = self.rng.permutation(batch_size)
+            return EliteBehaviorBatch(
+                obs=obs[order], proprio=proprio[order], action=action[order]
+            )
+
         if self.trigger_rows and self.score_rows:
             trigger_count = int(round(batch_size * trigger_fraction))
             trigger_count = min(batch_size, max(1, trigger_count))
@@ -347,6 +517,21 @@ def _anchor_beta(update: int, critic_only: int, start: float, floor: float, deca
         return float(start)
     mix = min(1.0, max(0.0, (update - critic_only) / max(1, decay)))
     return float(start) + (float(floor) - float(start)) * mix
+
+
+def _elite_behavior_weight(
+    update: int,
+    critic_only: int,
+    start: float,
+    end: float,
+    decay: int,
+) -> float:
+    """Linearly anneal imitation pressure after critic-only warm-up."""
+
+    if update <= critic_only or decay <= 0:
+        return float(start)
+    mix = min(1.0, max(0.0, (update - critic_only) / decay))
+    return float(start) + (float(end) - float(start)) * mix
 
 
 def _schedule_origin_updates(
@@ -452,9 +637,74 @@ def _actor_phase_mask(proprio: np.ndarray, phases: tuple[str, ...]) -> np.ndarra
     return selected & _suffix_actor_mask(proprio)
 
 
+_ACTOR_INTERVAL_MEAN_KEYS = (
+    "actor_loss",
+    "bc_anchor",
+    "anchor_weight",
+    "elite_behavior_bc",
+    "elite_behavior_rows",
+    "elite_behavior_weight",
+    "elite_behavior_bc_opener",
+    "elite_behavior_bc_live1",
+    "elite_behavior_bc_live2",
+    "elite_behavior_bc_endgame",
+    "elite_behavior_rows_opener",
+    "elite_behavior_rows_live1",
+    "elite_behavior_rows_live2",
+    "elite_behavior_rows_endgame",
+    "lambda_q",
+    "q_pi",
+    "q_pi_noisy",
+    "q_pi_center",
+    "q_pi_center_minus_noisy",
+    "actor_rows",
+)
+
+
+def _summarize_actor_interval_metrics(
+    records: list[dict[str, float]],
+) -> dict[str, float | int]:
+    """Aggregate actor-bearing learner steps without leaking NaNs into JSON."""
+
+    actor_records: list[dict[str, float]] = []
+    for record in records:
+        try:
+            actor_rows = float(record.get("actor_rows", 0.0))
+        except (TypeError, ValueError):
+            continue
+        if np.isfinite(actor_rows) and actor_rows > 0.0:
+            actor_records.append(record)
+
+    summary: dict[str, float | int] = {
+        "actor_interval_updates": len(actor_records),
+        "actor_interval_applied": sum(
+            1
+            for record in actor_records
+            if np.isfinite(float(record.get("actor_applied", 0.0)))
+            and float(record.get("actor_applied", 0.0)) > 0.5
+        ),
+    }
+    for key in _ACTOR_INTERVAL_MEAN_KEYS:
+        values: list[float] = []
+        for record in actor_records:
+            try:
+                value = float(record[key])
+            except (KeyError, TypeError, ValueError):
+                continue
+            if np.isfinite(value):
+                values.append(value)
+        if values:
+            summary[f"{key}_mean"] = float(np.mean(values))
+    return summary
+
+
 def _validate_resume_metadata(metadata: object, expected: dict[str, object]) -> None:
     if not isinstance(metadata, dict):
         raise ValueError("30-wide resume is missing Stage C v2 metadata")
+    # 2026-07-28: postdump_require_target_load selects a lane SUCCESS MILESTONE
+    # (termination), not a reward magnitude.  Exempt at the validator so every
+    # call site (resume, weights transport, seedmine source) treats it alike.
+    expected = {k: v for k, v in expected.items() if k != "postdump_require_target_load"}
     for key, wanted in expected.items():
         actual = metadata.get(key)
         if isinstance(wanted, float):
@@ -476,6 +726,7 @@ _SEEDMINE_SCHEDULE_KEYS = frozenset(
         "stddev_start",
         "stddev_end",
         "stddev_steps",
+        "actor_q_center_fraction",
     }
 )
 
@@ -550,11 +801,24 @@ def _validate_route_efficiency_resume(
     *,
     allow_legacy_missing: bool,
     allow_revision_migration: bool = False,
+    extra_relaxed_keys: frozenset[str] = frozenset(),
 ) -> bool:
-    """Validate the opt-in reward revision; return true for one-time migration."""
+    """Validate the opt-in reward revision; return true for one-time migration.
+
+    ``extra_relaxed_keys`` (stage_d_v1 wave-4c) removes explicitly opted-in
+    keys from the comparison for THIS resume only -- the mechanism behind
+    ``--allow-collect-stall-migration``.  The new value is stored in the
+    checkpoint and later resumes validate it strictly again.
+    """
 
     if not expected:
         return False
+    if extra_relaxed_keys:
+        expected = {
+            key: value
+            for key, value in expected.items()
+            if key not in extra_relaxed_keys
+        }
     if not isinstance(metadata, dict):
         raise ValueError("30-wide resume is missing Stage C v2 metadata")
     actual_revision = metadata.get("reward_revision")
@@ -584,6 +848,10 @@ def _validate_route_efficiency_resume(
             required_parent_keys = ROUTE_EFFICIENCY_V8_KEYS
         elif actual_revision == "score_efficiency_v9":
             required_parent_keys = ROUTE_EFFICIENCY_V9_KEYS
+        elif actual_revision in (RAMPFREE_REVISION,) + STAGE_D_REVISIONS:
+            # v11_rampfree and the Stage D revisions all carry the full
+            # current key set (v9 keys + intake_during_return).
+            required_parent_keys = ROUTE_EFFICIENCY_KEYS
         else:
             required_parent_keys = ROUTE_EFFICIENCY_V3_KEYS
         missing_parent = [
@@ -599,7 +867,8 @@ def _validate_route_efficiency_resume(
             "cycle_efficiency_v5",
             "score_efficiency_v8",
             "score_efficiency_v9",
-        ):
+            RAMPFREE_REVISION,
+        ) + STAGE_D_REVISIONS:
             intentionally_changed = (
                 {"collect_stall_steps", "return_time_guard"}
                 if (
@@ -609,6 +878,20 @@ def _validate_route_efficiency_resume(
                 )
                 else set()
             )
+            if expected_revision == RAMPFREE_REVISION:
+                # Ramp-free retires the ramp-out route contract inherited from
+                # the V4 champion; relax ONLY these four keys.  Every other
+                # parent-contract key is still enforced exactly as before.
+                intentionally_changed = (
+                    intentionally_changed | RAMPFREE_RELAXED_KEYS
+                )
+            if expected_revision in STAGE_D_REVISIONS:
+                # Stage D retunes only the clock-fraction key for the 160 s
+                # horizon (see STAGE_D_RELAXED_KEYS); everything else in the
+                # parent contract is still enforced exactly as before.
+                intentionally_changed = (
+                    intentionally_changed | STAGE_D_RELAXED_KEYS
+                )
             shared_expected = {
                 key: expected[key]
                 for key in required_parent_keys
@@ -635,6 +918,11 @@ def _validate_route_efficiency_resume(
         raise ValueError(
             f"resume has a partial route-efficiency reward contract: {missing}"
         )
+    # 2026-07-27: postdump_require_target_load selects the postdump lane's
+    # SUCCESS MILESTONE (termination), not a reward magnitude; it is already in
+    # STAGE_D_RELAXED_KEYS for migrations, so exempt it here for same-revision
+    # resumes too -- otherwise the drill gate can never be changed mid-lineage.
+    expected = {k: v for k, v in expected.items() if k != "postdump_require_target_load"}
     _validate_resume_metadata(metadata, expected)
     return False
 
@@ -702,12 +990,43 @@ def _allow_suffix_alpha_mismatch(
     )
 
 
+def _allow_actor_q_center_fraction_mismatch(
+    metadata: object,
+    wanted: float,
+    *,
+    explicitly_allowed: bool,
+) -> bool:
+    """Gate one actor-Q objective migration; missing legacy metadata means 0."""
+
+    if not isinstance(metadata, dict):
+        raise ValueError("30-wide resume is missing Stage C v2 metadata")
+    missing = "actor_q_center_fraction" not in metadata
+    try:
+        actual = float(metadata.get("actor_q_center_fraction", 0.0))
+    except (TypeError, ValueError) as exc:
+        raise ValueError(
+            "resume actor_q_center_fraction is missing or invalid"
+        ) from exc
+    if not np.isfinite(actual) or not 0.0 <= actual <= 1.0:
+        raise ValueError("resume actor_q_center_fraction is invalid")
+    if abs(actual - float(wanted)) <= 1e-9:
+        # Strict metadata validation cannot compare a missing legacy key even
+        # though its defined compatibility value is zero.
+        return missing
+    if explicitly_allowed:
+        return True
+    raise ValueError(
+        f"v2 resume metadata mismatch for actor_q_center_fraction: "
+        f"{actual!r} != {float(wanted)!r}"
+    )
+
+
 def _elite_tier(stats: object) -> str | None:
     """Protect multi-cycle completions above cycle-2 and return near-successes."""
 
     if not isinstance(stats, dict):
         return None
-    route_gate_active = "ramp_out_attempts" in stats
+    route_gate_active = _ROUTE_GATE_ENABLED and "ramp_out_attempts" in stats
     reset_mode = _episode_reset_mode(stats)
     clean_ramp_cycles: int | None = None
     if route_gate_active and reset_mode == "full":
@@ -1364,6 +1683,31 @@ def main() -> None:
         "--group-weights", default="full=.25,postdump=.25,collect=.25,return=.25"
     )
     ap.add_argument("--resume", required=True)
+    ap.add_argument("--camera-rig-revision", required=True)
+    ap.add_argument("--template-sha256", required=True)
+    ap.add_argument(
+        "--train-encoder",
+        action="store_true",
+        help="adapt the visual encoder to an explicitly migrated camera contract",
+    )
+    ap.add_argument(
+        "--allow-camera-rig-migration",
+        action="store_true",
+        help=(
+            "allow one fresh-replay branch from a checkpoint whose camera "
+            "contract predates --camera-rig-revision/--template-sha256"
+        ),
+    )
+    ap.add_argument(
+        "--camera-rig-parent-revision",
+        default="unversioned_front_center",
+        help="honest label for the parent checkpoint's legacy camera contract",
+    )
+    ap.add_argument(
+        "--camera-rig-parent-template-sha256",
+        default="",
+        help="SHA-256 of the parent checkpoint's environment template",
+    )
     ap.add_argument(
         "--prefix-checkpoint",
         type=Path,
@@ -1420,6 +1764,15 @@ def main() -> None:
         help="apply one actor step for every N suffix critic steps after warm-up",
     )
     ap.add_argument(
+        "--actor-q-center-fraction",
+        type=float,
+        default=0.0,
+        help=(
+            "blend deterministic-center Q into the suffix actor objective; "
+            "0 preserves the historical noisy-Q objective"
+        ),
+    )
+    ap.add_argument(
         "--actor-phases",
         default="leave,collect,return,score",
         help="comma-separated suffix phases allowed to receive actor-Q gradients",
@@ -1459,6 +1812,15 @@ def main() -> None:
     ap.add_argument("--collect-stall-steps", type=int, default=0)
     ap.add_argument("--return-time-guard", type=float, default=0.0)
     ap.add_argument("--intake-during-return", action="store_true")
+    ap.add_argument("--stage-d-ferry", action="store_true")  # STAGE-D1B: learner torch-mask must match collector
+    # STAGE-D1C: accepted for wrapper symmetry only.  The own-court short loop is
+    # env-side (vec_env reward machine + cycle_v2 phase transition); its effect
+    # reaches the learner entirely through collected rewards and the SCORE phase
+    # feature already stored in the replay proprio, so apply_executed_action_policy
+    # (which reads phase from that proprio) stays in sync WITHOUT this flag.  No
+    # learner action-mask change is required.
+    ap.add_argument("--stage-d-owncourt-loop", action="store_true")  # STAGE-D1C: no-op (env-side)
+    ap.add_argument("--stage-d-owncourt-min-balls", type=int, default=2)  # STAGE-D1C: no-op (env-side)
     ap.add_argument("--repeat-load-return-bonus", type=float, default=0.0)
     ap.add_argument("--repeat-load-score-bonus", type=float, default=0.0)
     ap.add_argument("--outer-rail-enter-x", type=float, default=2.85)
@@ -1503,6 +1865,44 @@ def main() -> None:
             "supported reward-revision migration"
         ),
     )
+    ap.add_argument(
+        "--allow-actor-q-center-migration",
+        action="store_true",
+        help=(
+            "allow one explicit actor_q_center_fraction change while resuming; "
+            "this does not relax reward or environment metadata"
+        ),
+    )
+    ap.add_argument(
+        "--allow-collect-stall-migration",
+        action="store_true",
+        help=(
+            "allow collect_stall_steps to differ from the resume checkpoint "
+            "on a SAME-revision resume; explicit opt-in for the wave-4c "
+            "collection-depth retune (45 -> 90)."
+        ),
+    )
+    ap.add_argument(
+        "--allow-delay-penalty-migration",
+        action="store_true",
+        help=(
+            "allow the leave/return phase-delay penalty knobs to differ from "
+            "the resume checkpoint on a SAME-revision resume; explicit opt-in "
+            "for an intentional anti-camping retune (stage_d_v1 wave-2). The "
+            "new values are stored in the checkpoint and later resumes "
+            "validate them strictly again."
+        ),
+    )
+    ap.add_argument(
+        "--allow-stddev-schedule-migration",
+        action="store_true",
+        help=(
+            "allow the exploration stddev schedule (stddev_start/end/steps) to "
+            "differ from the resume checkpoint on a SAME-revision resume; explicit "
+            "opt-in for an intentional exploration-floor change (ceiling_v14). The "
+            "reward contract and observation space are unaffected."
+        ),
+    )
     ap.add_argument("--leave-grace-steps", type=int, default=5)
     ap.add_argument("--leave-penalty-per-step", type=float, default=0.03)
     ap.add_argument("--leave-penalty-cap", type=float, default=5.0)
@@ -1539,12 +1939,32 @@ def main() -> None:
         "--elite-behavior-weight",
         type=float,
         default=0.0,
-        help="direct actor behavior-cloning weight on successful cycle suffixes",
+        help="initial direct actor behavior-cloning weight on successful cycle suffixes",
+    )
+    ap.add_argument(
+        "--elite-behavior-weight-end",
+        type=float,
+        default=None,
+        help="final behavior-cloning weight after post-warm-up annealing",
+    )
+    ap.add_argument(
+        "--elite-behavior-decay-updates",
+        type=int,
+        default=0,
+        help="post-warm-up learner updates used to anneal behavior-cloning weight",
     )
     ap.add_argument("--elite-behavior-batch-size", type=int, default=32)
     ap.add_argument("--elite-behavior-score-capacity", type=int, default=1800)
     ap.add_argument("--elite-behavior-trigger-capacity", type=int, default=200)
     ap.add_argument("--elite-behavior-trigger-fraction", type=float, default=0.25)
+    ap.add_argument(
+        "--elite-behavior-window-balanced",
+        action="store_true",
+        help=(
+            "sample equal actor-custody rows from opener/live1/live2/endgame "
+            "while preserving the configured trigger fraction"
+        ),
+    )
     ap.add_argument(
         "--elite-behavior-seedmine-only",
         action="store_true",
@@ -1574,9 +1994,43 @@ def main() -> None:
         ),
     )
     args = ap.parse_args()
+    if str(args.camera_rig_revision) != CAMERA_RIG_REVISION:
+        raise ValueError(
+            "camera rig revision does not match this code tree: "
+            f"{args.camera_rig_revision!r} != {CAMERA_RIG_REVISION!r}"
+        )
+    if len(str(args.template_sha256)) != 64 or any(
+        char not in "0123456789abcdef" for char in str(args.template_sha256)
+    ):
+        raise ValueError("--template-sha256 must be a lowercase SHA-256 digest")
+    if bool(args.allow_camera_rig_migration):
+        if not bool(args.train_encoder):
+            raise ValueError("camera-rig migration requires --train-encoder")
+        if not bool(args.reset_schedules_on_resume):
+            raise ValueError(
+                "camera-rig migration requires --reset-schedules-on-resume"
+            )
+        if not bool(args.reset_optimizer_state_on_resume):
+            raise ValueError(
+                "camera-rig migration requires --reset-optimizer-state-on-resume"
+            )
+        if len(str(args.camera_rig_parent_template_sha256)) != 64 or any(
+            char not in "0123456789abcdef"
+            for char in str(args.camera_rig_parent_template_sha256)
+        ):
+            raise ValueError(
+                "camera-rig migration requires a lowercase parent template SHA-256"
+            )
+    global _ROUTE_GATE_ENABLED
+    _ROUTE_GATE_ENABLED = bool(args.require_ramp_out)
 
     if not np.isfinite(args.suffix_alpha) or args.suffix_alpha <= 0.0:
         raise ValueError("--suffix-alpha must be finite and positive")
+    if (
+        not np.isfinite(args.actor_q_center_fraction)
+        or not 0.0 <= float(args.actor_q_center_fraction) <= 1.0
+    ):
+        raise ValueError("--actor-q-center-fraction must be finite and in [0, 1]")
     if int(args.actor_update_interval) <= 0:
         raise ValueError("--actor-update-interval must be positive")
     if not np.isfinite(args.full_episode_s) or float(args.full_episode_s) <= 0.0:
@@ -1618,7 +2072,8 @@ def main() -> None:
                 "--preferred-repeat-load must exceed --target-load and be <= 60"
             )
         if (
-            ROUTE_EFFICIENCY_REVISION == "score_efficiency_v9"
+            ROUTE_EFFICIENCY_REVISION
+            in ("score_efficiency_v9", RAMPFREE_REVISION) + STAGE_D_REVISIONS
             and int(args.preferred_repeat_load)
             and (
                 int(args.collect_stall_steps) <= 0
@@ -1742,6 +2197,28 @@ def main() -> None:
         raise ValueError("--elite-archive-max-files must be positive")
     if not np.isfinite(args.elite_behavior_weight) or float(args.elite_behavior_weight) < 0.0:
         raise ValueError("--elite-behavior-weight must be finite and non-negative")
+    if args.elite_behavior_weight_end is None:
+        args.elite_behavior_weight_end = float(args.elite_behavior_weight)
+    if (
+        not np.isfinite(args.elite_behavior_weight_end)
+        or float(args.elite_behavior_weight_end) < 0.0
+    ):
+        raise ValueError(
+            "--elite-behavior-weight-end must be finite and non-negative"
+        )
+    if float(args.elite_behavior_weight_end) > float(args.elite_behavior_weight):
+        raise ValueError(
+            "--elite-behavior-weight-end cannot exceed --elite-behavior-weight"
+        )
+    if int(args.elite_behavior_decay_updates) < 0:
+        raise ValueError("--elite-behavior-decay-updates must be non-negative")
+    if (
+        float(args.elite_behavior_weight_end) != float(args.elite_behavior_weight)
+        and int(args.elite_behavior_decay_updates) <= 0
+    ):
+        raise ValueError(
+            "changing elite behavior weight requires positive decay updates"
+        )
     if int(args.elite_behavior_batch_size) <= 0:
         raise ValueError("--elite-behavior-batch-size must be positive")
     if int(args.elite_behavior_score_capacity) <= 0:
@@ -1812,6 +2289,10 @@ def main() -> None:
     legacy_cols = int(agent.feat_dim + LEGACY_PROPRIO_DIM)
     route_efficiency_expected = _route_efficiency_metadata(args)
     route_efficiency_migrated = False
+    camera_rig_migrated = False
+    camera_rig_parent_checkpoint_sha256: str | None = None
+    camera_rig_parent_revision: str | None = None
+    camera_rig_parent_template_sha256: str | None = None
     reward_revision_parent_sha256: str | None = None
     if resume_cols == new_cols:
         old_meta = resume_payload.get("stagec_v2")
@@ -1824,7 +2305,10 @@ def main() -> None:
             "field_strategy": FIELD_STRATEGY,
             "return_skill_preload": RETURN_SKILL_PRELOAD,
             "suffix_alpha": float(args.suffix_alpha),
-            "encoder_frozen": True,
+            "actor_q_center_fraction": float(args.actor_q_center_fraction),
+            "encoder_frozen": not bool(args.train_encoder),
+            "camera_rig_revision": str(args.camera_rig_revision),
+            "template_sha256": str(args.template_sha256),
             "stddev_start": float(args.stddev_start),
             "stddev_end": float(args.stddev_end),
             "stddev_steps": int(args.stddev_steps),
@@ -1862,11 +2346,21 @@ def main() -> None:
             allow_revision_migration=bool(
                 args.allow_route_efficiency_revision_migration
             ),
+            extra_relaxed_keys=(
+                frozenset({"collect_stall_steps"})
+                if bool(args.allow_collect_stall_migration)
+                else frozenset()
+            ),
         )
         if (
             route_efficiency_migrated
             and ROUTE_EFFICIENCY_REVISION
-            in ("score_efficiency_v9", "score_efficiency_v10_return_intake")
+            in (
+                "score_efficiency_v9",
+                "score_efficiency_v10_return_intake",
+                RAMPFREE_REVISION,
+            )
+            + STAGE_D_REVISIONS
             and not bool(args.reset_optimizer_state_on_resume)
         ):
             raise ValueError(
@@ -1887,7 +2381,57 @@ def main() -> None:
             explicitly_allowed=bool(args.allow_suffix_alpha_migration),
         ):
             expected_resume.pop("suffix_alpha")
+        if _allow_actor_q_center_fraction_mismatch(
+            old_meta,
+            float(args.actor_q_center_fraction),
+            explicitly_allowed=bool(args.allow_actor_q_center_migration),
+        ):
+            expected_resume.pop("actor_q_center_fraction")
+        if bool(args.allow_stddev_schedule_migration):
+            # Exploration-schedule knobs are not part of the reward contract or
+            # observation space; an explicit opt-in relaxes only these three keys
+            # so a same-revision resume can raise the sustained stddev floor.
+            for _stddev_key in ("stddev_start", "stddev_end", "stddev_steps"):
+                expected_resume.pop(_stddev_key, None)
+        if route_efficiency_migrated or bool(args.allow_delay_penalty_migration):
+            # stage_d_v1 ferry-first: the one-time route-revision migration also
+            # retunes the phase-delay economics (LEAVE camping must never be
+            # cheaper than an imperfect crossing; see STAGE_D_RELAXED_KEYS).
+            # These base-contract knobs are relaxed ONLY across the explicit
+            # migration launch (or the explicit --allow-delay-penalty-migration
+            # opt-in for a same-revision anti-camping retune); the new
+            # checkpoint stores the new values and every subsequent
+            # same-revision resume validates them strictly.
+            for _delay_key in (
+                "leave_penalty_per_step",
+                "leave_penalty_cap",
+                "return_penalty_per_step",
+                "return_penalty_cap",
+            ):
+                expected_resume.pop(_delay_key, None)
+        if bool(args.allow_camera_rig_migration):
+            for _camera_key in (
+                "encoder_frozen",
+                "camera_rig_revision",
+                "template_sha256",
+            ):
+                expected_resume.pop(_camera_key, None)
+            camera_rig_migrated = True
+            camera_rig_parent_checkpoint_sha256 = _sha256_file(args.resume)
+            camera_rig_parent_revision = str(args.camera_rig_parent_revision)
+            camera_rig_parent_template_sha256 = str(
+                args.camera_rig_parent_template_sha256
+            )
         _validate_resume_metadata(old_meta, expected_resume)
+        if not camera_rig_migrated:
+            camera_rig_migrated = bool(old_meta.get("camera_rig_migrated", False))
+            camera_rig_parent_checkpoint_sha256 = old_meta.get(
+                "camera_rig_parent_checkpoint_sha256"
+            )
+            camera_rig_parent_revision = old_meta.get("camera_rig_parent_revision")
+            camera_rig_parent_template_sha256 = old_meta.get(
+                "camera_rig_parent_template_sha256"
+            )
         if route_efficiency_expected:
             if route_efficiency_migrated:
                 reward_revision_parent_sha256 = _sha256_file(args.resume)
@@ -1968,7 +2512,14 @@ def main() -> None:
         "field_strategy": FIELD_STRATEGY,
         "return_skill_preload": RETURN_SKILL_PRELOAD,
         "suffix_alpha": float(args.suffix_alpha),
-        "encoder_frozen": True,
+        "actor_q_center_fraction": float(args.actor_q_center_fraction),
+        "encoder_frozen": not bool(args.train_encoder),
+        "camera_rig_revision": str(args.camera_rig_revision),
+        "template_sha256": str(args.template_sha256),
+        "camera_rig_migrated": bool(camera_rig_migrated),
+        "camera_rig_parent_checkpoint_sha256": camera_rig_parent_checkpoint_sha256,
+        "camera_rig_parent_revision": camera_rig_parent_revision,
+        "camera_rig_parent_template_sha256": camera_rig_parent_template_sha256,
         "stddev_start": float(args.stddev_start),
         "stddev_end": float(args.stddev_end),
         "stddev_steps": int(args.stddev_steps),
@@ -2038,6 +2589,15 @@ def main() -> None:
     def save_atomic(path: Path) -> None:
         if not agent.weights_finite():
             raise RuntimeError("refusing to save non-finite Stage C v2 checkpoint")
+        # BUGFIX 2026-07-25: recreate the parent directory before writing.  The
+        # rolling disk janitor can remove an eval_queue/ between snapshots (it
+        # did: 11 consecutive "Parent directory does not exist" crashes in
+        # stage_blue2_20260724_191059), which killed the learner every snapshot
+        # interval.  Snapshot saving must never depend on housekeeping order.
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+        except OSError as exc:
+            raise RuntimeError(f"cannot create checkpoint directory {path.parent}: {exc}")
         tmp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
         try:
             torch.save(checkpoint_payload(), tmp)
@@ -2090,6 +2650,9 @@ def main() -> None:
         "n_step": int(args.n_step),
         "gamma": float(args.gamma),
         "full_episode_s": float(args.full_episode_s),
+        "camera_rig_revision": str(args.camera_rig_revision),
+        "template_sha256": str(args.template_sha256),
+        "encoder_frozen": not bool(args.train_encoder),
     }
     elite_contract.update(route_efficiency_expected)
     seedmine_source_sha256: str | None = None
@@ -2240,6 +2803,25 @@ def main() -> None:
                 for pool, arrays in seedmine_records:
                     _add_episode_to_ring(seedmine_warmup_replays[pool], arrays)
         seedmine_records.clear()
+    if bool(args.elite_behavior_window_balanced):
+        elite_behavior_window_rows = elite_behavior.window_rows(
+            float(args.full_episode_s)
+        )
+        missing_windows = [
+            name
+            for name, counts in elite_behavior_window_rows.items()
+            if int(counts["total"]) == 0
+        ]
+        if missing_windows:
+            raise ValueError(
+                "window-balanced elite behavior lacks validated rows for "
+                + ",".join(missing_windows)
+            )
+        print(
+            "ELITE_BEHAVIOR_WINDOW_COVERAGE "
+            + json.dumps(elite_behavior_window_rows, sort_keys=True),
+            flush=True,
+        )
     elite_rng = np.random.default_rng(args.seed + 11_029)
     # Publish only after every opt-in archive and provenance check has passed.
     # A bad consolidation directory must fail closed before collectors can load
@@ -2249,10 +2831,14 @@ def main() -> None:
         f"LEARNER_V2_READY resume={args.resume} expanded_legacy={expanded_legacy} "
         f"route_revision={metadata.get('reward_revision', 'legacy')} "
         f"route_migrated={route_efficiency_migrated} "
+        f"camera_rig={metadata['camera_rig_revision']} "
+        f"camera_migrated={camera_rig_migrated} "
+        f"encoder_frozen={metadata['encoder_frozen']} "
         f"intake_substeps={metadata.get('intake_substeps', 1)} "
         f"steps={agent.train_steps} updates={run_updates} "
         f"schedule_updates={run_updates - schedule_origin} "
         f"stddev={agent.stddev():.3f} "
+        f"actor_q_center_fraction={float(args.actor_q_center_fraction):.3f} "
         f"groups={stream_groups}",
         flush=True,
     )
@@ -2288,6 +2874,7 @@ def main() -> None:
     actor_updates = int(restored_actor_updates)
     episodes: list[dict] = []
     train_metrics: dict[str, float] = {}
+    train_metric_interval: list[dict[str, float]] = []
     restarts_seen = rejected = 0
     last_report = time.time()
     deadline = time.time() + args.minutes * 60.0
@@ -2383,11 +2970,20 @@ def main() -> None:
                 # legal-action transform and exclude FIRST rows.  The previous
                 # update_finetune warm-up bootstrapped from illegal raw actions
                 # and the suffix actor optimized that distorted critic.
+                elite_behavior_weight = _elite_behavior_weight(
+                    schedule_updates,
+                    int(args.critic_only_updates),
+                    float(args.elite_behavior_weight),
+                    float(args.elite_behavior_weight_end),
+                    int(args.elite_behavior_decay_updates),
+                )
                 elite_behavior_batch = None
-                if actor_due and float(args.elite_behavior_weight) > 0.0:
+                if actor_due and elite_behavior_weight > 0.0:
                     elite_behavior_batch = elite_behavior.sample(
                         int(args.elite_behavior_batch_size),
                         float(args.elite_behavior_trigger_fraction),
+                        window_balanced=bool(args.elite_behavior_window_balanced),
+                        full_episode_s=float(args.full_episode_s),
                     )
                 elite_behavior_rows_last = (
                     int(len(elite_behavior_batch.proprio))
@@ -2402,13 +2998,16 @@ def main() -> None:
                     anchor_act,
                     alpha=float(args.suffix_alpha),
                     anchor_weight=float(beta),
-                    freeze_encoder=True,
+                    freeze_encoder=not bool(args.train_encoder),
                     actor_mask=_actor_phase_mask(batch.proprio, actor_phases),
                     critic_mask=suffix_mask,
                     actor_update=bool(actor_due),
                     elite_behavior_batch=elite_behavior_batch,
-                    elite_behavior_weight=float(args.elite_behavior_weight),
+                    elite_behavior_weight=elite_behavior_weight,
+                    elite_behavior_full_episode_s=float(args.full_episode_s),
                     intake_during_return=bool(args.intake_during_return),
+                    stage_d_ferry=bool(args.stage_d_ferry),  # STAGE-D1B
+                    actor_q_center_fraction=float(args.actor_q_center_fraction),
                 )
                 # A newly started FULL-only run can temporarily contain no
                 # suffix rows at all.  Preserve update debt and wait for the
@@ -2418,6 +3017,7 @@ def main() -> None:
                     train_metrics["waiting_for_suffix"] = 1.0
                     time.sleep(0.1)
                     break
+                train_metric_interval.append(dict(train_metrics))
                 if actor_due and int(train_metrics.get("actor_rows", 0)) > 0:
                     actor_updates += 1
                 run_updates += 1
@@ -2435,9 +3035,15 @@ def main() -> None:
 
         if time.time() - last_report >= 60.0:
             last_report = time.time()
+            actor_interval_summary = _summarize_actor_interval_metrics(
+                train_metric_interval
+            )
             recent = episodes[-80:]
             by_mode: dict[str, dict] = {}
-            for mode in ("full", "postdump", "collect", "return"):
+            # BUGFIX 2026-07-25: "bank" was missing, so the time-sliced
+            # blackout curriculum was invisible in by_mode summaries and on the
+            # dashboard even while it was 20-45% of replay.
+            for mode in ("full", "postdump", "collect", "return", "bank"):
                 subset = [ep for ep in recent if ep.get("reset_mode", ep.get("stream_mode")) == mode]
                 if subset:
                     by_mode[mode] = {
@@ -2466,6 +3072,16 @@ def main() -> None:
                     else "suffix_sparse"
                 ),
                 "suffix_alpha": float(args.suffix_alpha),
+                "elite_behavior_weight_schedule": round(
+                    _elite_behavior_weight(
+                        run_updates - schedule_origin,
+                        int(args.critic_only_updates),
+                        float(args.elite_behavior_weight),
+                        float(args.elite_behavior_weight_end),
+                        int(args.elite_behavior_decay_updates),
+                    ),
+                    6,
+                ),
                 "beta": round(
                     _anchor_beta(
                         run_updates - schedule_origin,
@@ -2483,7 +3099,11 @@ def main() -> None:
                 "elite_behavior_pool": {
                     "score": int(elite_behavior.score_rows),
                     "trigger": int(elite_behavior.trigger_rows),
+                    "windows": elite_behavior.window_rows(float(args.full_episode_s)),
                 },
+                "elite_behavior_window_balanced": bool(
+                    args.elite_behavior_window_balanced
+                ),
                 "elite_updates": int(elite_updates),
                 "elite_loaded": dict(elite_archive_counts),
                 "seedmine_elite_loaded": dict(seedmine_archive_counts),
@@ -2718,12 +3338,18 @@ def main() -> None:
                 "actor_rows": int(train_metrics.get("actor_rows", 0)),
                 "critic_rows": int(train_metrics.get("critic_rows", 0)),
                 "actor_update_interval": int(args.actor_update_interval),
+                "actor_q_center_fraction": float(args.actor_q_center_fraction),
                 "actor_phases": list(actor_phases),
+                **{
+                    key: round(value, 5) if isinstance(value, float) else value
+                    for key, value in actor_interval_summary.items()
+                },
             }
             print("TRAIN_V2 " + json.dumps(line, sort_keys=True), flush=True)
             with metrics_path.open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps(line, sort_keys=True) + "\n")
             save_atomic(args.out / "latest.pt")
+            train_metric_interval.clear()
 
     if not bool(args.freeze_collector_weights):
         publish()

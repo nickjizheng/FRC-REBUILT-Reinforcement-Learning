@@ -24,6 +24,7 @@ from frc_rebuilt.competition_robot import (
     CAMERA_RATE_HZ,
     CAMERA_RESOLUTION,
     CAMERA_RIG,
+    CAMERA_RIG_REVISION,
     DRIVER_ACCEL_LIMIT_MPS2,
     DRIVER_CONTROL_DT_S,
     INTAKE_CENTER_LOCAL,
@@ -136,6 +137,7 @@ def test_compact_start_pose_fits_beneath_blue_trench_and_faces_out():
 
 
 def test_onboard_camera_rig_is_trench_safe_and_bumper_protected():
+    assert CAMERA_RIG_REVISION == "unversioned_front_center"
     assert CAMERA_RESOLUTION == (640, 360)
     assert CAMERA_RATE_HZ == 10
     assert CAMERA_BASELINE_NAMES == ("intake", "shooter", "navigation")
@@ -162,6 +164,22 @@ def test_onboard_camera_rig_is_trench_safe_and_bumper_protected():
     assert lower[0] >= BUMPER_CENTER_X_M - BUMPER_OUTER_HALF_M
     assert upper[1] <= BUMPER_OUTER_HALF_M
     assert lower[1] >= -BUMPER_OUTER_HALF_M
+
+
+def test_original_intake_observation_camera_contract_is_preserved():
+    intake = CAMERA_RIG["intake"]
+    assert intake["parent_path"] == f"{ROBOT_ROOT_PATH}/CADMechanisms/Intake"
+    assert intake["position"] == pytest.approx((0.335, 0.0, 0.055))
+    assert intake["direction"] == pytest.approx((1.0, 0.0, -0.320))
+    assert intake["hfov_deg"] == pytest.approx(110.0)
+
+    # The shooter and navigation cameras retain their existing contracts.
+    shooter = CAMERA_RIG["shooter"]
+    navigation = CAMERA_RIG["navigation"]
+    assert shooter["position"] == pytest.approx((-0.462, 0.0, 0.530))
+    assert shooter["direction"] == pytest.approx((-1.0, 0.0, 0.250))
+    assert navigation["position"] == pytest.approx((-0.050, 0.430, 0.480))
+    assert navigation["direction"] == pytest.approx((0.0, 1.0, -0.100))
 
 
 def test_camera_quaternions_point_usd_minus_z_along_requested_direction():

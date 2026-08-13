@@ -40,7 +40,10 @@ def _sha256_file(path: str | Path) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--checkpoint", default=str(PROJECT_ROOT / "runs/drqv2_stageA_v2/final.pt"))
+    ap.add_argument(
+        "--checkpoint",
+        default=str(PROJECT_ROOT / "models/selected/stageA_clean_latest_94627ce.pt"),
+    )
     ap.add_argument("--episodes", type=int, default=6)
     ap.add_argument("--num-envs", type=int, default=2)
     ap.add_argument("--episode-len-s", type=float, default=20.0)
@@ -69,7 +72,7 @@ def main() -> None:
     ap.add_argument("--stagec-v2-reserve-count", type=int, default=18)
     ap.add_argument("--stagec-v2-reserve-batches", type=int, default=3)
     ap.add_argument("--policies", default="checkpoint,random,zero")
-    ap.add_argument("--out", type=Path, default=PROJECT_ROOT / "runs" / "eval_stageA.json")
+    ap.add_argument("--out", type=Path, default=PROJECT_ROOT / "runs" / "eval_stageA_clean.json")
     args = ap.parse_args()
     if args.stagec_v2 and not args.dump_on_press:
         ap.error("--stagec-v2 requires --dump-on-press")

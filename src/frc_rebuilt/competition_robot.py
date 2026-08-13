@@ -257,6 +257,7 @@ BUMPER_BLUE_RGBA = (0.025, 0.16, 0.82, 1.0)
 # crown—not a camera—continues to define trench clearance.
 CAMERA_RESOLUTION = (640, 360)
 CAMERA_RATE_HZ = 10
+CAMERA_RIG_REVISION = "unversioned_front_center"
 CAMERA_TWO_VIEW_NAMES = ("intake", "shooter")
 CAMERA_BASELINE_NAMES = ("intake", "shooter", "navigation")
 CAMERA_ABLATION_NAMES = ("intake", "shooter", "navigation")
@@ -1395,6 +1396,7 @@ class CompetitionRobotArticulationBuilder:
             "robot_bumper_profile": "front and rear C-shaped external soft assemblies",
             "robot_camera_resolution": list(CAMERA_RESOLUTION),
             "robot_camera_rate_hz": CAMERA_RATE_HZ,
+            "robot_camera_rig_revision": CAMERA_RIG_REVISION,
             "robot_camera_baseline": list(CAMERA_BASELINE_NAMES),
             "robot_camera_ablation": list(CAMERA_ABLATION_NAMES),
             "robot_camera_max_envelope_z_m": max(
@@ -1411,6 +1413,15 @@ class CompetitionRobotArticulationBuilder:
             "robot_drive": "competition four-module swerve",
             "robot_control": "calibrated shooter + moving-aim vector compensation",
         }
+
+
+def _ramped_turn_scale(speed_scale: float) -> float:
+    """Turn authority follows the translation ramp so heading control keeps
+    pace with travel speed (both reach 1.0 together)."""
+    span = max(1e-6, 1.0 - KEYBOARD_TRANSLATION_SCALE)
+    f = (float(speed_scale) - KEYBOARD_TRANSLATION_SCALE) / span
+    f = max(0.0, min(1.0, f))
+    return KEYBOARD_TURN_SCALE + (1.0 - KEYBOARD_TURN_SCALE) * f
 
 
 class CompetitionRobotController:
@@ -1834,22 +1845,17 @@ class CompetitionRobotController:
         strafe: float = 0.0,
         *,
         keyboard_scale: bool = True,
+        speed_scale: float | None = None,
     ) -> None:
-        """robot default teleop: field-centric closed-loop swerve request.
-
-        ``keyboard_scale`` applies KEYBOARD_TRANSLATION_SCALE / KEYBOARD_TURN_SCALE,
-        which exist ONLY to damp binary key presses into a controllable equivalent
-        of partial joystick deflection.  An RL policy already emits continuous
-        [-1, 1] deflection, so scaling it again throttles the robot to 49 % of its
-        CAD top speed (4.59 m/s -> 2.25 m/s).  RL callers pass False to get the
-        robot's real limits; keyboard teleop keeps the damping unchanged.
-        """
-        translation_scale = KEYBOARD_TRANSLATION_SCALE if keyboard_scale else 1.0
-        turn_scale = KEYBOARD_TURN_SCALE if keyboard_scale else 1.0
+        """robot default teleop: field-centric closed-loop swerve request."""
         target_field = np.array(
             [np.clip(forward, -1.0, 1.0), np.clip(strafe, -1.0, 1.0)],
             dtype=np.float32,
-        ) * (MAX_WHEEL_SPEED_MPS * DRIVER_SPEED_RATE * translation_scale)
+        ) * (MAX_WHEEL_SPEED_MPS * DRIVER_SPEED_RATE * (
+            float(speed_scale)
+            if speed_scale is not None
+            else (KEYBOARD_TRANSLATION_SCALE if keyboard_scale else 1.0)
+        ))
         delta = target_field - self._driver_field_velocity
         limit = (
             DRIVER_DECEL_LIMIT_MPS2
@@ -1865,7 +1871,11 @@ class CompetitionRobotController:
             float(np.clip(turn, -1.0, 1.0))
             * MAX_ANGULAR_RATE_RAD_S
             * DRIVER_ANGULAR_RATE
-            * turn_scale
+            * (
+                _ramped_turn_scale(speed_scale)
+                if speed_scale is not None
+                else (KEYBOARD_TURN_SCALE if keyboard_scale else 1.0)
+            )
         )
         omega_delta = float(np.clip(
             target_omega - self._driver_omega,

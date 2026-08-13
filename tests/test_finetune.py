@@ -13,7 +13,9 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
-import torch
+import pytest
+
+torch = pytest.importorskip("torch")
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from frc_rebuilt.rl.drqv2 import DrQConfig, DrQV2Agent          # noqa: E402

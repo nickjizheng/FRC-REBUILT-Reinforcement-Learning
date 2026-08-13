@@ -7,6 +7,8 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+pytest.importorskip("torch")
+
 
 def _module():
     path = Path(__file__).resolve().parents[1] / "scripts" / "rl" / "learner_stagec_residual.py"

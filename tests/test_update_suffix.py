@@ -13,7 +13,8 @@ from types import SimpleNamespace
 
 import numpy as np
 import pytest
-import torch
+
+torch = pytest.importorskip("torch")
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 import frc_rebuilt.rl.drqv2 as drqv2_module  # noqa: E402

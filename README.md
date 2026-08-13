@@ -1,5 +1,7 @@
 # FRC REBUILT Reinforcement Learning
 
+[![CPU regression tests](https://github.com/nickjizheng/FRC-REBUILT-Reinforcement-Learning/actions/workflows/cpu-tests.yml/badge.svg)](https://github.com/nickjizheng/FRC-REBUILT-Reinforcement-Learning/actions/workflows/cpu-tests.yml)
+
 After the 2026 New York Regional, I wondered whether the human driver could be
 replaced by a policy that learned from experience rather than scripted
 autonomous paths. No full REBUILT learning environment existed for the problem

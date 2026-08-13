@@ -1,9 +1,15 @@
 [project]
 name = "frc-robot-rl"
-version = "0.1.0"
+version = "1.0.0"
 requires-python = ">=3.11"
 dependencies = ["numpy"]
 license = { text = "MIT" }
+
+[project.optional-dependencies]
+test = [
+    "psutil>=5.9,<8",
+    "pytest>=8,<9",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

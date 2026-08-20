@@ -52,8 +52,10 @@ See the [Stage A-D technical report](docs/TECHNICAL_REPORT.md), the concise
 <a id="demo"></a>
 ## Demo — Stage D
 
-https://github.com/user-attachments/assets/518c0220-82ed-45f1-b8d7-8007a5b0ea4c
+[![Watch the complete Stage-D score-201 match](docs/media/frc-rebuilt-score-201-poster.png)](https://github.com/nickjizheng/FRC-REBUILT-Reinforcement-Learning/releases/download/v1.0.0/frc-rebuilt-score-201-full-match-web.mp4)
 
+[Watch the full match](https://github.com/nickjizheng/FRC-REBUILT-Reinforcement-Learning/releases/download/v1.0.0/frc-rebuilt-score-201-full-match-web.mp4) ·
+[High-quality 1080p download](https://github.com/nickjizheng/FRC-REBUILT-Reinforcement-Learning/releases/download/v1.0.0/frc-rebuilt-score-201-full-match.mp4) ·
 [Reproduction guide](docs/VIDEO_RENDER_WORKFLOW.md) ·
 [Public provenance](docs/media/score201-public-provenance.json)
 

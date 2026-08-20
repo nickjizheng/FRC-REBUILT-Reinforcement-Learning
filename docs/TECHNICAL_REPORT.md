@@ -37,12 +37,14 @@ claimed.
 
 ## Full-match video evidence
 
-https://github.com/user-attachments/assets/518c0220-82ed-45f1-b8d7-8007a5b0ea4c
+[![Watch the complete Stage-D score-201 match](media/frc-rebuilt-score-201-poster.png)](https://github.com/nickjizheng/FRC-REBUILT-Reinforcement-Learning/releases/download/v1.0.0/frc-rebuilt-score-201-full-match-web.mp4)
 
 This complete 160-second H.264 match renders a checksum-verified 1,600-step
 Stage-D visual-state trace. The score progresses from 0 to 201; the run
 collected 207 FUEL and completed five cycles. Every frame restores the robot,
 mechanisms, and all 456 FUEL poses without advancing physics. See the
+[web video](https://github.com/nickjizheng/FRC-REBUILT-Reinforcement-Learning/releases/download/v1.0.0/frc-rebuilt-score-201-full-match-web.mp4),
+[high-quality 1080p video](https://github.com/nickjizheng/FRC-REBUILT-Reinforcement-Learning/releases/download/v1.0.0/frc-rebuilt-score-201-full-match.mp4),
 [public provenance record](media/score201-public-provenance.json)
 and [video-render workflow](VIDEO_RENDER_WORKFLOW.md) for the custody chain and
 repeatable procedure.

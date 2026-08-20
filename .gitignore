@@ -26,8 +26,8 @@ artifacts/
 !docs/media/
 !docs/media/README.md
 !docs/media/onboard-policy-rollout.gif
-!docs/media/f4-interp-3202000-seed9211-score201-full-match-preview.mp4
-!docs/media/f4-interp-3202000-seed9211-score201-poster.png
+!docs/media/frc-rebuilt-score-201-full-match-web.mp4
+!docs/media/frc-rebuilt-score-201-poster.png
 !docs/media/score201-public-provenance.json
 
 # Compiled launcher (rebuilt from tools/LaunchSimulator.cs)

@@ -48,7 +48,7 @@ source asset before redistribution.
 
 `docs/images/rebuilt-isaac-sim.jpg`, `docs/media/onboard-policy-rollout.gif`,
 and the `docs/media/fsg9-3230-seed1040101-score188-*` and
-`docs/media/f4-interp-3202000-seed9211-score201-*` rollout media are
+`docs/media/frc-rebuilt-score-201-*` rollout media are
 documentation captures. The project MIT license does not grant rights in the
 depicted interfaces, third-party assets, names, logos, or trademarks.
 

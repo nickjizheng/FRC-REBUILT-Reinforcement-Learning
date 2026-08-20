@@ -25,23 +25,14 @@
       "bytes": 8047394,
       "sha256": "32e7629f529b75a09aa6acb599c42440f56d278604aebc619a6c2edde0c5a27e",
       "resolution": [1920, 1080],
-      "codec": "H.264",
-      "release_url": "https://github.com/nickjizheng/FRC-REBUILT-Reinforcement-Learning/releases/download/v1.0.0/frc-rebuilt-score-201-full-match-web.mp4"
-    },
-    "high_quality": {
-      "file": "frc-rebuilt-score-201-full-match.mp4",
-      "bytes": 69303287,
-      "sha256": "d420d31d000b441bbeaf613623cab46ad245776ac817ba026fccfff7b1786f74",
-      "resolution": [1920, 1080],
-      "codec": "H.264",
-      "release_url": "https://github.com/nickjizheng/FRC-REBUILT-Reinforcement-Learning/releases/download/v1.0.0/frc-rebuilt-score-201-full-match.mp4"
+      "codec": "H.264"
     },
     "poster": {
       "file": "frc-rebuilt-score-201-poster.png",
       "bytes": 1648820,
       "sha256": "077ad29a4ccc3f47e2f192c7327efb6853a0f97419bd2dfaee0304ea4bd0bff4"
     },
-    "release_page": "https://github.com/nickjizheng/FRC-REBUILT-Reinforcement-Learning/releases/tag/v1.0.0"
+    "github_attachment": "https://github.com/user-attachments/assets/518c0220-82ed-45f1-b8d7-8007a5b0ea4c"
   },
   "verification": {
     "full_decode_passed": true,

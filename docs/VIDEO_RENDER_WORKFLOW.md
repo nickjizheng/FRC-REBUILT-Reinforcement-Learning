@@ -42,20 +42,20 @@ rather than the inside of the chamber.
 ## 4. Encode and verify
 
 `tools/encode_rendered_video.sh` converts the lossless intermediate to H.264.
-Both publication files use 1920 x 1080 video, 10 fps, 1,600 frames, `yuv420p`,
+The publication file uses 1920 x 1080 video, 10 fps, 1,600 frames, `yuv420p`,
 MP4 fast-start, and no audio. Validation checks the complete decode, frame
-count, duration, resolution, codec, and final score. The compact web encode and
-the higher-bitrate master contain the same corrected render.
+count, duration, resolution, codec, and final score.
 
-The compact encode is stored in the repository. Both it and the high-quality
-master are distributed as cleanly named assets in the v1.0.0 GitHub release.
+The high-bitrate master is kept outside Git because of hosting limits. The
+smaller publication encode is uploaded as a native GitHub attachment so it can
+play directly on the project page.
 
 ## 5. Publish only public evidence
 
 The repository stores the compact video, poster, source code, and a sanitized
-checksum record; the GitHub release also provides the high-quality master.
-Checkpoints, raw traces, temporary AVI files, server paths, failed attempts,
-operational logs, and QA artifacts remain outside the public Git history.
+checksum record. Checkpoints, raw traces, temporary AVI files, server paths,
+failed attempts, operational logs, and QA artifacts remain outside the public
+Git history.
 
 The published score-201 record is in
 [`media/score201-public-provenance.json`](media/score201-public-provenance.json).

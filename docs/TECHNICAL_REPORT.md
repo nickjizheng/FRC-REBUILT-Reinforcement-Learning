@@ -37,7 +37,7 @@ claimed.
 
 ## Full-match video evidence
 
-https://github.com/user-attachments/assets/518c0220-82ed-45f1-b8d7-8007a5b0ea4c
+https://github.com/user-attachments/assets/69a35520-672f-4d08-850a-ad8007041e9d
 
 This complete 160-second H.264 match renders a checksum-verified 1,600-step
 Stage-D visual-state trace. The score progresses from 0 to 201; the run

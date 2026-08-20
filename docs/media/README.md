@@ -4,7 +4,7 @@ The main demo is a complete 160-second Stage-D match. It starts at zero,
 finishes at 201, uses the exact 456-FUEL field, and combines a slanted field
 view with three robot-camera insets and live telemetry.
 
-https://github.com/user-attachments/assets/518c0220-82ed-45f1-b8d7-8007a5b0ea4c
+https://github.com/user-attachments/assets/69a35520-672f-4d08-850a-ad8007041e9d
 
 Supporting public files:
 

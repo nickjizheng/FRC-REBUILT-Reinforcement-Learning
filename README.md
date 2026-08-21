@@ -200,8 +200,9 @@ $env:OMNI_KIT_ACCEPT_EULA='YES'
 & C:\il\venv\Scripts\python.exe .\run_sim.py --max-fuel 456
 ```
 
-You can also double-click `LaunchSimulator.exe` when using the development
-machine layout.
+If you have compiled `tools/LaunchSimulator.cs` for the development machine
+layout, you can also double-click the resulting `LaunchSimulator.exe` from the
+repository root.
 
 Controls:
 
